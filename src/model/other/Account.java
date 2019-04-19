@@ -1,5 +1,6 @@
 package model.other;
 
+import model.cards.Card;
 import model.game.Deck;
 import model.game.MatchResult;
 import model.variables.CardsArray;
@@ -70,4 +71,53 @@ public class Account {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public void increaseDaric(int increase) {
+        daric += increase;
+    }
+
+    public void decreaseDaric(int decrease) {
+        daric -= decrease;
+    }
+
+    public int getWonGames() {
+        return 0;
+    }
+
+    public int getLosedGames() {
+        return 0;
+    }
+
+    public int getDrewGames() {
+        return 0;
+    }
+
+    public void addMatchResult(MatchResult result) {
+
+    }
+
+    public void addDeck(Deck deck) {
+        allDecks.add(deck);
+    }
+
+    public void removeDeck(Deck deck) {
+        allDecks.remove(deck);
+    }
+
+    public void changeMainDeck(Deck deck) {
+        mainDeck = deck;
+    }
+
+    public void addCardToCollection(Card card) {
+        // need conditions
+    }
+
+    public void removeCardFromCollection(Card card) {
+        // need conditions
+    }
+
+
+
+
+
 }
