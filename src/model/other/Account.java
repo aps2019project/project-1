@@ -20,6 +20,12 @@ public class Account {
     private int daric;
     private int storyProgress;
 
+    public Account(String username, String password) {
+        this.username = username;
+        this.password = password;
+        accounts.add(this);
+    }
+
     public static ArrayList<Account> getAccounts() {
         return accounts;
     }
@@ -114,6 +120,15 @@ public class Account {
 
     public void removeCardFromCollection(Card card) {
         // need conditions
+    }
+
+    public static boolean doesAccountExist(String username) {
+        for (Account account : accounts) {
+            if (account.username.equals(username)) {
+                return true;
+            }
+        }
+        return false;
     }
 
 
