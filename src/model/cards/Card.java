@@ -33,6 +33,7 @@ public class Card {
 
     public static void scanAllCards(){
         Hero.scanHeroes(CsvReader.ReadCards("Heroes"));
+        Minion.scanMinions(CsvReader.ReadCards("Minions"));
     }
 
 }
