@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class CsvReader {
+
     public static ArrayList<String[]> ReadCards(String cardType){
         ArrayList<String[]> data = new ArrayList<>();
         String fileAddress = "Files/" + cardType +".csv";
