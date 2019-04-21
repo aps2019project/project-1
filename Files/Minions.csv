@@ -1,6 +1,6 @@
 NO.,Name,Price,Mana,Health Point,Attack Power,Type of Attack,Attack Range,Special Power,SP time,Race
 1,Persian archer,300,2,6,4,ranged,7,-,-,Persian
-2,Persian swordsman,400,2,6,4,mele,0,Stun Enemy for next round,Passive,Persian
+2,Persian swordsman,400,2,6,4,melee,0,Stun Enemy for next round,Passive,Persian
 3,Persian spearman,500,1,5,4,hybrid,4,-,-,Persian
 4,Persian knight,200,4,10,6,melee,0,-,-,Persian
 5,Persian pahlevan,600,9,24,6,melee,0,Deal 5 more damage for every turn that has attacked one enemy,On attack,Persian
@@ -29,13 +29,13 @@ NO.,Name,Price,Mana,Health Point,Attack Power,Type of Attack,Attack Range,Specia
 28,Wild hog,500,6,10,14,melee,0,can't be disarmed,On Defend,-
 29,Piran,400,8,20,12,melee,0,can't be poisoned,On Defend,-
 30,Giv,450,4,5,7,ranged,5,doesn't take negative affects from cards,On Defend,-
-31,Bahman,450,8,16,9,melee,0,Deals 16 damage to a random enemy minion,On Respawn,-
+31,Bahman,450,8,16,9,melee,0,Deals 16 damage to a random enemy minion,On Spawn,-
 32,Ashkbous,400,7,14,8,melee,0,Doesn't take damage from minions with less AP,On Defend,-
 33,Iraj,500,4,6,20,ranged,3,-,-,-
 34,Huge giant,600,9,30,8,hybrid,2,-,-,Giant
 35,Two-Headed giant,550,4,10,4,melee,0,Disables every positive affects of attacked minion,Passive,Giant
-36,Nane sarma,500,3,3,4,ranged,5,Stun enemy minions in 8 adjacent spaces for one turn,On respawn,-
-37,Fulad zereh,650,3,1,1,melee,0,Turn itself to a random enemy minion,On respawn,-
+36,Nane sarma,500,3,3,4,ranged,5,Stun enemy minions in 8 adjacent spaces for one turn,On Spawn,-
+37,Fulad zereh,650,3,1,1,melee,0,Turn itself to a random enemy minion,On Spawn,-
 38,Siavash,350,4,8,5,melee,0,Deals 6 damage to enemy Hero on death,On death,-
 39,Giant king,600,5,10,4,melee,0,for every giant that participates in attack (except itself) disarms enemy for one turn,Combo,Giant
 40,Arzhang div,600,3,6,6,melee,0,Gives a Weakness buff with -1 AP to enemy and for every demon (except itself and white demon) adds -3 to Weakness buff,Combo,Demon
