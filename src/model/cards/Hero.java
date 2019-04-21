@@ -8,7 +8,7 @@ public class Hero extends Card {
     private int hp, ap, ar, mp, coolDown;
     private AttackType attackType;
 
-    public Hero(String name, int price, int hp, int ap, int ar, int mp, int coolDown, AttackType attackType) {
+    Hero(String name, int price, int hp, int ap, int ar, int mp, int coolDown, AttackType attackType) {
         super(name, price);
         this.hp = hp;
         this.ap = ap;
@@ -17,6 +17,10 @@ public class Hero extends Card {
         this.coolDown = coolDown;
         this.attackType = attackType;
         heroes.add(this);
+    }
+
+    public static ArrayList<Hero> getHeroes() {
+        return heroes;
     }
 
     public int getHp() {
