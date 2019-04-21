@@ -9,6 +9,7 @@ public class Hand {
         if(cards.getAllCards().size() > 4) return false;
         return cards.add(card);
     }
+
     public void remove(Card card) {
         cards.remove(card);
     }
