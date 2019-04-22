@@ -49,8 +49,13 @@ public class Hero extends Card {
 
     public static void scanHeroes(ArrayList<String[]> data){
         for(String[] line : data){
-            new Hero(line[1], Integer.parseInt(line[2]), Integer.parseInt(line[3]), Integer.parseInt(line[4])
-                    , Integer.parseInt(line[6]), Integer.parseInt(line[8]), Integer.parseInt(line[9])
+            new Hero(line[1]
+                    , Integer.parseInt(line[2])
+                    , Integer.parseInt(line[3])
+                    , Integer.parseInt(line[4])
+                    , Integer.parseInt(line[6])
+                    , Integer.parseInt(line[8])
+                    , Integer.parseInt(line[9])
                     , AttackType.valueOf(line[5].toUpperCase()));
         }
     }

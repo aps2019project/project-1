@@ -1,6 +1,7 @@
 package model.variables;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class ID {
     private String value;
@@ -25,6 +26,19 @@ public class ID {
 
     public static String getNewID() {
         lastID++;
-        return Integer.toString(lastID);
+        return generateRandomString(5);
+    }
+
+    private static String generateRandomString(int size) {
+        int leftLimit = 33; // letter 'a'
+        int rightLimit = 126; // letter 'z'
+        Random random = new Random();
+        StringBuilder buffer = new StringBuilder(size);
+        for (int i = 0; i < size; i++) {
+            int randomLimitedInt = leftLimit + (int)
+                    (random.nextFloat() * (rightLimit - leftLimit + 1));
+            buffer.append((char) randomLimitedInt);
+        }
+        return buffer.toString();
     }
 }
