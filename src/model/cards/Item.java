@@ -21,7 +21,9 @@ public class Item extends Card {
 
     public static void scanItems(ArrayList<String[]> data){
         for(String[] line : data){
-            new Item(line[1], Integer.parseInt(line[2]), ItemType.valueOf(line[3].toUpperCase()));
+            new Item(line[1]
+                    , Integer.parseInt(line[2])
+                    , ItemType.valueOf(line[3].toUpperCase()));
         }
     }
 }

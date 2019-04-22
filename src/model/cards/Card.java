@@ -1,6 +1,7 @@
 package model.cards;
 
 import control.CsvReader;
+import model.variables.*;
 
 public class Card {
     private model.variables.ID ID;
@@ -10,7 +11,7 @@ public class Card {
     Card(String name, int price){
         this.name = name;
         this.price = price;
-        this.ID = new model.variables.ID();
+        this.ID = new ID();
     }
 
     public String getName() {
@@ -21,7 +22,7 @@ public class Card {
         return price;
     }
 
-    public model.variables.ID getID() {
+    public ID getID() {
         return ID;
     }
     public boolean isSameAs(Card card) {
