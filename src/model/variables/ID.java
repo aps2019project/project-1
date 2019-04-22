@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class ID {
-    private String value;
+
     private static ArrayList<ID> allIDs = new ArrayList<>();
-    private static int lastID = 1000;
+    private String value;
 
     public ID() {
         this.value = getNewID();
@@ -20,12 +20,12 @@ public class ID {
     public boolean isSameAs(String value) {
         return this.value.compareTo(value) == 0;
     }
+
     public boolean isSameAs(ID id) {
         return this.isSameAs(id.getValue());
     }
 
     public static String getNewID() {
-        lastID++;
         return generateRandomString(5);
     }
 
