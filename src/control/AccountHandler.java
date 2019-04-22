@@ -23,7 +23,7 @@ class AccountHandler extends Handler {
         } else {
             AccountScreen.showScanPassword();
             String password = scanner.nextLine().trim();
-            Account account = new Account(username, password);
+            Account.setCurrentAccount(new Account(username, password));
         }
     }
 
