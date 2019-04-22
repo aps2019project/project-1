@@ -11,7 +11,7 @@ public class Card {
     Card(String name, int price){
         this.name = name;
         this.price = price;
-        this.ID = new model.variables.ID();
+        this.ID = new ID();
     }
 
     public String getName() {

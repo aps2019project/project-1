@@ -10,7 +10,9 @@ public class Minion extends Card {
     private SPTime spTime;
     private Race race;
 
-    Minion(String name, int price, int hp, int ap, int ar, int mana, AttackType attackType, Race race, SPTime spTime) {
+    Minion(String name, int price, int hp
+            , int ap, int ar, int mana, AttackType attackType
+            , Race race, SPTime spTime) {
         super(name, price);
         this.hp = hp;
         this.ap = ap;
