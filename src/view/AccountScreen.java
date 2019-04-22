@@ -10,4 +10,12 @@ public class AccountScreen extends Screen {
         System.out.println("Enter password");
     }
 
+    public static void showWrongPassword() {
+        System.out.println("Wrong Password. Try Again");
+    }
+
+    public static void showWrongUsername() {
+        System.out.println("Can't find account with this username");
+    }
+
 }
