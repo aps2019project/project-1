@@ -30,8 +30,8 @@ public class ID {
     }
 
     private static String generateRandomString(int size) {
-        int leftLimit = 33; // letter 'a'
-        int rightLimit = 126; // letter 'z'
+        int leftLimit = 33;
+        int rightLimit = 126;
         Random random = new Random();
         StringBuilder buffer = new StringBuilder(size);
         for (int i = 0; i < size; i++) {
