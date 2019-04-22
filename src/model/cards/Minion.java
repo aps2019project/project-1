@@ -67,9 +67,15 @@ public class Minion extends Card {
                 race = Race.valueOf(line[10].toUpperCase());
             }
 
-            new Minion(line[1], Integer.parseInt(line[2]), Integer.parseInt(line[4]), Integer.parseInt(line[5])
-                    , Integer.parseInt(line[7]), Integer.parseInt(line[3]), AttackType.valueOf(line[6].toUpperCase())
-                    , race, spTime);
+            new Minion(line[1]
+                    , Integer.parseInt(line[2])
+                    , Integer.parseInt(line[4])
+                    , Integer.parseInt(line[5])
+                    , Integer.parseInt(line[7])
+                    , Integer.parseInt(line[3])
+                    , AttackType.valueOf(line[6].toUpperCase())
+                    , race
+                    , spTime);
         }
     }
 }
