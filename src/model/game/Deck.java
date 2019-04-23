@@ -55,6 +55,9 @@ public class Deck {
         deck.addCard(this.item);
         return deck;
     }
+    public boolean checkDeck() {
+        return cards.getAllCards().size() == 20 && hero != null && item != null;
+    }
 
     public boolean transferCardTo(Hand hand) {
         Card card = getNextCard();
