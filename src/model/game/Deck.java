@@ -57,6 +57,11 @@ public class Deck {
     }
 
     public boolean transferCardTo(Hand hand) {
+        Card card = getNextCard();
+        if(hand.add(card)) {
+            this.deleteCard(card);
+            return true;
+        }
         return false;
     }
     public Card getNextCard() {
@@ -65,5 +70,6 @@ public class Deck {
     }
     public void setNextCard() {
         nextCard = cards.getAllCards().get((int)(Math.random()*cards.getAllCards().size()));
+        if(nextCard == this.item) setNextCard();
     }
 }

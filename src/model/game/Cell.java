@@ -6,6 +6,8 @@ public class Cell {
     private Card insideCard;
     private CellEffect effect;
     private Flag flag;
+    private int x;
+    private int y;
 
     public boolean isEmpty() {
         return insideCard == null;
