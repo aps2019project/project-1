@@ -12,7 +12,24 @@ class AccountHandler extends Handler {
             command = scanner.nextLine().trim();
             if (command.matches("create account \\w+")) {
                 createNewAccount();
+            } else if (command.matches("login \\w+")) {
+                loginUser();
             }
+        }
+    }
+
+    private void loginUser() {
+        String username = command.split(" ")[1];
+        if (Account.doesAccountExist(username)) {
+            AccountScreen.showScanPassword();
+            String password = scanner.nextLine().trim();
+            if (Account.checkIfPasswordIsCorrect(username, password)) {
+                Account.setCurrentAccount(Account.findAccount(username));
+            } else {
+                AccountScreen.showWrongPassword();
+            }
+        } else {
+            AccountScreen.showWrongUsername();
         }
     }
 
@@ -23,7 +40,7 @@ class AccountHandler extends Handler {
         } else {
             AccountScreen.showScanPassword();
             String password = scanner.nextLine().trim();
-            Account account = new Account(username, password);
+            Account.setCurrentAccount(new Account(username, password));
         }
     }
 

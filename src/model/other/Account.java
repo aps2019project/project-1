@@ -123,12 +123,23 @@ public class Account {
     }
 
     public static boolean doesAccountExist(String username) {
+        return !(findAccount(username) == null);
+    }
+
+    public static boolean checkIfPasswordIsCorrect(String username, String password) {
+        Account account = findAccount(username);
+        if (account == null)
+            return false;
+        return account.getPassword().equals(password);
+    }
+
+    public static Account findAccount(String username) {
         for (Account account : accounts) {
             if (account.username.equals(username)) {
-                return true;
+                return account;
             }
         }
-        return false;
+        return null;
     }
 
 
