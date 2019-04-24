@@ -36,6 +36,7 @@ public class Card {
         Hero.scanHeroes(CsvReader.readCards("Heroes"));
         Minion.scanMinions(CsvReader.readCards("Minions"));
         Item.scanItems(CsvReader.readCards("Items"));
+        Spell.scanSpells(CsvReader.readCards("Spells"));
     }
 
 }
