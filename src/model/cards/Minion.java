@@ -12,8 +12,8 @@ public class Minion extends Card {
 
     Minion(String name, int price, int hp
             , int ap, int ar, int mana, AttackType attackType
-            , Race race, SPTime spTime) {
-        super(name, price);
+            , Race race, SPTime spTime, String description) {
+        super(name, price, description);
         this.hp = hp;
         this.ap = ap;
         this.ar = ar;
@@ -77,7 +77,8 @@ public class Minion extends Card {
                     , Integer.parseInt(line[3])
                     , AttackType.valueOf(line[6].toUpperCase())
                     , race
-                    , spTime);
+                    , spTime
+                    , line[8]);
         }
     }
 
@@ -89,6 +90,6 @@ public class Minion extends Card {
                 " - AP : " + this.getAp() +
                 " - HP : " + this.getHp() +
                 " - MP : " + this.getMana() +
-                " - Special Power : ";
+                " - Special Power : " + this.description;
     }
 }
