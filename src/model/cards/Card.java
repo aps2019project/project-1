@@ -38,5 +38,4 @@ public class Card {
         Item.scanItems(CsvReader.readCards("Items"));
         Spell.scanSpells(CsvReader.readCards("Spells"));
     }
-
 }
