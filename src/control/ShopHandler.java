@@ -1,7 +1,9 @@
 package control;
 
-class ShopHandler extends Handler {
+import model.other.Shop;
 
+class ShopHandler extends Handler {
+    private Shop shop = Shop.getInstance();
     @Override
     void handleCommands() {
 
