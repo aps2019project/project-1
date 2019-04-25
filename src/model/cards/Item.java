@@ -26,4 +26,10 @@ public class Item extends Card {
                     , ItemType.valueOf(line[3].toUpperCase()));
         }
     }
+
+    @Override
+    public String toString(){
+        return "Name : " + this.getName() +
+                " - Desc : ";
+    }
 }
