@@ -5,9 +5,9 @@ public class MenuHandler extends Handler {
     @Override
     public void handleCommands() {
         showOptions();
-        while(scanner.hasNext()) {
+        while (scanner.hasNext()) {
             String command = scanner.nextLine().toLowerCase().trim();
-            if (getCommandType(command) == null){
+            if (getCommandType(command) == null) {
                 System.out.println("Invalid Command");
                 continue;
             }
@@ -31,14 +31,14 @@ public class MenuHandler extends Handler {
         }
     }
 
-    private void showOptions(){
-        for(CommandType i : CommandType.values())
+    private void showOptions() {
+        for (CommandType i : CommandType.values())
             System.out.println(i);
     }
 
-    private CommandType getCommandType(String string){
-        for(CommandType i : CommandType.values()){
-            if(i.getCommand().equals(string))
+    private CommandType getCommandType(String string) {
+        for (CommandType i : CommandType.values()) {
+            if (i.getCommand().equals(string))
                 return i;
         }
         return null;
@@ -46,22 +46,22 @@ public class MenuHandler extends Handler {
 
 }
 
-enum CommandType{
-    COLLECTION ("enter collection"),
-    SHOP ("enter shop"),
-    BATTLE ("enter battle"),
-    SAVE ("save"),
-    LOGOUT ("logout"),
-    EXIT ("exit"),
-    HELP ("help");
+enum CommandType {
+    COLLECTION("enter collection"),
+    SHOP("enter shop"),
+    BATTLE("enter battle"),
+    SAVE("save"),
+    LOGOUT("logout"),
+    EXIT("exit"),
+    HELP("help");
 
     private String command;
 
-    CommandType(String command){
+    CommandType(String command) {
         this.command = command;
     }
 
-    public String getCommand(){
+    public String getCommand() {
         return this.command;
     }
 }
