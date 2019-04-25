@@ -7,11 +7,13 @@ public class Card {
     private model.variables.ID ID;
     protected String name;
     protected int price;
+    protected String description;
 
-    Card(String name, int price){
+    Card(String name, int price, String description){
         this.name = name;
         this.price = price;
         this.ID = new ID();
+        this.description = description;
     }
 
     public String getName() {

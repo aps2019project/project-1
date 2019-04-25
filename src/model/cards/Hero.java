@@ -8,8 +8,8 @@ public class Hero extends Card {
     private int hp, ap, ar, mp, coolDown;
     private AttackType attackType;
 
-    Hero(String name, int price, int hp, int ap, int ar, int mp, int coolDown, AttackType attackType) {
-        super(name, price);
+    Hero(String name, int price, int hp, int ap, int ar, int mp, int coolDown, AttackType attackType, String description) {
+        super(name, price, description);
         this.hp = hp;
         this.ap = ap;
         this.ar = ar;
@@ -56,7 +56,8 @@ public class Hero extends Card {
                     , Integer.parseInt(line[6])
                     , Integer.parseInt(line[8])
                     , Integer.parseInt(line[9])
-                    , AttackType.valueOf(line[5].toUpperCase()));
+                    , AttackType.valueOf(line[5].toUpperCase())
+                    , line[7]);
         }
     }
     @Override
@@ -65,6 +66,6 @@ public class Hero extends Card {
                 " - AP : " + this.getAp() +
                 " - HP : " + this.getHp() +
                 " - Class : " + this.getAttackType() +
-                " - Special Power : ";
+                " - Special Power : " + this.description;
     }
 }
