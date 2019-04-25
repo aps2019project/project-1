@@ -59,4 +59,12 @@ public class Hero extends Card {
                     , AttackType.valueOf(line[5].toUpperCase()));
         }
     }
+    @Override
+    public String toString(){
+        return "Name : " + this.getName() +
+                " - AP : " + this.getAp() +
+                " - HP : " + this.getHp() +
+                " - Class : " + this.getAttackType() +
+                " - Special Power : ";
+    }
 }
