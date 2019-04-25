@@ -24,4 +24,11 @@ public class Spell extends Card {
             new Spell(line[1], Integer.parseInt(line[2]), Integer.parseInt(line[3]));
         }
     }
+    @Override
+    public String toString(){
+        return "Type : Spell"+
+                " - Name : " + this.getName() +
+                " - MP : " + this.getMana() +
+                " - Desc : ";
+    }
 }
