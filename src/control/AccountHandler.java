@@ -8,7 +8,6 @@ class AccountHandler extends Handler {
     @Override
     void handleCommands() {
         while (scanner.hasNext()) {
-
             command = scanner.nextLine().trim();
             if (command.matches("create account \\w+")) {
                 createNewAccount();
