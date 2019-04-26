@@ -1,67 +1,43 @@
 package control;
 
+import java.util.regex.*;
 public class MenuHandler extends Handler {
 
     @Override
     public void handleCommands() {
         showOptions();
-        while (scanner.hasNext()) {
+        while(scanner.hasNext()) {
             String command = scanner.nextLine().toLowerCase().trim();
-            if (getCommandType(command) == null) {
-                System.out.println("Invalid Command");
-                continue;
+            Pattern pattern = Pattern.compile("(enter (\\w+))|(\\w+)");
+            Matcher matcher = pattern.matcher(command);
+            if (matcher.matches()) {
+                switch (matcher.group(0)){
+                    case "save":
+                        continue;
+                    case "logout":
+                        continue;
+                    case "exit":
+                        System.exit(0);
+                    case "help":
+                        showOptions();
+                        continue;
+                }
+                if(matcher.group(2) != null) {
+                    switch (matcher.group(2)) {
+                        case "collection":
+                            continue;
+                        case "shop":
+                            continue;
+                        case "battle":
+                            continue;
+                    }
+                }
             }
-            switch (getCommandType(command)) {
-                case COLLECTION:
-                    break;
-                case SHOP:
-                    break;
-                case BATTLE:
-                    break;
-                case SAVE:
-                    break;
-                case LOGOUT:
-                    break;
-                case HELP:
-                    showOptions();
-                    break;
-                case EXIT:
-                    System.exit(0);
-            }
+            System.out.println("Invalid command");
         }
     }
 
     private void showOptions() {
-        for (CommandType i : CommandType.values())
-            System.out.println(i);
-    }
-
-    private CommandType getCommandType(String string) {
-        for (CommandType i : CommandType.values()) {
-            if (i.getCommand().equals(string))
-                return i;
-        }
-        return null;
-    }
-
-}
-
-enum CommandType {
-    COLLECTION("enter collection"),
-    SHOP("enter shop"),
-    BATTLE("enter battle"),
-    SAVE("save"),
-    LOGOUT("logout"),
-    EXIT("exit"),
-    HELP("help");
-
-    private String command;
-
-    CommandType(String command) {
-        this.command = command;
-    }
-
-    public String getCommand() {
-        return this.command;
+        System.out.println("Collection\nShop\nBattle\nSave\nLogout\nExit\nHelp");
     }
 }
