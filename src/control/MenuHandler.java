@@ -1,7 +1,10 @@
 package control;
 
+import model.other.Account;
+
 import java.util.regex.*;
 public class MenuHandler extends Handler {
+    private Account account = Account.getCurrentAccount();
 
     @Override
     public void handleCommands() {
