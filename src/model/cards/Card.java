@@ -3,7 +3,7 @@ package model.cards;
 import control.CsvReader;
 import model.variables.*;
 
-public class Card {
+public class Card implements Cloneable{
     private model.variables.ID ID;
     protected String name;
     protected int price;
@@ -40,4 +40,11 @@ public class Card {
         Item.scanItems(CsvReader.readCards("Items"));
         Spell.scanSpells(CsvReader.readCards("Spells"));
     }
+
+    public Card clone() throws CloneNotSupportedException{
+        Card temp = (Card)super.clone();
+        temp.ID = new ID();
+        return temp;
+    }
+
 }
