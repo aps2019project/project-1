@@ -1,6 +1,8 @@
 package control;
 
 import model.other.Account;
+import view.MenuScreen;
+
 import java.util.regex.*;
 
 public class MenuHandler extends Handler {
@@ -15,7 +17,7 @@ public class MenuHandler extends Handler {
 
     @Override
     public void handleCommands() {
-        showOptions();
+        MenuScreen.options();
         while(scanner.hasNext()) {
             String command = scanner.nextLine().toLowerCase().trim();
             Pattern pattern = Pattern.compile("(enter (\\w+))|(\\w+)");
@@ -29,7 +31,7 @@ public class MenuHandler extends Handler {
                     case "exit":
                         System.exit(0);
                     case "help":
-                        showOptions();
+                        MenuScreen.options();
                         continue;
                 }
                 if(matcher.group(2) != null) {
@@ -43,11 +45,7 @@ public class MenuHandler extends Handler {
                     }
                 }
             }
-            System.out.println("Invalid command");
+            MenuScreen.invalidCommand();
         }
-    }
-
-    private void showOptions() {
-        System.out.println("Collection\nShop\nBattle\nSave\nLogout\nExit\nHelp");
     }
 }

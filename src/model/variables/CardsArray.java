@@ -7,6 +7,14 @@ import java.util.ArrayList;
 public class CardsArray {
     private ArrayList<Card> allCards;
 
+    public CardsArray(){
+        allCards = new ArrayList<>();
+    }
+
+    public CardsArray(ArrayList<Card> array){
+        allCards = new ArrayList<>(array);
+    }
+
     public ArrayList<Card> getAllCards() {
         return allCards;
     }
