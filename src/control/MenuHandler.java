@@ -39,6 +39,7 @@ public class MenuHandler extends Handler {
                         case "collection":
                             continue;
                         case "shop":
+                            ShopHandler.getInstance().handleCommands();
                             continue;
                         case "battle":
                             continue;

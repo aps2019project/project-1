@@ -2,6 +2,7 @@ package control;
 
 import model.other.Account;
 import model.other.Shop;
+import view.ShopScreen;
 
 import java.util.regex.*;
 
@@ -29,7 +30,7 @@ class ShopHandler extends Handler {
             } else if (command.matches("show")) {
 
             } else if (command.matches("help")) {
-                help();
+                ShopScreen.options();
             } else if ((matcher = Pattern.compile("search (\\w+)").matcher(command)).matches()) {
                 search(matcher.group(1));
             } else if ((matcher = Pattern.compile("search collection (\\w+)").matcher(command)).matches()) {
@@ -42,24 +43,19 @@ class ShopHandler extends Handler {
         }
     }
 
-    void help() {
-        System.out.println("Exit\nShow Collection\nShow\nHelp\nSearch Card Name\n" +
-                "Search collection Card Name\nBuy Card Name\n Sell Card ID");
-    }
-
-    void search(String name){
+    private void search(String name){
 
     }
 
-    void searchCollection(String name){
+    private void searchCollection(String name){
 
     }
 
-    void buy(String name){
+    private void buy(String name){
 
     }
 
-    void sell(String name){
+    private void sell(String name){
 
     }
 }
