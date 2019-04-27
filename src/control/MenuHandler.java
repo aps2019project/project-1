@@ -1,10 +1,17 @@
 package control;
 
 import model.other.Account;
-
 import java.util.regex.*;
+
 public class MenuHandler extends Handler {
+    private static final MenuHandler menuHandler = new MenuHandler();
     private Account account = Account.getCurrentAccount();
+
+    public static MenuHandler getInstance(){
+        return menuHandler;
+    }
+
+    private MenuHandler(){ }
 
     @Override
     public void handleCommands() {
@@ -18,7 +25,7 @@ public class MenuHandler extends Handler {
                     case "save":
                         continue;
                     case "logout":
-                        continue;
+                        AccountHandler.getInstance().handleCommands();
                     case "exit":
                         System.exit(0);
                     case "help":
