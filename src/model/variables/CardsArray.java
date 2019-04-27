@@ -11,25 +11,33 @@ public class CardsArray {
         return allCards;
     }
 
-    public Card find(Card card){
+    public Card find(Card card) {
         return find(card.getID().getValue());
     }
+
     public Card find(String IDValue) {
-        for(Card cardCounter : this.allCards) {
-            if(cardCounter.isSameAs(IDValue)) return cardCounter;
+        for (Card cardCounter : this.allCards) {
+            if (cardCounter.isSameAs(IDValue)) return cardCounter;
+        }
+        return null;
+    }
+
+    public Card findBYName(String name) {
+        for (Card cardCounter : this.allCards) {
+            if (cardCounter.getName().equals(name)) return cardCounter;
         }
         return null;
     }
 
     public boolean add(Card card) {
-        if(this.find(card) == null) {
+        if (this.find(card) == null) {
             this.allCards.add(card);
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }
+
     public void remove(Card card) {
         allCards.remove(card);
     }

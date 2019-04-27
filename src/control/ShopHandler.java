@@ -6,8 +6,16 @@ import model.other.Shop;
 import java.util.regex.*;
 
 class ShopHandler extends Handler {
+    private static final ShopHandler shopHandler = new ShopHandler();
     private Shop shop = Shop.getInstance();
     private Account account = Account.getCurrentAccount();
+
+    public static ShopHandler getInstance(){
+        return shopHandler;
+    }
+
+    private ShopHandler(){}
+
 
     @Override
     void handleCommands() {
@@ -15,7 +23,7 @@ class ShopHandler extends Handler {
         while (scanner.hasNext()) {
             String command = scanner.nextLine().toLowerCase().trim();
             if (command.matches("exit")) {
-
+                MenuHandler.getInstance().handleCommands();
             } else if (command.matches("show collection")) {
 
             } else if (command.matches("show")) {
