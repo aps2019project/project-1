@@ -9,6 +9,8 @@ public class Spell extends Card {
     Spell(String name, int price, int mana, String description){
         super(name, price, description);
         this.mana = mana;
+        spells.add(this);
+        cards.add(this);
     }
 
     public static ArrayList<Spell> getSpells() {

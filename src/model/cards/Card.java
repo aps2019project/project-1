@@ -2,9 +2,11 @@ package model.cards;
 
 import control.CsvReader;
 import model.variables.*;
+import java.util.ArrayList;
 
 public class Card implements Cloneable{
-    private model.variables.ID ID;
+    protected static ArrayList<Card> cards = new ArrayList<>();
+    protected model.variables.ID ID;
     protected String name;
     protected int price;
     protected String description;
@@ -14,6 +16,10 @@ public class Card implements Cloneable{
         this.price = price;
         this.ID = new ID();
         this.description = description;
+    }
+
+    public static ArrayList<Card> getCards() {
+        return cards;
     }
 
     public String getName() {

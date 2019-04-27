@@ -17,6 +17,7 @@ public class Hero extends Card {
         this.coolDown = coolDown;
         this.attackType = attackType;
         heroes.add(this);
+        cards.add(this);
     }
 
     public static ArrayList<Hero> getHeroes() {
