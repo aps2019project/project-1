@@ -22,6 +22,7 @@ public class Minion extends Card {
         this.spTime = spTime;
         this.race = race;
         minions.add(this);
+        cards.add(this);
     }
 
     public static ArrayList<Minion> getMinions() {
