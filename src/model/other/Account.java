@@ -27,6 +27,7 @@ public class Account {
     }
 
     public static ArrayList<Account> getAccounts() {
+        sortAccounts();
         return accounts;
     }
 
@@ -142,7 +143,9 @@ public class Account {
         return null;
     }
 
+    private static void sortAccounts() {
 
+    }
 
 
 

@@ -13,7 +13,17 @@ class AccountHandler extends Handler {
                 createNewAccount();
             } else if (command.matches("login \\w+")) {
                 loginUser();
+            } else if (command.matches("show leaderboard")) {
+                showLeaderBoard();
+            } else if (command.matches("save")) {
+
             }
+        }
+    }
+
+    private void showLeaderBoard() {
+        for (int i = 1; i <= Account.getAccounts().size(); ++i) {
+            AccountScreen.showAccountDetail(Account.getAccounts().get(i - 1), i);
         }
     }
 
