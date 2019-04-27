@@ -9,12 +9,19 @@ public class Cell {
     private int x;
     private int y;
 
+    public Card getInsideCard() {
+        return insideCard;
+    }
+
     public boolean isEmpty() {
         return insideCard == null;
     }
     public boolean put(Card card) {
         if(this.isEmpty() || card == null) return false;
         this.insideCard = card;
+        if(flag != null) {
+            flag.takeBy(card);
+        }
         return true;
     }
     public Card pick() {
@@ -29,11 +36,11 @@ public class Cell {
 
     }
 
+
     public void getEffect(){
 
     }
     public void ActionPositionBuff() {
-
     }
     public void ActionFire() {
 

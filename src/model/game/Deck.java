@@ -58,11 +58,15 @@ public class Deck {
     public boolean checkDeck() {
         return cards.getAllCards().size() == 20 && hero != null && item != null;
     }
-
+    public void fillHand(Hand hand) {
+        setNextCard();
+        while(transferCardTo(hand));
+    }
     public boolean transferCardTo(Hand hand) {
         Card card = getNextCard();
         if(hand.add(card)) {
             this.deleteCard(card);
+            setNextCard();
             return true;
         }
         return false;
@@ -73,6 +77,6 @@ public class Deck {
     }
     public void setNextCard() {
         nextCard = cards.getAllCards().get((int)(Math.random()*cards.getAllCards().size()));
-        if(nextCard == this.item) setNextCard();
+        if(nextCard == this.item || nextCard == this.hero) setNextCard();
     }
 }

@@ -36,9 +36,19 @@ public class CardsArray {
     public void remove(int index) {
         allCards.remove(index);
     }
+    public void clear() {allCards.clear();}
     public Card pick(int index) {
             Card card =  allCards.get(index);
             this.remove(card);
             return card;
+    }
+
+    public void showCards() {
+        int counter = 1;
+        for(Card card : allCards) {
+            System.out.println(counter+". ");
+            card.showCard();
+            counter++;
+        }
     }
 }
