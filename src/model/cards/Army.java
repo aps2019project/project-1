@@ -1,8 +1,11 @@
 package model.cards;
 
+import model.Buff.Buff;
+import java.util.ArrayList;
 public class Army extends Card {
     protected int hp, ap, ar;
     protected AttackType attackType;
+    protected ArrayList<Buff> buffs = new ArrayList<>();
     public Army (String name, int price, String description, int hp, int ap, int ar, AttackType attackType){
         super(name, price, description);
         this.hp = hp;
