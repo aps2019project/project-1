@@ -10,14 +10,14 @@ import java.util.ArrayList;
 public class Account {
 
     private static ArrayList<Account> accounts = new ArrayList<>();
-    private static Account currentAccount;
+    private static Account currentAccount = null;
     private String username;
     private String password;
     private CardsArray collection;
     private ArrayList<Deck> allDecks = new ArrayList<>();
     private ArrayList<MatchResult> matchHistory = new ArrayList<>();
     private Deck mainDeck;
-    private int daric;
+    private int daric = 15000;
     private int storyProgress;
 
     public Account(String username, String password) {
@@ -147,6 +147,10 @@ public class Account {
 
     }
 
+
+    public static void saveAccountDetails() {
+
+    }
 
 
 }
