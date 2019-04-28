@@ -24,6 +24,12 @@ class AccountHandler extends Handler {
                 showLeaderBoard();
             } else if (command.matches("save")) {
 
+            } else if (command.matches("logout")) {
+
+            }else if (command.matches("help")) {
+
+            } else {
+
             }
         }
     }
