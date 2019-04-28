@@ -1,1 +1,21 @@
-NO.,Name,Price,Mana,Target,Effect1,TotalDisarm,1000,0,1 enemy,Disarm to the end of game2,AreaDispel,1500,2,2*2 square,it delet enemys possetive buffs and our negative buffs3,Empower,250,1,one of ourselves,increase hit power of one person 2 units4,Fireball,400,1,1 enemy,hit 4 unit to one enemy5,GodStrength,450,2,our hero,increase hit power of one hero 4 units6,HellFire,600,3,2*2 squar,make fiery effect in 2 cells for 2 turns7,LightingBolt,1250,2,enemy hero,hit 8 units to the hero8,PoisonLake,900,5,3*3 squar,make poisond 8 cells for one turn9,Madness,650,0,one of ourselves,increase hit power of one person 4 units for 3 turns but it disarm10,AllDisarm,2000,9,all enemys,disarm for one turn11,AllPoison,1500,8,all enemys,all heros poisonds for 4 turns12,Dispel,2100,0,1 enemy or one of ourselves,it delet enemys possetive buffs and our negative buffs13,HealthWithProfit,2250,0,one of our frinds,14,GhazaBokhorJoonBegiri,2500,2,one of ourselves,15,AllPower,2000,4,All of ours,16,AllAttack,1500,4,all enemies in one column,hit all enemys 6 units17,Weakening,1000,1,one of our minions,18,Sacrifice,1600,3,one of our minions,hero joon += minion joon but killed minion19,KingsGuard,1750,3,1 enemy minion inside of 8 cell neare our hero,killed enemy20,Shock,1200,1,1 enemy,stunfor 2 turns
+NO.,Name,Price,Mana,Target,Effect
+1,TotalDisarm,1000,0,1 enemy,Disarm to the end of game
+2,AreaDispel,1500,2,2*2 square,it delet enemys possetive buffs and our negative buffs
+3,Empower,250,1,one of ourselves,increase hit power of one person 2 units
+4,Fireball,400,1,1 enemy,hit 4 unit to one enemy
+5,GodStrength,450,2,our hero,increase hit power of one hero 4 units
+6,HellFire,600,3,2*2 squar,make fiery effect in 2 cells for 2 turns
+7,LightingBolt,1250,2,enemy hero,hit 8 units to the hero
+8,PoisonLake,900,5,3*3 squar,make poisond 8 cells for one turn
+9,Madness,650,0,one of ourselves,increase hit power of one person 4 units for 3 turns but it disarm
+10,AllDisarm,2000,9,all enemys,disarm for one turn
+11,AllPoison,1500,8,all enemys,all heros poisonds for 4 turns
+12,Dispel,2100,0,1 enemy or one of ourselves,it delet enemys possetive buffs and our negative buffs
+13,HealthWithProfit,2250,0,one of our frinds,Gives a weakness buff -6 HP but also gives 2 holy buffes for 3 turns
+14,PowerUp,2500,2,one of ourselves,Gives power buff +6 AP
+15,AllPower,2000,4,All of ours,Gives power buff +6 AP
+16,AllAttack,1500,4,all enemies in one column,hit all enemys 6 units
+17,Weakening,1000,1,one of our minions,Gives  weakness buff -4 AP
+18,Sacrifice,1600,3,one of our minions,Gives weakness buff -6 HP and power buff +8 AP
+19,KingsGuard,1750,3,1 enemy minion inside of 8 cell neare our hero,killes enemy
+20,Shock,1200,1,1 enemy,stun for 2 turns

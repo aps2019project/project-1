@@ -2,26 +2,22 @@ package model.cards;
 
 import java.util.ArrayList;
 
-public class Minion extends Card {
+public class Minion extends Army {
     private static ArrayList<Minion> minions = new ArrayList<>();
 
-    private int hp, ap, ar, mana;
-    private AttackType attackType;
+    private int mana;
     private SPTime spTime;
     private Race race;
 
     Minion(String name, int price, int hp
             , int ap, int ar, int mana, AttackType attackType
-            , Race race, SPTime spTime) {
-        super(name, price);
-        this.hp = hp;
-        this.ap = ap;
-        this.ar = ar;
+            , Race race, SPTime spTime, String description) {
+        super(name, price, description, hp, ap, ar, attackType);
         this.mana = mana;
-        this.attackType = attackType;
         this.spTime = spTime;
         this.race = race;
         minions.add(this);
+        cards.add(this);
     }
 
     public static ArrayList<Minion> getMinions() {
@@ -77,7 +73,19 @@ public class Minion extends Card {
                     , Integer.parseInt(line[3])
                     , AttackType.valueOf(line[6].toUpperCase())
                     , race
-                    , spTime);
+                    , spTime
+                    , line[8]);
         }
+    }
+
+    @Override
+    public String toString(){
+        return "Type : Minion"+
+                " - Name : " + this.getName() +
+                " - Class : " + this.getAttackType() +
+                " - AP : " + this.getAp() +
+                " - HP : " + this.getHp() +
+                " - MP : " + this.getMana() +
+                " - Special Power : " + this.description;
     }
 }

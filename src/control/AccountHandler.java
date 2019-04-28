@@ -4,17 +4,33 @@ import model.other.Account;
 import view.AccountScreen;
 
 class AccountHandler extends Handler {
+    private static final AccountHandler accountHandler = new AccountHandler();
+
+    public static AccountHandler getInstance(){
+        return accountHandler;
+    }
+
+    private AccountHandler(){}
 
     @Override
     void handleCommands() {
         while (scanner.hasNext()) {
-
             command = scanner.nextLine().trim();
             if (command.matches("create account \\w+")) {
                 createNewAccount();
             } else if (command.matches("login \\w+")) {
                 loginUser();
+            } else if (command.matches("show leaderboard")) {
+                showLeaderBoard();
+            } else if (command.matches("save")) {
+
             }
+        }
+    }
+
+    private void showLeaderBoard() {
+        for (int i = 1; i <= Account.getAccounts().size(); ++i) {
+            AccountScreen.showAccountDetail(Account.getAccounts().get(i - 1), i);
         }
     }
 
