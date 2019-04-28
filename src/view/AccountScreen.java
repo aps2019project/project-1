@@ -24,4 +24,18 @@ public class AccountScreen extends Screen {
         System.out.printf("%d-\tUserName: %s -\t Wins: %d\n", number, account.getUsername(), account.getWonGames());
     }
 
+    public static void showLogoutConfirm() {
+        System.out.println("logout complete...");
+    }
+
+    public static void showHelpMenu(){
+        System.out.println("create account [username]:\t creating new account with username -> [username]");
+        System.out.println("login [username]:\t login account with username -> [username]");
+        System.out.println("showleaderboard:\t view all accounts in order (wins)");
+        System.out.println("logout:\t logout current account");
+    }
+
+    public static void showWrongCommand() {
+        System.out.println("Wrong command... try again");
+    }
 }

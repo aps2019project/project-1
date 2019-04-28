@@ -4,6 +4,7 @@ import model.other.Account;
 import view.AccountScreen;
 
 class AccountHandler extends Handler {
+
     private static final AccountHandler accountHandler = new AccountHandler();
 
     public static AccountHandler getInstance(){
@@ -22,16 +23,23 @@ class AccountHandler extends Handler {
                 loginUser();
             } else if (command.matches("show leaderboard")) {
                 showLeaderBoard();
-            } else if (command.matches("save")) {
-
             } else if (command.matches("logout")) {
-
+                logout();
             }else if (command.matches("help")) {
-
+                AccountScreen.showHelpMenu();
             } else {
-
+                AccountScreen.showWrongCommand();
+                AccountScreen.showHelpMenu();
             }
         }
+    }
+
+    private void logout() {
+        if (Account.getCurrentAccount() == null)
+            return;
+        Account.setCurrentAccount(null);
+        AccountScreen.showLogoutConfirm();
+        Account.saveAccountDetails();
     }
 
     private void showLeaderBoard() {
