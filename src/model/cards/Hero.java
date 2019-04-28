@@ -2,20 +2,15 @@ package model.cards;
 
 import java.util.ArrayList;
 
-public class Hero extends Card {
+public class Hero extends Army {
     private static ArrayList<Hero> heroes = new ArrayList<>();
 
-    private int hp, ap, ar, mp, coolDown;
-    private AttackType attackType;
+    private int mp, coolDown;
 
     Hero(String name, int price, int hp, int ap, int ar, int mp, int coolDown, AttackType attackType, String description) {
-        super(name, price, description);
-        this.hp = hp;
-        this.ap = ap;
-        this.ar = ar;
+        super(name, price, description, hp, ap, ar, attackType);
         this.mp = mp;
         this.coolDown = coolDown;
-        this.attackType = attackType;
         heroes.add(this);
         cards.add(this);
     }
@@ -24,28 +19,12 @@ public class Hero extends Card {
         return heroes;
     }
 
-    public int getHp() {
-        return hp;
-    }
-
-    public int getAp() {
-        return ap;
-    }
-
-    public int getAr() {
-        return ar;
-    }
-
     public int getMp() {
         return mp;
     }
 
     public int getCoolDown() {
         return coolDown;
-    }
-
-    public AttackType getAttackType() {
-        return attackType;
     }
 
     public static void scanHeroes(ArrayList<String[]> data){
