@@ -3,14 +3,13 @@ package model.game;
 import model.cards.Card;
 import model.variables.CardsArray;
 
-public class Hand {
-    private CardsArray cards = new CardsArray();
+public class Hand extends CardsArray {
     public boolean add(Card card) {
-        if(cards.getAllCards().size() > 4) return false;
-        return cards.add(card);
+        if(super.allCards.size() < 5) return super.add(card);
+        return false;
     }
-
-    public void remove(Card card) {
-        cards.remove(card);
+    public int getNeededManaToMove(int index) {
+        if(super.allCards.size() >index) return super.allCards.get(index).getNeededManaToMove();
+        return 0;
     }
 }

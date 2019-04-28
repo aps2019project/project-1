@@ -5,7 +5,7 @@ import model.cards.Card;
 import java.util.ArrayList;
 
 public class CardsArray {
-    private ArrayList<Card> allCards;
+    protected ArrayList<Card> allCards;
 
     public CardsArray(){
         allCards = new ArrayList<>();
@@ -50,5 +50,23 @@ public class CardsArray {
 
     public void remove(Card card) {
         allCards.remove(card);
+    }
+    public void remove(int index) {
+        allCards.remove(index);
+    }
+    public void clear() {allCards.clear();}
+    public Card pick(int index) {
+            Card card =  allCards.get(index);
+            this.remove(card);
+            return card;
+    }
+
+    public void showCards() {
+        int counter = 1;
+        for(Card card : allCards) {
+            System.out.println(counter+". ");
+            card.showCard();
+            counter++;
+        }
     }
 }

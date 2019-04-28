@@ -124,17 +124,17 @@
         <subPane>
           <expand>
             <path>
-              <item name="project-1" type="b2602c69:ProjectViewProjectNode" />
-              <item name="project-1" type="462c0819:PsiDirectoryNode" />
+              <item name="project" type="b2602c69:ProjectViewProjectNode" />
+              <item name="project" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="project-1" type="b2602c69:ProjectViewProjectNode" />
-              <item name="project-1" type="462c0819:PsiDirectoryNode" />
+              <item name="project" type="b2602c69:ProjectViewProjectNode" />
+              <item name="project" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="project-1" type="b2602c69:ProjectViewProjectNode" />
-              <item name="project-1" type="462c0819:PsiDirectoryNode" />
+              <item name="project" type="b2602c69:ProjectViewProjectNode" />
+              <item name="project" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="control" type="462c0819:PsiDirectoryNode" />
             </path>
@@ -145,15 +145,15 @@
               <item name="model" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="project-1" type="b2602c69:ProjectViewProjectNode" />
-              <item name="project-1" type="462c0819:PsiDirectoryNode" />
+              <item name="project" type="b2602c69:ProjectViewProjectNode" />
+              <item name="project" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="model" type="462c0819:PsiDirectoryNode" />
-              <item name="cards" type="462c0819:PsiDirectoryNode" />
+              <item name="game" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="project-1" type="b2602c69:ProjectViewProjectNode" />
-              <item name="project-1" type="462c0819:PsiDirectoryNode" />
+              <item name="project" type="b2602c69:ProjectViewProjectNode" />
+              <item name="project" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="model" type="462c0819:PsiDirectoryNode" />
               <item name="other" type="462c0819:PsiDirectoryNode" />
@@ -286,7 +286,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="12857000" />
+    <option name="totallyTimeSpent" value="13055000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="72" y="-6" width="1303" height="925" extended-state="6" />
