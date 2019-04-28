@@ -2,26 +2,22 @@ package model.cards;
 
 import java.util.ArrayList;
 
-public class Minion extends Card {
+public class Minion extends Army {
     private static ArrayList<Minion> minions = new ArrayList<>();
 
-    private int hp, ap, ar, mana;
-    private AttackType attackType;
+    private int mana;
     private SPTime spTime;
     private Race race;
 
     Minion(String name, int price, int hp
             , int ap, int ar, int mana, AttackType attackType
             , Race race, SPTime spTime, String description) {
-        super(name, price, description);
-        this.hp = hp;
-        this.ap = ap;
-        this.ar = ar;
+        super(name, price, description, hp, ap, ar, attackType);
         this.mana = mana;
-        this.attackType = attackType;
         this.spTime = spTime;
         this.race = race;
         minions.add(this);
+        cards.add(this);
     }
 
     public static ArrayList<Minion> getMinions() {

@@ -9,6 +9,8 @@ public class Item extends Card {
     Item(String name, int price, ItemType itemType, String description){
         super(name, price, description);
         this.itemType = itemType;
+        items.add(this);
+        cards.add(this);
     }
 
     public static ArrayList<Item> getItems() {
