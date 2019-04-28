@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class Account {
 
     private static ArrayList<Account> accounts = new ArrayList<>();
-    private static Account currentAccount;
+    private static Account currentAccount = null;
     private String username;
     private String password;
     private CardsArray collection;
