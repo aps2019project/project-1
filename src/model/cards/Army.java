@@ -46,15 +46,16 @@ public class Army extends Card {
         }
     }
 
-    public static void passiveBuffs(CardsArray array) {
+    public static void callPassiveMinionsSP(CardsArray array) {
         for (Card card : array.getAllCards()) {
             try {
-                if ( ((Minion) card).getSpTime() == SPTime.PASSIVE ){
-                    for(Buff buff : ((Army) card).getBuffs()){
+                Minion minion = (Minion)card;
+                if ( minion.getSpTime() == SPTime.PASSIVE ){
+                    for(Buff buff : minion.getSpecialBuffs()){
                         buff.setTurns(1);
                     }
                 }
-            } catch (ClassCastException cce){ }
+            } catch (ClassCastException cce){ continue;}
         }
     }
 }
