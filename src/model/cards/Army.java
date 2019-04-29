@@ -1,6 +1,8 @@
 package model.cards;
 
 import model.Buff.Buff;
+import model.variables.CardsArray;
+
 import java.util.ArrayList;
 public class Army extends Card {
     protected int hp, ap, ar;
@@ -28,5 +30,17 @@ public class Army extends Card {
 
     public AttackType getAttackType() {
         return attackType;
+    }
+
+    public ArrayList<Buff> getBuffs() {
+        return buffs;
+    }
+
+    public static void decreaseBuffTurns (CardsArray array){
+        for(Card card : array.getAllCards()){
+            for(Buff buff : ((Army)card).getBuffs()){
+                buff.decreaseTurns();
+            }
+        }
     }
 }
