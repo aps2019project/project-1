@@ -1,12 +1,16 @@
 package model.cards;
 
 import model.Buff.Buff;
+import model.variables.CardsArray;
+
 import java.util.ArrayList;
+
 public class Army extends Card {
     protected int hp, ap, ar;
     protected AttackType attackType;
     protected ArrayList<Buff> buffs = new ArrayList<>();
-    public Army (String name, int price, String description, int hp, int ap, int ar, AttackType attackType){
+
+    public Army(String name, int price, String description, int hp, int ap, int ar, AttackType attackType) {
         super(name, price, description);
         this.hp = hp;
         this.ap = ap;
@@ -28,5 +32,30 @@ public class Army extends Card {
 
     public AttackType getAttackType() {
         return attackType;
+    }
+
+    public ArrayList<Buff> getBuffs() {
+        return buffs;
+    }
+
+    public static void decreaseBuffTurns(CardsArray array) {
+        for (Card card : array.getAllCards()) {
+            for (Buff buff : ((Army) card).getBuffs()) {
+                buff.decreaseTurns();
+            }
+        }
+    }
+
+    public static void callPassiveMinionsSP(CardsArray array) {
+        for (Card card : array.getAllCards()) {
+            try {
+                Minion minion = (Minion)card;
+                if ( minion.getSpTime() == SPTime.PASSIVE ){
+                    for(Buff buff : minion.getSpecialBuffs()){
+                        buff.setTurns(1);
+                    }
+                }
+            } catch (ClassCastException cce){ continue;}
+        }
     }
 }
