@@ -58,4 +58,8 @@ public class Army extends Card {
             } catch (ClassCastException cce){ continue;}
         }
     }
+
+    public void addBuff(Buff buff){
+        this.buffs.add(buff);
+    }
 }
