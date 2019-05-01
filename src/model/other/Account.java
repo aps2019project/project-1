@@ -151,10 +151,17 @@ public class Account {
         });
     }
 
-
     public static void saveAccountDetails() {
 
     }
 
-
+    @Override
+    public String toString() {
+        return "Account{" +
+                "username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", daric=" + daric +
+                ", storyProgress=" + storyProgress +
+                '}';
+    }
 }
