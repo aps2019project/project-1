@@ -98,7 +98,12 @@ public class Account {
     }
 
     public int getLosedGames() {
-        return 0;
+        int lose = 0;
+        for (MatchResult history : matchHistory) {
+            if (history.getWinner().equals(this))
+                lose++;
+        }
+        return lose;
     }
 
     public int getDrewGames() {
