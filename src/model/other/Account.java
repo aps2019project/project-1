@@ -144,7 +144,11 @@ public class Account {
     }
 
     private static void sortAccounts() {
-
+        accounts.sort((Account a1, Account a2) -> {
+            if (a1.getWonGames() == a2.getWonGames())
+                return a2.username.compareTo(a1.password);
+            return a2.getWonGames() - a1.getWonGames();
+        });
     }
 
 
