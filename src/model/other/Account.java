@@ -6,6 +6,7 @@ import model.game.MatchResult;
 import model.variables.CardsArray;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Account {
 
@@ -88,7 +89,12 @@ public class Account {
     }
 
     public int getWonGames() {
-        return 0;
+        int win = 0;
+        for (MatchResult history : matchHistory) {
+            if (history.getWinner().equals(this))
+                win++;
+        }
+        return win;
     }
 
     public int getLosedGames() {
@@ -163,5 +169,25 @@ public class Account {
                 ", daric=" + daric +
                 ", storyProgress=" + storyProgress +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Account)) return false;
+        Account account = (Account) o;
+        return getDaric() == account.getDaric() &&
+                getUsername().equals(account.getUsername()) &&
+                getPassword().equals(account.getPassword()) &&
+                Objects.equals(getCollection(), account.getCollection()) &&
+                Objects.equals(getAllDecks(), account.getAllDecks()) &&
+                Objects.equals(getMatchHistory(), account.getMatchHistory()) &&
+                Objects.equals(getMainDeck(), account.getMainDeck()) &&
+                getStoryProgress() == account.getStoryProgress();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getUsername(), getPassword(), getCollection(), getAllDecks(), getMatchHistory(), getMainDeck(), getDaric(), getStoryProgress());
     }
 }
