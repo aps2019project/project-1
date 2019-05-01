@@ -5,7 +5,9 @@ import view.AccountScreen;
 
 class AccountHandler extends Handler {
 
-    private AccountHandler(){}
+    AccountHandler(){
+
+    }
 
     @Override
     void handleCommands() {
