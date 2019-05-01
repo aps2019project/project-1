@@ -100,14 +100,19 @@ public class Account {
     public int getLosedGames() {
         int lose = 0;
         for (MatchResult history : matchHistory) {
-            if (history.getWinner().equals(this))
+            if (!history.getWinner().equals(this) && history.getWinner() != null)
                 lose++;
         }
         return lose;
     }
 
     public int getDrewGames() {
-        return 0;
+        int drew = 0;
+        for (MatchResult history : matchHistory) {
+            if (history.getWinner() == null)
+                drew++;
+        }
+        return drew;
     }
 
     public void addMatchResult(MatchResult result) {
