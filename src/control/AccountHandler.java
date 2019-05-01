@@ -5,12 +5,6 @@ import view.AccountScreen;
 
 class AccountHandler extends Handler {
 
-    private static final AccountHandler accountHandler = new AccountHandler();
-
-    public static AccountHandler getInstance(){
-        return accountHandler;
-    }
-
     private AccountHandler(){}
 
     @Override
