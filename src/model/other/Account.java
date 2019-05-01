@@ -18,7 +18,7 @@ public class Account {
     private ArrayList<MatchResult> matchHistory = new ArrayList<>();
     private Deck mainDeck;
     private int daric = 15000;
-    private int storyProgress;
+    private StoryProgress storyProgress;
 
     public Account(String username, String password) {
         this.username = username;
@@ -59,7 +59,7 @@ public class Account {
         return daric;
     }
 
-    public int getStoryProgress() {
+    public StoryProgress getStoryProgress() {
         return storyProgress;
     }
 
