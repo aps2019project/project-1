@@ -21,6 +21,62 @@ public class Player {
     private int numberOfFlags = 0;
     private boolean endTurn = false;
     private boolean heroKilled = false;
+    private Hero hero;
+    private Cell selectedCardPlace;
+
+    public Cell getSelectedCardPlace() {
+        return selectedCardPlace;
+    }
+
+    public Deck getDeck() {
+        return deck;
+    }
+
+    public Hand getHand() {
+        return hand;
+    }
+
+    public int getMana() {
+        return mana;
+    }
+
+    public CardsArray getGraveYard() {
+        return graveYard;
+    }
+
+    public CardsArray getMovedCardsInThisTurn() {
+        return movedCardsInThisTurn;
+    }
+
+    public CardsArray getAttackerCardsInThisTurn() {
+        return attackerCardsInThisTurn;
+    }
+
+    public int getTurnNumber() {
+        return turnNumber;
+    }
+
+    public int getNumberOfFlags() {
+        return numberOfFlags;
+    }
+
+    public Hero getHero() {
+        return hero;
+    }
+
+    public void setEndTurn(boolean endTurn) {
+        this.endTurn = endTurn;
+    }
+
+    public boolean setSelectedCard(Cell selectedCardPlace) {
+        if(selectedCardPlace == null) return false;
+        this.selectedCardPlace = selectedCardPlace;
+        return true;
+    }
+
+    public boolean isEndTurn() {
+        return endTurn;
+    }
 
     public Player(Account account) throws CloneNotSupportedException {
         this.account = account;
@@ -53,24 +109,28 @@ public class Player {
         Army army = presentCell.pick();
         movedCardsInThisTurn.add(army);
         return destinationCell.put(army,turnNumber);
-
     }
     public void putHeroIn(Cell cell) {
         Hero hero = deck.getHero();
+        this.hero = hero;
         deck.deleteCard(hero);
         cell.put(hero,turnNumber);
     }
-    public boolean attack(Cell attackersCell) {
+    public boolean attack(Cell attackersCell,Cell defenderCell) {
         if(attackersCell == null) return false;
         if(attackerCardsInThisTurn.find(attackersCell.getInsideArmy()) == null) return false;
-        return false;
+        return false;//
     }
-    public boolean moveFromHandToCell(int index,Cell cell) {
-        if(cell.isEmpty() && mana >= hand.getNeededManaToMove(index)) {
-            Card card = hand.pick(index);
+    public boolean attack(Cell defenderCell) {
+        return attack(selectedCardPlace,defenderCell);
+    }
+
+    public boolean moveFromHandToCell(String name,Cell cell) {
+        if(cell.isEmpty() && mana >= hand.getNeededManaToMove(name)) {
+            Card card = hand.pick(name);
             if(!(card instanceof Army)) return false;
             if(cell.put((Army) card,turnNumber)) {
-                mana -= cell.getInsideArmy().getNeededManaToMove();
+                mana -= cell.getInsideArmy().getNeededManaToPut();
                 movedCardsInThisTurn.add(card);
                 attackerCardsInThisTurn.add(card);
                 return true;
@@ -86,6 +146,7 @@ public class Player {
         attackerCardsInThisTurn.clear();
     }
     public void play() {
+        endTurn = false;
         increaseTurnNumber();
         setMana();
         deck.transferCardTo(hand);
@@ -95,12 +156,4 @@ public class Player {
         }
     }
 
-    public void showHand() {
-        hand.showCards();
-        System.out.println("next card is:");
-        deck.getNextCard().showCard();
-    }
-    public void showGraveYard() {
-        graveYard.showCards();
-    }
 }

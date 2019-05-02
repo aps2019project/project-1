@@ -48,8 +48,8 @@ public class CardsArray {
         allCards.remove(index);
     }
     public void clear() {allCards.clear();}
-    public Card pick(int index) {
-            Card card =  allCards.get(index);
+    public Card pick(String name) {
+            Card card =  findBYName(name);
             this.remove(card);
             return card;
     }
@@ -60,13 +60,5 @@ public class CardsArray {
             copyFromCardList.add(card.clone());
         }
         return copyFromCardList;
-    }
-    public void showCards() {
-        int counter = 1;
-        for(Card card : allCards) {
-            System.out.println(counter+". ");
-            card.showCard();
-            counter++;
-        }
     }
 }

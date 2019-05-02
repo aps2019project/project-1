@@ -1,6 +1,7 @@
 package model.cards;
 
 import control.CsvReader;
+import model.game.Cell;
 import model.game.Flag;
 import model.game.Player;
 import model.other.Account;
@@ -14,8 +15,17 @@ public class Card implements Cloneable{
     protected int price;
     protected Account account;
     protected Flag flag;
+    protected Cell whereItIs;
     protected int NeededManaToMove;
     protected String description;
+
+    public Cell getWhereItIs() {
+        return whereItIs;
+    }
+
+    public void setWhereItIs(Cell whereItIs) {
+        this.whereItIs = whereItIs;
+    }
 
     Card(String name, int price, String description){
         this.name = name;
@@ -41,7 +51,7 @@ public class Card implements Cloneable{
         return account;
     }
 
-    public int getNeededManaToMove() {
+    public int getNeededManaToPut() {
         return NeededManaToMove;
     }
 
@@ -76,6 +86,4 @@ public class Card implements Cloneable{
         return temp;
     }
 
-    public void showCard() {
-    }
 }

@@ -1,6 +1,5 @@
 package model.game;
 
-import model.cards.Army;
 import model.cards.Card;
 import model.other.Account;
 
@@ -20,7 +19,48 @@ public class Game {
     private int turnNumber = 1;
     private GameType type;
 
-    public Game(Account firstAccount,Account secondAccount,GameType type) throws CloneNotSupportedException {
+    public Player getFirstPlayer() {
+        return firstPlayer;
+    }
+
+    public Player getSecondPlayer() {
+        return secondPlayer;
+    }
+
+    public Cell[][] getTable() {
+        return table;
+    }
+
+    public ArrayList<Flag> getFlags() {
+        return flags;
+    }
+
+    public Player getWhoIsHisTurn() {
+        return whoIsHisTurn;
+    }
+
+    public Account getWinner() {
+        return winner;
+    }
+
+    public int getReward() {
+        return reward;
+    }
+
+    public int getTurnNumber() {
+        return turnNumber;
+    }
+
+    public Player getWhoIsNotHisTurn() {
+        if(whoIsHisTurn == firstPlayer) return secondPlayer;
+        else                            return firstPlayer;
+    }
+
+    public GameType getType() {
+        return type;
+    }
+
+    public Game(Account firstAccount, Account secondAccount, GameType type) throws CloneNotSupportedException {
         firstPlayer = new Player(firstAccount);
         secondPlayer = new Player(secondAccount);
         this.type = type;
@@ -87,7 +127,7 @@ public class Game {
         else if(this.type == CAPTURE_THE_FLAG) {
             Flag flag = flags.get(0);
             if(flag.isTaken() && turnNumber - flag.getNumberOfTurnItTaken()*2 > 7) {
-                winner = flag.getCard().getAccount();
+                winner = flag.getArmy().getAccount();
                 return true;
             }
         }
@@ -95,8 +135,8 @@ public class Game {
             int firstPlayerFlags = 0;
             int secondPlayerFlags = 0;
             for(Flag flag : flags) {
-                if(flag.isTaken() && flag.getCard().getAccount() == firstPlayer.getAccount()) firstPlayerFlags++;
-                else if(flag.isTaken() && flag.getCard().getAccount() == secondPlayer.getAccount()) secondPlayerFlags++;
+                if(flag.isTaken() && flag.getArmy().getAccount() == firstPlayer.getAccount()) firstPlayerFlags++;
+                else if(flag.isTaken() && flag.getArmy().getAccount() == secondPlayer.getAccount()) secondPlayerFlags++;
             }
             if(firstPlayerFlags > flags.size()/2) {
                 winner = firstPlayer.getAccount();
@@ -113,5 +153,15 @@ public class Game {
         if(firstPlayer.getAccount() == account) return firstPlayer;
         else if(secondPlayer.getAccount() == account) return secondPlayer;
         else   return null;
+    }
+    public Cell findInTable(String ID){
+        for(Cell[] row : table) {
+            for(Cell cell : row) {
+                if(!cell.isEmpty() && cell.getInsideArmy().getID().isSameAs(ID)) {
+                    return cell;
+                }
+            }
+        }
+        return null;
     }
 }

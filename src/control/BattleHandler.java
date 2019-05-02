@@ -1,6 +1,17 @@
 package control;
 
+import model.cards.Card;
+import model.game.Cell;
+import model.game.Game;
+import view.BattleScreen;
+
+import javax.management.BadAttributeValueExpException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
+
 public class BattleHandler extends Handler{
+    private static Game game;
     public static BattlesOrderType getPlayingOrder() {
         return null;
     }
@@ -9,50 +20,68 @@ public class BattleHandler extends Handler{
         while (scanner.hasNext()) {
             command = scanner.nextLine().trim();
             if (command.matches("game info")) {
-                showGameInfo();
+                BattleScreen.showGameInfo();
             } else if (command.matches("show my minions")) {
-                loginUser();
+                BattleScreen.showMinionsOf(game.getWhoIsHisTurn().getAccount());
             } else if (command.matches("show opponent minions")) {
-                showLeaderBoard();
+                BattleScreen.showMinionsOf(game.getWhoIsNotHisTurn().getAccount());
             } else if (command.matches("show Card info \\d+")) {
-                logout();
+                BattleScreen.showCard(game.findInTable(command.split(" ")[3]).getInsideArmy());
             }else if (command.matches("select \\d+")) {
-                AccountScreen.showHelpMenu();
+                if(!game.getWhoIsHisTurn().setSelectedCard(game.findInTable(command.split(" ")[1]))){
+                    BattleScreen.showInvalidCardIdError();
+                }
             }else if (command.matches("move to(\\d+,\\d+)")) {
-                AccountScreen.showHelpMenu();
+                if(!game.getWhoIsHisTurn().moveArmy(game.getWhoIsHisTurn().getSelectedCardPlace()
+                                                ,getCell(command.split(" ")[1]))) {
+                    BattleScreen.showInvalidMoveError();
+                }
             }else if (command.matches("attack \\d+")) {
-                AccountScreen.showHelpMenu();
+                if(!game.getWhoIsHisTurn().attack(game.findInTable(command.split(" ")[1]))) {
+                    BattleScreen.showInvalidAttackError();
+                }
             }else if (command.matches("attack combo \\d+( \\d+)+")) {
-                AccountScreen.showHelpMenu();
+                //
             }else if (command.matches("use special power(\\d+,\\d+)")) {
-                AccountScreen.showHelpMenu();
+                //
             }else if (command.matches("show hand")) {
-                AccountScreen.showHelpMenu();
+                BattleScreen.showCardArray(game.getWhoIsHisTurn().getHand());
             }else if (command.matches("insert \\w+ in (\\d+,\\d+)")) {
-                AccountScreen.showHelpMenu();
+                if(!game.getWhoIsHisTurn().moveFromHandToCell(command.split(" ")[1]
+                                                ,getCell(command.split(" ")[3]))) {
+                    BattleScreen.showInvalidCardNameError();
+                }
             }else if (command.matches("end turn")) {
-                AccountScreen.showHelpMenu();
+                game.getWhoIsHisTurn().setEndTurn(true);
             }else if (command.matches("show collectables")) {
-                AccountScreen.showHelpMenu();
+                //
             }else if (command.matches("show info")) {
-                AccountScreen.showHelpMenu();
+                \\
             }else if (command.matches("use (\\d+,\\d+)")) {
-                AccountScreen.showHelpMenu();
+                \\
             }else if (command.matches("show next card")) {
-                AccountScreen.showHelpMenu();
+                \\
             }else if (command.matches("enter graveyard")) {
-                AccountScreen.showHelpMenu();
+                \\
             }else if (command.matches("show info \\d+")) {
-                AccountScreen.showHelpMenu();
+                \\
             }else if (command.matches("show cards")) {
-                AccountScreen.showHelpMenu();
+                \\
             }else if (command.matches("help")) {
-                AccountScreen.showHelpMenu();
+                \\
             } else {
-                AccountScreen.showWrongCommand();
-                AccountScreen.showHelpMenu();
+                \\
             }
         }
     }
-
+    public Cell getCell(String input) {
+        Pattern pattern = Pattern.compile("\\w*[(](\\d+)[,](\\d+)[)]");
+        Matcher matcher = pattern.matcher(input);
+        if(matcher.find()) {
+            int x = Integer.parseInt(matcher.group(1));
+            int y = Integer.parseInt(matcher.group(2));
+            return game.getTable()[x][y];
+        }
+        return null;
+    }
 }
