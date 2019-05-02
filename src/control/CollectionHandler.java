@@ -32,11 +32,34 @@ class CollectionHandler extends Handler{
                 checkDeckValidation();
             } else if (command.matches("select deck \\w+")) {
                 changeMainDeck();
+            } else if (command.matches("show deck \\w+")) {
+                printDeck();
+            } else if (command.matches("show all decks")) {
+                showAllDecks();
+            } else {
+                CollectionScreen.showOptions();
             }
         }
     }
 
-    public void changeMainDeck() {
+    private void showAllDecks() {
+        CollectionScreen.showMainDeck(Account.getCurrentAccount().getMainDeck());
+        for (Deck deck : Account.getCurrentAccount().getAllDecks()) {
+            CollectionScreen.showDeckDetails(deck);
+        }
+    }
+
+    private void printDeck() {
+        String deckName = command.split(" ")[2];
+        Deck deck = Account.getCurrentAccount().findDeck(deckName);
+        if (deck == null) {
+            CollectionScreen.showDeckNotFound();
+        } else {
+            CollectionScreen.showDeckDetails(deck);
+        }
+    }
+
+    private void changeMainDeck() {
         String deckName = command.split(" ")[2];
         Deck deck = Account.getCurrentAccount().findDeck(deckName);
         if (deck == null) {

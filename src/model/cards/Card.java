@@ -88,5 +88,7 @@ public class Card implements Cloneable{
     public void showCard() {
     }
 
-
+    public String getDescription() {
+        return description;
+    }
 }
