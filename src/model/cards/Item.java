@@ -33,8 +33,13 @@ public class Item extends Card {
     }
 
     @Override
-    public String toString(){
-        return "Name : " + this.getName() +
-                " - Desc : " + this.description;
+    public String toString() {
+        return "Item{" +
+                "itemType=" + itemType +
+                ", ID=" + ID +
+                ", name='" + name + '\'' +
+                ", price=" + price +
+                ", type=" + type +
+                '}';
     }
 }
