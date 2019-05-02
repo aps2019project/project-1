@@ -25,23 +25,21 @@ class CollectionHandler extends Handler{
             } else if (command.matches("delete deck \\w+")) {
                 deleteDeck();
             } else if (command.matches("add \\w+ to deck \\w+")) {
-                String cardID = command.split(" ")[1];
-                String deckName = command.split(" ")[4];
-                addAndRemoveCard(cardID, deckName, true);
+                addAndRemoveCard(true);
             } else if (command.matches("remove \\w+ from deck \\w+")) {
-                String cardId = command.split(" ")[1];
-                String deckName = command.split(" ")[4];
-                addAndRemoveCard(cardId, deckName, false);
+                addAndRemoveCard(false);
             }
         }
     }
 
-    private void addAndRemoveCard(String cardID, String deckName, boolean isAdd) {
+    private void addAndRemoveCard(boolean isAdd) {
+        String cardId = command.split(" ")[1];
+        String deckName = command.split(" ")[4];
         Deck deck = Account.getCurrentAccount().findDeck(deckName);
         if (deck == null) {
             CollectionScreen.showCardNotFound();
         } else {
-            Card card = Account.getCurrentAccount().getCollection().find(cardID);
+            Card card = Account.getCurrentAccount().getCollection().find(cardId);
             if (card == null)
                 CollectionScreen.showCardNotFound();
             else if (deck.getCards().find(card) == null) {
