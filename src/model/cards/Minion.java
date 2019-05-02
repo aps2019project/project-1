@@ -4,17 +4,19 @@ import model.Buff.Buff;
 
 import java.util.ArrayList;
 
+import static model.cards.CardType.MINION;
+
 public class Minion extends Army {
     private static ArrayList<Minion> minions = new ArrayList<>();
 
     private int mana;
     private SPTime spTime;
     private Race race;
-
+  
     Minion(String name, int price, int hp
             , int ap, int ar, int mana, AttackType attackType
             , Race race, SPTime spTime, String description) {
-        super(name, price, description, hp, ap, ar, attackType);
+        super(name, price, description, hp, ap, ar, attackType, MINION);
         this.mana = mana;
         this.spTime = spTime;
         this.race = race;
@@ -81,13 +83,18 @@ public class Minion extends Army {
     }
 
     @Override
-    public String toString(){
-        return "Type : Minion"+
-                " - Name : " + this.getName() +
-                " - Class : " + this.getAttackType() +
-                " - AP : " + this.getAp() +
-                " - HP : " + this.getHp() +
-                " - MP : " + this.getMana() +
-                " - Special Power : " + this.description;
+    public String toString() {
+        return "Minion{" +
+                "mana=" + mana +
+                ", spTime=" + spTime +
+                ", race=" + race +
+                ", specialBuffs=" + specialBuffs +
+                ", passiveBuffs=" + passiveBuffs +
+                ", ap=" + ap +
+                ", ID=" + ID +
+                ", name='" + name + '\'' +
+                ", price=" + price +
+                ", type=" + type +
+                '}';
     }
 }

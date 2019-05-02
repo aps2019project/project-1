@@ -13,8 +13,8 @@ public class Army extends Card {
     protected AttackType attackType;
     protected ArrayList<Buff> buffs = new ArrayList<>();
 
-    public Army(String name, int price, String description, int hp, int ap, int ar, AttackType attackType) {
-        super(name, price, description);
+    public Army(String name, int price, String description, int hp, int ap, int ar, AttackType attackType, CardType cardType) {
+        super(name, price, description, cardType);
         this.hp = hp;
         this.ap = ap;
         this.ar = ar;
@@ -33,6 +33,9 @@ public class Army extends Card {
         return ar;
     }
 
+    public void decreaseHp(int decreaseNumber) {
+        hp-=decreaseNumber;
+    }
     public AttackType getAttackType() {
         return attackType;
     }
