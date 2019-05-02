@@ -29,6 +29,10 @@ public class Buff {
         return buffType;
     }
 
+    public BuffTImeType getBuffTImeType() {
+        return buffTImeType;
+    }
+
     public void setTurns(int turns) {
         this.turns = turns;
     }

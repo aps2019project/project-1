@@ -1,6 +1,7 @@
 package model.cards;
 
 import model.Buff.Buff;
+import model.Buff.BuffTImeType;
 import model.Buff.BuffType;
 import model.variables.CardsArray;
 
@@ -46,25 +47,21 @@ public class Army extends Card {
             while(iterator.hasNext()) {
                 Buff buff = (Buff)iterator.next();
                 buff.decreaseTurns();
-                if(buff.getTurns() == 0){
+                if(buff.getTurns() == 0 && buff.getBuffTImeType() != BuffTImeType.CONTINUOUS){
                     iterator.remove();
                 }
             }
         }
     }
 
-    public static void callPassiveMinionsSP(CardsArray array) {
+    public static void ActiveContinuousBuffs(CardsArray array) {
         for (Card card : array.getAllCards()) {
-            try {
-                Minion minion = (Minion) card;
-                if (minion.getSpTime() == SPTime.PASSIVE) {
-                    for (Buff buff : minion.getPassiveBuffs()) {
+                Army army = (Army) card;
+                for(Buff buff : army.getBuffs()){
+                    if(buff.getBuffTImeType() == BuffTImeType.CONTINUOUS){
                         buff.setTurns(1);
                     }
                 }
-            } catch (ClassCastException cce) {
-                continue;
-            }
         }
     }
 
@@ -91,7 +88,6 @@ public class Army extends Card {
             }
         }
         if(this instanceof Minion){
-            iterator = ((Minion)this).getPassiveBuffs()
         }
     }
 }

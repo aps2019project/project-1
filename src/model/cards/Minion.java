@@ -10,7 +10,6 @@ public class Minion extends Army {
     private int mana;
     private SPTime spTime;
     private Race race;
-    private ArrayList<Buff> passiveBuffs = new ArrayList<>();
 
     Minion(String name, int price, int hp
             , int ap, int ar, int mana, AttackType attackType
@@ -53,10 +52,6 @@ public class Minion extends Army {
 
     public Race getRace() {
         return race;
-    }
-
-    public ArrayList<Buff> getPassiveBuffs() {
-        return passiveBuffs;
     }
 
     public static void scanMinions(ArrayList<String[]> data){
