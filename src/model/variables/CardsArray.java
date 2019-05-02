@@ -59,6 +59,7 @@ public class CardsArray {
     public Card find(Card card) {
         return find(card.getID().getValue());
     }
+
     public Card find(String IDValue) {
         for (Card card : allCards) {
             if (card.isSameAs(IDValue))

@@ -48,4 +48,24 @@ public class CollectionScreen extends Screen {
         System.out.println("Card added successfully :)");
     }
 
+    public static void showDeckIsEmpty() {
+        System.out.println("This deck has no Cards...");
+    }
+
+    public static void showCardRemovedSuccessfully() {
+        System.out.println("Card removed successfully :)");
+    }
+
+    public static void showDeckIsValid() {
+        System.out.println("Deck is Valid.");
+    }
+
+    public static void showDeckIsInvalid() {
+        System.out.println("Deck is not Complete...");
+    }
+
+    public static void showMainDeckChangedSuccessfully() {
+        System.out.println("Main deck changed successfully");
+    }
+
 }
