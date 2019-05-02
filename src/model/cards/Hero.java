@@ -2,13 +2,15 @@ package model.cards;
 
 import java.util.ArrayList;
 
+import static model.cards.CardType.HERO;
+
 public class Hero extends Army {
     private static ArrayList<Hero> heroes = new ArrayList<>();
 
     private int mp, coolDown;
 
     Hero(String name, int price, int hp, int ap, int ar, int mp, int coolDown, AttackType attackType, String description) {
-        super(name, price, description, hp, ap, ar, attackType);
+        super(name, price, description, hp, ap, ar, attackType, HERO);
         this.mp = mp;
         this.coolDown = coolDown;
         heroes.add(this);

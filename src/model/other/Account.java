@@ -6,6 +6,7 @@ import model.game.MatchResult;
 import model.variables.CardsArray;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Account {
 
@@ -18,7 +19,7 @@ public class Account {
     private ArrayList<MatchResult> matchHistory = new ArrayList<>();
     private Deck mainDeck;
     private int daric = 15000;
-    private int storyProgress;
+    private StoryProgress storyProgress;
 
     public Account(String username, String password) {
         this.username = username;
@@ -51,6 +52,14 @@ public class Account {
         return allDecks;
     }
 
+    public Deck findDeck(String name) {
+        for (Deck deck : allDecks) {
+            if (deck.getName().equals(name))
+                return deck;
+        }
+        return null;
+    }
+
     public Deck getMainDeck() {
         return mainDeck;
     }
@@ -59,7 +68,7 @@ public class Account {
         return daric;
     }
 
-    public int getStoryProgress() {
+    public StoryProgress getStoryProgress() {
         return storyProgress;
     }
 
@@ -67,16 +76,8 @@ public class Account {
         return username;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
     public String getPassword() {
         return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public void increaseDaric(int increase) {
@@ -88,19 +89,34 @@ public class Account {
     }
 
     public int getWonGames() {
-        return 0;
+        int win = 0;
+        for (MatchResult history : matchHistory) {
+            if (history.getWinner().equals(this))
+                win++;
+        }
+        return win;
     }
 
     public int getLosedGames() {
-        return 0;
+        int lose = 0;
+        for (MatchResult history : matchHistory) {
+            if (!history.getWinner().equals(this) && history.getWinner() != null)
+                lose++;
+        }
+        return lose;
     }
 
     public int getDrewGames() {
-        return 0;
+        int drew = 0;
+        for (MatchResult history : matchHistory) {
+            if (history.getWinner() == null)
+                drew++;
+        }
+        return drew;
     }
 
     public void addMatchResult(MatchResult result) {
-
+        matchHistory.add(result);
     }
 
     public void addDeck(Deck deck) {
@@ -144,13 +160,48 @@ public class Account {
     }
 
     private static void sortAccounts() {
-
+        accounts.sort((Account a1, Account a2) -> {
+            if (a1.getWonGames() == a2.getWonGames())
+                return a2.username.compareTo(a1.password);
+            return a2.getWonGames() - a1.getWonGames();
+        });
     }
-
 
     public static void saveAccountDetails() {
 
     }
 
+    @Override
+    public String toString() {
+        return "Account{" +
+                "username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", daric=" + daric +
+                ", storyProgress=" + storyProgress +
+                '}';
+    }
 
+    public static void saveAccountDetails() {
+
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Account)) return false;
+        Account account = (Account) o;
+        return getDaric() == account.getDaric() &&
+                getUsername().equals(account.getUsername()) &&
+                getPassword().equals(account.getPassword()) &&
+                Objects.equals(getCollection(), account.getCollection()) &&
+                Objects.equals(getAllDecks(), account.getAllDecks()) &&
+                Objects.equals(getMatchHistory(), account.getMatchHistory()) &&
+                Objects.equals(getMainDeck(), account.getMainDeck()) &&
+                getStoryProgress() == account.getStoryProgress();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getUsername(), getPassword(), getCollection(), getAllDecks(), getMatchHistory(), getMainDeck(), getDaric(), getStoryProgress());
+    }
 }

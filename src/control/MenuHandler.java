@@ -13,13 +13,13 @@ public class MenuHandler extends Handler {
         return menuHandler;
     }
 
-    private MenuHandler(){ }
+    MenuHandler(){ }
 
     @Override
     public void handleCommands() {
         MenuScreen.options();
         while(scanner.hasNext()) {
-            String command = scanner.nextLine().toLowerCase().trim();
+            command = scanner.nextLine().toLowerCase().trim();
             Pattern pattern = Pattern.compile("(enter (\\w+))|(\\w+)");
             Matcher matcher = pattern.matcher(command);
             if (matcher.matches()) {
@@ -27,7 +27,7 @@ public class MenuHandler extends Handler {
                     case "save":
                         continue;
                     case "logout":
-                        AccountHandler.getInstance().handleCommands();
+//                        AccountHandler.getInstance().handleCommands();
                     case "exit":
                         System.exit(0);
                     case "help":
