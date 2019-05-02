@@ -6,7 +6,7 @@ import model.variables.ID;
 
 public class Shop {
     private static final Shop shop = new Shop();
-    private CardsArray cards = new CardsArray(Card.getCards());
+    private CardsArray cards = Card.getCards();
 
     public static Shop getInstance() {
         return shop;
