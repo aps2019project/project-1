@@ -1,8 +1,6 @@
 package model.cards;
 
-import model.Buff.Buff;
-import model.Buff.BuffTImeType;
-import model.Buff.BuffType;
+import model.Buff.*;
 import model.variables.CardsArray;
 
 import java.util.ArrayList;
@@ -12,6 +10,8 @@ public class Army extends Card {
     protected int hp, ap, ar;
     protected AttackType attackType;
     protected ArrayList<Buff> buffs = new ArrayList<>();
+    protected boolean isStuned;
+    protected boolean isDisarmed;
 
     public Army(String name, int price, String description, int hp, int ap, int ar, AttackType attackType) {
         super(name, price, description);
@@ -54,7 +54,7 @@ public class Army extends Card {
         }
     }
 
-    public static void ActiveContinuousBuffs(CardsArray array) {
+    public static void ActivateContinuousBuffs(CardsArray array) {
         for (Card card : array.getAllCards()) {
             Army army = (Army) card;
             for (Buff buff : army.getBuffs()) {
@@ -67,6 +67,7 @@ public class Army extends Card {
 
     public void addBuff(Buff buff) {
         this.buffs.add(buff);
+        this.activateBuff(buff);
     }
 
     public int haveBuff(Class buffClass) {
@@ -86,11 +87,33 @@ public class Army extends Card {
             if (buff.getBuffType() != buffType) {
                 continue;
             }
-            if (buff.getBuffTImeType() == BuffTImeType.CONTINUOUS){
+            if (buff.getBuffTImeType() == BuffTImeType.CONTINUOUS) {
                 buff.setTurns(0);
-            } else{
+            } else {
                 iterator.remove();
             }
         }
     }
+
+    public void activateBuff(Buff buff) {
+        if (buff instanceof Disarm) {
+            this.isDisarmed = true;
+        } else if (buff instanceof Stun) {
+            this.isStuned = true;
+        } else if (buff instanceof Power) {
+            switch (((Power) buff).getType()){
+                case AP:
+                    this.ap += buff.getNumber();
+                    break;
+                case HP:
+                    this.hp += buff.getNumber();
+                    break;
+            }
+        }
+    }
+
+    public void deactivateBuff(Buff buff) {
+
+    }
+
 }

@@ -10,5 +10,9 @@ public class Power extends Buff {
         super(number, turns, BuffType.NEGATIVE, buffTImeType);
         this.type = type;
     }
+
+    public PowerBuffType getType() {
+        return type;
+    }
 }
 
