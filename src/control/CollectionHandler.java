@@ -36,6 +36,8 @@ class CollectionHandler extends Handler{
                 printDeck();
             } else if (command.matches("show all decks")) {
                 showAllDecks();
+            } else {
+                CollectionScreen.showOptions();
             }
         }
     }

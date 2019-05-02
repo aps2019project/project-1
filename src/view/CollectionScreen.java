@@ -111,4 +111,17 @@ public class CollectionScreen extends Screen {
         System.out.println("______________________________________________________");
     }
 
+    public static void showOptions() {
+        System.out.println("show");
+        System.out.println("search [card name]");
+        System.out.println("create deck [deck name]");
+        System.out.println("delete deck [deck name]");
+        System.out.println("add [card id] to deck [deck name]");
+        System.out.println("remove [card id] to deck [deck name]");
+        System.out.println("validate [deck name]");
+        System.out.println("select deck [deck name]");
+        System.out.println("show all decks");
+        System.out.println("show deck [deck name]");
+    }
+
 }
