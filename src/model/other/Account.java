@@ -52,6 +52,14 @@ public class Account {
         return allDecks;
     }
 
+    public Deck findDeck(String name) {
+        for (Deck deck : allDecks) {
+            if (deck.getName().equals(name))
+                return deck;
+        }
+        return null;
+    }
+
     public Deck getMainDeck() {
         return mainDeck;
     }

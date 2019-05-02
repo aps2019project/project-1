@@ -79,4 +79,8 @@ public class Deck {
         nextCard = cards.getAllCards().get((int)(Math.random()*cards.getAllCards().size()));
         if(nextCard == this.item || nextCard == this.hero) setNextCard();
     }
+
+    public String getName() {
+        return name;
+    }
 }

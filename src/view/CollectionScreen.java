@@ -14,4 +14,14 @@ public class CollectionScreen extends Screen {
                 "\t ID: " + card.getID() +
                 '}');
     }
+
+    public static void shwDeckExists() {
+        System.out.println("Can't create a deck with this name...");
+        System.out.println("Deck already exists.");
+    }
+
+    public static void showSuccessfullDeckCreation() {
+        System.out.println("Deck created successfully");
+    }
+
 }
