@@ -30,7 +30,20 @@ class CollectionHandler extends Handler{
                 addAndRemoveCard(false);
             } else if (command.matches("validate \\w+")) {
                 checkDeckValidation();
+            } else if (command.matches("select deck \\w+")) {
+                changeMainDeck();
             }
+        }
+    }
+
+    public void changeMainDeck() {
+        String deckName = command.split(" ")[2];
+        Deck deck = Account.getCurrentAccount().findDeck(deckName);
+        if (deck == null) {
+            CollectionScreen.showDeckNotFound();
+        } else {
+            Account.getCurrentAccount().changeMainDeck(deck);
+            CollectionScreen.showMainDeckChangedSuccessfully();
         }
     }
 

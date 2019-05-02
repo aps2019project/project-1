@@ -63,4 +63,9 @@ public class CollectionScreen extends Screen {
     public static void showDeckIsInvalid() {
         System.out.println("Deck is not Complete...");
     }
+
+    public static void showMainDeckChangedSuccessfully() {
+        System.out.println("Main deck changed successfully");
+    }
+
 }
