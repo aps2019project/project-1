@@ -1,6 +1,7 @@
 package model.cards;
 
 import model.Buff.Disarm;
+import model.game.Cell;
 
 import java.util.ArrayList;
 
@@ -48,6 +49,13 @@ public class Spell extends Card {
 
     public static void TotalDisarmEffect(Army army) {
         army.addBuff(new Disarm(1, -1));
+    }
+
+    public static void AreaDispelEffect(ArrayList<Cell> array) {
+        for(Cell cell : array){
+            if(cell.getInsideCard() == null) continue;
+
+        }
     }
 
 }
