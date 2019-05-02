@@ -26,6 +26,10 @@ public class Card implements Cloneable{
         this.description = description;
     }
 
+    public CardType getType() {
+        return type;
+    }
+
     public static CardsArray getCards() {
         return cards;
     }

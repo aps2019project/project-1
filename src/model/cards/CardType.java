@@ -1,5 +1,5 @@
 package model.cards;
 
 public enum CardType {
-    HERO, MINION, SPELL, ITEM
+    HERO, SPELL, MINION, ITEM
 }

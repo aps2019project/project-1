@@ -3,6 +3,7 @@ package model.variables;
 import model.cards.Card;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 
 public class CardsArray {
     protected ArrayList<Card> allCards;
@@ -16,6 +17,7 @@ public class CardsArray {
     }
 
     public ArrayList<Card> getAllCards() {
+        sortCards();
         return allCards;
     }
 
@@ -68,5 +70,9 @@ public class CardsArray {
 //            card.showCard();
             counter++;
         }
+    }
+
+    private void sortCards() {
+        allCards.sort(Comparator.comparing(Card::getType));
     }
 }
