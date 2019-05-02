@@ -4,6 +4,8 @@ import model.Buff.Buff;
 
 import java.util.ArrayList;
 
+import static model.cards.CardType.MINION;
+
 public class Minion extends Army {
     private static ArrayList<Minion> minions = new ArrayList<>();
 
@@ -15,7 +17,7 @@ public class Minion extends Army {
     Minion(String name, int price, int hp
             , int ap, int ar, int mana, AttackType attackType
             , Race race, SPTime spTime, String description) {
-        super(name, price, description, hp, ap, ar, attackType);
+        super(name, price, description, hp, ap, ar, attackType, MINION);
         this.mana = mana;
         this.spTime = spTime;
         this.race = race;

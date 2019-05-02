@@ -16,8 +16,10 @@ public class Card implements Cloneable{
     protected Flag flag;
     protected int NeededManaToMove;
     protected String description;
+    protected CardType type;
 
-    Card(String name, int price, String description){
+    Card(String name, int price, String description, CardType type){
+        this.type = type;
         this.name = name;
         this.price = price;
         this.ID = new ID();
