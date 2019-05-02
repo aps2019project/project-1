@@ -44,10 +44,10 @@ public class Army extends Card {
     public static void decreaseBuffTurns(CardsArray array) {
         for (Card card : array.getAllCards()) {
             Iterator iterator = ((Army) card).getBuffs().iterator();
-            while(iterator.hasNext()) {
-                Buff buff = (Buff)iterator.next();
+            while (iterator.hasNext()) {
+                Buff buff = (Buff) iterator.next();
                 buff.decreaseTurns();
-                if(buff.getTurns() == 0 && buff.getBuffTImeType() != BuffTImeType.CONTINUOUS){
+                if (buff.getTurns() == 0 && buff.getBuffTImeType() != BuffTImeType.CONTINUOUS) {
                     iterator.remove();
                 }
             }
@@ -56,12 +56,12 @@ public class Army extends Card {
 
     public static void ActiveContinuousBuffs(CardsArray array) {
         for (Card card : array.getAllCards()) {
-                Army army = (Army) card;
-                for(Buff buff : army.getBuffs()){
-                    if(buff.getBuffTImeType() == BuffTImeType.CONTINUOUS){
-                        buff.setTurns(1);
-                    }
+            Army army = (Army) card;
+            for (Buff buff : army.getBuffs()) {
+                if (buff.getBuffTImeType() == BuffTImeType.CONTINUOUS) {
+                    buff.setTurns(1);
                 }
+            }
         }
     }
 
@@ -69,25 +69,28 @@ public class Army extends Card {
         this.buffs.add(buff);
     }
 
-    public int haveBuff(Class buffClass){
+    public int haveBuff(Class buffClass) {
         int sum = 0;
-        for (Buff buff : this.getBuffs()){
-            if(buff.getClass() == buffClass){
+        for (Buff buff : this.getBuffs()) {
+            if (buff.getClass() == buffClass) {
                 sum += buff.getNumber();
             }
         }
         return sum;
     }
 
-    public void deleteBuffs(BuffType buffType){
+    public void deleteBuffs(BuffType buffType) {
         Iterator iterator = this.getBuffs().iterator();
-        while(iterator.hasNext()){
-            Buff buff = (Buff)iterator.next();
-            if(buff.getBuffType() == buffType){
+        while (iterator.hasNext()) {
+            Buff buff = (Buff) iterator.next();
+            if (buff.getBuffType() != buffType) {
+                continue;
+            }
+            if (buff.getBuffTImeType() == BuffTImeType.CONTINUOUS){
+                buff.setTurns(0);
+            } else{
                 iterator.remove();
             }
-        }
-        if(this instanceof Minion){
         }
     }
 }
