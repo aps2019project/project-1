@@ -65,7 +65,7 @@ public class CardsArray {
         int counter = 1;
         for(Card card : allCards) {
             System.out.println(counter+". ");
-            card.showCard();
+//            card.showCard();
             counter++;
         }
     }
