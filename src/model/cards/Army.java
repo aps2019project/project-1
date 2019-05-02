@@ -1,6 +1,7 @@
 package model.cards;
 
 import model.Buff.Buff;
+import model.Buff.BuffType;
 import model.variables.CardsArray;
 
 import java.util.ArrayList;
@@ -43,7 +44,7 @@ public class Army extends Card {
         for (Card card : array.getAllCards()) {
             Iterator iterator = ((Army) card).getBuffs().iterator();
             while(iterator.hasNext()) {
-                Buff buff = (Buff)iterator;
+                Buff buff = (Buff)iterator.next();
                 buff.decreaseTurns();
                 if(buff.getTurns() == 0){
                     iterator.remove();
@@ -79,5 +80,15 @@ public class Army extends Card {
             }
         }
         return sum;
+    }
+
+    public void deleteBuffs(BuffType buffType){
+        Iterator iterator = this.getBuffs().iterator();
+        while(iterator.hasNext()){
+            Buff buff = (Buff)iterator.next();
+            if(buff.getBuffType() == buffType){
+                iterator.remove();
+            }
+        }
     }
 }

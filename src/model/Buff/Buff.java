@@ -18,6 +18,10 @@ public class Buff {
         return turns;
     }
 
+    public BuffType getBuffType() {
+        return buffType;
+    }
+
     public void setTurns(int turns) {
         this.turns = turns;
     }
