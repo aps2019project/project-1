@@ -12,7 +12,7 @@ import static model.variables.GlobalVariables.*;
 public class Game {
     private Player firstPlayer;
     private Player secondPlayer;
-    private ArrayList<ArrayList<Cell>> table = new ArrayList<>();
+    private Cell[][] table = new Cell[TABLE_HEIGHT][TABLE_WIDTH];
     private ArrayList<Flag> flags = new ArrayList<>();
     private Player whoIsHisTurn;
     private Account winner;
@@ -21,20 +21,13 @@ public class Game {
     private GameType type;
 
     public Game(Account firstAccount,Account secondAccount,GameType type) throws CloneNotSupportedException {
-        for(int firstCounter = 0 ; firstCounter < TABLE_HEIGHT ; firstCounter++) {
-            ArrayList<Cell> row = new ArrayList<>();
-            for(int secondCounter = 0 ; secondCounter <TABLE_WIDTH ; secondCounter++) {
-                row.add(new Cell(firstCounter,secondCounter));
-            }
-            table.add(row);
-        }
         firstPlayer = new Player(firstAccount);
         secondPlayer = new Player(secondAccount);
         this.type = type;
      }
     public void startMatch() {
-        firstPlayer.putHeroIn(table.get(TABLE_HEIGHT /2).get(0));
-        secondPlayer.putHeroIn(table.get(TABLE_HEIGHT /2).get(TABLE_WIDTH -1));
+        firstPlayer.putHeroIn(table[TABLE_HEIGHT /2][0]);
+        secondPlayer.putHeroIn(table[TABLE_HEIGHT /2][TABLE_WIDTH -1]);
         firstPlayer.startMatchSetup();
         secondPlayer.startMatchSetup();
         whoIsHisTurn = firstPlayer;
@@ -56,7 +49,7 @@ public class Game {
         return new MatchResult(firstPlayer.getAccount(),secondPlayer.getAccount(),winner,reward);
     }
     public void setupDefends(){
-        for(ArrayList<Cell> rows : table) {
+        for(Cell[] rows : table) {
             for(Cell cell : rows) {
                 cell.defend();
                 cell.setEnemyAttackersCell(null);
@@ -65,7 +58,7 @@ public class Game {
 
     }
     public void setupCardsDeaf() {
-        for(ArrayList<Cell> rows : table) {
+        for(Cell[] rows : table) {
             for(Cell cell : rows) {
                 setupCardDeaf(cell);
             }

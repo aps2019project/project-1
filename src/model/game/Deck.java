@@ -29,17 +29,15 @@ public class Deck {
     }
 
     public boolean addCard(Card card) {
+        if(card instanceof Hero) {
+            if(this.hero != null) return false;
+            this.hero = (Hero)card;
+        }
+        if(card instanceof Item) {
+            if(this.item != null) return false;
+            this.item = (Item)card;
+        }
         return cards.add(card);
-    }
-    public boolean addCard(Hero hero) {
-        if(this.hero != null) return false;
-        this.hero = hero;
-        return this.addCard(hero);
-    }
-    public boolean addCard(Item item) {
-        if(this.item != null) return false;
-        this.item = item;
-        return this.addCard(item);
     }
 
     public CardsArray getCards() {
