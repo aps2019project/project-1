@@ -51,7 +51,7 @@ public class Army extends Card {
             try {
                 Minion minion = (Minion)card;
                 if ( minion.getSpTime() == SPTime.PASSIVE ){
-                    for(Buff buff : minion.getSpecialBuffs()){
+                    for(Buff buff : minion.getPassiveBuffs()){
                         buff.setTurns(1);
                     }
                 }
