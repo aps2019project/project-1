@@ -81,7 +81,17 @@ public class Player {
         System.out.println("next card is:");
         deck.getNextCard().showCard();
     }
+
     public void showGraveYard() {
         graveYard.showCards();
+    }
+
+    public boolean haveCard(Card card){
+        for(Card cardTemp : this.deck.getCards().getAllCards()){
+            if(cardTemp == card){
+                return true;
+            }
+        }
+        return false;
     }
 }
