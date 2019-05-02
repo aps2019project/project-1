@@ -1,7 +1,7 @@
 package model.Buff;
 
 public class Stun extends Buff {
-    public Stun(int number){
-        super(number);
+    public Stun(int number, int turns){
+        super(number, turns);
     }
 }

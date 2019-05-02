@@ -11,10 +11,6 @@ public class CardsArray {
         allCards = new ArrayList<>();
     }
 
-    public CardsArray(ArrayList<Card> array){
-        allCards = new ArrayList<>(array);
-    }
-
     public ArrayList<Card> getAllCards() {
         return allCards;
     }
@@ -22,14 +18,12 @@ public class CardsArray {
     public Card find(Card card) {
         return find(card.getID().getValue());
     }
-
     public Card find(String IDValue) {
         for (Card cardCounter : this.allCards) {
             if (cardCounter.isSameAs(IDValue)) return cardCounter;
         }
         return null;
     }
-
     public Card findBYName(String name) {
         for (Card cardCounter : this.allCards) {
             if (cardCounter.getName().equals(name)){
@@ -47,7 +41,6 @@ public class CardsArray {
             return false;
         }
     }
-
     public void remove(Card card) {
         allCards.remove(card);
     }
@@ -61,6 +54,13 @@ public class CardsArray {
             return card;
     }
 
+    public CardsArray copyAll() throws CloneNotSupportedException {
+        CardsArray copyFromCardList = new CardsArray();
+        for(Card card : this.allCards) {
+            copyFromCardList.add(card.clone());
+        }
+        return copyFromCardList;
+    }
     public void showCards() {
         int counter = 1;
         for(Card card : allCards) {

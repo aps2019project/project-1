@@ -8,13 +8,18 @@ import java.util.Random;
 
 public class Deck {
     private String name;
-    private CardsArray cards = new CardsArray();
+    private CardsArray cards;
     private Hero hero;
     private Item item;
     private Card nextCard;
 
     public Deck(String name) {
         this.name = name;
+        cards = new CardsArray();
+    }
+    private Deck(String name,CardsArray cards) {
+        this.name = name;
+        this.cards = cards;
     }
 
     public void deleteCard(Card card) {
@@ -48,9 +53,8 @@ public class Deck {
     public Item getItem() {
         return item;
     }
-    public Deck copyAll() {
-        Deck deck = new Deck(name);
-        deck.cards.getAllCards().addAll(this.cards.getAllCards());
+    public Deck copyAll() throws CloneNotSupportedException {
+        Deck deck = new Deck(name,this.cards.copyAll());
         deck.addCard(this.hero);
         deck.addCard(this.item);
         return deck;
