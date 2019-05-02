@@ -65,8 +65,9 @@ public class CardsArray {
     }
 
     public Card find(String IDValue) {
-        for (Card cardCounter : this.allCards) {
-            if (cardCounter.isSameAs(IDValue)) return cardCounter;
+        for (Card card : allCards) {
+            if (card.isSameAs(IDValue))
+                return card;
         }
         return null;
     }

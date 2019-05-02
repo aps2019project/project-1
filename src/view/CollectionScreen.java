@@ -32,6 +32,20 @@ public class CollectionScreen extends Screen {
         System.out.println("Deck deleted successfully");
     }
 
+    public static void showDeckIsFull() {
+        System.out.println("This deck is already full");
+    }
 
+    public static void showCantAddHero() {
+        System.out.println("This Deck already has a hero...");
+    }
+
+    public static void showCantAddItem() {
+        System.out.println("This Deck already has an Item...");
+    }
+
+    public static void showCardAddedSuccessfully() {
+        System.out.println("Card added successfully :)");
+    }
 
 }
