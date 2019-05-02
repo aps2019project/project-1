@@ -181,6 +181,10 @@ public class Account {
                 '}';
     }
 
+    public static void saveAccountDetails() {
+
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

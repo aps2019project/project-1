@@ -31,6 +31,9 @@ public class Army extends Card {
         return ar;
     }
 
+    public void decreaseHp(int decreaseNumber) {
+        hp-=decreaseNumber;
+    }
     public AttackType getAttackType() {
         return attackType;
     }
