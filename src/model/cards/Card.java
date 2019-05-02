@@ -16,12 +16,18 @@ public class Card implements Cloneable{
     protected Flag flag;
     protected int NeededManaToMove;
     protected String description;
+    protected CardType type;
 
-    Card(String name, int price, String description){
+    Card(String name, int price, String description, CardType type){
+        this.type = type;
         this.name = name;
         this.price = price;
         this.ID = new ID();
         this.description = description;
+    }
+
+    public CardType getType() {
+        return type;
     }
 
     public static CardsArray getCards() {
@@ -31,6 +37,7 @@ public class Card implements Cloneable{
     public Flag getFlag() {
         return flag;
     }
+
     public boolean addFlag(Flag flag) {
         if(this.flag != null) return false;
         this.flag = flag;
@@ -56,9 +63,11 @@ public class Card implements Cloneable{
     public ID getID() {
         return ID;
     }
+
     public boolean isSameAs(Card card) {
         return this.ID.isSameAs(card.ID);
     }
+
     public boolean isSameAs(String ID) {
         return this.ID.isSameAs(ID);
     }
@@ -78,4 +87,6 @@ public class Card implements Cloneable{
 
     public void showCard() {
     }
+
+
 }

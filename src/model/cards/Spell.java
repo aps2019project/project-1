@@ -4,13 +4,15 @@ import model.Buff.Disarm;
 
 import java.util.ArrayList;
 
+import static model.cards.CardType.SPELL;
+
 public class Spell extends Card {
     private static ArrayList<Spell> spells = new ArrayList<>();
     private int mana;
     private SpellTarget spellTarget;
 
     Spell(String name, int price, int mana, String description, SpellTarget spellTarget) {
-        super(name, price, description);
+        super(name, price, description, SPELL);
         this.mana = mana;
         this.spellTarget = spellTarget;
         spells.add(this);

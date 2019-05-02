@@ -2,12 +2,14 @@ package model.cards;
 
 import java.util.ArrayList;
 
+import static model.cards.CardType.ITEM;
+
 public class Item extends Card {
     private static ArrayList<Item> items = new ArrayList<>();
     private ItemType itemType;
 
     Item(String name, int price, ItemType itemType, String description){
-        super(name, price, description);
+        super(name, price, description, ITEM);
         this.itemType = itemType;
         items.add(this);
         cards.add(this);

@@ -3,6 +3,7 @@ package model.variables;
 import model.cards.Card;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 
 public class CardsArray {
     protected ArrayList<Card> allCards;
@@ -16,6 +17,7 @@ public class CardsArray {
     }
 
     public ArrayList<Card> getAllCards() {
+        sortCards();
         return allCards;
     }
 
@@ -30,7 +32,7 @@ public class CardsArray {
         return null;
     }
 
-    public Card findBYName(String name) {
+    public Card findByName(String name) {
         for (Card cardCounter : this.allCards) {
             if (cardCounter.getName().equals(name)){
                 return cardCounter;
@@ -65,8 +67,12 @@ public class CardsArray {
         int counter = 1;
         for(Card card : allCards) {
             System.out.println(counter+". ");
-            card.showCard();
+//            card.showCard();
             counter++;
         }
+    }
+
+    private void sortCards() {
+        allCards.sort(Comparator.comparing(Card::getType));
     }
 }

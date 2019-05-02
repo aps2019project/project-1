@@ -16,7 +16,7 @@ public class Shop {
     }
 
     public ID search(String name) {
-        Card card = this.cards.findBYName(name);
+        Card card = this.cards.findByName(name);
         if (card != null) {
             return card.getID();
         }
