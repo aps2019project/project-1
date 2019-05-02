@@ -1,6 +1,8 @@
 package model.cards;
 
 import model.Buff.Buff;
+import model.Buff.BuffTImeType;
+import model.Buff.BuffType;
 import model.variables.CardsArray;
 
 import java.util.ArrayList;
@@ -45,32 +47,53 @@ public class Army extends Card {
     public static void decreaseBuffTurns(CardsArray array) {
         for (Card card : array.getAllCards()) {
             Iterator iterator = ((Army) card).getBuffs().iterator();
-            while(iterator.hasNext()) {
-                Buff buff = (Buff)iterator;
+            while (iterator.hasNext()) {
+                Buff buff = (Buff) iterator.next();
                 buff.decreaseTurns();
-                if(buff.getTurns() == 0){
+                if (buff.getTurns() == 0 && buff.getBuffTImeType() != BuffTImeType.CONTINUOUS) {
                     iterator.remove();
                 }
             }
         }
     }
 
-    public static void callPassiveMinionsSP(CardsArray array) {
+    public static void ActiveContinuousBuffs(CardsArray array) {
         for (Card card : array.getAllCards()) {
-            try {
-                Minion minion = (Minion) card;
-                if (minion.getSpTime() == SPTime.PASSIVE) {
-                    for (Buff buff : minion.getPassiveBuffs()) {
-                        buff.setTurns(1);
-                    }
+            Army army = (Army) card;
+            for (Buff buff : army.getBuffs()) {
+                if (buff.getBuffTImeType() == BuffTImeType.CONTINUOUS) {
+                    buff.setTurns(1);
                 }
-            } catch (ClassCastException cce) {
-                continue;
             }
         }
     }
 
     public void addBuff(Buff buff) {
         this.buffs.add(buff);
+    }
+
+    public int haveBuff(Class buffClass) {
+        int sum = 0;
+        for (Buff buff : this.getBuffs()) {
+            if (buff.getClass() == buffClass) {
+                sum += buff.getNumber();
+            }
+        }
+        return sum;
+    }
+
+    public void deleteBuffs(BuffType buffType) {
+        Iterator iterator = this.getBuffs().iterator();
+        while (iterator.hasNext()) {
+            Buff buff = (Buff) iterator.next();
+            if (buff.getBuffType() != buffType) {
+                continue;
+            }
+            if (buff.getBuffTImeType() == BuffTImeType.CONTINUOUS){
+                buff.setTurns(0);
+            } else{
+                iterator.remove();
+            }
+        }
     }
 }
