@@ -26,7 +26,14 @@ public class ID {
     }
 
     public static String getNewID() {
-        return generateRandomString(5);
+        String randomString = generateRandomString(5);
+        for (int i = 0; i < allIDs.size(); ++i) {
+            if (allIDs.get(i).value.equals(randomString)) {
+                i = 0;
+                randomString = generateRandomString(5);
+            }
+        }
+        return randomString;
     }
 
     private static String generateRandomString(int size) {

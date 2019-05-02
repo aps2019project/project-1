@@ -8,7 +8,7 @@ import model.variables.*;
 import java.util.ArrayList;
 
 public class Card implements Cloneable{
-    protected static ArrayList<Card> cards = new ArrayList<>();
+    protected static CardsArray cards = new CardsArray();
     protected model.variables.ID ID;
     protected String name;
     protected int price;
@@ -24,7 +24,7 @@ public class Card implements Cloneable{
         this.description = description;
     }
 
-    public static ArrayList<Card> getCards() {
+    public static CardsArray getCards() {
         return cards;
     }
 
