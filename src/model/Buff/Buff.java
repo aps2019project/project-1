@@ -3,9 +3,11 @@ package model.Buff;
 public class Buff {
     protected int number;
     protected int turns;
-    public Buff(int number, int turns){
+    protected BuffType buffType;
+    public Buff(int number, int turns, BuffType buffType){
         this.number = number;
         this.turns = turns;
+        this.buffType = buffType;
     }
 
     public int getNumber() {

@@ -1,5 +1,5 @@
 package model.Buff;
 
-public enum Type {
+public enum PowerBuffType {
     AP, HP,
 }

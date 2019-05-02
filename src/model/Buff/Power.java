@@ -1,9 +1,9 @@
 package model.Buff;
 
 public class Power extends Buff {
-    private Type type;
-    public Power(int number, Type type, int turns) {
-        super(number, turns);
+    private PowerBuffType type;
+    public Power(int number, PowerBuffType type, int turns) {
+        super(number, turns, BuffType.POSITIVE);
         this.type = type;
     }
 }

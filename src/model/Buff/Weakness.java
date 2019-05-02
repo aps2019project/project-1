@@ -1,9 +1,9 @@
 package model.Buff;
 
 public class Weakness extends Buff {
-    private Type type;
-    public Weakness(int number, Type type, int turns){
-        super(number, turns);
+    private PowerBuffType type;
+    public Weakness(int number, PowerBuffType type, int turns){
+        super(number, turns, BuffType.NEGATIVE);
         this.type = type;
     }
 }
