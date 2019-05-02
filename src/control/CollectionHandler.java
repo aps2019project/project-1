@@ -18,7 +18,20 @@ class CollectionHandler extends Handler{
                 searchCard();
             } else if (command.matches("create deck \\w+")) {
                 createNewDeck();
+            } else if (command.matches("delete deck \\w+")) {
+                deleteDeck();
             }
+        }
+    }
+
+    private void deleteDeck() {
+        String deckName = command.split(" ")[2];
+        Deck deck = Account.getCurrentAccount().findDeck(deckName);
+        if (deck == null) {
+            CollectionScreen.showDeckNotFound();
+        } else {
+            Account.getCurrentAccount().removeDeck(deck);
+            CollectionScreen.showSuccessfulDeckRemoval();
         }
     }
 
@@ -27,9 +40,9 @@ class CollectionHandler extends Handler{
         Deck deck = Account.getCurrentAccount().findDeck(deckName);
         if (deck == null) {
             Account.getCurrentAccount().addDeck(new Deck(deckName));
-            CollectionScreen.showSuccessfullDeckCreation();
+            CollectionScreen.showSuccessfulDeckCreation();
         } else {
-            CollectionScreen.shwDeckExists();
+            CollectionScreen.showDeckExists();
         }
     }
 
