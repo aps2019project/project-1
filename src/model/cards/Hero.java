@@ -2,13 +2,15 @@ package model.cards;
 
 import java.util.ArrayList;
 
+import static model.cards.CardType.HERO;
+
 public class Hero extends Army {
     private static ArrayList<Hero> heroes = new ArrayList<>();
 
     private int mp, coolDown;
 
     Hero(String name, int price, int hp, int ap, int ar, int mp, int coolDown, AttackType attackType, String description) {
-        super(name, price, description, hp, ap, ar, attackType);
+        super(name, price, description, hp, ap, ar, attackType, HERO);
         this.mp = mp;
         this.coolDown = coolDown;
         heroes.add(this);
@@ -40,12 +42,18 @@ public class Hero extends Army {
                     , line[7]);
         }
     }
+
     @Override
-    public String toString(){
-        return "Name : " + this.getName() +
-                " - AP : " + this.getAp() +
-                " - HP : " + this.getHp() +
-                " - Class : " + this.getAttackType() +
-                " - Special Power : " + this.description;
+    public String toString() {
+        return "Hero{" +
+                "mp=" + mp +
+                ", coolDown=" + coolDown +
+                ", ap=" + ap +
+                ", attackType=" + attackType +
+                ", ID=" + ID +
+                ", name='" + name + '\'' +
+                ", price=" + price +
+                ", type=" + type +
+                '}';
     }
 }

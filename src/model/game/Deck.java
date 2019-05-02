@@ -8,13 +8,18 @@ import java.util.Random;
 
 public class Deck {
     private String name;
-    private CardsArray cards = new CardsArray();
+    private CardsArray cards;
     private Hero hero;
     private Item item;
     private Card nextCard;
 
     public Deck(String name) {
         this.name = name;
+        cards = new CardsArray();
+    }
+    private Deck(String name,CardsArray cards) {
+        this.name = name;
+        this.cards = cards;
     }
 
     public void deleteCard(Card card) {
@@ -26,11 +31,13 @@ public class Deck {
     public boolean addCard(Card card) {
         return cards.add(card);
     }
+
     public boolean addCard(Hero hero) {
         if(this.hero != null) return false;
         this.hero = hero;
         return this.addCard(hero);
     }
+
     public boolean addCard(Item item) {
         if(this.item != null) return false;
         this.item = item;
@@ -48,16 +55,18 @@ public class Deck {
     public Item getItem() {
         return item;
     }
-    public Deck copyAll() {
-        Deck deck = new Deck(name);
-        deck.cards.getAllCards().addAll(this.cards.getAllCards());
+  
+    public Deck copyAll() throws CloneNotSupportedException {
+        Deck deck = new Deck(name,this.cards.copyAll());
         deck.addCard(this.hero);
         deck.addCard(this.item);
         return deck;
     }
+  
     public boolean checkDeck() {
         return cards.getAllCards().size() == 20 && hero != null && item != null;
     }
+
     public void fillHand(Hand hand) {
         setNextCard();
         while(transferCardTo(hand));
@@ -78,5 +87,13 @@ public class Deck {
     public void setNextCard() {
         nextCard = cards.getAllCards().get((int)(Math.random()*cards.getAllCards().size()));
         if(nextCard == this.item || nextCard == this.hero) setNextCard();
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int size() {
+        return cards.getAllCards().size();
     }
 }

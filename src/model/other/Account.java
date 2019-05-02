@@ -52,6 +52,14 @@ public class Account {
         return allDecks;
     }
 
+    public Deck findDeck(String name) {
+        for (Deck deck : allDecks) {
+            if (deck.getName().equals(name))
+                return deck;
+        }
+        return null;
+    }
+
     public Deck getMainDeck() {
         return mainDeck;
     }
@@ -68,16 +76,8 @@ public class Account {
         return username;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
     public String getPassword() {
         return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public void increaseDaric(int increase) {
@@ -116,7 +116,7 @@ public class Account {
     }
 
     public void addMatchResult(MatchResult result) {
-
+        matchHistory.add(result);
     }
 
     public void addDeck(Deck deck) {
