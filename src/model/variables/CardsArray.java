@@ -30,7 +30,7 @@ public class CardsArray {
         return null;
     }
 
-    public Card findBYName(String name) {
+    public Card findByName(String name) {
         for (Card cardCounter : this.allCards) {
             if (cardCounter.getName().equals(name)){
                 return cardCounter;
