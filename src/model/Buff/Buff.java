@@ -1,7 +1,7 @@
 package model.Buff;
 
 public class Buff {
-    protected int number; //Tedadi ke card azin buff darad
+    protected int number;
     protected int turns;
     public Buff(int number, int turns){
         this.number = number;

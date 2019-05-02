@@ -70,4 +70,14 @@ public class Army extends Card {
     public void addBuff(Buff buff) {
         this.buffs.add(buff);
     }
+
+    public int haveBuff(Class buffClass){
+        int sum = 0;
+        for (Buff buff : this.getBuffs()){
+            if(buff.getClass() == buffClass){
+                sum += buff.getNumber();
+            }
+        }
+        return sum;
+    }
 }
