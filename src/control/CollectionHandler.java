@@ -25,14 +25,18 @@ class CollectionHandler extends Handler{
             } else if (command.matches("delete deck \\w+")) {
                 deleteDeck();
             } else if (command.matches("add \\w+ to deck \\w+")) {
-                addCard();
+                String cardID = command.split(" ")[1];
+                String deckName = command.split(" ")[4];
+                addAndRemoveCard(cardID, deckName, true);
+            } else if (command.matches("remove \\w+ from deck \\w+")) {
+                String cardId = command.split(" ")[1];
+                String deckName = command.split(" ")[4];
+                addAndRemoveCard(cardId, deckName, false);
             }
         }
     }
 
-    private void addCard() {
-        String cardID = command.split(" ")[1];
-        String deckName = command.split(" ")[4];
+    private void addAndRemoveCard(String cardID, String deckName, boolean isAdd) {
         Deck deck = Account.getCurrentAccount().findDeck(deckName);
         if (deck == null) {
             CollectionScreen.showCardNotFound();
@@ -40,15 +44,35 @@ class CollectionHandler extends Handler{
             Card card = Account.getCurrentAccount().getCollection().find(cardID);
             if (card == null)
                 CollectionScreen.showCardNotFound();
-            else {
-                addCardToDeck(card, deck);
+            else if (deck.getCards().find(card) == null) {
+                CollectionScreen.showCardNotFound();
             }
+            else {
+                if (isAdd)
+                    addCardToDeck(card, deck);
+                else
+                    removeCardFromDeck(card, deck);
+
+            }
+        }
+    }
+
+    private void removeCardFromDeck(Card card, Deck deck) {
+        if (deck.size() == 0)
+            CollectionScreen.showDeckIsFull();
+        else if (deck.getHero() != null && card.getType() == HERO)
+            CollectionScreen.showCantAddHero();
+        else if (deck.getItem() != null && card.getType() == ITEM)
+            CollectionScreen.showCantAddItem();
+        else {
+            deck.deleteCard(card);
+            CollectionScreen.showCardRemovedSuccessfully();
         }
     }
 
     private void addCardToDeck(Card card, Deck deck) {
         if (deck.size() >= 20)
-            CollectionScreen.showDeckIsFull();
+            CollectionScreen.showDeckIsEmpty();
         else if (deck.getHero() != null && card.getType() == HERO)
             CollectionScreen.showCantAddHero();
         else if (deck.getItem() != null && card.getType() == ITEM)
