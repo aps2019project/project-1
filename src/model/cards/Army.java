@@ -4,6 +4,7 @@ import model.Buff.Buff;
 import model.variables.CardsArray;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class Army extends Card {
     protected int hp, ap, ar;
@@ -40,8 +41,13 @@ public class Army extends Card {
 
     public static void decreaseBuffTurns(CardsArray array) {
         for (Card card : array.getAllCards()) {
-            for (Buff buff : ((Army) card).getBuffs()) {
+            Iterator iterator = ((Army) card).getBuffs().iterator();
+            while(iterator.hasNext()) {
+                Buff buff = (Buff)iterator;
                 buff.decreaseTurns();
+                if(buff.getTurns() == 0){
+                    iterator.remove();
+                }
             }
         }
     }
@@ -49,17 +55,19 @@ public class Army extends Card {
     public static void callPassiveMinionsSP(CardsArray array) {
         for (Card card : array.getAllCards()) {
             try {
-                Minion minion = (Minion)card;
-                if ( minion.getSpTime() == SPTime.PASSIVE ){
-                    for(Buff buff : minion.getPassiveBuffs()){
+                Minion minion = (Minion) card;
+                if (minion.getSpTime() == SPTime.PASSIVE) {
+                    for (Buff buff : minion.getPassiveBuffs()) {
                         buff.setTurns(1);
                     }
                 }
-            } catch (ClassCastException cce){ continue;}
+            } catch (ClassCastException cce) {
+                continue;
+            }
         }
     }
 
-    public void addBuff(Buff buff){
+    public void addBuff(Buff buff) {
         this.buffs.add(buff);
     }
 }
