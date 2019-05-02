@@ -28,7 +28,22 @@ class CollectionHandler extends Handler{
                 addAndRemoveCard(true);
             } else if (command.matches("remove \\w+ from deck \\w+")) {
                 addAndRemoveCard(false);
+            } else if (command.matches("validate \\w+")) {
+                checkDeckValidation();
             }
+        }
+    }
+
+    private void checkDeckValidation() {
+        String deckName = command.split("")[1];
+        Deck deck = Account.getCurrentAccount().findDeck(deckName);
+        if (deck == null) {
+            CollectionScreen.showDeckNotFound();
+        } else {
+            if (deck.checkIfValid())
+                CollectionScreen.showDeckIsValid();
+            else
+                CollectionScreen.showDeckIsInvalid();
         }
     }
 
@@ -37,7 +52,7 @@ class CollectionHandler extends Handler{
         String deckName = command.split(" ")[4];
         Deck deck = Account.getCurrentAccount().findDeck(deckName);
         if (deck == null) {
-            CollectionScreen.showCardNotFound();
+            CollectionScreen.showDeckNotFound();
         } else {
             Card card = Account.getCurrentAccount().getCollection().find(cardId);
             if (card == null)

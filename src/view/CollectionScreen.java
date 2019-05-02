@@ -56,4 +56,11 @@ public class CollectionScreen extends Screen {
         System.out.println("Card removed successfully :)");
     }
 
+    public static void showDeckIsValid() {
+        System.out.println("Deck is Valid.");
+    }
+
+    public static void showDeckIsInvalid() {
+        System.out.println("Deck is not Complete...");
+    }
 }
