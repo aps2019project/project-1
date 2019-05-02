@@ -90,5 +90,8 @@ public class Army extends Card {
                 iterator.remove();
             }
         }
+        if(this instanceof Minion){
+            iterator = ((Minion)this).getPassiveBuffs()
+        }
     }
 }
