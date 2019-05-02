@@ -48,4 +48,11 @@ public class ID {
         }
         return buffer.toString();
     }
+
+    @Override
+    public String toString() {
+        return "ID{" +
+                "value='" + value + '\'' +
+                '}';
+    }
 }

@@ -92,13 +92,18 @@ public class Minion extends Army {
     }
 
     @Override
-    public String toString(){
-        return "Type : Minion"+
-                " - Name : " + this.getName() +
-                " - Class : " + this.getAttackType() +
-                " - AP : " + this.getAp() +
-                " - HP : " + this.getHp() +
-                " - MP : " + this.getMana() +
-                " - Special Power : " + this.description;
+    public String toString() {
+        return "Minion{" +
+                "mana=" + mana +
+                ", spTime=" + spTime +
+                ", race=" + race +
+                ", specialBuffs=" + specialBuffs +
+                ", passiveBuffs=" + passiveBuffs +
+                ", ap=" + ap +
+                ", ID=" + ID +
+                ", name='" + name + '\'' +
+                ", price=" + price +
+                ", type=" + type +
+                '}';
     }
 }

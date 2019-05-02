@@ -42,12 +42,18 @@ public class Hero extends Army {
                     , line[7]);
         }
     }
+
     @Override
-    public String toString(){
-        return "Name : " + this.getName() +
-                " - AP : " + this.getAp() +
-                " - HP : " + this.getHp() +
-                " - Class : " + this.getAttackType() +
-                " - Special Power : " + this.description;
+    public String toString() {
+        return "Hero{" +
+                "mp=" + mp +
+                ", coolDown=" + coolDown +
+                ", ap=" + ap +
+                ", attackType=" + attackType +
+                ", ID=" + ID +
+                ", name='" + name + '\'' +
+                ", price=" + price +
+                ", type=" + type +
+                '}';
     }
 }

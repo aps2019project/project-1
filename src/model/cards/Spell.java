@@ -38,10 +38,14 @@ public class Spell extends Card {
 
     @Override
     public String toString() {
-        return "Type : Spell" +
-                " - Name : " + this.getName() +
-                " - MP : " + this.getMana() +
-                " - Desc : " + this.description;
+        return "Spell{" +
+                "mana=" + mana +
+                ", spellTarget=" + spellTarget +
+                ", ID=" + ID +
+                ", name='" + name + '\'' +
+                ", price=" + price +
+                ", type=" + type +
+                '}';
     }
 
     public SpellTarget getSpellTarget() {
