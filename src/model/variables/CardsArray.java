@@ -56,6 +56,18 @@ public class CardsArray {
         return items;
     }
 
+    public ArrayList<Item> getSellableItems() {
+        ArrayList<Item> items = new ArrayList<>();
+        for (Card card : allCards) {
+            if (card.getType() == ITEM) {
+                Item item = (Item) card;
+                if (item.getItemType().equals(ItemType.USABLE))
+                    items.add((Item) card);
+            }
+        }
+        return items;
+    }
+
     public Card find(Card card) {
         return find(card.getID().getValue());
     }
