@@ -72,4 +72,8 @@ public class Spell extends Card {
         }
     }
 
+    public static void EmpowerEffect(Army army){
+        army.setAp(army.getAp() + 2);
+    }
+
 }

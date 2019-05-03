@@ -33,6 +33,22 @@ public class Army extends Card {
         return ar;
     }
 
+    public void setHp(int hp) {
+        this.hp = hp;
+    }
+
+    public void setAp(int ap) {
+        this.ap = ap;
+    }
+
+    public boolean isStuned() {
+        return isStuned;
+    }
+
+    public boolean isDisarmed() {
+        return isDisarmed;
+    }
+
     public void decreaseHp(int decreaseNumber) {
         hp -= decreaseNumber;
     }
