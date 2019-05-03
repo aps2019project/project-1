@@ -7,6 +7,32 @@ import java.util.ArrayList;
 
 public class CollectionScreen extends Screen {
 
+    public static void showWelcomeLine() {
+        System.out.println("\t\t\t_______________COLLECTION_______________\n");
+    }
+
+    public static void shoeInvalidCommand() {
+        System.out.println("Invalid command. Try again.");
+    }
+
+    public static void showOptions() {
+        System.out.println(" Things you can do here..._________________________________________");
+        System.out.println("|                                                                  |");
+        System.out.println("|  Show:                                   *to see your collection |");
+        System.out.println("|  Search [card name]                      *find card in collection|");
+        System.out.println("|  Create deck [deck name]                 *create new deck        |");
+        System.out.println("|  Delete deck [deck name]                 *delete a deck          |");
+        System.out.println("|  Add [card id] to deck [deck name]       *add card to collection |");
+        System.out.println("|  Remove [card id] to deck [deck name]    *remove card collection |");
+        System.out.println("|  Validate [deck name]                    *check if deck is valid |");
+        System.out.println("|  Select deck [deck name]                 *select main deck       |");
+        System.out.println("|  Show all decks                          *see all decks          |");
+        System.out.println("|  Show deck [deck name]                   *see decks cards        |");
+        System.out.println("|  Help:                                   *see this menu          |");
+        System.out.println("|  Exit:                                   *return to main menu    |");
+        System.out.println("|__________________________________________________________________|");
+    }
+
     public static void showCardNotFound() {
         System.out.println("There is no card with this name... Try again");
     }
@@ -109,19 +135,6 @@ public class CollectionScreen extends Screen {
         System.out.println("Main Deck:____________________________________________");
         showDeckDetails(deck);
         System.out.println("______________________________________________________");
-    }
-
-    public static void showOptions() {
-        System.out.println("show");
-        System.out.println("search [card name]");
-        System.out.println("create deck [deck name]");
-        System.out.println("delete deck [deck name]");
-        System.out.println("add [card id] to deck [deck name]");
-        System.out.println("remove [card id] to deck [deck name]");
-        System.out.println("validate [deck name]");
-        System.out.println("select deck [deck name]");
-        System.out.println("show all decks");
-        System.out.println("show deck [deck name]");
     }
 
 }

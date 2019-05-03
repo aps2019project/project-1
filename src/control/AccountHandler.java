@@ -25,6 +25,9 @@ class AccountHandler extends Handler {
                 logout();
             }else if (command.matches("help")) {
                 AccountScreen.showHelpMenu();
+            } else if (command.matches("exit")) {
+                Account.saveAccountDetails();
+                System.exit(0);
             } else {
                 AccountScreen.showWrongCommand();
                 AccountScreen.showHelpMenu();
