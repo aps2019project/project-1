@@ -1,5 +1,6 @@
 package model.cards;
 
+import model.Buff.BuffType;
 import model.Buff.Disarm;
 import model.Buff.Power;
 import model.Buff.Stun;
@@ -99,4 +100,10 @@ public class Hero extends Army {
             army.setAp(army.getAp() + 4);
         }
     }
+
+    public void AfsaneSpell(){
+        Army army = null;
+        army.deleteBuffs(BuffType.POSITIVE);
+    }
+
 }
