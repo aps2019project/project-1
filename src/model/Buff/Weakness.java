@@ -10,4 +10,8 @@ public class Weakness extends Buff {
         super(number, turns, BuffType.NEGATIVE, buffTImeType);
         this.type = powerBuffType;
     }
+
+    public PowerBuffType getType() {
+        return type;
+    }
 }

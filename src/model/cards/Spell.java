@@ -1,10 +1,10 @@
 package model.cards;
 
-import model.Buff.Buff;
 import model.Buff.BuffType;
 import model.Buff.Disarm;
 import model.game.Cell;
 import model.game.Player;
+import static model.Buff.BuffTImeType.*;
 
 import java.util.ArrayList;
 
@@ -57,19 +57,43 @@ public class Spell extends Card {
     }
 
     public static void TotalDisarmEffect(Army army) {
-        army.addBuff(new Disarm(1, -1));
+        army.addBuff(new Disarm(1, PERMANENT));
     }
 
     public static void AreaDispelEffect(ArrayList<Cell> array, Player player) {
         for (Cell cell : array) {
-            Card card = cell.getInsideCard();
-            if (card == null) continue;
-            if (player.haveCard(card)) {
-                ((Army)card).deleteBuffs(BuffType.NEGATIVE);
+            Army army = cell.getInsideArmy();
+            if (army == null) continue;
+            if (player.haveCard(army)) {
+                army.deleteBuffs(BuffType.NEGATIVE);
             } else{
-                ((Army)card).deleteBuffs(BuffType.POSITIVE);
+                army.deleteBuffs(BuffType.POSITIVE);
             }
         }
+    }
+
+    public static void EmpowerEffect(Army army){
+        army.setAp(army.getAp() + 2);
+    }
+
+    public static void FireballEffect(Army army){
+        army.getDamaged(4);
+    }
+
+    public static void GodStrengthEffect(Hero hero){
+        hero.setAp(hero.getAp() + 4);
+    }
+
+    public static void HellFireEffect(ArrayList<Cell> array){
+
+    }
+
+    public static void LightingBoltEffect(Hero hero){
+        hero.getDamaged(8);
+    }
+
+    public static void PoisonLakeEffect(ArrayList<Cell> array){
+
     }
 
 }
