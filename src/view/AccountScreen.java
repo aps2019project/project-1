@@ -36,19 +36,23 @@ public class AccountScreen extends Screen {
         System.out.println("logout complete...");
     }
 
-    public static void showHelpMenu(){
-        System.out.println("create account [username]:    creating new account with username -> [username]");
-        System.out.println("login [username]:             login account with username -> [username]");
-        System.out.println("show leaderboard:             view all accounts in order (wins)");
-        System.out.println("logout:                       logout current account");
-    }
-
     public static void showWrongCommand() {
         System.out.println("Invalid command. try again");
     }
 
     public static void showWelcomeLine() {
-        System.out.println("Welcome to Duelyst...");
-        System.out.println("Select or Create account to continue.");
+        System.out.println("\t\t__________Welcome to Duelyst_________");
+        System.out.println("\t\tSelect or Create account to continue.");
+    }
+
+    public static void showHelpMenu(){
+        System.out.println(" Things you can do here ______________________________");
+        System.out.println("|                                                     |");
+        System.out.println("| Create account [username]:    *to creat new account |");
+        System.out.println("| Login [username]:             *to login account     |");
+        System.out.println("| Show LeaderBoard:             *to view all accounts |");
+        System.out.println("| Help:                         *to see this menu     |");
+        System.out.println("| Exit:                         *to terminate game    |");
+        System.out.println("|_____________________________________________________|");
     }
 }

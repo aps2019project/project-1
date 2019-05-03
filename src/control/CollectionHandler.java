@@ -11,6 +11,12 @@ import static model.cards.CardType.ITEM;
 
 class CollectionHandler extends Handler{
 
+    CollectionHandler() {
+        CollectionScreen.showWelcomeLine();
+        CollectionScreen.showOptions();
+        handleCommands();
+    }
+
     @Override
     void handleCommands() {
         while (scanner.hasNext()) {
@@ -36,6 +42,7 @@ class CollectionHandler extends Handler{
             } else if (command.matches("show all decks")) {
                 showAllDecks();
             } else {
+                CollectionScreen.showDeckIsInvalid();
                 CollectionScreen.showOptions();
             }
         }
