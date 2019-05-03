@@ -37,7 +37,7 @@ public class ID {
     }
 
     private static String generateRandomString(int size) {
-        int leftLimit = 33;
+        int leftLimit = 97;
         int rightLimit = 126;
         Random random = new Random();
         StringBuilder buffer = new StringBuilder(size);
