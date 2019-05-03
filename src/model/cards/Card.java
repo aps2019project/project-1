@@ -14,9 +14,18 @@ public class Card implements Cloneable{
     protected int price;
     protected Account account;
     protected Flag flag;
+    protected Cell whereItIs;
     protected int NeededManaToMove;
     protected String description;
     protected CardType type;
+
+    public Cell getWhereItIs() {
+        return whereItIs;
+    }
+
+    public void setWhereItIs(Cell whereItIs) {
+        this.whereItIs = whereItIs;
+    }
 
     Card(String name, int price, String description, CardType type){
         this.type = type;
