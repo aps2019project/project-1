@@ -1,6 +1,7 @@
 package view;
 
 import model.cards.*;
+import model.other.Account;
 import model.variables.CardsArray;
 
 import java.util.ArrayList;
@@ -76,6 +77,16 @@ public class ShopScreen extends Screen {
 
     public static void showSomethingIsWrong() {
         System.out.println("something went wrong... try again");
+    }
+
+    public static void showBuyWasSuccessfull() {
+        System.out.println("Card added to your collection successfully");
+        System.out.println("Remaining Daric: " + Account.getCurrentAccount().getDaric() + "D");
+    }
+
+    public static void showSellWasSuccessfull() {
+        System.out.println("Card sold successfully");
+        System.out.println("Remaining Daric: " + Account.getCurrentAccount().getDaric() + "D");
     }
 
 }

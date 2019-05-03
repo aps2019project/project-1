@@ -15,7 +15,7 @@ public class Account {
 
     private String username;
     private String password;
-    private CardsArray collection;
+    private CardsArray collection = new CardsArray();
     private ArrayList<Deck> allDecks = new ArrayList<>();
     private ArrayList<MatchResult> matchHistory = new ArrayList<>();
     private Deck mainDeck;
@@ -137,7 +137,7 @@ public class Account {
     }
 
     public void removeCardFromCollection(Card card) {
-        // need conditions
+        collection.remove(card);
     }
 
     public static boolean doesAccountExist(String username) {

@@ -82,7 +82,7 @@ public class CardsArray {
 
     public Card findByName(String name) {
         for (Card cardCounter : this.allCards) {
-            if (cardCounter.getName().equals(name)){
+            if (cardCounter.getName().toLowerCase().equals(name.toLowerCase())){
                 return cardCounter;
             }
         }
