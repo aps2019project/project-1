@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class CollectionScreen extends Screen {
 
     public static void showWelcomeLine() {
-        System.out.println("\t\t_______________COLLECTION_______________\n\n");
+        System.out.println("\t\t\t_______________COLLECTION_______________\n");
     }
 
     public static void shoeInvalidCommand() {
