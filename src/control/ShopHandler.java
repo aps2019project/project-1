@@ -31,8 +31,10 @@ class ShopHandler extends Handler {
                 search(Account.getCurrentAccount().getCollection(), command.split(" ")[2]);
             } else if (command.matches("buy \\w+")) {
                 buy(command.split(" ")[1]);
-            } else if ((matcher = Pattern.compile("sell (\\w+)").matcher(command)).matches()) {
-                sell(matcher.group(1));
+            } else if (command.matches("sell \\w+")) {
+                sell(command.split(" ")[1]);
+            } else {
+                ShopScreen.showOptions();
             }
         }
     }
@@ -71,12 +73,29 @@ class ShopHandler extends Handler {
         } catch (CloneNotSupportedException e) {
             ShopScreen.showSomethingIsWrong();
         }
-        account.increaseDaric(card.getPrice());
+        account.decreaseDaric(card.getPrice());
         account.addCardToCollection(card);
 
     }
 
     private void sell(String name) {
+        Account account = Account.getCurrentAccount();
+        Card card = account.getCollection().findByName(name);
+        if (card == null) {
+            ShopScreen.showCardNotFound();
+            return;
+        }
+
+        if (card.getType().equals(CardType.ITEM)) {
+            Item item = (Item) card;
+            if (item.getItemType().equals(ItemType.COLLECTABLE)) {
+                ShopScreen.showCardNotFound();
+                return;
+            }
+        }
+        account.increaseDaric(card.getPrice());
+        account.removeCardFromCollection(card);
 
     }
+
 }
