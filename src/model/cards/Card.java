@@ -76,7 +76,7 @@ public class Card implements Cloneable{
         Hero.scanHeroes(CsvReader.readCards("Heroes"));
         Minion.scanMinions(CsvReader.readCards("Minions"));
         Item.scanItems(CsvReader.readCards("Items"));
-        Spell.scanSpells(CsvReader.readCards("Spells"));
+//        Spell.scanSpells(CsvReader.readCards("Spells"));
     }
 
     public Card clone() throws CloneNotSupportedException{
