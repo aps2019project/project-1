@@ -82,7 +82,7 @@ public class Minion extends Army {
         }
     }
 
-    @Override
+   /* @Override
     public String toString() {
         return "Minion{" +
                 "mana=" + mana +
@@ -96,5 +96,5 @@ public class Minion extends Army {
                 ", price=" + price +
                 ", type=" + type +
                 '}';
-    }
+    }*/
 }
