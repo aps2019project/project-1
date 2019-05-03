@@ -14,9 +14,13 @@ import java.util.regex.*;
 
 class ShopHandler extends Handler {
 
+    ShopHandler() {
+        ShopScreen.showOptions();
+        handleCommands();
+    }
+
     @Override
     void handleCommands() {
-        Matcher matcher;
         while (scanner.hasNext()) {
             command = scanner.nextLine().toLowerCase().trim();
             if (command.matches("exit")) {
