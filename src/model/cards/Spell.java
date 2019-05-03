@@ -77,7 +77,7 @@ public class Spell extends Card {
     }
 
     public static void FireballEffect(Army army){
-
+        army.getDamaged(4);
     }
 
     public static void GodStrengthEffect(Hero hero){
@@ -89,7 +89,7 @@ public class Spell extends Card {
     }
 
     public static void LightingBoltEffect(Hero hero){
-
+        hero.getDamaged(8);
     }
 
     public static void PoisonLakeEffect(ArrayList<Cell> array){
