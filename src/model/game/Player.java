@@ -113,4 +113,7 @@ public class Player {
         }
         return false;
     }
+
+    public Player getEnemyPlayer(){
+    }
 }

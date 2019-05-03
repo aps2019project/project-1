@@ -10,6 +10,7 @@ import static model.game.GameType.*;
 import static model.variables.GlobalVariables.*;
 
 public class Game {
+    private static Game currentGame;
     private Player firstPlayer;
     private Player secondPlayer;
     private ArrayList<ArrayList<Cell>> table = new ArrayList<>();
@@ -31,7 +32,13 @@ public class Game {
         firstPlayer = new Player(firstAccount);
         secondPlayer = new Player(secondAccount);
         this.type = type;
+        currentGame = this;
      }
+
+    public static Game getCurrentGame() {
+        return currentGame;
+    }
+
     public void startMatch() {
         firstPlayer.putHeroIn(table.get(TABLE_HEIGHT /2).get(0));
         secondPlayer.putHeroIn(table.get(TABLE_HEIGHT /2).get(TABLE_WIDTH -1));
