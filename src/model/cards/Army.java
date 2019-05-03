@@ -93,7 +93,7 @@ public class Army extends Card {
     public int haveBuff(Class buffClass) {
         int sum = 0;
         for (Buff buff : this.getBuffs()) {
-            if (buff.getClass() == buffClass) {
+            if (buff.getClass() == buffClass && buff.getTurns() != 0) {
                 sum += buff.getNumber();
             }
         }
@@ -166,6 +166,17 @@ public class Army extends Card {
                     break;
             }
         }
+    }
+
+    public void attack(Army army) {
+        army.getDamaged(this.getAp());
+    }
+
+    public void getDamaged(int number) {
+        int holyBuffs = this.haveBuff(Holy.class);
+        if(holyBuffs > number) return;
+        else number -= holyBuffs;
+        this.setHp(this.getHp() - number);
     }
 
 }

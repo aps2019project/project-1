@@ -84,5 +84,16 @@ public class Spell extends Card {
         hero.setAp(hero.getAp() + 4);
     }
 
+    public static void HellFireEffect(ArrayList<Cell> array){
+
+    }
+
+    public static void LightingBoltEffect(Hero hero){
+
+    }
+
+    public static void PoisonLakeEffect(ArrayList<Cell> array){
+
+    }
 
 }
