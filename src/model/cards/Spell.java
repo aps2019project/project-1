@@ -1,14 +1,14 @@
 package model.cards;
 
-import model.Buff.Buff;
 import model.Buff.BuffType;
 import model.Buff.Disarm;
 import model.game.Cell;
 import model.game.Player;
 import static model.Buff.BuffTImeType.*;
-import static model.Buff.BuffType.*;
 
 import java.util.ArrayList;
+
+import static model.cards.CardType.SPELL;
 
 public class Spell extends Card {
     private static ArrayList<Spell> spells = new ArrayList<>();
@@ -16,7 +16,7 @@ public class Spell extends Card {
     private SpellTarget spellTarget;
 
     Spell(String name, int price, int mana, String description, SpellTarget spellTarget) {
-        super(name, price, description);
+        super(name, price, description, SPELL);
         this.mana = mana;
         this.spellTarget = spellTarget;
         spells.add(this);
@@ -42,10 +42,14 @@ public class Spell extends Card {
 
     @Override
     public String toString() {
-        return "Type : Spell" +
-                " - Name : " + this.getName() +
-                " - MP : " + this.getMana() +
-                " - Desc : " + this.description;
+        return "Spell{" +
+                "mana=" + mana +
+                ", spellTarget=" + spellTarget +
+                ", ID=" + ID +
+                ", name='" + name + '\'' +
+                ", price=" + price +
+                ", type=" + type +
+                '}';
     }
 
     public SpellTarget getSpellTarget() {
@@ -53,17 +57,17 @@ public class Spell extends Card {
     }
 
     public static void TotalDisarmEffect(Army army) {
-        army.addBuff(new Disarm(1, -1));
+        army.addBuff(new Disarm(1, PERMANENT));
     }
 
     public static void AreaDispelEffect(ArrayList<Cell> array, Player player) {
         for (Cell cell : array) {
-            Card card = cell.getInsideCard();
-            if (card == null) continue;
-            if (player.haveCard(card)) {
-                ((Army)card).deleteBuffs(BuffType.NEGATIVE);
+            Army army = cell.getInsideArmy();
+            if (army == null) continue;
+            if (player.haveCard(army)) {
+                army.deleteBuffs(BuffType.NEGATIVE);
             } else{
-                ((Army)card).deleteBuffs(BuffType.POSITIVE);
+                army.deleteBuffs(BuffType.POSITIVE);
             }
         }
     }
