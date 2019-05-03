@@ -80,6 +80,7 @@ class ShopHandler extends Handler {
         }
         account.decreaseDaric(card.getPrice());
         account.addCardToCollection(card);
+        ShopScreen.showBuyWasSuccessfull();
 
     }
 
@@ -100,7 +101,7 @@ class ShopHandler extends Handler {
         }
         account.increaseDaric(card.getPrice());
         account.removeCardFromCollection(card);
-
+        ShopScreen.showSellWasSuccessfull();
     }
 
 }

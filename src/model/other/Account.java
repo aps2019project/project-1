@@ -137,7 +137,7 @@ public class Account {
     }
 
     public void removeCardFromCollection(Card card) {
-        // need conditions
+        collection.remove(card);
     }
 
     public static boolean doesAccountExist(String username) {
