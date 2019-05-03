@@ -3,6 +3,7 @@ package model.cards;
 import model.Buff.Power;
 import model.Buff.Stun;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
 import static model.Buff.BuffTImeType.*;
@@ -62,11 +63,16 @@ public class Hero extends Army {
                 '}';
     }
 
-    public static void WhiteDemonSpell(Hero hero){
-        hero.addBuff(new Power(4, AP, PERMANENT));
+    public void useSpell() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+        Hero.class.getDeclaredMethod(this.name).invoke(this);
     }
 
-    public static void SimorghSpell(ArrayList<Army> array){
+    public void WhiteDemonSpell(){
+        this.addBuff(new Power(4, AP, PERMANENT));
+    }
+
+    public void SimorghSpell(){
+        ArrayList<Army> array = new ArrayList<>();
         for(Army army : array){
             army.addBuff(new Stun(1, 1, NORMAL));
         }
