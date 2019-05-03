@@ -15,6 +15,7 @@ import java.util.regex.*;
 class ShopHandler extends Handler {
 
     ShopHandler() {
+        ShopScreen.showWelcomeLine();
         ShopScreen.showOptions();
         handleCommands();
     }

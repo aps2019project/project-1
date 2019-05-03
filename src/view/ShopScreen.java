@@ -7,6 +7,10 @@ import java.util.ArrayList;
 
 public class ShopScreen extends Screen {
 
+    public static void showWelcomeLine() {
+        System.out.println("\t\t\t_______________S H O P_______________");
+    }
+
     public static void showOptions() {
         System.out.println(" Things you can do here ______________________________________________");
         System.out.println("|                                                                     |");
