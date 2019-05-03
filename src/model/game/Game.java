@@ -39,6 +39,14 @@ public class Game {
         return currentGame;
     }
 
+    public Player getFirstPlayer() {
+        return firstPlayer;
+    }
+
+    public Player getSecondPlayer() {
+        return secondPlayer;
+    }
+
     public void startMatch() {
         firstPlayer.putHeroIn(table.get(TABLE_HEIGHT /2).get(0));
         secondPlayer.putHeroIn(table.get(TABLE_HEIGHT /2).get(TABLE_WIDTH -1));

@@ -115,5 +115,10 @@ public class Player {
     }
 
     public Player getEnemyPlayer(){
+        Game game = Game.getCurrentGame();
+        if(game.getFirstPlayer().equals(this))
+            return game.getSecondPlayer();
+        else
+            return game.getFirstPlayer();
     }
 }
