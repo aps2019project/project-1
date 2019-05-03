@@ -83,4 +83,13 @@ public class Hero extends Army {
         Army army = null;
         army.addBuff(new Disarm(1, PERMANENT));
     }
+
+    public void RakhshSpell(){
+        Army army = null;
+        army.addBuff(new Stun(1, 1, NORMAL));
+    }
+
+    public void KaveSpell(){
+
+    }
 }
