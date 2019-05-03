@@ -124,4 +124,8 @@ public class Spell extends Card {
         army.addBuff(new Holy(2, 3, NORMAL));
     }
 
+    public static void PowerUpEffect(Army army){
+        army.addBuff(new Power(6, AP, PERMANENT));
+    }
+
 }
