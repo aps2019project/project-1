@@ -1,7 +1,12 @@
 package model.cards;
 
+import model.Buff.Power;
+import model.Buff.Stun;
+
 import java.util.ArrayList;
 
+import static model.Buff.BuffTImeType.*;
+import static model.Buff.PowerBuffType.*;
 import static model.cards.CardType.HERO;
 
 public class Hero extends Army {
@@ -55,5 +60,15 @@ public class Hero extends Army {
                 ", price=" + price +
                 ", type=" + type +
                 '}';
+    }
+
+    public static void WhiteDemonSpell(Hero hero){
+        hero.addBuff(new Power(4, AP, PERMANENT));
+    }
+
+    public static void SimorghSpell(ArrayList<Army> array){
+        for(Army army : array){
+            army.addBuff(new Stun(1, 1, NORMAL));
+        }
     }
 }
