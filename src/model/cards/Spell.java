@@ -1,9 +1,6 @@
 package model.cards;
 
-import model.Buff.BuffType;
-import model.Buff.Disarm;
-import model.Buff.Holy;
-import model.Buff.Poision;
+import model.Buff.*;
 import model.game.Cell;
 import model.game.Player;
 
@@ -12,6 +9,7 @@ import static model.Buff.BuffTImeType.*;
 import java.util.ArrayList;
 
 import static model.Buff.BuffType.*;
+import static model.Buff.PowerBuffType.*;
 import static model.cards.CardType.SPELL;
 
 public class Spell extends Card {
@@ -119,6 +117,11 @@ public class Spell extends Card {
         } else {
             army.deleteBuffs(POSITIVE);
         }
+    }
+
+    public static void HealthWithProfitEffect(Army army){
+        army.addBuff(new Weakness(6, HP, PERMANENT));
+        army.addBuff(new Holy(2, 3, NORMAL));
     }
 
 }
