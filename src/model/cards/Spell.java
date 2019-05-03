@@ -135,10 +135,15 @@ public class Spell extends Card {
         }
     }
 
-    public static void AllAttackEffect(ArrayList<Army> array){
-        for(Army army : array){
+    public static void AllAttackEffect(ArrayList<Army> array) {
+        for (Army army : array) {
             army.getDamaged(6);
         }
     }
+
+    public static void WeakeningEffect(Army army){
+        army.addBuff(new Weakness(4, AP, PERMANENT));
+    }
+
 
 }

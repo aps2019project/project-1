@@ -179,9 +179,13 @@ public class Army extends Card {
 
     public void getDamaged(int number) {
         int holyBuffs = this.haveBuff(Holy.class);
-        if (holyBuffs > number) return;
-        else number -= holyBuffs;
-        this.setHp(this.getHp() - number);
+        if (holyBuffs < number) {
+            number -= holyBuffs;
+            this.setHp(this.getHp() - number);
+        }
+        if (this instanceof Minion && ((Minion) this).getSpTime() == ON_DEFEND){
+
+        }
     }
 
 }
