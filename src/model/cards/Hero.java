@@ -1,9 +1,6 @@
 package model.cards;
 
-import model.Buff.BuffType;
-import model.Buff.Disarm;
-import model.Buff.Power;
-import model.Buff.Stun;
+import model.Buff.*;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -104,6 +101,10 @@ public class Hero extends Army {
     public void AfsaneSpell(){
         Army army = null;
         army.deleteBuffs(BuffType.POSITIVE);
+    }
+
+    public void EsfandiarSpell(){
+        this.addBuff(new Holy(3, CONTINUOUS));
     }
 
 }
