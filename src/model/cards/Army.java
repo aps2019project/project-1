@@ -6,11 +6,13 @@ import model.variables.CardsArray;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import static model.cards.SPTime.*;
+
 public class Army extends Card {
     protected int hp, ap, ar;
     protected AttackType attackType;
     protected ArrayList<Buff> buffs = new ArrayList<>();
-    protected boolean isStuned;
+    protected boolean isStunned;
     protected boolean isDisarmed;
 
     public Army(String name, int price, String description, int hp, int ap, int ar, AttackType attackType, CardType cardType) {
@@ -42,7 +44,7 @@ public class Army extends Card {
     }
 
     public boolean isStuned() {
-        return isStuned;
+        return isStunned;
     }
 
     public boolean isDisarmed() {
@@ -120,7 +122,7 @@ public class Army extends Card {
         if (buff instanceof Disarm) {
             this.isDisarmed = true;
         } else if (buff instanceof Stun) {
-            this.isStuned = true;
+            this.isStunned = true;
         } else if (buff instanceof Power) {
             switch (((Power) buff).getType()) {
                 case AP:
@@ -146,7 +148,7 @@ public class Army extends Card {
         if (buff instanceof Disarm && this.haveBuff(Disarm.class) == 0) {
             this.isDisarmed = false;
         } else if (buff instanceof Stun && this.haveBuff(Stun.class) == 0) {
-            this.isStuned = false;
+            this.isStunned = false;
         } else if (buff instanceof Power) {
             switch (((Power) buff).getType()) {
                 case AP:
@@ -170,11 +172,14 @@ public class Army extends Card {
 
     public void attack(Army army) {
         army.getDamaged(this.getAp());
+        if (this instanceof Minion && ((Minion) this).getSpTime() == ON_ATTACK){
+
+        }
     }
 
     public void getDamaged(int number) {
         int holyBuffs = this.haveBuff(Holy.class);
-        if(holyBuffs > number) return;
+        if (holyBuffs > number) return;
         else number -= holyBuffs;
         this.setHp(this.getHp() - number);
     }
