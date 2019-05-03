@@ -141,9 +141,23 @@ public class Spell extends Card {
         }
     }
 
-    public static void WeakeningEffect(Army army){
+    public static void WeakeningEffect(Army army) {
         army.addBuff(new Weakness(4, AP, PERMANENT));
     }
+
+    public static void SacrificeEffect(Army army){
+        army.addBuff(new Weakness(6, HP, PERMANENT));
+        army.addBuff(new Power(8, AP, PERMANENT));
+    }
+
+    public static void KingsGuardEffect(Army army){
+        army.setHp(0);
+    }
+
+    public static void ShockEffect(Army army){
+        army.addBuff(new Stun(1, 2, NORMAL));
+    }
+
 
 
 }
