@@ -34,8 +34,9 @@ public class Army extends Card {
     }
 
     public void decreaseHp(int decreaseNumber) {
-        hp-=decreaseNumber;
+        hp -= decreaseNumber;
     }
+
     public AttackType getAttackType() {
         return attackType;
     }
@@ -105,7 +106,7 @@ public class Army extends Card {
         } else if (buff instanceof Stun) {
             this.isStuned = true;
         } else if (buff instanceof Power) {
-            switch (((Power) buff).getType()){
+            switch (((Power) buff).getType()) {
                 case AP:
                     this.ap += buff.getNumber();
                     break;
@@ -114,7 +115,7 @@ public class Army extends Card {
                     break;
             }
         } else if (buff instanceof Weakness) {
-            switch (((Weakness) buff).getType()){
+            switch (((Weakness) buff).getType()) {
                 case AP:
                     this.ap -= buff.getNumber();
                     break;
@@ -126,6 +127,29 @@ public class Army extends Card {
     }
 
     public void deactivateBuff(Buff buff) {
+        if (buff instanceof Disarm && this.haveBuff(Disarm.class) == 0) {
+            this.isDisarmed = false;
+        } else if (buff instanceof Stun && this.haveBuff(Stun.class) == 0) {
+            this.isStuned = false;
+        } else if (buff instanceof Power) {
+            switch (((Power) buff).getType()) {
+                case AP:
+                    this.ap -= buff.getNumber();
+                    break;
+                case HP:
+                    this.hp -= buff.getNumber();
+                    break;
+            }
+        } else if (buff instanceof Weakness) {
+            switch (((Weakness) buff).getType()) {
+                case AP:
+                    this.ap += buff.getNumber();
+                    break;
+                case HP:
+                    this.hp += buff.getNumber();
+                    break;
+            }
+        }
     }
 
 }
