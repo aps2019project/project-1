@@ -3,6 +3,7 @@ package model.cards;
 import model.Buff.BuffType;
 import model.Buff.Disarm;
 import model.Buff.Holy;
+import model.Buff.Poision;
 import model.game.Cell;
 import model.game.Player;
 
@@ -106,6 +107,12 @@ public class Spell extends Card {
     public static void AllDisarmEffect(ArrayList<Army> array){
         for(Army army : array){
             army.addBuff(new Disarm(1, 1, NORMAL));
+        }
+    }
+
+    public static void AllPoisonEffect(ArrayList<Army> array){
+        for(Army army : array){
+            army.addBuff(new Poision(4, NORMAL));
         }
     }
 
