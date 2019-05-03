@@ -11,6 +11,7 @@ import static model.Buff.BuffTImeType.*;
 
 import java.util.ArrayList;
 
+import static model.Buff.BuffType.*;
 import static model.cards.CardType.SPELL;
 
 public class Spell extends Card {
@@ -67,11 +68,7 @@ public class Spell extends Card {
         for (Cell cell : array) {
             Army army = cell.getInsideArmy();
             if (army == null) continue;
-            if (player.haveCard(army)) {
-                army.deleteBuffs(BuffType.NEGATIVE);
-            } else {
-                army.deleteBuffs(BuffType.POSITIVE);
-            }
+            Spell.DispelEffect(army, player);
         }
     }
 
@@ -113,6 +110,14 @@ public class Spell extends Card {
     public static void AllPoisonEffect(ArrayList<Army> array){
         for(Army army : array){
             army.addBuff(new Poision(4, NORMAL));
+        }
+    }
+
+    public static void DispelEffect(Army army, Player player){
+        if (player.haveCard(army)) {
+            army.deleteBuffs(NEGATIVE);
+        } else {
+            army.deleteBuffs(POSITIVE);
         }
     }
 
