@@ -132,7 +132,7 @@ public class Account {
     }
 
     public void addCardToCollection(Card card) {
-        // need conditions
+        collection.add(card);
     }
 
     public void removeCardFromCollection(Card card) {

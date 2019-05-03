@@ -1,7 +1,6 @@
 package control;
 
 import model.cards.Card;
-import model.cards.CardType;
 import model.game.Deck;
 import model.other.Account;
 import model.variables.CardsArray;
