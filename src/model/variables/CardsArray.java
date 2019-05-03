@@ -59,6 +59,7 @@ public class CardsArray {
     public Card find(Card card) {
         return find(card.getID().getValue());
     }
+
     public Card find(String IDValue) {
         for (Card card : allCards) {
             if (card.isSameAs(IDValue))
@@ -84,13 +85,17 @@ public class CardsArray {
             return false;
         }
     }
+
     public void remove(Card card) {
         allCards.remove(card);
     }
+
     public void remove(int index) {
         allCards.remove(index);
     }
+
     public void clear() {allCards.clear();}
+
     public Card pick(int index) {
             Card card =  allCards.get(index);
             this.remove(card);
@@ -104,6 +109,7 @@ public class CardsArray {
         }
         return copyFromCardList;
     }
+
     public void showCards() {
         int counter = 1;
         for(Card card : allCards) {
@@ -116,4 +122,5 @@ public class CardsArray {
     private void sortCards() {
         allCards.sort(Comparator.comparing(Card::getType));
     }
+
 }
