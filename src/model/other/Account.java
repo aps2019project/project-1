@@ -12,6 +12,7 @@ public class Account {
 
     private static ArrayList<Account> accounts = new ArrayList<>();
     private static Account currentAccount = null;
+
     private String username;
     private String password;
     private CardsArray collection;
@@ -162,7 +163,7 @@ public class Account {
     private static void sortAccounts() {
         accounts.sort((Account a1, Account a2) -> {
             if (a1.getWonGames() == a2.getWonGames())
-                return a2.username.compareTo(a1.password);
+                return a1.username.compareTo(a2.password);
             return a2.getWonGames() - a1.getWonGames();
         });
     }

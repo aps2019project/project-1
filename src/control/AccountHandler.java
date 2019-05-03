@@ -6,7 +6,9 @@ import view.AccountScreen;
 class AccountHandler extends Handler {
 
     AccountHandler(){
-
+        AccountScreen.showWelcomeLine();
+        AccountScreen.showHelpMenu();
+        handleCommands();
     }
 
     @Override
@@ -51,6 +53,8 @@ class AccountHandler extends Handler {
             String password = scanner.nextLine().trim();
             if (Account.checkIfPasswordIsCorrect(username, password)) {
                 Account.setCurrentAccount(Account.findAccount(username));
+
+                new MenuHandler();
             } else {
                 AccountScreen.showWrongPassword();
             }
@@ -65,8 +69,15 @@ class AccountHandler extends Handler {
             AccountScreen.showAccountCreationError();
         } else {
             AccountScreen.showScanPassword();
-            String password = scanner.nextLine().trim();
-            Account.setCurrentAccount(new Account(username, password));
+            String password1 = scanner.nextLine().trim();
+            AccountScreen.showConfirmPassword();
+            String password2 = scanner.nextLine().trim();
+            if (password1.equals(password2)) {
+                Account.setCurrentAccount(new Account(username, password1));
+                new MenuHandler();
+            }
+            else
+                AccountScreen.showConfirmPasswordFail();
         }
     }
 
