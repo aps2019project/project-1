@@ -6,6 +6,7 @@ import model.game.Player;
 
 import static model.Buff.BuffTImeType.*;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import static model.Buff.BuffType.*;
@@ -131,6 +132,12 @@ public class Spell extends Card {
     public static void AllPowerEffect(ArrayList<Army> array) {
         for (Army army : array) {
             army.addBuff(new Power(2, AP, PERMANENT));
+        }
+    }
+
+    public static void AllAttackEffect(ArrayList<Army> array){
+        for(Army army : array){
+            army.getDamaged(6);
         }
     }
 
