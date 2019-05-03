@@ -99,19 +99,19 @@ public class Spell extends Card {
         army.addBuff(new Disarm(1, 3, NORMAL));
     }
 
-    public static void AllDisarmEffect(ArrayList<Army> array){
-        for(Army army : array){
+    public static void AllDisarmEffect(ArrayList<Army> array) {
+        for (Army army : array) {
             army.addBuff(new Disarm(1, 1, NORMAL));
         }
     }
 
-    public static void AllPoisonEffect(ArrayList<Army> array){
-        for(Army army : array){
+    public static void AllPoisonEffect(ArrayList<Army> array) {
+        for (Army army : array) {
             army.addBuff(new Poision(4, NORMAL));
         }
     }
 
-    public static void DispelEffect(Army army, Player player){
+    public static void DispelEffect(Army army, Player player) {
         if (player.haveCard(army)) {
             army.deleteBuffs(NEGATIVE);
         } else {
@@ -119,13 +119,19 @@ public class Spell extends Card {
         }
     }
 
-    public static void HealthWithProfitEffect(Army army){
+    public static void HealthWithProfitEffect(Army army) {
         army.addBuff(new Weakness(6, HP, PERMANENT));
         army.addBuff(new Holy(2, 3, NORMAL));
     }
 
-    public static void PowerUpEffect(Army army){
+    public static void PowerUpEffect(Army army) {
         army.addBuff(new Power(6, AP, PERMANENT));
+    }
+
+    public static void AllPowerEffect(ArrayList<Army> array) {
+        for (Army army : array) {
+            army.addBuff(new Power(2, AP, PERMANENT));
+        }
     }
 
 }
