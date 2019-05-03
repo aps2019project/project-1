@@ -5,11 +5,11 @@ import model.game.Flag;
 import model.game.Player;
 import model.other.Account;
 import model.variables.*;
-import java.util.ArrayList;
 
 public class Card implements Cloneable{
+
     protected static CardsArray cards = new CardsArray();
-    protected model.variables.ID ID;
+    protected ID ID;
     protected String name;
     protected int price;
     protected Account account;
