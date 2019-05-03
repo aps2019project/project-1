@@ -1,5 +1,6 @@
 package model.cards;
 
+import model.Buff.Disarm;
 import model.Buff.Power;
 import model.Buff.Stun;
 
@@ -76,5 +77,10 @@ public class Hero extends Army {
         for(Army army : array){
             army.addBuff(new Stun(1, 1, NORMAL));
         }
+    }
+
+    public void DragonSpell(){
+        Army army = null;
+        army.addBuff(new Disarm(1, PERMANENT));
     }
 }
