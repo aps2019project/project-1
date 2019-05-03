@@ -36,6 +36,7 @@ public class Cell {
     public boolean put(Army army,int turnNumber) {
         if(this.isEmpty() || army == null) return false;
         this.insideArmy = army;
+        army.setWhereItIs(this);
         if(flag != null) {
             flag.takeBy(army,turnNumber);
         }
@@ -44,6 +45,7 @@ public class Cell {
     public Army pick() {
         Army army = insideArmy;
         insideArmy = null;
+        army.setWhereItIs(null);
         return army;
     }
     public void add(Flag flag) {
