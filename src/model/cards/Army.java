@@ -95,6 +95,7 @@ public class Army extends Card {
             } else {
                 iterator.remove();
             }
+            this.deactivateBuff(buff);
         }
     }
 
@@ -112,11 +113,19 @@ public class Army extends Card {
                     this.hp += buff.getNumber();
                     break;
             }
+        } else if (buff instanceof Weakness) {
+            switch (((Weakness) buff).getType()){
+                case AP:
+                    this.ap -= buff.getNumber();
+                    break;
+                case HP:
+                    this.hp -= buff.getNumber();
+                    break;
+            }
         }
     }
 
     public void deactivateBuff(Buff buff) {
-
     }
 
 }
