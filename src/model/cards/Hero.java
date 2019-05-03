@@ -92,4 +92,11 @@ public class Hero extends Army {
     public void KaveSpell(){
 
     }
+
+    public void ArashSpell(){
+        ArrayList<Army> array = new ArrayList<>();
+        for(Army army : array){
+            army.setAp(army.getAp() + 4);
+        }
+    }
 }
