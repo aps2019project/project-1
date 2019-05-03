@@ -76,4 +76,13 @@ public class Spell extends Card {
         army.setAp(army.getAp() + 2);
     }
 
+    public static void FireballEffect(Army army){
+
+    }
+
+    public static void GodStrengthEffect(Hero hero){
+        hero.setAp(hero.getAp() + 4);
+    }
+
+
 }
