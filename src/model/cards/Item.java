@@ -1,12 +1,14 @@
 package model.cards;
 
 import model.Buff.Holy;
+import model.Buff.Power;
+import model.game.Game;
 import model.game.Player;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
 import static model.Buff.BuffTImeType.*;
+import static model.Buff.PowerBuffType.*;
 import static model.cards.AttackType.*;
 import static model.cards.CardType.ITEM;
 
@@ -74,17 +76,13 @@ public class Item extends Card {
     }
 
     public static void NooshdaruCollectible(Player player, Army army) {
-        ArrayList<Army> array = new ArrayList<>();
-        array.addAll(player.getInGameCards());
-        array.addAll(player.getEnemyPlayer().getInGameCards());
+        ArrayList<Army> array = Game.getCurrentGame().getAllInGameCards();
         Army armyTemp = Army.getRandomArmy(array);
         armyTemp.setHp(armyTemp.getHp() + 6);
     }
 
     public static void TwoHeadArrowCollectible(Player player, Army army) {
-        ArrayList<Army> array = new ArrayList<>();
-        array.addAll(player.getInGameCards());
-        array.addAll(player.getEnemyPlayer().getInGameCards());
+        ArrayList<Army> array = Game.getCurrentGame().getAllInGameCards();
         boolean thereIsRangedOrHybrid = false;
         for(Army armyTemp : array) {
             if(armyTemp.getAttackType()!= MELEE) {
@@ -101,5 +99,30 @@ public class Item extends Card {
             }
         }
     }
+
+    public static void ElixirEffect(Player player, Army army) {
+        ArrayList<Army> array = Game.getCurrentGame().getAllInGameCards();
+        army.setHp(army.getHp() + 3);
+        boolean thereIsMinion = false;
+        for(Army armyTemp : array) {
+            if(armyTemp instanceof Minion) {
+                thereIsMinion = true;
+                break;
+            }
+        }
+        if(!thereIsMinion) return;
+        while(true){
+            Army armyTemp = Army.getRandomArmy(array);
+            if(armyTemp instanceof Minion) {
+                armyTemp.addBuff(new Power(3, AP, NORMAL));
+                return;
+            }
+        }
+    }
+
+    public static void ManaPotionEffect(Player player, Army army) {
+
+    }
+
 
 }
