@@ -56,21 +56,21 @@ public class BattleHandler extends Handler{
             }else if (command.matches("show collectables")) {
                 //
             }else if (command.matches("show info")) {
-                \\
+                //
             }else if (command.matches("use (\\d+,\\d+)")) {
-                \\
+                //
             }else if (command.matches("show next card")) {
-                \\
+                //
             }else if (command.matches("enter graveyard")) {
-                \\
+                //
             }else if (command.matches("show info \\d+")) {
-                \\
+                //
             }else if (command.matches("show cards")) {
-                \\
+                //
             }else if (command.matches("help")) {
-                \\
+                //
             } else {
-                \\
+                //
             }
         }
     }

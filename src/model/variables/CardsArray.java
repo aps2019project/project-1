@@ -103,13 +103,13 @@ public class CardsArray {
     }
 
     public void remove(String name) {
-        allCards.remove(findBYName(name));
+        allCards.remove(findByName(name));
     }
 
     public void clear() {allCards.clear();}
 
     public Card pick(String name) {
-        Card card =  findBYName(name);
+        Card card =  findByName(name);
         this.remove(card);
         return card;
     }
