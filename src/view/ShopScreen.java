@@ -79,12 +79,12 @@ public class ShopScreen extends Screen {
         System.out.println("something went wrong... try again");
     }
 
-    public static void showBuyWasSuccessfull() {
+    public static void showBuyWasSuccessful() {
         System.out.println("Card added to your collection successfully");
         System.out.println("Remaining Daric: " + Account.getCurrentAccount().getDaric() + "D");
     }
 
-    public static void showSellWasSuccessfull() {
+    public static void showSellWasSuccessful() {
         System.out.println("Card sold successfully");
         System.out.println("Remaining Daric: " + Account.getCurrentAccount().getDaric() + "D");
     }

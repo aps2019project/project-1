@@ -13,6 +13,9 @@ public class Deck {
     private Item item;
     private Card nextCard;
 
+    public Deck() {
+    }
+
     public Deck(String name) {
         this.name = name;
         cards = new CardsArray();

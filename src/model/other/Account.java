@@ -18,7 +18,7 @@ public class Account {
     private CardsArray collection = new CardsArray();
     private ArrayList<Deck> allDecks = new ArrayList<>();
     private ArrayList<MatchResult> matchHistory = new ArrayList<>();
-    private Deck mainDeck;
+    private Deck mainDeck = new Deck();
     private int daric = 15000;
     private StoryProgress storyProgress;
 
