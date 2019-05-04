@@ -82,7 +82,7 @@ class CollectionHandler extends Handler{
     }
 
     private void checkDeckValidation() {
-        String deckName = command.split("")[1];
+        String deckName = command.split(" ")[1];
         Deck deck = Account.getCurrentAccount().findDeck(deckName);
         if (deck == null) {
             CollectionScreen.showDeckNotFound();
@@ -132,7 +132,7 @@ class CollectionHandler extends Handler{
 
     private void addCardToDeck(Card card, Deck deck) {
         if (deck.size() >= 20)
-            CollectionScreen.showDeckIsEmpty();
+            CollectionScreen.showDeckIsFull();
         else if (deck.getHero() != null && card.getType() == HERO)
             CollectionScreen.showCantAddHero();
         else if (deck.getItem() != null && card.getType() == ITEM)
