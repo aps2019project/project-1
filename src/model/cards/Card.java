@@ -1,6 +1,7 @@
 package model.cards;
 
 import control.CsvReader;
+import model.game.Cell;
 import model.game.Flag;
 import model.game.Player;
 import model.other.Account;
@@ -99,5 +100,9 @@ public class Card implements Cloneable{
 
     public String getDescription() {
         return description;
+    }
+
+    public int getNeededManaToPut() {
+        return 0;
     }
 }
