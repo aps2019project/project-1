@@ -39,4 +39,3 @@ NO.,Name,Price,Mana,Health Point,Attack Power,Type of Attack,Attack Range,Specia
 38,Siavash,350,4,8,5,melee,0,Deals 6 damage to enemy Hero on death,On death,-
 39,GiantKing,600,5,10,4,melee,0,for every giant that participates in attack (except itself) disarms enemy for one turn,Combo,Giant
 40,ArzhangDiv,600,3,6,6,melee,0,Gives a Weakness buff with -1 AP to enemy and for every demon (except itself and white demon) adds -3 to Weakness buff,Combo,Demon
-41,Snake,0,0,1,1,melee,0,None,-,-
