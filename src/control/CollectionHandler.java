@@ -29,9 +29,9 @@ class CollectionHandler extends Handler{
                 createNewDeck();
             } else if (command.matches("delete deck \\w+")) {
                 deleteDeck();
-            } else if (command.matches("add \\w+ to deck \\w+")) {
+            } else if (command.matches("add [^ ]+ to deck \\w+")) {
                 addAndRemoveCard(true);
-            } else if (command.matches("remove \\w+ from deck \\w+")) {
+            } else if (command.matches("remove [^ ]+ from deck \\w+")) {
                 addAndRemoveCard(false);
             } else if (command.matches("validate \\w+")) {
                 checkDeckValidation();
@@ -41,8 +41,10 @@ class CollectionHandler extends Handler{
                 printDeck();
             } else if (command.matches("show all decks")) {
                 showAllDecks();
+            } else if (command.matches("show")) {
+                CollectionScreen.showCardArray(Account.getCurrentAccount().getCollection());
             } else {
-                CollectionScreen.showDeckIsInvalid();
+                CollectionScreen.shoeInvalidCommand();
                 CollectionScreen.showOptions();
             }
         }
@@ -51,6 +53,8 @@ class CollectionHandler extends Handler{
     private void showAllDecks() {
         CollectionScreen.showMainDeck(Account.getCurrentAccount().getMainDeck());
         for (Deck deck : Account.getCurrentAccount().getAllDecks()) {
+            if (deck.equals(Account.getCurrentAccount().getMainDeck()))
+                continue;
             CollectionScreen.showDeckDetails(deck);
         }
     }
@@ -99,7 +103,7 @@ class CollectionHandler extends Handler{
             Card card = Account.getCurrentAccount().getCollection().find(cardId);
             if (card == null)
                 CollectionScreen.showCardNotFound();
-            else if (deck.getCards().find(card) == null) {
+            else if (deck.getCards().find(card) == null && !isAdd) {
                 CollectionScreen.showCardNotFound();
             }
             else {
