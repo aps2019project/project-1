@@ -1,12 +1,12 @@
 NO.,Name,Price,Mana,Target,Effect
 1,TotalDisarm,1000,0,one enemy,Disarm to the end of game
-2,AreaDispel,1500,2,square2,it delet enemys possetive buffs and our negative buffs
+2,AreaDispel,1500,2,square 2*2,it delet enemys possetive buffs and our negative buffs
 3,Empower,250,1,one friend,increase hit power of one person 2 units
 4,Fireball,400,1,one enemy,hit 4 unit to one enemy
 5,GodStrength,450,2,hero friend,increase hit power of one hero 4 units
-6,HellFire,600,3,square2,make fiery effect in 2 cells for 2 turns
+6,HellFire,600,3,square 2*2,make fiery effect in 2 cells for 2 turns
 7,LightingBolt,1250,2,hero enemy,hit 8 units to the hero
-8,PoisonLake,900,5,square3,make poisond 8 cells for one turn
+8,PoisonLake,900,5,square 3*3,make poisond 8 cells for one turn
 9,Madness,650,0,one friend,increase hit power of one person 4 units for 3 turns but it disarm
 10,AllDisarm,2000,9,all enemies,disarm for one turn
 11,AllPoison,1500,8,all enemies,all heros poisonds for 4 turns
