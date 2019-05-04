@@ -72,4 +72,13 @@ public class Item extends Card {
     public static void KingWisdomUsable(Player player) {
 
     }
+
+    public static void NooshdaruCollectible(Player player, Army army){
+        ArrayList<Army> array = new ArrayList<>();
+        array.addAll(player.getInGameCards());
+        array.addAll(player.getEnemyPlayer().getInGameCards());
+        Army armyTemp = Army.getRandomArmy(array);
+        armyTemp.setHp(armyTemp.getHp() + 6);
+    }
+
 }

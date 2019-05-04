@@ -211,7 +211,7 @@ public class Army extends Card {
         this.attack(army);
     }
 
-    public Army getRandomArmy(ArrayList<Army> array){
+    public static Army getRandomArmy(ArrayList<Army> array){
         int random = (new Random()).nextInt(array.size());
         return array.get(random);
     }
