@@ -189,5 +189,15 @@ public class Player {
         return army;
     }
 
+    public Army getOneEnemy(){
+        //
+        return null;
+    }
+
+    public ArrayList<Army> getEnemiesInHeroRow(){
+        ArrayList<Army> army = new ArrayList<>();
+        //
+        return null;
+    }
 
 }
