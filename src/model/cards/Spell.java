@@ -107,7 +107,7 @@ public class Spell extends Card {
 
     public static void AllPoisonEffect(ArrayList<Army> array) {
         for (Army army : array) {
-            army.addBuff(new Poision(4, NORMAL));
+            army.addBuff(new Poison(4, NORMAL));
         }
     }
 

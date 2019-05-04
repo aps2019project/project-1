@@ -1,10 +1,10 @@
 package model.Buff;
 
-public class Poision extends Buff {
-    public Poision(BuffTImeType buffTImeType){
+public class Poison extends Buff {
+    public Poison(BuffTImeType buffTImeType){
         super(1, BuffType.NEGATIVE, buffTImeType);
     }
-    public Poision(int turns, BuffTImeType buffTImeType){
+    public Poison(int turns, BuffTImeType buffTImeType){
         super(1, turns, BuffType.NEGATIVE, buffTImeType);
     }
 }

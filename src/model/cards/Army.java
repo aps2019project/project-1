@@ -172,7 +172,7 @@ public class Army extends Card {
 
     public void attack(Army army) {
         army.getDamaged(this.getAp());
-        if (this instanceof Minion && ((Minion) this).getSpTime() == ON_ATTACK){
+        if (this instanceof Minion && ((Minion) this).getSpTime() == ON_ATTACK) {
 
         }
     }
@@ -183,9 +183,14 @@ public class Army extends Card {
             number -= holyBuffs;
             this.setHp(this.getHp() - number);
         }
-        if (this instanceof Minion && ((Minion) this).getSpTime() == ON_DEFEND){
+        if (this instanceof Minion && ((Minion) this).getSpTime() == ON_DEFEND) {
 
         }
+    }
+
+    public void counterAttack(Army army) {
+        if(this.isDisarmed) return;
+        this.attack(army);
     }
 
 }

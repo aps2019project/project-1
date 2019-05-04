@@ -17,5 +17,5 @@ NO.,Name,Price,Mana,Target,Effect
 16,AllAttack,1500,4,all enemies in one column,hit all enemys 6 units
 17,Weakening,1000,1,one minion enemy,Gives  weakness buff -4 AP
 18,Sacrifice,1600,3,one minion friend,Gives weakness buff -6 HP and power buff +8 AP
-19,KingsGuard,1750,3,radndom enemy minion around hero,killes enemy
+19,KingsGuard,1750,3,random enemy minion around hero,killes enemy
 20,Shock,1200,1,one enemy,stun for 2 turns
