@@ -6,6 +6,7 @@ import model.other.Account;
 import model.variables.CardsArray;
 import view.CollectionScreen;
 
+import static control.HandlerType.MENU;
 import static model.cards.CardType.HERO;
 import static model.cards.CardType.ITEM;
 
@@ -14,15 +15,14 @@ class CollectionHandler extends Handler{
     CollectionHandler() {
         CollectionScreen.showWelcomeLine();
         CollectionScreen.showOptions();
-        handleCommands();
     }
 
     @Override
-    void handleCommands() {
+    HandlerType handleCommands() {
         while (scanner.hasNext()) {
             command = scanner.nextLine().trim().toLowerCase();
             if (command.matches("exit")) {
-                new MenuHandler();
+                return MENU;
             } else if (command.matches("search \\w+")) {
                 searchCard();
             } else if (command.matches("create deck \\w+")) {
@@ -48,6 +48,7 @@ class CollectionHandler extends Handler{
                 CollectionScreen.showOptions();
             }
         }
+        return null;
     }
 
     private void showAllDecks() {

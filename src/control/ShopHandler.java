@@ -5,27 +5,26 @@ import model.cards.CardType;
 import model.cards.Item;
 import model.cards.ItemType;
 import model.other.Account;
-import model.other.Shop;
 import model.variables.CardsArray;
-import model.variables.ID;
 import view.ShopScreen;
 
 import java.util.regex.*;
+
+import static control.HandlerType.MENU;
 
 class ShopHandler extends Handler {
 
     ShopHandler() {
         ShopScreen.showWelcomeLine();
         ShopScreen.showOptions();
-        handleCommands();
     }
 
     @Override
-    void handleCommands() {
+    HandlerType handleCommands() {
         while (scanner.hasNext()) {
             command = scanner.nextLine().toLowerCase().trim();
             if (command.matches("exit")) {
-                new MenuHandler();
+                return MENU;
             } else if (command.matches("show collection")) {
                 ShopScreen.showCardArray(Account.getCurrentAccount().getCollection(), "Sell");
             } else if (command.matches("show")) {
@@ -42,6 +41,7 @@ class ShopHandler extends Handler {
                 ShopScreen.showOptions();
             }
         }
+        return null;
     }
 
     private void search(CardsArray cardsArray, String name) {

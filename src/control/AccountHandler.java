@@ -3,26 +3,28 @@ package control;
 import model.other.Account;
 import view.AccountScreen;
 
+import static control.HandlerType.MENU;
+
 class AccountHandler extends Handler {
 
     AccountHandler(){
         AccountScreen.showWelcomeLine();
         AccountScreen.showHelpMenu();
-        handleCommands();
     }
 
     @Override
-    void handleCommands() {
+    HandlerType handleCommands() {
+        Account.saveAccountDetails();
         while (scanner.hasNext()) {
             command = scanner.nextLine().trim();
             if (command.matches("create account \\w+")) {
-                createNewAccount();
+                if (createNewAccount())
+                    return MENU;
             } else if (command.matches("login \\w+")) {
-                loginUser();
+                if (loginUser())
+                    return MENU;
             } else if (command.matches("show leaderboard")) {
                 showLeaderBoard();
-            } else if (command.matches("logout")) {
-                logout();
             }else if (command.matches("help")) {
                 AccountScreen.showHelpMenu();
             } else if (command.matches("exit")) {
@@ -33,14 +35,7 @@ class AccountHandler extends Handler {
                 AccountScreen.showHelpMenu();
             }
         }
-    }
-
-    private void logout() {
-        if (Account.getCurrentAccount() == null)
-            return;
-        Account.setCurrentAccount(null);
-        AccountScreen.showLogoutConfirm();
-        Account.saveAccountDetails();
+        return null;
     }
 
     private void showLeaderBoard() {
@@ -49,7 +44,7 @@ class AccountHandler extends Handler {
         }
     }
 
-    private void loginUser() {
+    private boolean loginUser() {
         String username = command.split(" ")[1];
         if (Account.doesAccountExist(username)) {
             AccountScreen.showScanPassword();
@@ -57,16 +52,17 @@ class AccountHandler extends Handler {
             if (Account.checkIfPasswordIsCorrect(username, password)) {
                 Account.setCurrentAccount(Account.findAccount(username));
 
-                new MenuHandler();
+                return true;
             } else {
                 AccountScreen.showWrongPassword();
             }
         } else {
             AccountScreen.showWrongUsername();
         }
+        return false;
     }
 
-    private void createNewAccount() {
+    private boolean createNewAccount() {
         String username = command.split(" ")[2];
         if (Account.doesAccountExist(username)) {
             AccountScreen.showAccountCreationError();
@@ -77,11 +73,12 @@ class AccountHandler extends Handler {
             String password2 = scanner.nextLine().trim();
             if (password1.equals(password2)) {
                 Account.setCurrentAccount(new Account(username, password1));
-                new MenuHandler();
+                return true;
             }
             else
                 AccountScreen.showConfirmPasswordFail();
         }
+        return false;
     }
 
 }
