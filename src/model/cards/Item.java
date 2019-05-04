@@ -1,14 +1,21 @@
 package model.cards;
 
+import model.Buff.Holy;
+import model.game.Player;
+
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
+import static model.Buff.BuffTImeType.*;
+import static model.cards.AttackType.*;
 import static model.cards.CardType.ITEM;
 
 public class Item extends Card {
     private static ArrayList<Item> items = new ArrayList<>();
     private ItemType itemType;
+    private SPTime itemEffectTime;
 
-    Item(String name, int price, ItemType itemType, String description){
+    Item(String name, int price, ItemType itemType, String description) {
         super(name, price, description, ITEM);
         this.itemType = itemType;
         items.add(this);
@@ -23,8 +30,12 @@ public class Item extends Card {
         return itemType;
     }
 
-    public static void scanItems(ArrayList<String[]> data){
-        for(String[] line : data){
+    public SPTime getItemEffectTime() {
+        return itemEffectTime;
+    }
+
+    public static void scanItems(ArrayList<String[]> data) {
+        for (String[] line : data) {
             new Item(line[1]
                     , Integer.parseInt(line[2])
                     , ItemType.valueOf(line[3].toUpperCase())
@@ -42,4 +53,32 @@ public class Item extends Card {
                 ", type=" + type +
                 '}';
     }
+
+    public static void WisdomCrownUsable(Player player) {
+
+    }
+
+    public static void HonorShieldUsbale(Player player) {
+        player.getHero().addBuff(new Holy(12, PERMANENT));
+    }
+
+    public static void SimurghFeatherUsable(Player player) {
+        Hero hero = player.getEnemyPlayer().getHero();
+        if (hero.getAttackType() == RANGED || hero.getAttackType() == HYBRID){
+            hero.setAp(hero.getAp() - 2);
+        }
+    }
+
+    public static void KingWisdomUsable(Player player) {
+
+    }
+
+    public static void NooshdaruCollectible(Player player, Army army){
+        ArrayList<Army> array = new ArrayList<>();
+        array.addAll(player.getInGameCards());
+        array.addAll(player.getEnemyPlayer().getInGameCards());
+        Army armyTemp = Army.getRandomArmy(array);
+        armyTemp.setHp(armyTemp.getHp() + 6);
+    }
+
 }

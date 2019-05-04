@@ -4,8 +4,6 @@ import model.Buff.*;
 import model.game.Cell;
 import model.game.Player;
 
-import javax.swing.plaf.metal.MetalBorders;
-
 import static model.Buff.BuffTImeType.*;
 
 import java.lang.reflect.InvocationTargetException;
@@ -18,14 +16,14 @@ import static model.cards.CardType.SPELL;
 public class Spell extends Card {
     private static ArrayList<Spell> spells = new ArrayList<>();
     private int mana;
-    private SpellTarget spellTarget;
+    private String target;
 
-    Spell(String name, int price, int mana, String description, SpellTarget spellTarget) {
+    Spell(String name, int price, int mana, String description, String target) {
         super(name, price, description, SPELL);
         this.mana = mana;
-        this.spellTarget = spellTarget;
         spells.add(this);
         cards.add(this);
+        this.target = target;
     }
 
     public static ArrayList<Spell> getSpells() {
@@ -41,7 +39,8 @@ public class Spell extends Card {
             new Spell(line[1], Integer.parseInt(line[2])
                     , Integer.parseInt(line[3])
                     , line[5]
-                    , SpellTarget.valueOf(line[4].toUpperCase().replace(" ", "_")));
+                    , line[4]);
+
         }
     }
 
@@ -49,7 +48,7 @@ public class Spell extends Card {
     public String toString() {
         return "Spell{" +
                 "mana=" + mana +
-                ", spellTarget=" + spellTarget +
+                ", spellTarget=" + target +
                 ", ID=" + ID +
                 ", name='" + name + '\'' +
                 ", price=" + price +
@@ -57,12 +56,9 @@ public class Spell extends Card {
                 '}';
     }
 
-    public SpellTarget getSpellTarget() {
-        return spellTarget;
-    }
 
-    public static void useSpell(Player player, String name) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
-        Spell.class.getDeclaredMethod(name + "Effect", Player.class).invoke(null, player);
+    public static void useSpell(Player player, String spellname) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+        Spell.class.getDeclaredMethod(spellname + "Effect", Player.class).invoke(null, player);
     }
 
     public static void TotalDisarmEffect(Player player) {

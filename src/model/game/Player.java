@@ -2,15 +2,16 @@ package model.game;
 
 import control.BattleHandler;
 import control.BattlesOrderType;
-import model.cards.Army;
-import model.cards.Card;
-import model.cards.Hero;
-import model.cards.Minion;
+import model.cards.*;
 import model.other.Account;
 import model.variables.CardsArray;
 
 import java.lang.reflect.Array;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+
+import static model.cards.AttackType.HYBRID;
+import static model.cards.AttackType.RANGED;
 
 public class Player {
 
@@ -28,10 +29,12 @@ public class Player {
     private boolean heroKilled = false;
     private Hero hero;
     private Cell selectedCardPlace;
+    private Item item;
 
     public Player(Account account) throws CloneNotSupportedException {
         this.account = account;
         this.deck = account.getMainDeck().copyAll();
+        this.item = this.deck.getItem();
     }
 
     public Cell getSelectedCardPlace() {
@@ -125,7 +128,7 @@ public class Player {
     public boolean attack(Cell attackersCell,Cell defenderCell) {
         if(attackersCell == null) return false;
         if(attackerCardsInThisTurn.find(attackersCell.getInsideArmy()) == null) return false;
-        return false;//
+            return false;//
     }
     public boolean attack(Cell defenderCell) {
         return attack(selectedCardPlace,defenderCell);
@@ -145,7 +148,24 @@ public class Player {
         }
         return false;
     }
-    public void useItem(){}
+
+    public void usableItemEffect(String itemName) throws IllegalAccessException, InvocationTargetException {
+        try {
+            Item.class.getDeclaredMethod(itemName + "Usable", Player.class).invoke(null, this);
+        } catch (NoSuchMethodException n){
+
+        }
+    }
+
+    public void collectibleItemEffect(String itemName, Army army) throws IllegalAccessException, InvocationTargetException {
+        try {
+            Item.class.getDeclaredMethod(itemName + "Collectible", Player.class, Army.class).invoke(null, this, army);
+        } catch (NoSuchMethodException n){
+
+        }
+    }
+
+
     public void startMatchSetup() { deck.fillHand(hand);
     }
     public void nextTurnSetup() {
