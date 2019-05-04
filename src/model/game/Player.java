@@ -15,6 +15,7 @@ public class Player {
     private Hand hand;
     private int mana;
     private CardsArray graveYard = new CardsArray();
+    private CardsArray inGameCards = new CardsArray();
     private CardsArray movedCardsInThisTurn = new CardsArray();
     private CardsArray attackerCardsInThisTurn = new CardsArray();
     private int turnNumber = 0;
@@ -115,6 +116,7 @@ public class Player {
         this.hero = hero;
         deck.deleteCard(hero);
         cell.put(hero,turnNumber);
+        this.inGameCards.add(hero);
     }
     public boolean attack(Cell attackersCell,Cell defenderCell) {
         if(attackersCell == null) return false;
@@ -133,6 +135,7 @@ public class Player {
                 mana -= cell.getInsideArmy().getNeededManaToPut();
                 movedCardsInThisTurn.add(card);
                 attackerCardsInThisTurn.add(card);
+                this.inGameCards.add(card);
                 return true;
             }
         }
@@ -171,5 +174,10 @@ public class Player {
         else
             return game.getFirstPlayer();
     }
+
+    public CardsArray getInGameCards() {
+        return inGameCards;
+    }
+
 
 }
