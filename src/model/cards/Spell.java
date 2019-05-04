@@ -6,6 +6,7 @@ import model.game.Player;
 
 import static model.Buff.BuffTImeType.*;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
 import static model.Buff.BuffType.*;
@@ -56,6 +57,10 @@ public class Spell extends Card {
 
     public SpellTarget getSpellTarget() {
         return spellTarget;
+    }
+
+    public static void useSpell(Player player, String name) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+        Spell.class.getDeclaredMethod(name + "Effect", Player.class).invoke(null, player);
     }
 
     public static void TotalDisarmEffect(Army army) {
