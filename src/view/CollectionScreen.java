@@ -122,26 +122,27 @@ public class CollectionScreen extends Screen {
         System.out.println("Hero:");
         for (int i = 1; i <= heroes.size(); ++i) {
             Hero hero = heroes.get(i - 1);
-            System.out.printf("\t%d: Name: [\"%s\"]  AP: %d - HP: %d Class: [%s] - Special power: %s\t Sell price: %dD\n",
-                    i, hero.getName(), hero.getAp(), hero.getHp(), hero.getAttackType().toString(),
+            System.out.printf("\t%d: Name: [\"%s\"] ID: %s AP: %d - HP: %d Class: [%s] - Special power: %s\t Sell price: %dD\n",
+                    i, hero.getName(), hero.getID().getValue(), hero.getAp(), hero.getHp(), hero.getAttackType().toString(),
                     hero.getDescription(), hero.getPrice());
         }
         System.out.println("Item:");
         for (int i = 1; i <= items.size(); ++i) {
             Item item = items.get(i - 1);
-            System.out.printf("\t%d: Name: [\"%s\"] - Desc: %s\n", i, item.getName(),
+            System.out.printf("\t%d: Name: [\"%s\"] - ID: %s - Desc: %s\n", i, item.getName(),
+                    item.getID().getValue(),
                     item.getDescription());
         }
         System.out.println("Cards:");
         for (int i = 1; i <= spells.size(); ++i) {
             Spell spell = spells.get(i - 1);
-            System.out.printf("\t%d: Type: SPELL  Name: [\"%s\"]  - MP: %d, Desc: %s\n",
-                    i, spell.getName(), spell.getMana(), spell.getDescription());
+            System.out.printf("\t%d: Type: SPELL  Name: [\"%s\"]  - ID: %s - MP: %d, Desc: %s\n",
+                    i, spell.getName(), spell.getID().getValue(), spell.getMana(), spell.getDescription());
         }
         for (int i = spells.size() + 1; i <= spells.size() + minions.size(); ++i) {
             Minion minion = minions.get(i - spells.size() - 1);
-            System.out.printf("\t%d: Type: MINION  Name: [\"%s\"] - Class: %s, AP: %d, HP: %d, MP: %d, Special power: %s\n",
-                    i, minion.getName(), minion.getAttackType().toString(), minion.getAp(),
+            System.out.printf("\t%d: Type: MINION  Name: [\"%s\"] - ID: %s - Class: %s, AP: %d, HP: %d, MP: %d, Special power: %s\n",
+                    i, minion.getName(), minion.getID().getValue(), minion.getAttackType().toString(), minion.getAp(),
                     minion.getHp(), minion.getMana(), minion.getDescription());
         }
     }
@@ -150,6 +151,10 @@ public class CollectionScreen extends Screen {
         System.out.println("Main Deck:____________________________________________");
         showDeckDetails(deck);
         System.out.println("______________________________________________________");
+    }
+
+    public static void showCloneError() {
+        System.out.println("Something went wrong: Card Cloning");
     }
 
 }
