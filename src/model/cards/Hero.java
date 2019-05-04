@@ -64,7 +64,7 @@ public class Hero extends Army {
     }
 
     public void useSpell(Player player) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
-        Hero.class.getDeclaredMethod(this.name).invoke(player);
+        Hero.class.getDeclaredMethod(this.name, Player.class).invoke(this, player);
     }
 
     public void WhiteDemonSpell(Player player){

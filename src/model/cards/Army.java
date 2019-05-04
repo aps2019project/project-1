@@ -173,6 +173,13 @@ public class Army extends Card {
     public void attack(Army army) {
         if(this.isStunned) return;
         army.getDamaged(this.getAp());
+        this.checkOnAttack(army);
+    }
+
+    public void checkOnAttack(Army army){
+        if (this.getName().equals("Zahack")){
+            army.addBuff(new Poison(3, BuffTImeType.NORMAL));
+        }
         if (this instanceof Minion && ((Minion) this).getSpTime() == ON_ATTACK) {
 
         }
