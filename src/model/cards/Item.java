@@ -144,5 +144,13 @@ public class Item extends Card {
         armyTemp.setAp(armyTemp.getAp() + 6);
     }
 
+    public static void ChiniSwordCollectible(Player player, Army army) {
+        if (army.getAttackType() == MELEE) {
+            army.setAp(army.getAp() + 5);
+        }
+
+    }
+
+
 
 }
