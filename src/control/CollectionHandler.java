@@ -104,7 +104,7 @@ class CollectionHandler extends Handler{
             Card card = Account.getCurrentAccount().getCollection().find(cardId);
             if (card == null)
                 CollectionScreen.showCardNotFound();
-            else if (deck.getCards().find(card) == null && !isAdd) {
+            else if (deck.getCards().findByName(card.getName()) == null && !isAdd) {
                 CollectionScreen.showCardNotFound();
             }
             else {
@@ -138,6 +138,11 @@ class CollectionHandler extends Handler{
         else if (deck.getItem() != null && card.getType() == ITEM)
             CollectionScreen.showCantAddItem();
         else {
+            try {
+                card = card.clone();
+            } catch (Exception e) {
+                CollectionScreen.showCloneError();
+            }
             deck.addCard(card);
             CollectionScreen.showCardAddedSuccessfully();
         }
