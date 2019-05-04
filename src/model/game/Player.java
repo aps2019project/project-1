@@ -149,13 +149,22 @@ public class Player {
         return false;
     }
 
-    public void usableItemEffect(String itemName) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+    public void usableItemEffect(String itemName) throws IllegalAccessException, InvocationTargetException {
         try {
             Item.class.getDeclaredMethod(itemName + "Usable", Player.class).invoke(null, this);
         } catch (NoSuchMethodException n){
 
         }
     }
+
+    public void collectibleItemEffect(String itemName, Army army) throws IllegalAccessException, InvocationTargetException {
+        try {
+            Item.class.getDeclaredMethod(itemName + "Collectible", Player.class, Army.class).invoke(null, this, army);
+        } catch (NoSuchMethodException n){
+
+        }
+    }
+
 
     public void startMatchSetup() { deck.fillHand(hand);
     }
