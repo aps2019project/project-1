@@ -1,7 +1,6 @@
 package model.cards;
 
-import model.Buff.Power;
-import model.Buff.Stun;
+import model.Buff.*;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -77,4 +76,35 @@ public class Hero extends Army {
             army.addBuff(new Stun(1, 1, NORMAL));
         }
     }
+
+    public void DragonSpell(){
+        Army army = null;
+        army.addBuff(new Disarm(1, PERMANENT));
+    }
+
+    public void RakhshSpell(){
+        Army army = null;
+        army.addBuff(new Stun(1, 1, NORMAL));
+    }
+
+    public void KaveSpell(){
+
+    }
+
+    public void ArashSpell(){
+        ArrayList<Army> array = new ArrayList<>();
+        for(Army army : array){
+            army.setAp(army.getAp() + 4);
+        }
+    }
+
+    public void AfsaneSpell(){
+        Army army = null;
+        army.deleteBuffs(BuffType.POSITIVE);
+    }
+
+    public void EsfandiarSpell(){
+        this.addBuff(new Holy(3, CONTINUOUS));
+    }
+
 }
