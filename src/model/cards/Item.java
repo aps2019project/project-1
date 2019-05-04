@@ -13,6 +13,7 @@ import static model.cards.CardType.ITEM;
 public class Item extends Card {
     private static ArrayList<Item> items = new ArrayList<>();
     private ItemType itemType;
+    private SPTime itemEffectTime;
 
     Item(String name, int price, ItemType itemType, String description) {
         super(name, price, description, ITEM);
