@@ -1,6 +1,7 @@
 package model.cards;
 
 import model.Buff.*;
+import model.game.Player;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -62,48 +63,48 @@ public class Hero extends Army {
                 '}';
     }
 
-    public void useSpell() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
-        Hero.class.getDeclaredMethod(this.name).invoke(this);
+    public void useSpell(Player player) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+        Hero.class.getDeclaredMethod(this.name + "Spell", Player.class).invoke(this, player);
     }
 
-    public void WhiteDemonSpell(){
+    public void WhiteDemonSpell(Player player){
         this.addBuff(new Power(4, AP, PERMANENT));
     }
 
-    public void SimorghSpell(){
-        ArrayList<Army> array = new ArrayList<>();
+    public void SimorghSpell(Player player){
+        ArrayList<Army> array = player.getEnemyPlayer().getInGameCards();
         for(Army army : array){
             army.addBuff(new Stun(1, 1, NORMAL));
         }
     }
 
-    public void DragonSpell(){
-        Army army = null;
+    public void DragonSpell(Player player){
+        Army army = player.getOneEnemy();
         army.addBuff(new Disarm(1, PERMANENT));
     }
 
-    public void RakhshSpell(){
-        Army army = null;
+    public void RakhshSpell(Player player){
+        Army army = player.getOneEnemy();
         army.addBuff(new Stun(1, 1, NORMAL));
     }
 
-    public void KaveSpell(){
+    public void KaveSpell(Player player){
 
     }
 
-    public void ArashSpell(){
-        ArrayList<Army> array = new ArrayList<>();
+    public void ArashSpell(Player player){
+        ArrayList<Army> array = player.getEnemiesInHeroRow();
         for(Army army : array){
             army.setAp(army.getAp() + 4);
         }
     }
 
-    public void AfsaneSpell(){
-        Army army = null;
+    public void AfsaneSpell(Player player){
+        Army army = player.getOneEnemy();
         army.deleteBuffs(BuffType.POSITIVE);
     }
 
-    public void EsfandiarSpell(){
+    public void EsfandiarSpell(Player player){
         this.addBuff(new Holy(3, CONTINUOUS));
     }
 

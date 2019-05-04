@@ -171,25 +171,41 @@ public class Army extends Card {
     }
 
     public void attack(Army army) {
-        army.getDamaged(this.getAp());
+        if (this.isStunned) return;
+        army.getDamaged(this.getAp(), army);
+        this.checkOnAttack(army);
+    }
+
+    public void checkOnAttack(Army army) {
+        if (this.getName().equals("Zahack")) {
+            army.addBuff(new Poison(3, BuffTImeType.NORMAL));
+        }
         if (this instanceof Minion && ((Minion) this).getSpTime() == ON_ATTACK) {
 
         }
     }
 
-    public void getDamaged(int number) {
+    public void getDamaged(int number, Army army) {
         int holyBuffs = this.haveBuff(Holy.class);
         if (holyBuffs < number) {
             number -= holyBuffs;
             this.setHp(this.getHp() - number);
         }
-        if (this instanceof Minion && ((Minion) this).getSpTime() == ON_DEFEND) {
+        this.checkOnDefend(army);
+    }
 
+    public void checkOnDefend(Army army) {
+        if (this instanceof Minion && ((Minion) this).getSpTime() == ON_DEFEND) {
+            if (army == null) {
+
+            } else {
+
+            }
         }
     }
 
     public void counterAttack(Army army) {
-        if(this.isDisarmed) return;
+        if (this.isDisarmed) return;
         this.attack(army);
     }
 
