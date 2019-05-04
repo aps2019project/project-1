@@ -1,7 +1,13 @@
 package model.cards;
 
+import model.Buff.Holy;
+import model.game.Player;
+
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
+import static model.Buff.BuffTImeType.*;
+import static model.cards.AttackType.*;
 import static model.cards.CardType.ITEM;
 
 public class Item extends Card {
@@ -42,4 +48,24 @@ public class Item extends Card {
                 ", type=" + type +
                 '}';
     }
+
+    public static void itemEffect(Player player, String itemName) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+        Spell.class.getDeclaredMethod(itemName + "Effect", Player.class).invoke(null, player);
+    }
+
+    public static void WisdomCrownEffect(Player player) {
+
+    }
+
+    public static void HonorShieldEffect(Player player) {
+        player.getHero().addBuff(new Holy(12, PERMANENT));
+    }
+
+    public static void SimurghFeatherEffect(Player player) {
+        Hero hero = player.getEnemyPlayer().getHero();
+        if (hero.getAttackType() == RANGED || hero.getAttackType() == HYBRID){
+            hero.setAp(hero.getAp() - 2);
+        }
+    }
+
 }

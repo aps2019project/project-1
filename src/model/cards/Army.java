@@ -6,6 +6,7 @@ import model.variables.CardsArray;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import static model.cards.AttackType.*;
 import static model.cards.SPTime.*;
 
 public class Army extends Card {

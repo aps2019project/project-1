@@ -7,7 +7,11 @@ import model.other.Account;
 import model.variables.CardsArray;
 
 import java.lang.reflect.Array;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+
+import static model.cards.AttackType.HYBRID;
+import static model.cards.AttackType.RANGED;
 
 public class Player {
 
@@ -124,7 +128,7 @@ public class Player {
     public boolean attack(Cell attackersCell,Cell defenderCell) {
         if(attackersCell == null) return false;
         if(attackerCardsInThisTurn.find(attackersCell.getInsideArmy()) == null) return false;
-        return false;//
+            return false;//
     }
     public boolean attack(Cell defenderCell) {
         return attack(selectedCardPlace,defenderCell);
@@ -145,8 +149,10 @@ public class Player {
         return false;
     }
 
-    public void useItem(){
-        switch (item.getName()){
+    public void usableItemEffect(String itemName) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+        try {
+            Item.class.getDeclaredMethod(itemName + "Effect", Player.class).invoke(null, this);
+        } catch (NoSuchMethodException n){
 
         }
     }
