@@ -14,9 +14,14 @@ import java.util.regex.*;
 
 class ShopHandler extends Handler {
 
+    ShopHandler() {
+        ShopScreen.showWelcomeLine();
+        ShopScreen.showOptions();
+        handleCommands();
+    }
+
     @Override
     void handleCommands() {
-        Matcher matcher;
         while (scanner.hasNext()) {
             command = scanner.nextLine().toLowerCase().trim();
             if (command.matches("exit")) {
@@ -75,6 +80,7 @@ class ShopHandler extends Handler {
         }
         account.decreaseDaric(card.getPrice());
         account.addCardToCollection(card);
+        ShopScreen.showBuyWasSuccessfull();
 
     }
 
@@ -95,7 +101,7 @@ class ShopHandler extends Handler {
         }
         account.increaseDaric(card.getPrice());
         account.removeCardFromCollection(card);
-
+        ShopScreen.showSellWasSuccessfull();
     }
 
 }

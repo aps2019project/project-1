@@ -1,22 +1,29 @@
 package view;
 
 import model.cards.*;
+import model.other.Account;
 import model.variables.CardsArray;
 
 import java.util.ArrayList;
 
 public class ShopScreen extends Screen {
 
+    public static void showWelcomeLine() {
+        System.out.println("\t\t\t_______________S H O P_______________");
+    }
+
     public static void showOptions() {
-
-    }
-
-    public static void showNoCardWithThisName(){
-        System.out.println("There isn't any cards with this name in Shop");
-    }
-
-    public static void showID(String id){
-        System.out.println("Card ID : " + id);
+        System.out.println(" Things you can do here ______________________________________________");
+        System.out.println("|                                                                     |");
+        System.out.println("| Show Collection:               *to see your collection              |");
+        System.out.println("| Show:                          *to see cards in shop                |");
+        System.out.println("| Search [card name]:            *find card's id in shop              |");
+        System.out.println("| Search Collection [card name]  *find card's id in your collection   |");
+        System.out.println("| Buy [card id]:                 *buy card from shop                  |");
+        System.out.println("| Sell [card id]:                *sell card from collection           |");
+        System.out.println("| Help:                          *see this menu                       |");
+        System.out.println("| Exit:                          *return to main menu                 |");
+        System.out.println("|_____________________________________________________________________|");
     }
 
     public static void showCardArray(CardsArray collection, String sell) {
@@ -70,6 +77,16 @@ public class ShopScreen extends Screen {
 
     public static void showSomethingIsWrong() {
         System.out.println("something went wrong... try again");
+    }
+
+    public static void showBuyWasSuccessfull() {
+        System.out.println("Card added to your collection successfully");
+        System.out.println("Remaining Daric: " + Account.getCurrentAccount().getDaric() + "D");
+    }
+
+    public static void showSellWasSuccessfull() {
+        System.out.println("Card sold successfully");
+        System.out.println("Remaining Daric: " + Account.getCurrentAccount().getDaric() + "D");
     }
 
 }

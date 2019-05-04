@@ -29,19 +29,15 @@ public class Deck {
     }
 
     public boolean addCard(Card card) {
+        if(card instanceof Hero) {
+            if(this.hero != null) return false;
+            this.hero = (Hero)card;
+        }
+        if(card instanceof Item) {
+            if(this.item != null) return false;
+            this.item = (Item)card;
+        }
         return cards.add(card);
-    }
-
-    public boolean addCard(Hero hero) {
-        if(this.hero != null) return false;
-        this.hero = hero;
-        return this.addCard(hero);
-    }
-
-    public boolean addCard(Item item) {
-        if(this.item != null) return false;
-        this.item = item;
-        return this.addCard(item);
     }
 
     public CardsArray getCards() {
@@ -55,23 +51,19 @@ public class Deck {
     public Item getItem() {
         return item;
     }
-  
     public Deck copyAll() throws CloneNotSupportedException {
         Deck deck = new Deck(name,this.cards.copyAll());
         deck.addCard(this.hero);
         deck.addCard(this.item);
         return deck;
     }
-  
     public boolean checkIfValid() {
         return cards.getAllCards().size() == 20 && hero != null;
     }
-
     public void fillHand(Hand hand) {
         setNextCard();
         while(transferCardTo(hand));
     }
-
     public boolean transferCardTo(Hand hand) {
         Card card = getNextCard();
         if(hand.add(card)) {
@@ -81,17 +73,14 @@ public class Deck {
         }
         return false;
     }
-
     public Card getNextCard() {
         if(nextCard == null) setNextCard();
         return nextCard;
     }
-
     public void setNextCard() {
         nextCard = cards.getAllCards().get((int)(Math.random()*cards.getAllCards().size()));
         if(nextCard == this.item || nextCard == this.hero) setNextCard();
     }
-
     public String getName() {
         return name;
     }
@@ -99,4 +88,5 @@ public class Deck {
     public int size() {
         return cards.getAllCards().size();
     }
+
 }

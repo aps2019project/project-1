@@ -82,7 +82,7 @@ public class CardsArray {
 
     public Card findByName(String name) {
         for (Card cardCounter : this.allCards) {
-            if (cardCounter.getName().equals(name)){
+            if (cardCounter.getName().toLowerCase().equals(name.toLowerCase())){
                 return cardCounter;
             }
         }
@@ -102,16 +102,16 @@ public class CardsArray {
         allCards.remove(card);
     }
 
-    public void remove(int index) {
-        allCards.remove(index);
+    public void remove(String name) {
+        allCards.remove(findBYName(name));
     }
 
     public void clear() {allCards.clear();}
 
-    public Card pick(int index) {
-            Card card =  allCards.get(index);
-            this.remove(card);
-            return card;
+    public Card pick(String name) {
+        Card card =  findBYName(name);
+        this.remove(card);
+        return card;
     }
 
     public CardsArray copyAll() throws CloneNotSupportedException {
@@ -120,15 +120,6 @@ public class CardsArray {
             copyFromCardList.add(card.clone());
         }
         return copyFromCardList;
-    }
-
-    public void showCards() {
-        int counter = 1;
-        for(Card card : allCards) {
-            System.out.println(counter+". ");
-//            card.showCard();
-            counter++;
-        }
     }
 
     private void sortCards() {

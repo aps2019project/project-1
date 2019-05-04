@@ -1,12 +1,11 @@
-package model;
+package control;
 
-import control.*;
 import model.cards.Card;
-import model.other.Account;
 
 public class Main {
 
     public static void main(String[] args) {
-
+        Card.scanAllCards();
+        new AccountHandler();
     }
 }
