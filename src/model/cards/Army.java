@@ -5,6 +5,7 @@ import model.variables.CardsArray;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Random;
 
 import static model.cards.AttackType.*;
 import static model.cards.SPTime.*;
@@ -208,6 +209,11 @@ public class Army extends Card {
     public void counterAttack(Army army) {
         if (this.isDisarmed) return;
         this.attack(army);
+    }
+
+    public Army getRandomArmy(ArrayList<Army> array){
+        int random = (new Random()).nextInt(array.size());
+        return array.get(random);
     }
 
 }

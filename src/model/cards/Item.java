@@ -30,6 +30,10 @@ public class Item extends Card {
         return itemType;
     }
 
+    public SPTime getItemEffectTime() {
+        return itemEffectTime;
+    }
+
     public static void scanItems(ArrayList<String[]> data) {
         for (String[] line : data) {
             new Item(line[1]
@@ -50,23 +54,22 @@ public class Item extends Card {
                 '}';
     }
 
-    public static void itemEffect(Player player, String itemName) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
-        Spell.class.getDeclaredMethod(itemName + "Effect", Player.class).invoke(null, player);
-    }
-
-    public static void WisdomCrownEffect(Player player) {
+    public static void WisdomCrownUsable(Player player) {
 
     }
 
-    public static void HonorShieldEffect(Player player) {
+    public static void HonorShieldUsbale(Player player) {
         player.getHero().addBuff(new Holy(12, PERMANENT));
     }
 
-    public static void SimurghFeatherEffect(Player player) {
+    public static void SimurghFeatherUsable(Player player) {
         Hero hero = player.getEnemyPlayer().getHero();
         if (hero.getAttackType() == RANGED || hero.getAttackType() == HYBRID){
             hero.setAp(hero.getAp() - 2);
         }
     }
 
+    public static void KingWisdomUsable(Player player) {
+
+    }
 }

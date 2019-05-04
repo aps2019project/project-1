@@ -151,7 +151,7 @@ public class Player {
 
     public void usableItemEffect(String itemName) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
         try {
-            Item.class.getDeclaredMethod(itemName + "Effect", Player.class).invoke(null, this);
+            Item.class.getDeclaredMethod(itemName + "Usable", Player.class).invoke(null, this);
         } catch (NoSuchMethodException n){
 
         }
