@@ -1,9 +1,11 @@
 package model.game;
 
 import model.cards.Army;
+import model.cards.Item;
 
 public class Cell {
     private Army insideArmy;
+    private Item insideItem;
     private CellEffect effect;
     private Flag flag;
     private int x;
@@ -63,7 +65,9 @@ public class Cell {
         return  Math.abs(firstCell.getX() - secondCell.getX()) +
                 Math.abs(firstCell.getY() - secondCell.getY()) ;
     }
-
+    public static boolean isNear(Cell firstCell ,Cell secondCell) {
+        return Math.abs(firstCell.getX() - secondCell.getX()) < 2 && Math.abs(firstCell.getY() - secondCell.getY()) < 2;
+    }
     public void getEffect(){
 
     }

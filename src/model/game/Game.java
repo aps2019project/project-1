@@ -2,6 +2,7 @@ package model.game;
 
 import model.cards.Card;
 import model.other.Account;
+import model.variables.CardsArray;
 
 import java.util.ArrayList;
 
@@ -19,10 +20,15 @@ public class Game {
     private int reward;
     private int turnNumber = 1;
     private GameType type;
-
+    private ArrayList<Cell> allCellsInTable = new ArrayList<>();
     public Game(Account firstAccount, Account secondAccount, GameType type) throws CloneNotSupportedException {
         firstPlayer = new Player(firstAccount);
         secondPlayer = new Player(secondAccount);
+        for(Cell[] row : table) {
+            for(Cell cell : row) {
+                allCellsInTable.add(cell);
+            }
+        }
         this.type = type;
         currentGame = this;
     }
@@ -169,5 +175,55 @@ public class Game {
             }
         }
         return null;
+    }
+
+    public CardsArray getAllAccountArmiesInCellArray(ArrayList<Cell> cells , Account account) {
+        CardsArray allArmiesInTable = new CardsArray();
+        for(Cell cell : cells) {
+            if(!cell.isEmpty() && cell.getInsideArmy().getAccount().equals(account)) allArmiesInTable.add(cell.getInsideArmy());
+        }
+        return allArmiesInTable;
+    }
+
+    public ArrayList<Cell> getAllCellsWithUniqueDistance(Cell cell,int distance) {
+        ArrayList<Cell> allCellsWithUniqueDistance = new ArrayList<>();
+        for(int xIncrease = -distance ; xIncrease <= distance ; xIncrease++) {
+            for(int yIncrease = -distance ; yIncrease <= distance ; yIncrease++) {
+                if(Math.abs(xIncrease)+Math.abs(yIncrease) <= distance && this.isTrueCoordinate(cell.getX()+xIncrease,cell.getY()+yIncrease)) {
+                    allCellsWithUniqueDistance.add(table[cell.getX()+xIncrease][cell.getY()+yIncrease]);
+                }
+            }
+        }
+        return allCellsWithUniqueDistance;
+    }
+    public ArrayList<Cell> getAllNearCells(Cell cell) {
+        ArrayList<Cell> allNearCells = new ArrayList<>();
+        for(int xIncrease = -1 ; xIncrease < 2 ; xIncrease++) {
+            for(int yIncrease = -1 ; yIncrease < 2 ; yIncrease++) {
+                if(this.isTrueCoordinate(cell.getX()+xIncrease,cell.getY()+yIncrease)) {
+                    allNearCells.add(table[cell.getX()+xIncrease][cell.getY()+yIncrease]);
+                }
+            }
+        }
+        return allNearCells;
+    }
+    public ArrayList<Cell> getAllNonNearCells(Cell cell) {
+        ArrayList<Cell> allNoneNearCells = getAllCellsInTable();
+        allNoneNearCells.removeAll(getAllNearCells(cell));
+        return allNoneNearCells;
+    }
+    public ArrayList<Cell> getAllCellsInTable() {
+        ArrayList<Cell> allCellsInTable = new ArrayList<>();
+        allCellsInTable.addAll(this.allCellsInTable);
+        return allCellsInTable;
+    }
+
+    public boolean isTrueCoordinate(int x,int y) {
+        return x >= 0 && y >= 0 && x < TABLE_HEIGHT && y < TABLE_WIDTH;
+    }
+    public Account getAnotherAccount(Account account) {
+        if(firstPlayer.getAccount().equals(account)) return secondPlayer.getAccount();
+        else if(secondPlayer.getAccount().equals(account)) return firstPlayer.getAccount();
+        else    return null;
     }
 }

@@ -2,18 +2,13 @@ package model.game;
 
 import control.BattleHandler;
 import control.BattlesOrderType;
-import model.cards.Army;
-import model.cards.Card;
-import model.cards.Hero;
-import model.cards.Minion;
+import model.cards.*;
 import model.other.Account;
 import model.variables.CardsArray;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Player {
-
     private Account account;
     private Deck deck;
     private Hand hand;
@@ -28,6 +23,7 @@ public class Player {
     private boolean heroKilled = false;
     private Hero hero;
     private Cell selectedCardPlace;
+    private boolean InGraveYard = false;
 
     public Player(Account account) throws CloneNotSupportedException {
         this.account = account;
@@ -122,10 +118,18 @@ public class Player {
         cell.put(hero,turnNumber);
         this.inGameCards.add(hero);
     }
+    public boolean isInRange(Cell attackersCell,Cell defenderCell) {
+        if(attackersCell.isEmpty()) return false;
+        return     (attackersCell.getInsideArmy().getAttackType() == AttackType.MELEE && Cell.isNear(attackersCell,defenderCell))
+                || (attackersCell.getInsideArmy().getAttackType() == AttackType.RANGED && !Cell.isNear(attackersCell,defenderCell))
+                || (attackersCell.getInsideArmy().getAttackType() == AttackType.HYBRID);
+    }
     public boolean attack(Cell attackersCell,Cell defenderCell) {
         if(attackersCell == null) return false;
         if(attackerCardsInThisTurn.find(attackersCell.getInsideArmy()) == null) return false;
-        return false;//
+        if(!isInRange(attackersCell,defenderCell)) return false;
+        attackersCell.getInsideArmy().attack(defenderCell.getInsideArmy());//
+        return true;
     }
     public boolean attack(Cell defenderCell) {
         return attack(selectedCardPlace,defenderCell);
@@ -145,7 +149,8 @@ public class Player {
         }
         return false;
     }
-    public void useItem(){}
+    public void useItem(){
+    }
     public void startMatchSetup() { deck.fillHand(hand);
     }
     public void nextTurnSetup() {
@@ -240,5 +245,14 @@ public class Player {
         //
         return null;
     }
+    public void goToGraveYard() {
+        InGraveYard = true;
+    }
+    public void ExitFromGraveYard() {
+        InGraveYard = false;
+    }
 
+    public boolean isInGraveYard() {
+        return InGraveYard;
+    }
 }
