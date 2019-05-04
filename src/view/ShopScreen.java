@@ -89,4 +89,8 @@ public class ShopScreen extends Screen {
         System.out.println("Remaining Daric: " + Account.getCurrentAccount().getDaric() + "D");
     }
 
+    public static void showCardAlreadyInCollection() {
+        System.out.println("You already have this card in your collection.");
+    }
+
 }

@@ -58,10 +58,14 @@ class ShopHandler extends Handler {
         if (card == null) {
             ShopScreen.showCardNotFound();
             return;
+        } else if (Account.getCurrentAccount().getCollection().findByName(card.getName()) != null) {
+            ShopScreen.showCardAlreadyInCollection();
+            return;
         } else if (account.getDaric() < card.getPrice()) {
             ShopScreen.showOutOfDaric();
             return;
         }
+
 
         if (card.getType().equals(CardType.ITEM)) {
             Item item = (Item) card;
