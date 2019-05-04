@@ -19,8 +19,8 @@ public class ShopScreen extends Screen {
         System.out.println("| Show:                          *to see cards in shop                |");
         System.out.println("| Search [card name]:            *find card's id in shop              |");
         System.out.println("| Search Collection [card name]  *find card's id in your collection   |");
-        System.out.println("| Buy [card id]:                 *buy card from shop                  |");
-        System.out.println("| Sell [card id]:                *sell card from collection           |");
+        System.out.println("| Buy [card name]:               *buy card from shop                  |");
+        System.out.println("| Sell [card name]:              *sell card from collection           |");
         System.out.println("| Help:                          *see this menu                       |");
         System.out.println("| Exit:                          *return to main menu                 |");
         System.out.println("|_____________________________________________________________________|");
