@@ -5,6 +5,7 @@ import model.Buff.Power;
 import model.game.Game;
 import model.game.Player;
 
+import javax.swing.plaf.metal.MetalBorders;
 import java.util.ArrayList;
 
 import static model.Buff.BuffTImeType.*;
@@ -100,7 +101,7 @@ public class Item extends Card {
         }
     }
 
-    public static void ElixirEffect(Player player, Army army) {
+    public static void ElixirCollectible(Player player, Army army) {
         ArrayList<Army> array = Game.getCurrentGame().getAllInGameCards();
         army.setHp(army.getHp() + 3);
         boolean thereIsMinion = false;
@@ -120,8 +121,27 @@ public class Item extends Card {
         }
     }
 
-    public static void ManaPotionEffect(Player player, Army army) {
+    public static void ManaPotionCollectible(Player player, Army army) {
 
+    }
+
+    public static void RevengeousPotionCollectible(Player player, Army army) {
+        Army armyTemp = Army.getRandomArmy(player.getInGameCards());
+        armyTemp.addBuff(new Holy(10, 2, NORMAL));
+    }
+
+    public static void DeathCurseCollectible(Player player, Army army) {
+
+    }
+
+    public static void RandomDamageCollectible(Player player, Army army) {
+        Army armyTemp = Army.getRandomArmy(Game.getCurrentGame().getAllInGameCards());
+        armyTemp.setAp(armyTemp.getAp() + 2);
+    }
+
+    public static void BladesOfAgilityCollectible(Player player ,Army army) {
+        Army armyTemp = Army.getRandomArmy(Game.getCurrentGame().getAllInGameCards());
+        armyTemp.setAp(armyTemp.getAp() + 6);
     }
 
 
