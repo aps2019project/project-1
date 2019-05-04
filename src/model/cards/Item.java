@@ -64,7 +64,7 @@ public class Item extends Card {
 
     public static void SimurghFeatherUsable(Player player) {
         Hero hero = player.getEnemyPlayer().getHero();
-        if (hero.getAttackType() == RANGED || hero.getAttackType() == HYBRID){
+        if (hero.getAttackType() == RANGED || hero.getAttackType() == HYBRID) {
             hero.setAp(hero.getAp() - 2);
         }
     }
@@ -73,12 +73,33 @@ public class Item extends Card {
 
     }
 
-    public static void NooshdaruCollectible(Player player, Army army){
+    public static void NooshdaruCollectible(Player player, Army army) {
         ArrayList<Army> array = new ArrayList<>();
         array.addAll(player.getInGameCards());
         array.addAll(player.getEnemyPlayer().getInGameCards());
         Army armyTemp = Army.getRandomArmy(array);
         armyTemp.setHp(armyTemp.getHp() + 6);
+    }
+
+    public static void TwoHeadArrowCollectible(Player player, Army army) {
+        ArrayList<Army> array = new ArrayList<>();
+        array.addAll(player.getInGameCards());
+        array.addAll(player.getEnemyPlayer().getInGameCards());
+        boolean thereIsRangedOrHybrid = false;
+        for(Army armyTemp : array) {
+            if(armyTemp.getAttackType()!= MELEE) {
+                thereIsRangedOrHybrid = true;
+                break;
+            }
+        }
+        if(!thereIsRangedOrHybrid) return;
+        while(true){
+            Army armyTemp = Army.getRandomArmy(array);
+            if(army.getAttackType() != MELEE) {
+                armyTemp.setAp(armyTemp.getAp() + 2);
+                return;
+            }
+        }
     }
 
 }
