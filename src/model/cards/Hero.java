@@ -72,7 +72,7 @@ public class Hero extends Army {
     }
 
     public void SimorghSpell(Player player){
-        ArrayList<Army> array = player.getEnemyCardsInGame();
+        ArrayList<Army> array = player.getEnemyPlayer().getInGameCards();
         for(Army army : array){
             army.addBuff(new Stun(1, 1, NORMAL));
         }

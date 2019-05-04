@@ -5,9 +5,11 @@ import control.BattlesOrderType;
 import model.cards.Army;
 import model.cards.Card;
 import model.cards.Hero;
+import model.cards.Minion;
 import model.other.Account;
 import model.variables.CardsArray;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Player {
@@ -177,14 +179,10 @@ public class Player {
             return game.getFirstPlayer();
     }
 
-    public CardsArray getInGameCards() {
-        return inGameCards;
-    }
-
-    public ArrayList<Army> getEnemyCardsInGame(){
+    public ArrayList<Army> getInGameCards() {
         ArrayList<Army> army = new ArrayList<>();
-        for(Card card : this.getEnemyPlayer().getInGameCards().getAllCards()){
-            army.add((Army)card);
+        for(Card card : this.inGameCards.getAllCards()){
+            army.add( (Army)card );
         }
         return army;
     }
@@ -194,8 +192,51 @@ public class Player {
         return null;
     }
 
+    public Army getOneFriend(){
+        //
+        return null;
+    }
+
     public ArrayList<Army> getEnemiesInHeroRow(){
-        ArrayList<Army> army = new ArrayList<>();
+        ArrayList<Army> array = new ArrayList<>();
+        //
+        return array;
+    }
+
+    public ArrayList<Cell> getSquare2(){
+        ArrayList<Cell> array = new ArrayList<>();
+        //
+        return array;
+    }
+
+    public ArrayList<Cell> getSquare3(){
+        ArrayList<Cell> array = new ArrayList<>();
+        //
+        return array;
+    }
+
+    public Army getOneEnemyOrFriend(){
+        //
+        return null;
+    }
+
+    public ArrayList<Army> getAllEnemiesInOneColumn(){
+        ArrayList<Army> array = new ArrayList<>();
+        //
+        return array;
+    }
+
+    public Minion getOneFriendMinion(){
+        //
+        return null;
+    }
+
+    public Minion getOneEnemyMinion(){
+        //
+        return null;
+    }
+
+    public Minion getRandomMinionAroundFriendHero(){
         //
         return null;
     }
