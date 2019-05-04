@@ -1,5 +1,6 @@
 package model.game;
 
+import model.cards.Army;
 import model.cards.Card;
 import model.other.Account;
 
@@ -169,5 +170,12 @@ public class Game {
             }
         }
         return null;
+    }
+
+    public ArrayList<Army> getAllInGameCards(){
+        ArrayList<Army> array = new ArrayList<>();
+        array.addAll(firstPlayer.getInGameCards());
+        array.addAll(secondPlayer.getInGameCards());
+        return array;
     }
 }
