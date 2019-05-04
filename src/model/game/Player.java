@@ -2,10 +2,7 @@ package model.game;
 
 import control.BattleHandler;
 import control.BattlesOrderType;
-import model.cards.Army;
-import model.cards.Card;
-import model.cards.Hero;
-import model.cards.Minion;
+import model.cards.*;
 import model.other.Account;
 import model.variables.CardsArray;
 
@@ -28,10 +25,12 @@ public class Player {
     private boolean heroKilled = false;
     private Hero hero;
     private Cell selectedCardPlace;
+    private Item item;
 
     public Player(Account account) throws CloneNotSupportedException {
         this.account = account;
         this.deck = account.getMainDeck().copyAll();
+        this.item = this.deck.getItem();
     }
 
     public Cell getSelectedCardPlace() {
@@ -145,7 +144,13 @@ public class Player {
         }
         return false;
     }
-    public void useItem(){}
+
+    public void useItem(){
+        switch (item.getName()){
+
+        }
+    }
+
     public void startMatchSetup() { deck.fillHand(hand);
     }
     public void nextTurnSetup() {
