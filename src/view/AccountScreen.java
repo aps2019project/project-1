@@ -32,10 +32,6 @@ public class AccountScreen extends Screen {
         System.out.printf("%d-\tUserName: [\"%s\"] \t Wins: %d\n", number, account.getUsername(), account.getWonGames());
     }
 
-    public static void showLogoutConfirm() {
-        System.out.println("logout complete...");
-    }
-
     public static void showWrongCommand() {
         System.out.println("Invalid command. try again");
     }

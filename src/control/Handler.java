@@ -7,5 +7,7 @@ abstract class Handler {
     Scanner scanner = new Scanner(System.in);
     String command;
 
-    abstract void handleCommands();
+    abstract HandlerType handleCommands();
 }
+
+enum HandlerType { ACCOUNT, BATTLE, COLLECTION, MENU, SHOP}

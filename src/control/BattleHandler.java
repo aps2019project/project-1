@@ -16,7 +16,7 @@ public class BattleHandler extends Handler{
         return null;
     }
     @Override
-    void handleCommands() {
+    HandlerType handleCommands() {
         while (scanner.hasNext()) {
             command = scanner.nextLine().trim();
             if (command.matches("game info")) {
@@ -73,6 +73,7 @@ public class BattleHandler extends Handler{
                 //
             }
         }
+        return null;
     }
     public Cell getCell(String input) {
         Pattern pattern = Pattern.compile("\\w*[(](\\d+)[,](\\d+)[)]");
