@@ -2,6 +2,7 @@ package view;
 
 import model.cards.*;
 import model.game.Deck;
+import model.variables.CardsArray;
 
 import java.util.ArrayList;
 
@@ -39,9 +40,9 @@ public class CollectionScreen extends Screen {
 
     public static void showFoundCard(Card card) {
         System.out.println("Card: " +
-                "{Name: " + card.getName() +
-                "\t ID: " + card.getID() +
-                '}');
+                "{ Name: " + card.getName() +
+                "\t ID: [" + card.getID().getValue() +
+                "]  }");
     }
 
     public static void showDeckExists() {
@@ -98,12 +99,26 @@ public class CollectionScreen extends Screen {
     }
 
     public static void showDeckDetails(Deck deck) {
-        ArrayList<Hero> heroes = deck.getCards().getAllHeros();
-        ArrayList<Item> items = deck.getCards().getAllItems();
-        ArrayList<Spell> spells = deck.getCards().getAllSpells();
-        ArrayList<Minion> minions = deck.getCards().getAllMinions();
-
+        if (deck == null) {
+            System.out.println("Error - Deck is NULL");
+            return;
+        }
         System.out.println("Deck: \"" + deck.getName() + "\"");
+        showCardArray(deck.getCards());
+    }
+
+    public static void showCardArray(CardsArray cards) {
+
+        if (cards == null) {
+            System.out.println("Error - Cards are null");
+            return;
+        }
+
+        ArrayList<Hero> heroes = cards.getAllHeros();
+        ArrayList<Item> items = cards.getAllItems();
+        ArrayList<Spell> spells = cards.getAllSpells();
+        ArrayList<Minion> minions = cards.getAllMinions();
+
         System.out.println("Hero:");
         for (int i = 1; i <= heroes.size(); ++i) {
             Hero hero = heroes.get(i - 1);
@@ -120,12 +135,12 @@ public class CollectionScreen extends Screen {
         System.out.println("Cards:");
         for (int i = 1; i <= spells.size(); ++i) {
             Spell spell = spells.get(i - 1);
-            System.out.printf("\t%d: Type: SPELL  Name: [\"%s\"]  - MP: %d, Desc: %s",
+            System.out.printf("\t%d: Type: SPELL  Name: [\"%s\"]  - MP: %d, Desc: %s\n",
                     i, spell.getName(), spell.getMana(), spell.getDescription());
         }
         for (int i = spells.size() + 1; i <= spells.size() + minions.size(); ++i) {
             Minion minion = minions.get(i - spells.size() - 1);
-            System.out.printf("\t%d: Type: MINION  Name: [\"%s\"] - Class: %s, AP: %d, HP: %d, MP: %d, Special power: %s",
+            System.out.printf("\t%d: Type: MINION  Name: [\"%s\"] - Class: %s, AP: %d, HP: %d, MP: %d, Special power: %s\n",
                     i, minion.getName(), minion.getAttackType().toString(), minion.getAp(),
                     minion.getHp(), minion.getMana(), minion.getDescription());
         }

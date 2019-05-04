@@ -18,7 +18,7 @@ public class ID {
     }
 
     public boolean isSameAs(String value) {
-        return this.value.compareTo(value) == 0;
+        return this.value.equals(value);
     }
 
     public boolean isSameAs(ID id) {
