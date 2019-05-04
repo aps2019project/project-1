@@ -171,6 +171,7 @@ public class Army extends Card {
     }
 
     public void attack(Army army) {
+        if(this.isStunned) return;
         army.getDamaged(this.getAp());
         if (this instanceof Minion && ((Minion) this).getSpTime() == ON_ATTACK) {
 
