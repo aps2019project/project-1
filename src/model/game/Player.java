@@ -8,6 +8,8 @@ import model.cards.Hero;
 import model.other.Account;
 import model.variables.CardsArray;
 
+import java.util.ArrayList;
+
 public class Player {
 
     private Account account;
@@ -177,6 +179,14 @@ public class Player {
 
     public CardsArray getInGameCards() {
         return inGameCards;
+    }
+
+    public ArrayList<Army> getEnemyCardsInGame(){
+        ArrayList<Army> army = new ArrayList<>();
+        for(Card card : this.getEnemyPlayer().getInGameCards().getAllCards()){
+            army.add((Army)card);
+        }
+        return army;
     }
 
 
