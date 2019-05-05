@@ -365,7 +365,7 @@ public class Player {
     }
 
     public Army getNearestEnemy(Cell cell) {
-        CardsArray cards =  Game.getCurrentGame().getAllAccountArmiesInCellArray(Game.getCurrentGame().getTable(),
+        CardsArray cards =  Game.getCurrentGame().getAllAccountArmiesInCellArray(Game.getCurrentGame().getAllCellsInTable(),
                             Game.getCurrentGame().getAnotherAccount(account));
         Card nearestEnemy =  cards.getRandomCard();
         if(nearestEnemy == null) return null;
