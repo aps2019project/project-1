@@ -5,7 +5,6 @@ import model.Buff.Power;
 import model.game.Game;
 import model.game.Player;
 
-import javax.swing.plaf.metal.MetalBorders;
 import java.util.ArrayList;
 
 import static model.Buff.BuffTImeType.*;
@@ -148,7 +147,6 @@ public class Item extends Card {
         if (army.getAttackType() == MELEE) {
             army.setAp(army.getAp() + 5);
         }
-
     }
 
 

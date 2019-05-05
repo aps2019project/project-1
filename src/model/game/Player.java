@@ -257,8 +257,9 @@ public class Player {
     }
 
     public Minion getRandomMinionAroundFriendHero(){
+        ArrayList<Army> army = new ArrayList<>();// ~> minion haye dore hero
         //
-        return null;
+        return (Minion)Army.getRandomArmy(army);
     }
 
 }
