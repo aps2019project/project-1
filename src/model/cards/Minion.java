@@ -1,9 +1,10 @@
 package model.cards;
 
-import model.Buff.Buff;
+import model.Buff.*;
 
 import java.util.ArrayList;
 
+import static model.Buff.BuffTImeType.*;
 import static model.cards.CardType.MINION;
 
 public class Minion extends Army {
@@ -97,4 +98,22 @@ public class Minion extends Army {
                 ", type=" + type +
                 '}';
     }*/
+
+   public void PersianSwordsmanOnAttack (Army army) {
+       army.addBuff(new Stun(1, 1, NORMAL));
+
+   }
+
+   public void PersianPahlevanOnAttack (Army army) {
+
+   }
+
+   public void TuranianSpyOnAttack (Army army) {
+       army.addBuff(new Disarm(1, 1, NORMAL));
+       army.addBuff(new Poison(4, NORMAL));
+   }
+
+
+
+
 }

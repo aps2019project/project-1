@@ -134,6 +134,10 @@ public class Player {
         return attack(selectedCardPlace,defenderCell);
     }
 
+    public boolean attackCombo() {
+        //
+        return false;
+    }
     public boolean moveFromHandToCell(String name,Cell cell) {
         if(cell.isEmpty() && mana >= hand.getNeededManaToMove(name)) {
             Card card = hand.pick(name);
