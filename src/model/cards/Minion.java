@@ -13,16 +13,16 @@ import static model.cards.CardType.MINION;
 
 public class Minion extends Army {
     private static ArrayList<Minion> minions = new ArrayList<>();
-
+    private int number;
     private int mana;
     private SPTime spTime;
     private Race race;
     private boolean haveDeathCurse;
 
-    Minion(String name, int price, int hp
+    Minion(int number, String name, int price, int hp
             , int ap, int ar, int mana, AttackType attackType
             , Race race, SPTime spTime, String description) {
-        super(name, price, description, hp, ap, ar, attackType, MINION);
+        super(number, name, price, description, hp, ap, ar, attackType, MINION);
         this.mana = mana;
         this.spTime = spTime;
         this.race = race;
@@ -83,7 +83,8 @@ public class Minion extends Army {
                 race = Race.valueOf(line[10].toUpperCase());
             }
 
-            new Minion(line[1]
+            new Minion(Integer.parseInt(line[0])
+                    ,line[1]
                     , Integer.parseInt(line[2])
                     , Integer.parseInt(line[4])
                     , Integer.parseInt(line[5])
