@@ -1,6 +1,7 @@
 package model.cards;
 
 import model.Buff.*;
+import model.game.Player;
 import model.variables.CardsArray;
 
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ public class Army extends Card {
     protected ArrayList<Buff> buffs = new ArrayList<>();
     protected boolean isStunned;
     protected boolean isDisarmed;
+    protected Player player;
 
     public Army(String name, int price, String description, int hp, int ap, int ar, AttackType attackType, CardType cardType) {
         super(name, price, description, cardType);
@@ -43,6 +45,14 @@ public class Army extends Card {
 
     public void setAp(int ap) {
         this.ap = ap;
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
     }
 
     public boolean isStuned() {

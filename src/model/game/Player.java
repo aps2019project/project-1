@@ -106,6 +106,8 @@ public class Player {
     public void setMana() {
         if (turnNumber <= 7) mana = turnNumber + 1;
         else mana = 9;
+        if (this.usableItem.getName().equals("WisdomCrown") && turnNumber<4) mana++;
+        if (this.usableItem.getName().equals("KingWisdom")) mana++;
     }
 
     public void addToGraveYard(Card card) {
@@ -155,6 +157,15 @@ public class Player {
                 movedCardsInThisTurn.add(card);
                 attackerCardsInThisTurn.add(card);
                 this.inGameCards.add(card);
+                ((Army)card).setPlayer(this);
+                if(card instanceof Minion){
+                    Minion minion = (Minion)card;
+                    if (minion.getSpTime() == SPTime.ON_SPAWN){
+                        try{
+                            Minion.class.getDeclaredMethod(minion.getName() +"OnSpawn", Player.class, Cell.class).invoke(minion, this, cell);
+                        } catch (Exception n){}
+                    }
+                }
                 return true;
             }
         }
