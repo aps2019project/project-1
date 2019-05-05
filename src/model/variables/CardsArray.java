@@ -1,6 +1,7 @@
 package model.variables;
 
 import model.cards.*;
+import view.BattleScreen;
 
 import java.awt.datatransfer.MimeTypeParseException;
 import java.util.ArrayList;
@@ -112,11 +113,18 @@ public class CardsArray {
         this.remove(card);
         return card;
     }
-
-    public CardsArray copyAll() throws CloneNotSupportedException {
+    public Card getRandomCard() {
+        return allCards.get((int)Math.floor(Math.random()*allCards.size()));
+    }
+    public CardsArray copyAll() {
         CardsArray copyFromCardList = new CardsArray();
         for(Card card : this.allCards) {
-            copyFromCardList.add(card.clone());
+            try {
+                copyFromCardList.add(card.clone());
+            }
+            catch(Exception e) {
+                BattleScreen.showInvalidClone();
+            }
         }
         return copyFromCardList;
     }

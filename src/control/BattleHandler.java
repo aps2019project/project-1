@@ -1,20 +1,21 @@
 package control;
 
+import model.cards.Army;
 import model.cards.Card;
 import model.game.Cell;
 import model.game.Game;
+import model.other.Account;
+import model.variables.CardsArray;
 import view.BattleScreen;
 
 import javax.management.BadAttributeValueExpException;
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
 public class BattleHandler extends Handler{
     private static Game game;
-    public static BattlesOrderType getPlayingOrder() {
-        return null;
-    }
     @Override
     HandlerType handleCommands() {
         while (scanner.hasNext()) {
@@ -60,20 +61,34 @@ public class BattleHandler extends Handler{
             }else if (command.matches("use (\\d+,\\d+)")) {
                 //
             }else if (command.matches("show next card")) {
-                //
+                BattleScreen.showNextCardFromDeck();
             }else if (command.matches("enter graveyard")) {
-                //
+                game.getWhoIsHisTurn().getGraveYard();
             }else if (command.matches("show info \\d+")) {
-                //
+                if(game.getWhoIsHisTurn().isInGraveYard())
+                    BattleScreen.showCard(game.getWhoIsHisTurn().getGraveYard().find(command.split(" ")[2]));
+                else
+                    BattleScreen.showErrorYourNotInGraveYard();
             }else if (command.matches("show cards")) {
-                //
+                if(game.getWhoIsHisTurn().isInGraveYard())
+                    BattleScreen.showCardArray(game.getWhoIsHisTurn().getGraveYard());
+                else
+                    BattleScreen.showErrorYourNotInGraveYard();
             }else if (command.matches("help")) {
-                //
+                whatYouCanDo(game.getWhoIsHisTurn().getAccount());
             } else {
                 //
             }
         }
-        return null;
+        return HandlerType.BATTLE;
+    }
+    public void whatYouCanDo(Account account) {
+        CardsArray allArmies = game.getAllAccountArmiesInCellArray(game.getAllCellsInTable(),account);
+        for(Card card : allArmies.getAllCards()) {
+            BattleScreen.showArmyCanAttackTo((Army)card);
+            BattleScreen.showArmyCanGoTo((Army)card);
+        }
+        BattleScreen.showCardArray(game.getPlayer(account).getHand());
     }
     public Cell getCell(String input) {
         Pattern pattern = Pattern.compile("\\w*[(](\\d+)[,](\\d+)[)]");
