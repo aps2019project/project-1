@@ -193,6 +193,7 @@ public class Army extends Card {
         if (army.getName().equals("Ashkbous") && ((Minion)army).AshkbousOnDefend(this)) return;
         army.getDamaged(this.getAp(), army);
         this.checkOnAttack(army);
+        army.counterAttack(this);
     }
 
     public void checkOnAttack(Army army) {
@@ -200,7 +201,9 @@ public class Army extends Card {
             army.addBuff(new Poison(3, BuffTImeType.NORMAL));
         }
         if (this instanceof Minion && ((Minion) this).getSpTime() == ON_ATTACK) {
-
+            try {
+                Minion.class.getDeclaredMethod(this.name + "OnAttack", Army.class).invoke(this, army);
+            } catch (Exception e){}
         }
     }
 
@@ -229,6 +232,13 @@ public class Army extends Card {
     public static Army getRandomArmy(ArrayList<Army> array) {
         int random = (new Random()).nextInt(array.size());
         return array.get(random);
+    }
+
+    public void attackCombo(ArrayList<Army> array, Army target) {
+        for(Army army : array) {
+            target.getDamaged(army.getAp(), null);
+        }
+        this.attack(target);
     }
 
 }

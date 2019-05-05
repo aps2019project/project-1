@@ -29,12 +29,12 @@ public class Player {
     private boolean heroKilled = false;
     private Hero hero;
     private Cell selectedCardPlace;
-    private Item item;
+    private Item usableItem;
 
     public Player(Account account) throws CloneNotSupportedException {
         this.account = account;
         this.deck = account.getMainDeck().copyAll();
-        this.item = this.deck.getItem();
+        this.usableItem = this.deck.getItem();
     }
 
     public Cell getSelectedCardPlace() {
