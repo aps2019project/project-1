@@ -1,13 +1,16 @@
 package model.cards;
 
+import com.sun.org.apache.xalan.internal.xsltc.dom.SimpleResultTreeImpl;
 import model.Buff.*;
+import model.game.Cell;
 import model.game.Player;
-import model.variables.CardsArray;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
 
+import static model.Buff.BuffTImeType.*;
+import static model.Buff.PowerBuffType.*;
 import static model.cards.AttackType.*;
 import static model.cards.SPTime.*;
 
@@ -207,13 +210,34 @@ public class Army extends Card {
     }
 
     public void checkOnAttack(Army army) {
-        if (this.getName().equals("Zahack")) {
-            army.addBuff(new Poison(3, BuffTImeType.NORMAL));
+        if (this instanceof Hero) {
+            Hero hero = (Hero)this;
+            if (hero.getName().equals("Zahack"))
+                army.addBuff(new Poison(3, NORMAL));
+            String itemName = hero.getPlayer().getUsableItem().getName();
+            switch (itemName) {
+                case "DamoolArc":
+                    if (hero.getAttackType() != MELEE)
+                        army.addBuff(new Disarm(1, 1, NORMAL));
+                    break;
+                case "ShockHammer":
+                    army.addBuff(new Disarm(1, 1, NORMAL));
+                    break;
+            }
         }
         if (this instanceof Minion && ((Minion) this).getSpTime() == ON_ATTACK) {
             try {
                 Minion.class.getDeclaredMethod(this.name + "OnAttack", Army.class).invoke(this, army);
             } catch (Exception e){}
+            String itemName = this.getPlayer().getUsableItem().getName();
+            switch (itemName) {
+                case "TerrorHood":
+                    army.addBuff(new Weakness(2, AP, 1, NORMAL));
+                    break;
+                case "PoisonousDagger":
+                    army.addBuff(new Poison(1, NORMAL));
+                    break;
+            }
         }
     }
 

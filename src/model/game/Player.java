@@ -77,6 +77,10 @@ public class Player {
         return hero;
     }
 
+    public Item getUsableItem() {
+        return usableItem;
+    }
+
     public void setEndTurn(boolean endTurn) {
         this.endTurn = endTurn;
     }
@@ -160,11 +164,7 @@ public class Player {
                 ((Army)card).setPlayer(this);
                 if(card instanceof Minion){
                     Minion minion = (Minion)card;
-                    if (minion.getSpTime() == SPTime.ON_SPAWN){
-                        try{
-                            Minion.class.getDeclaredMethod(minion.getName() +"OnSpawn", Player.class, Cell.class).invoke(minion, this, cell);
-                        } catch (Exception n){}
-                    }
+                    minion.checkOnSpawn(this, cell);
                 }
                 return true;
             }
