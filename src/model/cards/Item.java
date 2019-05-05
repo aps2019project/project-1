@@ -2,7 +2,6 @@ package model.cards;
 
 import model.Buff.Holy;
 import model.Buff.Power;
-import model.game.Game;
 import model.game.Player;
 
 import java.util.ArrayList;
@@ -15,7 +14,6 @@ import static model.cards.CardType.ITEM;
 public class Item extends Card {
     private static ArrayList<Item> items = new ArrayList<>();
     private ItemType itemType;
-    private SPTime itemEffectTime;
 
     Item(String name, int price, ItemType itemType, String description) {
         super(name, price, description, ITEM);
@@ -30,10 +28,6 @@ public class Item extends Card {
 
     public ItemType getItemType() {
         return itemType;
-    }
-
-    public SPTime getItemEffectTime() {
-        return itemEffectTime;
     }
 
     public static void scanItems(ArrayList<String[]> data) {
@@ -94,7 +88,8 @@ public class Item extends Card {
     }
 
     public static void DeathCurseCollectible(Player player, Army army) {
-
+        if(!(army instanceof Minion)) return;
+        ((Minion) army).setHaveDeathCurse(true);
     }
 
     public static void RandomDamageCollectible(Player player, Army army) {
