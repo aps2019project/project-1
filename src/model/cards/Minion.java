@@ -141,7 +141,10 @@ public class Minion extends Army {
     }
 
     public void WhiteWolfOnAttack(Army army) {
-
+        ArrayList<Integer> bleed = new ArrayList<Integer>();
+        bleed.add(6);
+        bleed.add(4);
+        army.addBuff(new Bleeding(bleed));
     }
 
     public void PanterOnAttack(Army army) {

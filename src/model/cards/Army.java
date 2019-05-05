@@ -65,9 +65,9 @@ public class Army extends Card {
         return buffs;
     }
 
-    public static void decreaseBuffTurns(CardsArray array) {
-        for (Card card : array.getAllCards()) {
-            Iterator iterator = ((Army) card).getBuffs().iterator();
+    public static void decreaseBuffTurns(ArrayList<Army> array) {
+        for (Army army : array) {
+            Iterator iterator = army.getBuffs().iterator();
             while (iterator.hasNext()) {
                 Buff buff = (Buff) iterator.next();
                 buff.decreaseTurns();
@@ -78,12 +78,22 @@ public class Army extends Card {
         }
     }
 
-    public static void ActivateContinuousBuffs(CardsArray array) {
-        for (Card card : array.getAllCards()) {
-            Army army = (Army) card;
+    public static void ActivateContinuousBuffs(ArrayList<Army> array) {
+        for (Army army : array) {
             for (Buff buff : army.getBuffs()) {
                 if (buff.getBuffTImeType() == BuffTImeType.CONTINUOUS) {
                     buff.setTurns(1);
+                }
+            }
+        }
+    }
+
+    public static void checkPoisonAndBleeding(ArrayList<Army> array) {
+        for (Army army : array) {
+            army.setHp(army.getHp() - army.haveBuff(Poison.class));
+            for (Buff buff : army.getBuffs()) {
+                if (buff instanceof Bleeding) {
+                    army.setHp(army.getHp() - ((Bleeding) buff).getFirst());
                 }
             }
         }
@@ -189,13 +199,18 @@ public class Army extends Card {
 
     public void getDamaged(int number, Army army) {
         int holyBuffs = this.haveBuff(Holy.class);
+        int unholyBuffs = this.haveBuff(Unholy.class);
+
         try {
             if (army.getName().equals("PredatorLion")) holyBuffs = 0;
-        } catch (NullPointerException n){}
+        } catch (NullPointerException n) {
+        }
+
         if (holyBuffs < number) {
             number -= holyBuffs;
             this.setHp(this.getHp() - number);
         }
+        this.setHp(this.getHp() - unholyBuffs);
         this.checkOnDefend(army);
     }
 
@@ -215,7 +230,7 @@ public class Army extends Card {
         this.checkOnAttack(army);
     }
 
-    public static Army getRandomArmy(ArrayList<Army> array){
+    public static Army getRandomArmy(ArrayList<Army> array) {
         int random = (new Random()).nextInt(array.size());
         return array.get(random);
     }
