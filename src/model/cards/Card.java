@@ -16,7 +16,7 @@ public class Card implements Cloneable{
     protected Account account;
     protected Flag flag;
     protected Cell whereItIs;
-    protected int NeededManaToMove;
+    protected int neededManaToPut;//
     protected String description;
     protected CardType type;
 
@@ -58,9 +58,6 @@ public class Card implements Cloneable{
         return account;
     }
 
-    public int getNeededManaToMove() {
-        return NeededManaToMove;
-    }
 
     public String getName() {
         return name;
@@ -100,6 +97,6 @@ public class Card implements Cloneable{
     }
 
     public int getNeededManaToPut() {
-        return 0;
+        return neededManaToPut;
     }
 }

@@ -55,7 +55,7 @@ public class Deck {
         return item;
     }
 
-    public Deck copyAll() throws CloneNotSupportedException {
+    public Deck copyAll() {
         Deck deck = new Deck(name,this.cards.copyAll());
         deck.addCard(this.hero);
         deck.addCard(this.item);

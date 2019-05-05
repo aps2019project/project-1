@@ -5,35 +5,45 @@ import control.BattlesOrderType;
 import model.cards.*;
 import model.other.Account;
 import model.variables.CardsArray;
+import model.variables.GlobalVariables;
 
 import java.util.ArrayList;
 
-public class Player {
-    private Account account;
-    private Deck deck;
-    private Hand hand;
-    private int mana;
-    private CardsArray graveYard = new CardsArray();
-    private CardsArray inGameCards = new CardsArray();
-    private CardsArray movedCardsInThisTurn = new CardsArray();
-    private CardsArray attackerCardsInThisTurn = new CardsArray();
-    private int turnNumber = 0;
-    private int numberOfFlags = 0;
-    private boolean endTurn = false;
-    private boolean heroKilled = false;
-    private Hero hero;
-    private Cell selectedCardPlace;
-    private boolean InGraveYard = false;
+import static model.variables.GlobalVariables.TABLE_HEIGHT;
 
-    public Player(Account account) throws CloneNotSupportedException {
-        this.account = account;
-        this.deck = account.getMainDeck().copyAll();
+public class Player {
+    protected Account account;
+    protected Deck deck;
+    protected Hand hand;
+    protected int mana;
+    protected CardsArray graveYard = new CardsArray();
+    protected CardsArray inGameCards = new CardsArray();
+    protected CardsArray movedCardsInThisTurn = new CardsArray();
+    protected CardsArray attackerCardsInThisTurn = new CardsArray();
+    protected int turnNumber = 0;
+    protected int numberOfFlags = 0;
+    protected boolean endTurn = false;
+    protected boolean heroKilled = false;
+    protected Hero hero;
+    protected Cell selectedCardPlace;
+    protected boolean InGraveYard = false;
+    protected Cell selectedCellToPutFromHand;
+    public Player(Account account){
+        this(account,account.getMainDeck());
     }
+    public Player(Account account,Deck deck) {
+        this.account = account;
+        this.deck = deck.copyAll();
+    }
+
 
     public Cell getSelectedCardPlace() {
         return selectedCardPlace;
     }
 
+    public void setDeck(Deck deck) {
+        this.deck = deck;
+    }
     public Deck getDeck() {
         return deck;
     }
@@ -126,9 +136,10 @@ public class Player {
     }
     public boolean attack(Cell attackersCell,Cell defenderCell) {
         if(attackersCell == null) return false;
-        if(attackerCardsInThisTurn.find(attackersCell.getInsideArmy()) == null) return false;
+        if(attackersCell.getInsideArmy().getNeededManaToAttack() > mana || attackerCardsInThisTurn.find(attackersCell.getInsideArmy()) == null) return false;
         if(!isInRange(attackersCell,defenderCell)) return false;
-        attackersCell.getInsideArmy().attack(defenderCell.getInsideArmy());//
+        mana -= attackersCell.getInsideArmy().getNeededManaToAttack();
+        attackersCell.getInsideArmy().attack(defenderCell.getInsideArmy());
         return true;
     }
     public boolean attack(Cell defenderCell) {
@@ -136,10 +147,16 @@ public class Player {
     }
 
     public boolean moveFromHandToCell(String name,Cell cell) {
-        if(cell.isEmpty() && mana >= hand.getNeededManaToMove(name)) {
+        if( cell.isEmpty() &&
+            Game.getCurrentGame().getAllCellsNearAccountArmies(account).indexOf(cell) != -1 &&
+            mana >= hand.getNeededManaToMove(name)) {
             Card card = hand.pick(name);
-            if(!(card instanceof Army)) return false;
-            if(cell.put((Army) card,turnNumber)) {
+            if(card instanceof Spell) {
+                selectedCellToPutFromHand = cell;
+                //useSpell
+                return true;
+            }
+            else if(card instanceof Army && cell.put((Army) card,turnNumber)) {
                 mana -= cell.getInsideArmy().getNeededManaToPut();
                 movedCardsInThisTurn.add(card);
                 attackerCardsInThisTurn.add(card);
@@ -163,8 +180,7 @@ public class Player {
         setMana();
         deck.transferCardTo(hand);
         while(!endTurn) {
-            BattlesOrderType orderType = BattleHandler.getPlayingOrder();
-            //////////
+            //HandleBattleCommands
         }
     }
     public boolean haveCard(Card card){
@@ -193,57 +209,82 @@ public class Player {
     }
 
     public Army getOneEnemy(){
-        //
+        if(!selectedCellToPutFromHand.isEmpty() && !selectedCellToPutFromHand.getInsideArmy().getAccount().equals(account)) {
+            return selectedCardPlace.getInsideArmy();
+        }
         return null;
     }
 
     public Army getOneFriend(){
-        //
+        if(!selectedCellToPutFromHand.isEmpty() && selectedCellToPutFromHand.getInsideArmy().getAccount().equals(account)) {
+            return selectedCardPlace.getInsideArmy();
+        }
         return null;
     }
 
-    public ArrayList<Army> getEnemiesInHeroRow(){
-        ArrayList<Army> array = new ArrayList<>();
-        //
-        return array;
+    public CardsArray getEnemiesInHeroRow(){
+        ArrayList<Cell> cells = new ArrayList<>();
+        for(Cell cell : Game.getCurrentGame().getTable()[hero.getWhereItIs().getX()]) {
+            cells.add(cell);
+        }
+        return Game.getCurrentGame().getAllAccountArmiesInCellArray(cells,account);
     }
 
+    public ArrayList<Cell> getSquare(int size) {
+        ArrayList<Cell> cells = new ArrayList<>();
+        for(int xIncrease = 0 ; xIncrease < size ; xIncrease++) {
+            for(int yIncrease = 0 ; yIncrease < size ; yIncrease++) {
+                if(Game.getCurrentGame().isTrueCoordinate(  selectedCellToPutFromHand.getX()+xIncrease,
+                                                            selectedCellToPutFromHand.getY()+yIncrease)) {
+                    cells.add(Game.getCurrentGame().getTable()[selectedCellToPutFromHand.getX()+xIncrease]
+                                                              [selectedCellToPutFromHand.getY()+yIncrease]);
+                }
+            }
+        }
+        return cells;
+    }
     public ArrayList<Cell> getSquare2(){
-        ArrayList<Cell> array = new ArrayList<>();
-        //
-        return array;
+        return getSquare(2);
     }
 
     public ArrayList<Cell> getSquare3(){
-        ArrayList<Cell> array = new ArrayList<>();
-        //
-        return array;
+        return getSquare(3);
     }
 
     public Army getOneEnemyOrFriend(){
-        //
-        return null;
+        if(getOneEnemy() != null) return getOneEnemy();
+        else if(getOneFriend() != null) return getOneFriend();
+        else return null;
     }
 
-    public ArrayList<Army> getAllEnemiesInOneColumn(){
-        ArrayList<Army> array = new ArrayList<>();
-        //
-        return array;
+    public CardsArray getAllEnemiesInOneColumn(){
+        ArrayList<Cell> cells = new ArrayList<>();
+        for(int counter = 0 ; counter < TABLE_HEIGHT ; counter++) {
+            cells.add(Game.getCurrentGame().getTable()[counter][selectedCellToPutFromHand.getY()]);
+        }
+        return Game.getCurrentGame().getAllAccountArmiesInCellArray(cells,Game.getCurrentGame().getAnotherAccount(account));
     }
 
     public Minion getOneFriendMinion(){
-        //
+        Card card = getOneFriend();
+        if(card instanceof Minion) return (Minion) card;
         return null;
     }
 
     public Minion getOneEnemyMinion(){
-        //
+        Card card = getOneEnemy();
+        if(card instanceof Minion) return (Minion) card;
         return null;
     }
 
     public Minion getRandomMinionAroundFriendHero(){
-        //
-        return null;
+        ArrayList<Cell> cells = Game.getCurrentGame().getAllNearCells(hero.getWhereItIs());
+        CardsArray cards = Game.getCurrentGame().getAllAccountArmiesInCellArray(cells,account);
+        int counter = 0;
+        while(counter < cards.getAllCards().size()) {
+            if(!(cards.getAllCards().get(counter) instanceof Minion)) cards.remove(cards.getAllCards().get(counter));
+        }
+        return (Minion)cards.getRandomCard();
     }
     public void goToGraveYard() {
         InGraveYard = true;

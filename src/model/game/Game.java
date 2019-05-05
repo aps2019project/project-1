@@ -21,7 +21,7 @@ public class Game {
     private int turnNumber = 1;
     private GameType type;
     private ArrayList<Cell> allCellsInTable = new ArrayList<>();
-    public Game(Account firstAccount, Account secondAccount, GameType type) throws CloneNotSupportedException {
+    public Game(Account firstAccount, Account secondAccount, GameType type) {
         firstPlayer = new Player(firstAccount);
         secondPlayer = new Player(secondAccount);
         for(Cell[] row : table) {
@@ -31,6 +31,34 @@ public class Game {
         }
         this.type = type;
         currentGame = this;
+    }
+    public Game(Account firstAccount, Account secondAccount, GameType type, int numberOfFlags) {
+        this(firstAccount,secondAccount,type);
+        if(numberOfFlags%2 == 1) {
+            putFlagIn(table[TABLE_HEIGHT/2][TABLE_WIDTH/2]);
+        }
+        numberOfFlags/=2;
+        if(numberOfFlags%2 == 1) {
+            putFlagIn(table[TABLE_HEIGHT/2][TABLE_WIDTH/2-3]);
+            putFlagIn(table[TABLE_HEIGHT/2][TABLE_WIDTH/2+3]);
+        }
+        numberOfFlags/=2;
+        if(numberOfFlags%2 == 1) {
+            putFlagIn(table[TABLE_HEIGHT/2+2][TABLE_WIDTH/2-2]);
+            putFlagIn(table[TABLE_HEIGHT/2+2][TABLE_WIDTH/2+2]);
+            putFlagIn(table[TABLE_HEIGHT/2-2][TABLE_WIDTH/2-2]);
+            putFlagIn(table[TABLE_HEIGHT/2-2][TABLE_WIDTH/2+2]);
+        }
+    }
+    public Game(Account firstAccount, IntelligentPlayer intelligentPlayer, GameType type, int numberOfFlags) {
+        this(firstAccount,intelligentPlayer.getAccount(),type,numberOfFlags);
+        secondPlayer = intelligentPlayer;
+    }
+    public void putFlagIn(Cell cell) {
+        Flag flag = new Flag();
+        flags.add(flag);
+        flag.dropTo(cell);
+        cell.setFlag(flag);
     }
     public static Game getCurrentGame() {
         return currentGame;
@@ -185,6 +213,14 @@ public class Game {
         return allArmiesInTable;
     }
 
+    public ArrayList<Cell> getAllCellsNearAccountArmies(Account account) {
+        CardsArray cards = getAllAccountArmiesInCellArray(getAllCellsInTable(),account);
+        ArrayList<Cell> cells = new ArrayList<>();
+        for(Card card : cards.getAllCards()){
+            cells.addAll(getAllNearCells(card.getWhereItIs()));
+        }
+        return cells;
+    }
     public ArrayList<Cell> getAllCellsWithUniqueDistance(Cell cell,int distance) {
         ArrayList<Cell> allCellsWithUniqueDistance = new ArrayList<>();
         for(int xIncrease = -distance ; xIncrease <= distance ; xIncrease++) {
@@ -217,7 +253,13 @@ public class Game {
         allCellsInTable.addAll(this.allCellsInTable);
         return allCellsInTable;
     }
-
+    public ArrayList<Cell> getAllCellsNearArmies(CardsArray armies) {
+        ArrayList<Cell> allCellsNearArmies = new ArrayList<>();
+        for(Card card : armies.getAllCards()) {
+            allCellsNearArmies.addAll(getAllNearCells(card.getWhereItIs()));
+        }
+        return allCellsNearArmies;
+    }
     public boolean isTrueCoordinate(int x,int y) {
         return x >= 0 && y >= 0 && x < TABLE_HEIGHT && y < TABLE_WIDTH;
     }

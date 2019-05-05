@@ -137,10 +137,12 @@ public class BattleScreen extends Screen{
         System.out.println("3. third step");
     }
 
-    public static void showCustomMenu() {
-        System.out.println("1. first hero");
-        System.out.println("2. second hero");
-        System.out.println("3. third hero");
+    public static void showCustomMenuFirstPage() {
+        int counter =1;
+        for(Hero hero : Hero.getHeroes()) {
+            System.out.println(counter+". "+hero.getName());
+            counter++;
+        }
     }
     public static void decks(ArrayList<Deck> decks) {
         System.out.println("your decks are:");
@@ -155,5 +157,14 @@ public class BattleScreen extends Screen{
     }
     public static void showInvalidCommand() {
         System.out.println("invalid command");
+    }
+    public static void showInvalidAccountUserName() {
+        System.out.println("invalid account number");
+    }
+    public static void showInvalidDeckInMultiPlayer() {
+        System.out.println("selected deck for second player is invalid");
+    }
+    public static void showInvalidClone() {
+        System.out.println("invalid clone");
     }
 }

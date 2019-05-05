@@ -14,6 +14,7 @@ public class Army extends Card {
     protected ArrayList<Buff> buffs = new ArrayList<>();
     protected boolean isStunned;
     protected boolean isDisarmed;
+    protected int neededManaToAttack;//
 
     public Army(String name, int price, String description, int hp, int ap, int ar, AttackType attackType, CardType cardType) {
         super(name, price, description, cardType);
@@ -21,6 +22,10 @@ public class Army extends Card {
         this.ap = ap;
         this.ar = ar;
         this.attackType = attackType;
+    }
+
+    public int getNeededManaToAttack() {
+        return neededManaToAttack;
     }
 
     public int getHp() {

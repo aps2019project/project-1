@@ -3,6 +3,8 @@ package model.game;
 import model.cards.Army;
 import model.cards.Item;
 
+import java.util.ArrayList;
+
 public class Cell {
     private Army insideArmy;
     private Item insideItem;
@@ -18,6 +20,10 @@ public class Cell {
     }
     public Army getInsideArmy() {
         return insideArmy;
+    }
+
+    public void setFlag(Flag flag) {
+        this.flag = flag;
     }
 
     public void setEnemyAttackersCell(Cell enemyAttackersCell) {
@@ -42,6 +48,7 @@ public class Cell {
         if(flag != null) {
             flag.takeBy(army,turnNumber);
         }
+        //Action cell effect
         return true;
     }
     public Army pick() {
@@ -68,8 +75,12 @@ public class Cell {
     public static boolean isNear(Cell firstCell ,Cell secondCell) {
         return Math.abs(firstCell.getX() - secondCell.getX()) < 2 && Math.abs(firstCell.getY() - secondCell.getY()) < 2;
     }
+    public static Cell getRandomCell(ArrayList<Cell> cells) {
+        int index = (int)Math.floor(Math.random()*cells.size());
+        return cells.get(index);
+    }
     public void getEffect(){
-
+        //cell effects
     }
     public void ActionPoisonBuff() {
         insideArmy.decreaseHp(1);
@@ -77,4 +88,5 @@ public class Cell {
     public void ActionFire() {
         insideArmy.decreaseHp(2);
     }
+
 }
