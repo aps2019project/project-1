@@ -100,6 +100,12 @@ public class Army extends Card {
     }
 
     public void addBuff(Buff buff) {
+        if(this.getName().equals("WildHog") || this.getName().equals("Piran") || this.getName().equals("Giv")){
+            try {
+                if ((boolean) Minion.class.getDeclaredMethod(this.getName() + "OnDefend", Buff.class).invoke(this, buff))
+                    return;
+            } catch (Exception e){}
+        }
         this.buffs.add(buff);
         this.activateBuff(buff);
     }
@@ -198,9 +204,9 @@ public class Army extends Card {
     }
 
     public void getDamaged(int number, Army army) {
+        if(this.getName().equals("Giv")) return;
         int holyBuffs = this.haveBuff(Holy.class);
         int unholyBuffs = this.haveBuff(Unholy.class);
-
         try {
             if (army.getName().equals("PredatorLion")) holyBuffs = 0;
         } catch (NullPointerException n) {

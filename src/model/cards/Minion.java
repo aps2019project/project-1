@@ -123,7 +123,7 @@ public class Minion extends Army {
 
     public void OneEyedGiantOnDeath(Player player, Cell cell) {
         ArrayList<Army> array = player.getEnemiesAround(cell);
-        for(Army army : array) {
+        for (Army army : array) {
             army.getDamaged(2, this);
         }
     }
@@ -134,7 +134,7 @@ public class Minion extends Army {
 
     public void HugeSnakeOnSpawn(Player player, Cell cell) {
         ArrayList<Army> array = player.getEnemiesInDistance2(cell);
-        for(Army army : array) {
+        for (Army army : array) {
             army.addBuff(new Unholy(1, PERMANENT));
         }
 
@@ -162,7 +162,7 @@ public class Minion extends Army {
     public void WitchPassive(Player player, Cell cell) {
         ArrayList<Army> array = player.getFriendsAround(cell);
         array.add(this);
-        for(Army army : array) {
+        for (Army army : array) {
             army.addBuff(new Power(2, AP, 1, NORMAL));
             army.addBuff(new Weakness(1, HP, 1, NORMAL));
         }
@@ -171,7 +171,7 @@ public class Minion extends Army {
     public void GrandWitchPassive(Player player, Cell cell) {
         ArrayList<Army> array = player.getFriendsAround(cell);
         array.add(this);
-        for(Army army : array) {
+        for (Army army : array) {
             army.addBuff(new Power(2, AP, 1, NORMAL));
             army.addBuff(new Holy(1, 1, CONTINUOUS));
         }
@@ -179,10 +179,25 @@ public class Minion extends Army {
 
     public void GoblinOnSpawn(Player player, Cell cell) {
         ArrayList<Army> array = player.getInGameCards();
-        for(Army army : array) {
-            if(army instanceof Hero) continue;
+        for (Army army : array) {
+            if (army instanceof Hero) continue;
             army.addBuff(new Power(1, AP, 1, CONTINUOUS));
         }
+    }
+
+    public boolean WildHogOnDefend(Buff buff) {
+        if (buff instanceof Disarm) return true;
+        return false;
+    }
+
+    public boolean PiranOnDefend(Buff buff) {
+        if (buff instanceof Poison) return true;
+        return false;
+    }
+
+    public boolean GivOnDefend(Buff buff) {
+        if (buff.getBuffType() == BuffType.NEGATIVE) return true;
+        return false;
     }
 
 
