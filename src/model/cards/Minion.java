@@ -4,10 +4,10 @@ import model.Buff.*;
 import model.game.Cell;
 import model.game.Player;
 
-import javax.xml.bind.annotation.adapters.NormalizedStringAdapter;
 import java.util.ArrayList;
 
 import static model.Buff.BuffTImeType.*;
+import static model.Buff.BuffType.*;
 import static model.Buff.PowerBuffType.*;
 import static model.cards.CardType.MINION;
 
@@ -108,10 +108,6 @@ public class Minion extends Army {
 
     }
 
-    public void PersianPahlevanOnAttack(Army army) {
-
-    }
-
     public void TuranianSpyOnAttack(Army army) {
         army.addBuff(new Disarm(1, 1, NORMAL));
         army.addBuff(new Poison(4, NORMAL));
@@ -123,7 +119,7 @@ public class Minion extends Army {
 
     public void OneEyedGiantOnDeath(Player player, Cell cell) {
         ArrayList<Army> array = player.getEnemiesAround(cell);
-        for(Army army : array) {
+        for (Army army : array) {
             army.getDamaged(2, this);
         }
     }
@@ -134,10 +130,9 @@ public class Minion extends Army {
 
     public void HugeSnakeOnSpawn(Player player, Cell cell) {
         ArrayList<Army> array = player.getEnemiesInDistance2(cell);
-        for(Army army : array) {
+        for (Army army : array) {
             army.addBuff(new Unholy(1, PERMANENT));
         }
-
     }
 
     public void WhiteWolfOnAttack(Army army) {
@@ -162,7 +157,7 @@ public class Minion extends Army {
     public void WitchPassive(Player player, Cell cell) {
         ArrayList<Army> array = player.getFriendsAround(cell);
         array.add(this);
-        for(Army army : array) {
+        for (Army army : array) {
             army.addBuff(new Power(2, AP, 1, NORMAL));
             army.addBuff(new Weakness(1, HP, 1, NORMAL));
         }
@@ -171,7 +166,7 @@ public class Minion extends Army {
     public void GrandWitchPassive(Player player, Cell cell) {
         ArrayList<Army> array = player.getFriendsAround(cell);
         array.add(this);
-        for(Army army : array) {
+        for (Army army : array) {
             army.addBuff(new Power(2, AP, 1, NORMAL));
             army.addBuff(new Holy(1, 1, CONTINUOUS));
         }
@@ -179,11 +174,55 @@ public class Minion extends Army {
 
     public void GoblinOnSpawn(Player player, Cell cell) {
         ArrayList<Army> array = player.getInGameCards();
-        for(Army army : array) {
-            if(army instanceof Hero) continue;
+        for (Army army : array) {
+            if (army instanceof Hero) continue;
             army.addBuff(new Power(1, AP, 1, CONTINUOUS));
         }
     }
 
+    public boolean WildHogOnDefend(Buff buff) {
+        return buff instanceof Disarm;
+    }
+
+    public boolean PiranOnDefend(Buff buff) {
+        return buff instanceof Poison;
+    }
+
+    public boolean GivOnDefend(Buff buff) {
+        return buff.getBuffType() == BuffType.NEGATIVE;
+    }
+
+    public void BahmanOnSpawn(Player player, Cell cell) {
+        while (true) {
+            Army army = Army.getRandomArmy(player.getEnemyPlayer().getInGameCards());
+            if (army instanceof Hero) continue;
+            army.setHp(army.getHp() - 16);
+
+        }
+    }
+
+    public boolean AshkbousOnDefend(Army army) {
+        return army.getAp() < this.getAp();
+    }
+
+    public void TwoHeadedGiantOnAttack(Army army) {
+        army.deleteBuffs(POSITIVE);
+    }
+
+    public void NaneSarmaOnSpawn(Player player, Cell cell) {
+        ArrayList<Army> array = player.getEnemiesAround(cell);
+        for(Army army : array) {
+            if(army instanceof Hero) continue;
+            army.addBuff(new Stun(1, 1, NORMAL));
+        }
+    }
+
+    public void FuladZerehOnSpawn(Player player, Cell cell) {
+        this.addBuff(new Holy(12, 1, CONTINUOUS));
+    }
+
+    public void  SiavashOnDeath(Player player, Cell cell) {
+        player.getEnemyPlayer().getHero().getDamaged(6, null);
+    }
 
 }
