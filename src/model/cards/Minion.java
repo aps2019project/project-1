@@ -225,4 +225,12 @@ public class Minion extends Army {
         player.getEnemyPlayer().getHero().getDamaged(6, null);
     }
 
+    public void checkOnSpawn(Player player, Cell cell) {
+        if (this.getSpTime() == SPTime.ON_SPAWN){
+            try{
+                Minion.class.getDeclaredMethod(this.getName() +"OnSpawn", Player.class, Cell.class).invoke(this, player, cell);
+            } catch (Exception n){}
+        }
+    }
+
 }

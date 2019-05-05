@@ -1,13 +1,15 @@
 package model.cards;
 
 import model.Buff.*;
+import model.game.Cell;
 import model.game.Player;
-import model.variables.CardsArray;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
 
+import static model.Buff.BuffTImeType.*;
+import static model.Buff.PowerBuffType.*;
 import static model.cards.AttackType.*;
 import static model.cards.SPTime.*;
 
@@ -207,13 +209,23 @@ public class Army extends Card {
     }
 
     public void checkOnAttack(Army army) {
-        if (this.getName().equals("Zahack")) {
-            army.addBuff(new Poison(3, BuffTImeType.NORMAL));
+        if (this instanceof Hero) {
+            Hero hero = (Hero)this;
+            if (hero.getName().equals("Zahack"))
+                army.addBuff(new Poison(3, NORMAL));
+            if (hero.getAttackType() != MELEE && hero.getPlayer().getUsableItem().getName().equals("DamoolArc"))
+                army.addBuff(new Disarm(1, 1, NORMAL));
+            if (hero.getPlayer().getUsableItem().getName().equals("ShockHammer"))
+                army.addBuff(new Disarm(1, 1, NORMAL));
         }
         if (this instanceof Minion && ((Minion) this).getSpTime() == ON_ATTACK) {
             try {
                 Minion.class.getDeclaredMethod(this.name + "OnAttack", Army.class).invoke(this, army);
             } catch (Exception e){}
+            if (this.getPlayer().getUsableItem().getName().equals("TerrorHood"))
+                army.addBuff(new Weakness(2, AP, 1, NORMAL));
+            if (this.getPlayer().getUsableItem().getName().equals("PoisonousDagger"))
+                army.addBuff(new Poison(1, NORMAL));
         }
     }
 
