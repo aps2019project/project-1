@@ -1,10 +1,14 @@
 package model.cards;
 
 import model.Buff.*;
+import model.game.Cell;
+import model.game.Player;
 
+import javax.xml.bind.annotation.adapters.NormalizedStringAdapter;
 import java.util.ArrayList;
 
 import static model.Buff.BuffTImeType.*;
+import static model.Buff.PowerBuffType.*;
 import static model.cards.CardType.MINION;
 
 public class Minion extends Army {
@@ -13,7 +17,7 @@ public class Minion extends Army {
     private int mana;
     private SPTime spTime;
     private Race race;
-  
+
     Minion(String name, int price, int hp
             , int ap, int ar, int mana, AttackType attackType
             , Race race, SPTime spTime, String description) {
@@ -57,16 +61,16 @@ public class Minion extends Army {
         return race;
     }
 
-    public static void scanMinions(ArrayList<String[]> data){
-        for(String[] line : data){
+    public static void scanMinions(ArrayList<String[]> data) {
+        for (String[] line : data) {
             SPTime spTime = null;
 
-            if(!line[9].equals("-")){
+            if (!line[9].equals("-")) {
                 spTime = SPTime.valueOf(line[9].toUpperCase().replace(" ", "_"));
             }
 
             Race race = null;
-            if(!line[10].equals("-")){
+            if (!line[10].equals("-")) {
                 race = Race.valueOf(line[10].toUpperCase());
             }
 
@@ -99,21 +103,77 @@ public class Minion extends Army {
                 '}';
     }*/
 
-   public void PersianSwordsmanOnAttack (Army army) {
-       army.addBuff(new Stun(1, 1, NORMAL));
+    public void PersianSwordsmanOnAttack(Army army) {
+        army.addBuff(new Stun(1, 1, NORMAL));
 
-   }
+    }
 
-   public void PersianPahlevanOnAttack (Army army) {
+    public void PersianPahlevanOnAttack(Army army) {
 
-   }
+    }
 
-   public void TuranianSpyOnAttack (Army army) {
-       army.addBuff(new Disarm(1, 1, NORMAL));
-       army.addBuff(new Poison(4, NORMAL));
-   }
+    public void TuranianSpyOnAttack(Army army) {
+        army.addBuff(new Disarm(1, 1, NORMAL));
+        army.addBuff(new Poison(4, NORMAL));
+    }
 
+    public void EagleOnSpawn(Player player, Cell cell) {
+        this.addBuff(new Power(10, HP, 1, CONTINUOUS));
+    }
 
+    public void OneEyedGiantOnDeath(Player player, Cell cell) {
+        ArrayList<Army> array = player.getEnemiesAround(cell);
+        for(Army army : array) {
+            army.getDamaged(2, this);
+        }
+    }
+
+    public void PoisonousSnakeOnAttack(Army army) {
+        army.addBuff(new Poison(3, NORMAL));
+    }
+
+    public void HugeSnakeOnSpawn(Player player, Cell cell) {
+        ArrayList<Army> array = player.getEnemiesInDistance2(cell);
+
+    }
+
+    public void WhiteWolfOnAttack(Army army) {
+
+    }
+
+    public void PanterOnAttack(Army army) {
+
+    }
+
+    public void WolfOnAttack(Army army) {
+
+    }
+
+    public void WitchPassive(Player player, Cell cell) {
+        ArrayList<Army> array = player.getFriendsAround(cell);
+        array.add(this);
+        for(Army army : array) {
+            army.addBuff(new Power(2, AP, 1, NORMAL));
+            army.addBuff(new Weakness(1, HP, 1, NORMAL));
+        }
+    }
+
+    public void GrandWitchPassive(Player player, Cell cell) {
+        ArrayList<Army> array = player.getFriendsAround(cell);
+        array.add(this);
+        for(Army army : array) {
+            army.addBuff(new Power(2, AP, 1, NORMAL));
+            army.addBuff(new Holy(1, 1, CONTINUOUS));
+        }
+    }
+
+    public void GoblinOnSpawn(Player player, Cell cell) {
+        ArrayList<Army> array = player.getInGameCards();
+        for(Army army : array) {
+            if(army instanceof Hero) continue;
+            army.addBuff(new Power(1, AP, 1, CONTINUOUS));
+        }
+    }
 
 
 }

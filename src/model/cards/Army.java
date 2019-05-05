@@ -189,6 +189,9 @@ public class Army extends Card {
 
     public void getDamaged(int number, Army army) {
         int holyBuffs = this.haveBuff(Holy.class);
+        try {
+            if (army.getName().equals("PredatorLion")) holyBuffs = 0;
+        } catch (NullPointerException n){}
         if (holyBuffs < number) {
             number -= holyBuffs;
             this.setHp(this.getHp() - number);
