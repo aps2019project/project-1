@@ -208,7 +208,8 @@ public class Army extends Card {
 
     public void counterAttack(Army army) {
         if (this.isDisarmed) return;
-        this.attack(army);
+        army.getDamaged(this.getAp(), army);
+        this.checkOnAttack(army);
     }
 
     public static Army getRandomArmy(ArrayList<Army> array){

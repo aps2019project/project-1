@@ -165,6 +165,11 @@ public class Player {
         }
     }
 
+    public void useCollectibleItem() {
+        //
+    }
+
+
 
     public void startMatchSetup() { deck.fillHand(hand);
     }
