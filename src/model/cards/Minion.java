@@ -17,6 +17,7 @@ public class Minion extends Army {
     private int mana;
     private SPTime spTime;
     private Race race;
+    private boolean haveDeathCurse;
 
     Minion(String name, int price, int hp
             , int ap, int ar, int mana, AttackType attackType
@@ -47,6 +48,14 @@ public class Minion extends Army {
 
     public int getMana() {
         return mana;
+    }
+
+    public boolean HaveDeathCurse() {
+        return haveDeathCurse;
+    }
+
+    public void setHaveDeathCurse(boolean haveDeathCurse) {
+        this.haveDeathCurse = haveDeathCurse;
     }
 
     public AttackType getAttackType() {
@@ -238,6 +247,25 @@ public class Minion extends Army {
                 break;
             case "Baptism":
                 this.addBuff(new Holy(1, 2, NORMAL));
+                break;
+        }
+    }
+
+    public void chekcOnDeath(Player player, Cell cell) {
+        if (this.getSpTime() == SPTime.ON_DEATH){
+            try{
+                Minion.class.getDeclaredMethod(this.getName() +"OnDeath", Player.class, Cell.class).invoke(this, player, cell);
+            } catch (Exception n){}
+        }
+        String itemName = this.getPlayer().getUsableItem().getName();
+        switch (itemName){
+            case "SoulEater":
+                Army.getRandomArmy(player.getInGameCards()).addBuff(new Power(1, AP, PERMANENT));
+                break;
+        }
+        if(this.haveDeathCurse){
+            Army army = player.getNearestEnemy(cell);
+            army.getDamaged(8, null);
         }
     }
 

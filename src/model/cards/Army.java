@@ -274,5 +274,4 @@ public class Army extends Card {
         }
         this.attack(target);
     }
-
 }

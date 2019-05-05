@@ -311,4 +311,9 @@ public class Player {
         return army;
     }
 
+    public Army getNearestEnemy(Cell cell) {
+        //
+        return null;
+    }
+
 }
