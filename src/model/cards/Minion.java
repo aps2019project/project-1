@@ -134,6 +134,9 @@ public class Minion extends Army {
 
     public void HugeSnakeOnSpawn(Player player, Cell cell) {
         ArrayList<Army> array = player.getEnemiesInDistance2(cell);
+        for(Army army : array) {
+            army.addBuff(new Unholy(1, PERMANENT));
+        }
 
     }
 
