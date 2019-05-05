@@ -190,6 +190,7 @@ public class Army extends Card {
 
     public void attack(Army army) {
         if (this.isStunned) return;
+        if (army.getName().equals("Ashkbous") && ((Minion)army).AshkbousOnDefend(this)) return;
         army.getDamaged(this.getAp(), army);
         this.checkOnAttack(army);
     }

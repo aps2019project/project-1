@@ -200,5 +200,19 @@ public class Minion extends Army {
         return false;
     }
 
+    public void BahmanOnSpawn(Player player, Cell cell) {
+        while(true) {
+            Army army = Army.getRandomArmy(player.getEnemyPlayer().getInGameCards());
+            if(army instanceof Hero) continue;
+            army.setHp(army.getHp() - 16);
+
+        }
+    }
+
+    public boolean AshkbousOnDefend(Army army) {
+        if(army.getAp() < this.getAp()) return true;
+        return false;
+    }
+
 
 }
