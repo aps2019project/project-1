@@ -20,8 +20,8 @@ public class Army extends Card {
     protected boolean isDisarmed;
     protected Player player;
 
-    public Army(String name, int price, String description, int hp, int ap, int ar, AttackType attackType, CardType cardType) {
-        super(name, price, description, cardType);
+    public Army(int number, String name, int price, String description, int hp, int ap, int ar, AttackType attackType, CardType cardType) {
+        super(number, name, price, description, cardType);
         this.hp = hp;
         this.ap = ap;
         this.ar = ar;
