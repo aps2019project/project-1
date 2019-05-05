@@ -6,6 +6,12 @@ import model.cards.*;
 import model.other.Account;
 import model.variables.CardsArray;
 import model.variables.GlobalVariables;
+import java.lang.reflect.Array;
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+
+import static model.cards.AttackType.HYBRID;
+import static model.cards.AttackType.RANGED;
 
 import java.util.ArrayList;
 
@@ -27,6 +33,7 @@ public class Player {
     protected Hero hero;
     protected Cell selectedCardPlace;
     protected boolean InGraveYard = false;
+    private Item usableItem;
     protected Cell selectedCellToPutFromHand;
     public Player(Account account){
         this(account,account.getMainDeck());
@@ -34,6 +41,7 @@ public class Player {
     public Player(Account account,Deck deck) {
         this.account = account;
         this.deck = deck.copyAll();
+        this.usableItem = this.deck.getItem();
     }
 
 
@@ -80,12 +88,16 @@ public class Player {
         return hero;
     }
 
+    public Item getUsableItem() {
+        return usableItem;
+    }
+
     public void setEndTurn(boolean endTurn) {
         this.endTurn = endTurn;
     }
 
     public boolean setSelectedCard(Cell selectedCardPlace) {
-        if(selectedCardPlace == null) return false;
+        if (selectedCardPlace == null) return false;
         this.selectedCardPlace = selectedCardPlace;
         return true;
     }
@@ -101,31 +113,38 @@ public class Player {
     public Account getAccount() {
         return account;
     }
+
     public void increaseTurnNumber() {
         turnNumber++;
     }
+
     public void setMana() {
-        if(turnNumber <= 7) mana = turnNumber+1;
-        else               mana = 9;
+        if (turnNumber <= 7) mana = turnNumber + 1;
+        else mana = 9;
+        if (this.usableItem.getName().equals("WisdomCrown") && turnNumber<4) mana++;
+        if (this.usableItem.getName().equals("KingWisdom")) mana++;
     }
+
     public void addToGraveYard(Card card) {
-        if(card instanceof Hero) heroKilled = true;
+        if (card instanceof Hero) heroKilled = true;
         this.graveYard.add(card);
     }
-    public boolean moveArmy(Cell presentCell,Cell destinationCell) {
-        if(presentCell == null || destinationCell == null) return false;
-        if(destinationCell.isEmpty() || movedCardsInThisTurn.find(presentCell.getInsideArmy()) == null
+
+    public boolean moveArmy(Cell presentCell, Cell destinationCell) {
+        if (presentCell == null || destinationCell == null) return false;
+        if (destinationCell.isEmpty() || movedCardsInThisTurn.find(presentCell.getInsideArmy()) == null
                 || attackerCardsInThisTurn.find(presentCell.getInsideArmy()) == null) return false;
-        if(Cell.getDistance(presentCell,destinationCell) > 2) return false;
+        if (Cell.getDistance(presentCell, destinationCell) > 2) return false;
         Army army = presentCell.pick();
         movedCardsInThisTurn.add(army);
-        return destinationCell.put(army,turnNumber);
+        return destinationCell.put(army, turnNumber);
     }
+
     public void putHeroIn(Cell cell) {
         Hero hero = deck.getHero();
         this.hero = hero;
         deck.deleteCard(hero);
-        cell.put(hero,turnNumber);
+        cell.put(hero, turnNumber);
         this.inGameCards.add(hero);
     }
     public boolean isInRange(Cell attackersCell,Cell defenderCell) {
@@ -141,11 +160,17 @@ public class Player {
         mana -= attackersCell.getInsideArmy().getNeededManaToAttack();
         attackersCell.getInsideArmy().attack(defenderCell.getInsideArmy());
         return true;
-    }
-    public boolean attack(Cell defenderCell) {
-        return attack(selectedCardPlace,defenderCell);
+
     }
 
+    public boolean attack(Cell defenderCell) {
+        return attack(selectedCardPlace, defenderCell);
+    }
+
+    public boolean attackCombo() {
+        //
+        return false;
+    }
     public boolean moveFromHandToCell(String name,Cell cell) {
         if( cell.isEmpty() &&
             Game.getCurrentGame().getAllCellsNearAccountArmies(account).indexOf(cell) != -1 &&
@@ -161,40 +186,70 @@ public class Player {
                 movedCardsInThisTurn.add(card);
                 attackerCardsInThisTurn.add(card);
                 this.inGameCards.add(card);
-                return true;
-            }
-        }
-        return false;
-    }
-    public void useItem(){
-    }
-    public void startMatchSetup() { deck.fillHand(hand);
-    }
-    public void nextTurnSetup() {
-        movedCardsInThisTurn.clear();
-        attackerCardsInThisTurn.clear();
-    }
-    public void play() {
-        endTurn = false;
-        increaseTurnNumber();
-        setMana();
-        deck.transferCardTo(hand);
-        while(!endTurn) {
-            //HandleBattleCommands
-        }
-    }
-    public boolean haveCard(Card card){
-        for(Card cardTemp : this.deck.getCards().getAllCards()){
-            if(cardTemp == card){
+                ((Army)card).setPlayer(this);
+                if(card instanceof Minion){
+                    Minion minion = (Minion)card;
+                    minion.checkOnSpawn(this, cell);
+                }
                 return true;
             }
         }
         return false;
     }
 
-    public Player getEnemyPlayer(){
+    public void usableItemEffect(String itemName) throws IllegalAccessException, InvocationTargetException {
+        try {
+            Item.class.getDeclaredMethod(itemName + "Usable", Player.class).invoke(null, this);
+        } catch (NoSuchMethodException n) {
+
+        }
+    }
+
+    public void collectibleItemEffect(String itemName, Army army) throws IllegalAccessException, InvocationTargetException {
+        try {
+            Item.class.getDeclaredMethod(itemName + "Collectible", Player.class, Army.class).invoke(null, this, army);
+        } catch (NoSuchMethodException n) {
+
+        }
+    }
+
+    public void useCollectibleItem() {
+        //
+    }
+
+
+    public void startMatchSetup() {
+        deck.fillHand(hand);
+    }
+
+    public void nextTurnSetup() {
+        movedCardsInThisTurn.clear();
+        attackerCardsInThisTurn.clear();
+    }
+
+    public void play() {
+        endTurn = false;
+        increaseTurnNumber();
+        setMana();
+        deck.transferCardTo(hand);
+        while (!endTurn) {
+            BattlesOrderType orderType = BattleHandler.getPlayingOrder();
+            //////////
+        }
+    }
+
+    public boolean haveCard(Card card) {
+        for (Card cardTemp : this.deck.getCards().getAllCards()) {
+            if (cardTemp == card) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public Player getEnemyPlayer() {
         Game game = Game.getCurrentGame();
-        if(game.getFirstPlayer().equals(this))
+        if (game.getFirstPlayer().equals(this))
             return game.getSecondPlayer();
         else
             return game.getFirstPlayer();
@@ -202,11 +257,12 @@ public class Player {
 
     public ArrayList<Army> getInGameCards() {
         ArrayList<Army> army = new ArrayList<>();
-        for(Card card : this.inGameCards.getAllCards()){
-            army.add( (Army)card );
+        for (Card card : this.inGameCards.getAllCards()) {
+            army.add((Army) card);
         }
         return army;
     }
+
 
     public Army getOneEnemy(){
         if(!selectedCellToPutFromHand.isEmpty() && !selectedCellToPutFromHand.getInsideArmy().getAccount().equals(account)) {
@@ -291,6 +347,28 @@ public class Player {
     }
     public void ExitFromGraveYard() {
         InGraveYard = false;
+      
+    public ArrayList<Army> getEnemiesAround(Cell cell) {
+        ArrayList<Army> army = new ArrayList<>();
+        //
+        return army;
+    }
+
+    public ArrayList<Army> getFriendsAround(Cell cell) {
+        ArrayList<Army> army = new ArrayList<>();
+        //
+        return army;
+    }
+
+    public ArrayList<Army> getEnemiesInDistance2(Cell cell) {//army haye dar 2 vahed faseleh
+        ArrayList<Army> army = new ArrayList<>();
+        //
+        return army;
+    }
+
+    public Army getNearestEnemy(Cell cell) {
+        //
+        return null;
     }
 
     public boolean isInGraveYard() {

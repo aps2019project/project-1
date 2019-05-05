@@ -1,5 +1,6 @@
 package model.game;
 
+import model.cards.Army;
 import model.cards.Card;
 import model.other.Account;
 import model.variables.CardsArray;
@@ -204,7 +205,6 @@ public class Game {
         }
         return null;
     }
-
     public CardsArray getAllAccountArmiesInCellArray(ArrayList<Cell> cells , Account account) {
         CardsArray allArmiesInTable = new CardsArray();
         for(Cell cell : cells) {
@@ -267,5 +267,11 @@ public class Game {
         if(firstPlayer.getAccount().equals(account)) return secondPlayer.getAccount();
         else if(secondPlayer.getAccount().equals(account)) return firstPlayer.getAccount();
         else    return null;
+    }
+    public ArrayList<Army> getAllInGameCards(){
+        ArrayList<Army> array = new ArrayList<>();
+        array.addAll(firstPlayer.getInGameCards());
+        array.addAll(secondPlayer.getInGameCards());
+        return array;
     }
 }

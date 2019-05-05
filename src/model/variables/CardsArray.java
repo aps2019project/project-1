@@ -10,10 +10,9 @@ import java.util.Comparator;
 import static model.cards.CardType.*;
 
 public class CardsArray {
-    protected ArrayList<Card> allCards;
+    protected ArrayList<Card> allCards = new ArrayList<>();
 
     public CardsArray(){
-        allCards = new ArrayList<>();
     }
 
     public ArrayList<Card> getAllCards() {
