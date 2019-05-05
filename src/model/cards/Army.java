@@ -1,8 +1,6 @@
 package model.cards;
 
-import com.sun.org.apache.xalan.internal.xsltc.dom.SimpleResultTreeImpl;
 import model.Buff.*;
-import model.game.Cell;
 import model.game.Player;
 
 import java.util.ArrayList;
