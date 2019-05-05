@@ -1,5 +1,6 @@
 package model.cards;
 
+import com.sun.org.apache.xalan.internal.xsltc.dom.SimpleResultTreeImpl;
 import model.Buff.*;
 import model.game.Cell;
 import model.game.Player;
@@ -213,19 +214,30 @@ public class Army extends Card {
             Hero hero = (Hero)this;
             if (hero.getName().equals("Zahack"))
                 army.addBuff(new Poison(3, NORMAL));
-            if (hero.getAttackType() != MELEE && hero.getPlayer().getUsableItem().getName().equals("DamoolArc"))
-                army.addBuff(new Disarm(1, 1, NORMAL));
-            if (hero.getPlayer().getUsableItem().getName().equals("ShockHammer"))
-                army.addBuff(new Disarm(1, 1, NORMAL));
+            String itemName = hero.getPlayer().getUsableItem().getName();
+            switch (itemName) {
+                case "DamoolArc":
+                    if (hero.getAttackType() != MELEE)
+                        army.addBuff(new Disarm(1, 1, NORMAL));
+                    break;
+                case "ShockHammer":
+                    army.addBuff(new Disarm(1, 1, NORMAL));
+                    break;
+            }
         }
         if (this instanceof Minion && ((Minion) this).getSpTime() == ON_ATTACK) {
             try {
                 Minion.class.getDeclaredMethod(this.name + "OnAttack", Army.class).invoke(this, army);
             } catch (Exception e){}
-            if (this.getPlayer().getUsableItem().getName().equals("TerrorHood"))
-                army.addBuff(new Weakness(2, AP, 1, NORMAL));
-            if (this.getPlayer().getUsableItem().getName().equals("PoisonousDagger"))
-                army.addBuff(new Poison(1, NORMAL));
+            String itemName = this.getPlayer().getUsableItem().getName();
+            switch (itemName) {
+                case "TerrorHood":
+                    army.addBuff(new Weakness(2, AP, 1, NORMAL));
+                    break;
+                case "PoisonousDagger":
+                    army.addBuff(new Poison(1, NORMAL));
+                    break;
+            }
         }
     }
 
