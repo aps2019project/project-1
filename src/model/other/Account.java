@@ -172,6 +172,16 @@ public class Account {
 
     }
 
+    public void deleteCardFromAllDecks(String cardName){
+        for (Deck deck : allDecks) {
+            Card card = deck.getCards().findByName(cardName);
+            while (card != null) {
+                    deck.deleteCard(card);
+                    card = deck.getCards().findByName(cardName);
+            }
+        }
+    }
+
     @Override
     public String toString() {
         return "Account{" +
