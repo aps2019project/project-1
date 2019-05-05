@@ -4,10 +4,10 @@ import model.Buff.*;
 import model.game.Cell;
 import model.game.Player;
 
-import javax.xml.bind.annotation.adapters.NormalizedStringAdapter;
 import java.util.ArrayList;
 
 import static model.Buff.BuffTImeType.*;
+import static model.Buff.BuffType.*;
 import static model.Buff.PowerBuffType.*;
 import static model.cards.CardType.MINION;
 
@@ -108,10 +108,6 @@ public class Minion extends Army {
 
     }
 
-    public void PersianPahlevanOnAttack(Army army) {
-
-    }
-
     public void TuranianSpyOnAttack(Army army) {
         army.addBuff(new Disarm(1, 1, NORMAL));
         army.addBuff(new Poison(4, NORMAL));
@@ -137,7 +133,6 @@ public class Minion extends Army {
         for (Army army : array) {
             army.addBuff(new Unholy(1, PERMANENT));
         }
-
     }
 
     public void WhiteWolfOnAttack(Army army) {
@@ -186,33 +181,48 @@ public class Minion extends Army {
     }
 
     public boolean WildHogOnDefend(Buff buff) {
-        if (buff instanceof Disarm) return true;
-        return false;
+        return buff instanceof Disarm;
     }
 
     public boolean PiranOnDefend(Buff buff) {
-        if (buff instanceof Poison) return true;
-        return false;
+        return buff instanceof Poison;
     }
 
     public boolean GivOnDefend(Buff buff) {
-        if (buff.getBuffType() == BuffType.NEGATIVE) return true;
-        return false;
+        return buff.getBuffType() == BuffType.NEGATIVE;
     }
 
     public void BahmanOnSpawn(Player player, Cell cell) {
-        while(true) {
+        while (true) {
             Army army = Army.getRandomArmy(player.getEnemyPlayer().getInGameCards());
-            if(army instanceof Hero) continue;
+            if (army instanceof Hero) continue;
             army.setHp(army.getHp() - 16);
 
         }
     }
 
     public boolean AshkbousOnDefend(Army army) {
-        if(army.getAp() < this.getAp()) return true;
-        return false;
+        return army.getAp() < this.getAp();
     }
 
+    public void TwoHeadedGiantOnAttack(Army army) {
+        army.deleteBuffs(POSITIVE);
+    }
+
+    public void NaneSarmaOnSpawn(Player player, Cell cell) {
+        ArrayList<Army> array = player.getEnemiesAround(cell);
+        for(Army army : array) {
+            if(army instanceof Hero) continue;
+            army.addBuff(new Stun(1, 1, NORMAL));
+        }
+    }
+
+    public void FuladZerehOnSpawn(Player player, Cell cell) {
+        this.addBuff(new Holy(12, 1, CONTINUOUS));
+    }
+
+    public void  SiavashOnDeath(Player player, Cell cell) {
+        player.getEnemyPlayer().getHero().getDamaged(6, null);
+    }
 
 }

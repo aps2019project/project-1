@@ -10,6 +10,7 @@ public class Buff {
         this.number = number;
         this.buffType = buffType;
         this.buffTImeType = buffTImeType;
+        if(buffTImeType == BuffTImeType.PERMANENT) this.turns = -1;
     }
 
     public Buff(int number, int turns, BuffType buffType, BuffTImeType buffTImeType){

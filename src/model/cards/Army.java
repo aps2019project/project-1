@@ -218,17 +218,6 @@ public class Army extends Card {
             this.setHp(this.getHp() - number);
         }
         this.setHp(this.getHp() - unholyBuffs);
-        this.checkOnDefend(army);
-    }
-
-    public void checkOnDefend(Army army) {
-        if (this instanceof Minion && ((Minion) this).getSpTime() == ON_DEFEND) {
-            if (army == null) {
-
-            } else {
-
-            }
-        }
     }
 
     public void counterAttack(Army army) {
