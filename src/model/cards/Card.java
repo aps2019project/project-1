@@ -75,6 +75,8 @@ public class Card implements Cloneable{
     }
 
     public boolean isSameAs(Card card) {
+        if (card == null)
+            return false;
         return this.ID.isSameAs(card.ID);
     }
 
