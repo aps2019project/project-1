@@ -148,4 +148,19 @@ public class Card implements Cloneable {
         account.addDeck(deck);
     }
 
+    @Override
+    public String toString() {
+        switch (this.type) {
+            case HERO :
+                return "Hero - " + ((Hero)this).toString();
+            case MINION :
+                return "Minion - " + ((Minion)this).toString();
+            case SPELL :
+                return "Spell - " + ((Spell)this).toString();
+            case ITEM :
+                return "Item - " + ((Item)this).toString();
+        }
+        return null;
+    }
+
 }
