@@ -106,6 +106,7 @@ class ShopHandler extends Handler {
         account.increaseDaric(card.getPrice());
         account.deleteCardFromAllDecks(card.getName());
         account.removeCardFromCollection(card);
+        account.getCollection().remove(card);
         ShopScreen.showSellWasSuccessful();
     }
 
