@@ -119,6 +119,8 @@ public class Game {
         firstPlayer.nextTurnSetup();
         secondPlayer.nextTurnSetup();
         whoIsHisTurn.play();
+        firstPlayer.setUpBuffs();
+        secondPlayer.setUpBuffs();
         setupDefends();
         setupCardsDeaf();
         if(whoIsHisTurn == firstPlayer) whoIsHisTurn = secondPlayer;
