@@ -4,6 +4,7 @@ import model.cards.*;
 import model.variables.CardsArray;
 
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Random;
 
 public class Deck {
@@ -93,4 +94,27 @@ public class Deck {
         return cards.getAllCards().size();
     }
 
+    @Override
+    public String toString() {
+        return "Deck{" +
+                "name='" + name + '\'' +
+                ", cards=" + cards +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Deck)) return false;
+        Deck deck = (Deck) o;
+        return Objects.equals(getName(), deck.getName()) &&
+                Objects.equals(getCards(), deck.getCards()) &&
+                Objects.equals(getHero(), deck.getHero()) &&
+                Objects.equals(getItem(), deck.getItem());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getName(), getCards(), getHero(), getItem());
+    }
 }

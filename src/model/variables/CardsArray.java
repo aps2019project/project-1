@@ -6,11 +6,13 @@ import view.BattleScreen;
 import java.awt.datatransfer.MimeTypeParseException;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Objects;
 import java.util.function.IntFunction;
 
 import static model.cards.CardType.*;
 
 public class CardsArray extends ArrayList<Army> {
+
     protected ArrayList<Card> allCards = new ArrayList<>();
 
     public CardsArray(){
@@ -115,9 +117,11 @@ public class CardsArray extends ArrayList<Army> {
         this.remove(card);
         return card;
     }
+
     public Card getRandomCard() {
         return allCards.get((int)Math.floor(Math.random()*allCards.size()));
     }
+
     public CardsArray copyAll() {
         CardsArray copyFromCardList = new CardsArray();
         for(Card card : this.allCards) {
@@ -133,6 +137,27 @@ public class CardsArray extends ArrayList<Army> {
 
     private void sortCards() {
         allCards.sort(Comparator.comparing(Card::getType));
+    }
+
+    @Override
+    public String toString() {
+        return "CardsArray{" +
+                "allCards=" + allCards +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof CardsArray)) return false;
+        if (!super.equals(o)) return false;
+        CardsArray armies = (CardsArray) o;
+        return Objects.equals(getAllCards(), armies.getAllCards());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), getAllCards());
     }
 
 }
