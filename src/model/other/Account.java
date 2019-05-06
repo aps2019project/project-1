@@ -206,10 +206,16 @@ public class Account {
         while (reader.hasNext()){
             str = reader.nextLine();
         }
+        try {
+            List<Account> data = gson.fromJson(str, type);
+            if (data != null)
+                accounts.addAll(data);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
 
-        List<Account> data = gson.fromJson(str, type);
-        if (data != null)
-            accounts.addAll(data);
+        reader.close();
     }
 
     public void deleteCardFromAllDecks(String cardName){
