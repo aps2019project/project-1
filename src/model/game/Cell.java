@@ -53,6 +53,9 @@ public class Cell {
         if(flag != null) {
             flag.takeBy(army,turnNumber);
         }
+        if(this.insideItem != null){
+            army.getPlayer().addItem(this.insideItem);
+        }
         //Action cell effect
         return true;
     }

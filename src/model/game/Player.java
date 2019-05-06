@@ -99,6 +99,11 @@ public class Player {
         return collectibleItem;
     }
 
+    public void addItem(Item item) {
+        this.collectibleItem.add(item);
+    }
+
+
     public Hero getHero() {
         return hero;
     }
