@@ -2,6 +2,7 @@ package model.game;
 
 import model.cards.Army;
 import model.cards.Card;
+import model.cards.Minion;
 import model.other.Account;
 import model.variables.CardsArray;
 
@@ -119,6 +120,8 @@ public class Game {
         firstPlayer.nextTurnSetup();
         secondPlayer.nextTurnSetup();
         whoIsHisTurn.play();
+        firstPlayer.setUpBuffs();
+        secondPlayer.setUpBuffs();
         setupDefends();
         setupCardsDeaf();
         if(whoIsHisTurn == firstPlayer) whoIsHisTurn = secondPlayer;
@@ -152,6 +155,7 @@ public class Game {
             card.getFlag().dropTo(cell);
             cell.add(card.getFlag());
         }
+        ((Minion)card).chekcOnDeath(((Minion) card).getPlayer(), cell);
         this.getPlayer(card.getAccount()).addToGraveYard(card);
     }
     public boolean isGameEnded() {

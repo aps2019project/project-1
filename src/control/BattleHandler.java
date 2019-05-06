@@ -51,9 +51,11 @@ public class BattleHandler extends Handler{
                 //
             }else if (command.matches("use special power(\\d+,\\d+)")) {
                 if(!game.getWhoIsHisTurn().heroHaveSpecialPower()) {
-                    //
+                    BattleScreen.showDoesNotHaveSpecialPower();
                 }
-                if(!game.getWhoIsHisTurn().useSpecialPower(getCell(command)));
+                if(!game.getWhoIsHisTurn().useSpecialPower(getCell(command))){
+                    BattleScreen.showNotEnoughMana();
+                }
 
             }else if (command.matches("show hand")) {
                 BattleScreen.showCardArray(game.getWhoIsHisTurn().getHand());

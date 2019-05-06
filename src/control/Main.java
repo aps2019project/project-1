@@ -21,7 +21,7 @@ public class Main {
                     handler = new AccountHandler().handleCommands();
                     break;
                 case BATTLE:
-                    handler = new BattleHandler().handleCommands();
+                    handler = new BattleMenuHandler().handleCommands();
                     break;
                 case COLLECTION:
                     handler = new CollectionHandler().handleCommands();

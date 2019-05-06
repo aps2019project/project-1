@@ -251,6 +251,12 @@ public class Player {
         attackerCardsInThisTurn.clear();
     }
 
+    public void setUpBuffs() {
+        Army.decreaseBuffTurns(this.getInGameCards());
+        Army.ActivateContinuousBuffs(this.getInGameCards());
+        Army.checkPoisonAndBleeding(this.getInGameCards());
+    }
+
     public void play() {
         endTurn = false;
         increaseTurnNumber();
