@@ -205,7 +205,6 @@ public class Account {
 
         while (reader.hasNext()){
             str = reader.nextLine();
-            System.out.println(str);
         }
 
         List<Account> data = gson.fromJson(str, type);
