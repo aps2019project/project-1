@@ -2,6 +2,7 @@ package model.cards;
 
 import model.Buff.*;
 import model.game.Cell;
+import model.game.CellEffect;
 import model.game.Player;
 
 import static model.Buff.BuffTImeType.*;
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 import static model.Buff.BuffType.*;
 import static model.Buff.PowerBuffType.*;
 import static model.cards.CardType.SPELL;
+import static model.game.CellEffect.*;
 
 public class Spell extends Card {
     private static ArrayList<Spell> spells = new ArrayList<>();
@@ -19,7 +21,7 @@ public class Spell extends Card {
     private String target;
 
     Spell(int number, String name, int price, int mana, String description, String target) {
-        super(number, name, price, description, SPELL);
+        super(number, name, price, description, SPELL, mana);
         this.mana = mana;
         spells.add(this);
         cards.add(this);
@@ -96,7 +98,9 @@ public class Spell extends Card {
 
     public static void HellFireEffect(Player player) {
         ArrayList<Cell> array = player.getSquare2();
-
+        for(Cell cell : array) {
+            cell.setEffect(FIERY);
+        }
     }
 
     public static void LightingBoltEffect(Player player) {
@@ -106,6 +110,9 @@ public class Spell extends Card {
 
     public static void PoisonLakeEffect(Player player) {
         ArrayList<Cell> array = player.getSquare3();
+        for(Cell cell : array) {
+            cell.setEffect(POISON);
+        }
     }
 
     public static void MadnessEffect(Player player) {

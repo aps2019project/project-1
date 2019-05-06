@@ -13,7 +13,6 @@ import static model.cards.CardType.MINION;
 
 public class Minion extends Army {
     private static ArrayList<Minion> minions = new ArrayList<>();
-    private int number;
     private int mana;
     private SPTime spTime;
     private Race race;
@@ -22,7 +21,7 @@ public class Minion extends Army {
     Minion(int number, String name, int price, int hp
             , int ap, int ar, int mana, AttackType attackType
             , Race race, SPTime spTime, String description) {
-        super(number, name, price, description, hp, ap, ar, attackType, MINION);
+        super(number, name, price, description, hp, ap, ar, attackType, MINION, mana);
         this.mana = mana;
         this.spTime = spTime;
         this.race = race;
