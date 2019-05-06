@@ -62,8 +62,6 @@ public class Deck {
 
     public Deck copyAll() {
         Deck deck = new Deck(name,this.cards.copyAll());
-        deck.addCard(this.hero);
-        deck.addCard(this.item);
         return deck;
     }
     public boolean checkIfValid() {
