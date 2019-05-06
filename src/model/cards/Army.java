@@ -1,6 +1,7 @@
 package model.cards;
 
 import model.Buff.*;
+import model.game.Game;
 import model.game.Player;
 import model.variables.CardsArray;
 
@@ -19,7 +20,6 @@ public class Army extends Card {
     protected ArrayList<Buff> buffs = new ArrayList<>();
     protected boolean isStunned;
     protected boolean isDisarmed;
-    protected Player player;
 
     public Army(int number, String name, int price, String description, int hp, int ap, int ar, AttackType attackType, CardType cardType, int mana) {
         super(number, name, price, description, cardType, mana);
@@ -50,11 +50,7 @@ public class Army extends Card {
     }
 
     public Player getPlayer() {
-        return player;
-    }
-
-    public void setPlayer(Player player) {
-        this.player = player;
+        return Game.getCurrentGame().getPlayer(getAccount());
     }
 
     public boolean isDisarmed() {
@@ -212,6 +208,7 @@ public class Army extends Card {
             Hero hero = (Hero)this;
             if (hero.getName().equals("Zahack"))
                 army.addBuff(new Poison(3, NORMAL));
+            if(hero.getPlayer().getUsableItem() == null) return;
             String itemName = hero.getPlayer().getUsableItem().getName();
             switch (itemName) {
                 case "DamoolArc":

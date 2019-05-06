@@ -33,9 +33,9 @@ public class BattleHandler extends Handler{
                 BattleScreen.showMinionsOf(game.getWhoIsHisTurn().getAccount());
             } else if (command.matches("show opponent minions")) {
                 BattleScreen.showMinionsOf(game.getWhoIsNotHisTurn().getAccount());
-            } else if (command.matches("show card info \\w+")) {
+            } else if (command.matches("show card info [^ ]+")) {
                 BattleScreen.showCard(game.findInTable(command.split(" ")[3]).getInsideArmy());
-            }else if (command.matches("select \\w+")) {
+            }else if (command.matches("select [^ ]+")) {
                 if(!game.getWhoIsHisTurn().setSelectedCard(game.findInTable(command.split(" ")[1]))){
                     BattleScreen.showInvalidCardIdError();
                 }
@@ -44,11 +44,11 @@ public class BattleHandler extends Handler{
                         ,getCell(command.split(" ")[1]))) {
                     BattleScreen.showInvalidMoveError();
                 }
-            }else if (command.matches("attack \\w+")) {
+            }else if (command.matches("attack [^ ]+")) {
                 if(!game.getWhoIsHisTurn().attack(game.findInTable(command.split(" ")[1]))) {
                     BattleScreen.showInvalidAttackError();
                 }
-            }else if (command.matches("attack combo \\w+( \\w+)+")) {
+            }else if (command.matches("attack combo [^ ]+( [^ ]+)+")) {
                 Cell opponentCardCell = game.findInTable(command.split(" ")[2]);
                 Cell myCardCell = game.findInTable(command.split(" ")[3]);
                 ArrayList<Cell> cells = new ArrayList<>();
