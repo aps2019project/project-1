@@ -23,6 +23,10 @@ public class BattleMenuHandler extends Handler{
 
     @Override
     HandlerType handleCommands() {
+        if(!account.getMainDeck().checkIfValid()) {
+            BattleScreen.showErrorInvalidDeck();
+            return MENU;
+        }
         pageState = PageState.CHOOSE_NUMBER_OF_PLAYERS;
         BattleScreen.showSelectNumberOfPlayerMenu();
         while (scanner.hasNext()) {
