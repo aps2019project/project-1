@@ -18,9 +18,6 @@ public class CardsArray {
     private ArrayList<Spell> allSpells = new ArrayList<>();
     private ArrayList<Item> allItems = new ArrayList<>();
 
-    public CardsArray(){
-    }
-
     public ArrayList<Card> getAllCards() {
         ArrayList<Card> allCards = new ArrayList<>();
         allCards.addAll(heroCards());
@@ -136,7 +133,6 @@ public class CardsArray {
             System.out.println(e.getMessage());
         }
     }
-
 
     public void clear() {
         allSpells.clear();
