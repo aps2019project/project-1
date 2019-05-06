@@ -156,9 +156,7 @@ public class Player {
     }
     public boolean attack(Cell attackersCell,Cell defenderCell) {
         if(attackersCell == null) return false;
-        if(attackersCell.getInsideArmy().getNeededManaToAttack() > mana || attackerCardsInThisTurn.find(attackersCell.getInsideArmy()) == null) return false;
         if(!isInRange(attackersCell,defenderCell)) return false;
-        mana -= attackersCell.getInsideArmy().getNeededManaToAttack();
         attackersCell.getInsideArmy().attack(defenderCell.getInsideArmy());
         return true;
 
@@ -378,5 +376,10 @@ public class Player {
 
     public boolean isInGraveYard() {
         return InGraveYard;
+    }
+
+    public Cell getOneCell() {
+        //
+        return null;
     }
 }

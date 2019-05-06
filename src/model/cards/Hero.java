@@ -1,6 +1,8 @@
 package model.cards;
 
 import model.Buff.*;
+import model.game.Cell;
+import model.game.CellEffect;
 import model.game.Player;
 
 import java.lang.reflect.InvocationTargetException;
@@ -88,7 +90,8 @@ public class Hero extends Army {
     }
 
     public void KaveSpell(Player player){
-
+        Cell cell = player.getOneCell();
+        cell.setEffect(CellEffect.HOLY);
     }
 
     public void ArashSpell(Player player){
