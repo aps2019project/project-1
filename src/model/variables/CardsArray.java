@@ -110,7 +110,7 @@ public class CardsArray {
     }
 
     public void remove(Card card) {
-        if (this.find(card) != null) {
+        if (this.find(card) == null) {
             return;
         }
         try {
