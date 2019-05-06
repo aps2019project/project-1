@@ -1,8 +1,6 @@
 package control;
 
 import model.cards.Card;
-import model.cards.Hero;
-import model.cards.Spell;
 import model.other.Account;
 
 public class Main {
@@ -16,18 +14,22 @@ public class Main {
             switch (handler) {
                 case MENU:
                     handler = new MenuHandler().handleCommands();
+                    Account.readAccountDetails();
                     break;
                 case ACCOUNT:
                     handler = new AccountHandler().handleCommands();
+                    Account.readAccountDetails();
                     break;
                 case BATTLE:
                     handler = new BattleHandler().handleCommands();
                     break;
                 case COLLECTION:
                     handler = new CollectionHandler().handleCommands();
+                    Account.readAccountDetails();
                     break;
                 case SHOP:
                     handler = new ShopHandler().handleCommands();
+                    Account.readAccountDetails();
                     break;
             }
         }
