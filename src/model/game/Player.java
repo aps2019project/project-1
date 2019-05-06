@@ -182,6 +182,21 @@ public class Player {
         //
         return false;
     }
+
+    public boolean heroHaveSpecialPower() {
+        if(this.getHero().getName().equals("Rostam")) return false;
+        return true;
+    }
+
+    public boolean useSpecialPower(Cell cell) {
+        selectedCardPlace = cell;
+        if(this.getHero().getMp() > this.mana) return false;
+        try {
+            this.getHero().useSpell(this);
+        } catch (Exception e) { }
+        return true;
+    }
+
     public boolean moveFromHandToCell(String name,Cell cell) {
         if( cell.isEmpty() &&
             Game.getCurrentGame().getAllCellsNearAccountArmies(account).indexOf(cell) != -1 &&
@@ -189,7 +204,9 @@ public class Player {
             Card card = hand.pick(name);
             if(card instanceof Spell) {
                 selectedCellToPutFromHand = cell;
-                //useSpell
+                try {
+                    Spell.useSpell(this, card.getName());
+                } catch (Exception e) {}
                 return true;
             }
             else if(card instanceof Army && cell.put((Army) card,turnNumber)) {
@@ -211,17 +228,13 @@ public class Player {
     public void usableItemEffect(String itemName) throws IllegalAccessException, InvocationTargetException {
         try {
             Item.class.getDeclaredMethod(itemName + "Usable", Player.class).invoke(null, this);
-        } catch (NoSuchMethodException n) {
-
-        }
+        } catch (NoSuchMethodException n) { }
     }
 
     public void collectibleItemEffect(String itemName, Army army) throws IllegalAccessException, InvocationTargetException {
         try {
             Item.class.getDeclaredMethod(itemName + "Collectible", Player.class, Army.class).invoke(null, this, army);
-        } catch (NoSuchMethodException n) {
-
-        }
+        } catch (NoSuchMethodException n) { }
     }
 
     public void useCollectibleItem() {

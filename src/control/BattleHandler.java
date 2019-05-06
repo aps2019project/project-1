@@ -50,7 +50,11 @@ public class BattleHandler extends Handler{
             }else if (command.matches("attack combo \\d+( \\d+)+")) {
                 //
             }else if (command.matches("use special power(\\d+,\\d+)")) {
-                //
+                if(!game.getWhoIsHisTurn().heroHaveSpecialPower()) {
+                    //
+                }
+                if(!game.getWhoIsHisTurn().useSpecialPower(getCell(command)));
+
             }else if (command.matches("show hand")) {
                 BattleScreen.showCardArray(game.getWhoIsHisTurn().getHand());
             }else if (command.matches("insert \\w+ in (\\d+,\\d+)")) {
