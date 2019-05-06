@@ -34,6 +34,7 @@ public class Player {
     protected Hero hero;
     protected Cell selectedCardPlace;
     protected boolean InGraveYard = false;
+    private CardsArray collectibleItem = new CardsArray();
     private Item usableItem;
     protected Cell selectedCellToPutFromHand;
     private boolean usedManaPotion;
@@ -92,6 +93,10 @@ public class Player {
 
     public int getNumberOfFlags() {
         return numberOfFlags;
+    }
+
+    public CardsArray getCollectibleItem() {
+        return collectibleItem;
     }
 
     public Hero getHero() {
@@ -253,8 +258,8 @@ public class Player {
         } catch (NoSuchMethodException n) { }
     }
 
-    public void useCollectibleItem() {
-        //
+    public void useCollectibleItem(String name, Army army) {
+
     }
 
 

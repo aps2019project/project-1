@@ -178,4 +178,16 @@ public class BattleScreen extends Screen{
     public static void showNotEnoughMana(){
         System.out.println("You don't have enough mana");
     }
+
+    public static void showCollectibles(CardsArray array){
+        ArrayList<Item> items = array.getAllItems();
+
+        System.out.println("Item:");
+        for (int i = 1; i <= items.size(); ++i) {
+            Item item = items.get(i - 1);
+            System.out.printf("\t%d: Name: [\"%s\"] - ID: %s - Desc: %s\n", i, item.getName(),
+                    item.getID().getValue(),
+                    item.getDescription());
+        }
+    }
 }

@@ -137,22 +137,34 @@ public class Card implements Cloneable {
         for (String s : line) {
             array.add(Integer.parseInt(s));
         }
-
+        Card temp = null;
         for (Hero hero : Hero.getHeroes()) {
-            if (hero.getNumber() == array.get(0))
-                deck.addCard(hero);
+            if (hero.getNumber() == array.get(0)) {
+                temp = hero.clone();
+                temp.setUserName(account.getUsername());
+                deck.addCard(temp);
+            }
         }
         for (Spell spell : Spell.getSpells()) {
-            if (array.subList(1, 8).contains(spell.getNumber()))
-                deck.addCard(spell);
+            if (array.subList(1, 8).contains(spell.getNumber())) {
+                temp = spell.clone();
+                temp.setUserName(account.getUsername());
+                deck.addCard(temp);
+            }
         }
         for (Minion minion : Minion.getMinions()) {
-            if (array.subList(8, 21).contains(minion.getNumber()))
-                deck.addCard(minion);
+            if (array.subList(8, 21).contains(minion.getNumber())) {
+                temp = minion.clone();
+                temp.setUserName(account.getUsername());
+                deck.addCard(temp);
+            }
         }
         for (Item item : Item.getItems()) {
-            if (item.getNumber() == array.get(21))
-                deck.addCard(item);
+            if (item.getNumber() == array.get(21)) {
+                temp = item.clone();
+                temp.setUserName(account.getUsername());
+                deck.addCard(temp);
+            }
         }
         account.addDeck(deck);
         account.changeMainDeck(deck);

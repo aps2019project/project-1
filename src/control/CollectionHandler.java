@@ -119,14 +119,9 @@ class CollectionHandler extends Handler{
 
     private void removeCardFromDeck(Card card, Deck deck) {
         if (deck.size() == 0)
-            CollectionScreen.showDeckIsFull();
-        else if (deck.getHero() != null && card.getType() == HERO)
-            CollectionScreen.showCantAddHero();
-        else if (deck.getItem() != null && card.getType() == ITEM)
-            CollectionScreen.showCantAddItem();
+            CollectionScreen.showDeckIsEmpty();
         else {
             deck.deleteCard(card);
-            CollectionScreen.showCardRemovedSuccessfully();
         }
     }
 
