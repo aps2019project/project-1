@@ -18,7 +18,7 @@ public class BattleMenuHandler extends Handler{
     private IntelligentPlayer firstLevelPlayer;
     private IntelligentPlayer secondLevelPlayer;
     private IntelligentPlayer thirdLevelPlayer;
-    private IntelligentPlayer customPlayer = new IntelligentPlayer(new Account("customPlayer","1234"));
+    private IntelligentPlayer customPlayer;
     private ArrayList<Deck> customDecks = new ArrayList<>();
     private Hero hero;
 
@@ -28,9 +28,10 @@ public class BattleMenuHandler extends Handler{
             BattleScreen.showErrorInvalidDeck();
             return MENU;
         }
-        pageState = PageState.CHOOSE_NUMBER_OF_PLAYERS;
-        BattleScreen.showSelectNumberOfPlayerMenu();
+        gotoChoosePlayerPage();
         while (scanner.hasNext()) {
+            command = scanner.nextLine().toLowerCase().trim();
+            System.out.println(pageState);
             if(command.matches("\\d")) {
                 if (pageState == PageState.CHOOSE_NUMBER_OF_PLAYERS) {
                     handleChoosePlayer();
@@ -49,19 +50,20 @@ public class BattleMenuHandler extends Handler{
                 }
             } else if (command.matches("exit")) {
                 if (pageState == PageState.CHOOSE_NUMBER_OF_PLAYERS) {
+
                     return MENU;
                 } else if (pageState == PageState.SINGLE_PLAYER_GAME_TYPES) {
-                    pageState = PageState.CHOOSE_NUMBER_OF_PLAYERS;
+                    gotoChoosePlayerPage();
                 } else if (pageState == PageState.MULTI_PLAYER_GAME_TYPES_FIRST) {
-                    pageState = PageState.CHOOSE_NUMBER_OF_PLAYERS;
+                    gotoChoosePlayerPage();
                 } else if (pageState == PageState.MULTI_PLAYER_GAME_TYPES_SECOND) {
-                    pageState = PageState.MULTI_PLAYER_GAME_TYPES_FIRST;
+                    gotoMultiPlayerFirstMenu();
                 } else if (pageState == PageState.STORY) {
-                    pageState = PageState.SINGLE_PLAYER_GAME_TYPES;
+                    gotoSinglePlayerMenu();
                 } else if (pageState == PageState.CUSTOM_FIRST) {
-                    pageState = PageState.SINGLE_PLAYER_GAME_TYPES;
+                    gotoSinglePlayerMenu();
                 } else if (pageState == PageState.CUSTOM_SECOND) {
-                    pageState = PageState.CUSTOM_FIRST;
+                    gotoCustomMenuFirstPage();
                 }
             }
         }
@@ -78,6 +80,7 @@ public class BattleMenuHandler extends Handler{
     }
 
     public void setPlayersSteps() {
+        customPlayer = new IntelligentPlayer(new Account("customPlayer","1234"));
         Account account = new Account("firstLevelPlayer","1234");
         try {
             Card.makeStroyDeck(1, account);
@@ -98,6 +101,11 @@ public class BattleMenuHandler extends Handler{
     private static PageState pageState = PageState.NOTHING;
 
 
+    private  void gotoChoosePlayerPage() {
+        pageState = PageState.CHOOSE_NUMBER_OF_PLAYERS;
+        BattleScreen.showSelectNumberOfPlayerMenu();
+
+    }
     private void gotoSinglePlayerMenu() {
         pageState = PageState.SINGLE_PLAYER_GAME_TYPES;
         BattleScreen.showSinglePlayerMenu();
@@ -144,7 +152,7 @@ public class BattleMenuHandler extends Handler{
     }
 
     private void showAllAccounts() {
-        for (int i = 0; i < Account.getAccounts().size(); ++i) {
+        for (int i = 0; i < Account.getAccounts().size(); i++) {
             if (Account.getAccounts().get(i).equals(Account.getCurrentAccount()))
                 continue;
             AccountScreen.showAccountDetail(Account.getAccounts().get(i), i + 1);
@@ -169,10 +177,10 @@ public class BattleMenuHandler extends Handler{
     }
 
     private void handleChoosePlayer() {
-        if(command == "1") {
+        if(command.equals("1")) {
             gotoSinglePlayerMenu();
         }
-        else if(command == "2") {
+        else if(command.equals("2")) {
             gotoMultiPlayerFirstMenu();
         }
         else {
@@ -210,10 +218,10 @@ public class BattleMenuHandler extends Handler{
     }
 
     private void handleSinglePlayer() {
-        if(command == "1") {
+        if(command.equals("1")) {
             gotoStoryMenu();
         }
-        else if(command == "2") {
+        else if(command.equals("2")) {
             gotoCustomMenuFirstPage();
         }
         else {
@@ -222,13 +230,13 @@ public class BattleMenuHandler extends Handler{
     }
 
     private void handleStory() {
-        if(command == "1") {
+        if(command.equals("1")) {
             makeFirstStory();
         }
-        else if(command == "2") {
+        else if(command.equals("2")) {
             makeSecondStory();
         }
-        else if(command == "3") {
+        else if(command.equals("3")) {
             makeThirdStory();
         }
         else {

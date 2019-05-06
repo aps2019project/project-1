@@ -20,7 +20,7 @@ public class Card implements Cloneable {
     protected ID ID;
     protected String name;
     protected int price;
-    protected Account account;
+    protected String userName;
     protected Flag flag;
     protected Cell whereItIs;
     protected int neededManaToPut;//
@@ -68,7 +68,7 @@ public class Card implements Cloneable {
     }
 
     public Account getAccount() {
-        return account;
+        return Account.findAccount(userName);
     }
 
 
