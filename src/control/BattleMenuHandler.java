@@ -1,5 +1,6 @@
 package control;
 
+import model.cards.Card;
 import model.cards.Hero;
 import model.game.*;
 import model.other.Account;
@@ -78,11 +79,20 @@ public class BattleMenuHandler extends Handler{
 
     public void setPlayersSteps() {
         Account account = new Account("firstLevelPlayer","1234");
-        firstLevelPlayer = new IntelligentPlayer(account,getDeck(1));
+        try {
+            Card.makeStroyDeck(1, account);
+        } catch (Exception e){}
+        firstLevelPlayer = new IntelligentPlayer(account);
         account = new Account("secondLevelPlayer","1234");
-        secondLevelPlayer = new IntelligentPlayer(account,getDeck(2));
+        try {
+            Card.makeStroyDeck(2, account);
+        } catch (Exception e){}
+        secondLevelPlayer = new IntelligentPlayer(account);
         account = new Account("thirdLevelPlayer","1234");
-        thirdLevelPlayer = new IntelligentPlayer(account,getDeck(3));
+        try {
+            Card.makeStroyDeck(3, account);
+        } catch (Exception e){}
+        thirdLevelPlayer = new IntelligentPlayer(account);
     }
 
     private static PageState pageState = PageState.NOTHING;

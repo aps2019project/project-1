@@ -255,6 +255,9 @@ public class Player {
 
     public void startMatchSetup() {
         deck.fillHand(hand);
+        try {
+            this.usableItemEffect(this.getUsableItem().getName());
+        }catch (Exception e){ }
     }
 
     public void nextTurnSetup() {
