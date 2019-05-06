@@ -101,7 +101,11 @@ class CollectionHandler extends Handler{
         if (deck == null) {
             CollectionScreen.showDeckNotFound();
         } else {
-            Card card = deck.getCards().find(cardId);
+            Card card;
+            if (isAdd)
+                card = Account.getCurrentAccount().getCollection().find(cardId);
+            else
+                card = deck.getCards().find(cardId);
             if (card == null)
                 CollectionScreen.showCardNotFound();
             else if (deck.getCards().findByName(card.getName()) == null && !isAdd) {
