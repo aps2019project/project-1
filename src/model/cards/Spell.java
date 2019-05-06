@@ -19,7 +19,7 @@ public class Spell extends Card {
     private String target;
 
     Spell(int number, String name, int price, int mana, String description, String target) {
-        super(number, name, price, description, SPELL);
+        super(number, name, price, description, SPELL, mana);
         this.mana = mana;
         spells.add(this);
         cards.add(this);

@@ -18,19 +18,14 @@ public class Army extends Card {
     protected ArrayList<Buff> buffs = new ArrayList<>();
     protected boolean isStunned;
     protected boolean isDisarmed;
-    protected int neededManaToAttack;//
     protected Player player;
 
-    public Army(int number, String name, int price, String description, int hp, int ap, int ar, AttackType attackType, CardType cardType) {
-        super(number, name, price, description, cardType);
+    public Army(int number, String name, int price, String description, int hp, int ap, int ar, AttackType attackType, CardType cardType, int mana) {
+        super(number, name, price, description, cardType, mana);
         this.hp = hp;
         this.ap = ap;
         this.ar = ar;
         this.attackType = attackType;
-    }
-
-    public int getNeededManaToAttack() {
-        return neededManaToAttack;
     }
 
     public int getHp() {

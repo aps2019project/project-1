@@ -22,7 +22,7 @@ public class Minion extends Army {
     Minion(int number, String name, int price, int hp
             , int ap, int ar, int mana, AttackType attackType
             , Race race, SPTime spTime, String description) {
-        super(number, name, price, description, hp, ap, ar, attackType, MINION);
+        super(number, name, price, description, hp, ap, ar, attackType, MINION, mana);
         this.mana = mana;
         this.spTime = spTime;
         this.race = race;

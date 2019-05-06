@@ -45,7 +45,7 @@ public class CardsArray {
         ArrayList<Spell> spells = new ArrayList<>();
         for (Card card : allCards) {
             if (card.getType() == SPELL)
-                spells.add((Spell) card);
+                    spells.add((Spell) card);
         }
         return spells;
     }
