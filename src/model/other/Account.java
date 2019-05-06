@@ -1,12 +1,22 @@
 package model.other;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import model.cards.Card;
 import model.game.Deck;
 import model.game.MatchResult;
 import model.variables.CardsArray;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+import java.util.Scanner;
 
 public class Account {
 
@@ -169,7 +179,38 @@ public class Account {
     }
 
     public static void saveAccountDetails() {
+        Gson gson = new GsonBuilder().create();
+        try {
+            Writer writer = new FileWriter("Files/Data/Accounts.json");
+            writer.write(gson.toJson(Account.getAccounts()));
+            writer.close();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
+    public static void readAccountDetails() {
+        Type type = new TypeToken<List<Account>>() {}.getType();
+        Gson gson = new GsonBuilder().create();
+        Scanner reader;
+        String str = "";
+
+        try {
+            reader = new Scanner(new File("Files/Data/Accounts.json"));
+        }
+        catch (IOException e) {
+            return;
+        }
+
+        while (reader.hasNext()){
+            str = reader.nextLine();
+            System.out.println(str);
+        }
+
+        List<Account> data = gson.fromJson(str, type);
+        if (data != null)
+            accounts.addAll(data);
     }
 
     public void deleteCardFromAllDecks(String cardName){

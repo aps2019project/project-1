@@ -2,10 +2,13 @@ package view;
 
 import model.cards.*;
 import model.game.Cell;
+import model.game.Deck;
 import model.game.Flag;
 import model.game.Game;
 import model.other.Account;
 import model.variables.CardsArray;
+
+import java.util.ArrayList;
 
 import static model.game.GameType.*;
 
@@ -86,5 +89,82 @@ public class BattleScreen extends Screen{
         for(Card card : cards.getAllCards()) {
             showCard(card);
         }
+    }
+    public static void showNextCardFromDeck() {
+        System.out.println("next card is ");
+        showCard(game.getWhoIsHisTurn().getDeck().getNextCard());
+    }
+    public static void showErrorYourNotInGraveYard() {
+        System.out.println("your not in grave yard");
+    }
+    public static void showArmyCanGoTo(Army army) {
+        System.out.println("you can move " + army.getID() + " to cells:");
+        ArrayList<Cell> cells = game.getAllCellsWithUniqueDistance(army.getWhereItIs(),2);
+        for(Cell cell : cells) {
+            showCellsCoordinate(cell);
+        }
+        System.out.println();
+    }
+    public static void showArmyCanAttackTo(Army army) {
+        ArrayList<Cell> boardCells;
+        if(army.getAttackType() == AttackType.MELEE)       boardCells = game.getAllNearCells(army.getWhereItIs());
+        else if(army.getAttackType() == AttackType.RANGED) boardCells = game.getAllNonNearCells(army.getWhereItIs());
+        else                                               boardCells = game.getAllCellsInTable();
+        CardsArray allThisCardsEnemies = game.getAllAccountArmiesInCellArray(boardCells,game.getAnotherAccount(army.getAccount()));
+        System.out.println(army.getID()+" can attack to:");
+        for(Card card : allThisCardsEnemies.getAllCards()) {
+            System.out.print(card.getID()+" that it is in ");
+            showCellsCoordinate(card.getWhereItIs());
+        }
+    }
+    public static void showCellsCoordinate(Cell cell) {
+        System.out.print(" ("+cell.getX()+","+cell.getY()+")");
+    }
+    public static void showErrorInvalidDeck() {
+        System.out.println("selected deck is invalid");
+    }
+    public static void showSelectNumberOfPlayerMenu() {
+        System.out.println("1. single player");
+        System.out.println("2. multi player");
+    }
+    public static void showSinglePlayerMenu() {
+        System.out.println("1. story");
+        System.out.println("2. custom game");
+    }
+    public static void showStoryMenu() {
+        System.out.println("1. first step");
+        System.out.println("2. second step");
+        System.out.println("3. third step");
+    }
+
+    public static void showCustomMenuFirstPage() {
+        int counter =1;
+        for(Hero hero : Hero.getHeroes()) {
+            System.out.println(counter+". "+hero.getName());
+            counter++;
+        }
+    }
+    public static void decks(ArrayList<Deck> decks) {
+        System.out.println("your decks are:");
+        for(Deck deck : decks) {
+            System.out.println(deck.getName());
+        }
+    }
+    public static void showModes() {
+        System.out.println("1. kill hero");
+        System.out.println("2. capture the flag");
+        System.out.println("3. rollup flags");
+    }
+    public static void showInvalidCommand() {
+        System.out.println("invalid command");
+    }
+    public static void showInvalidAccountUserName() {
+        System.out.println("invalid account number");
+    }
+    public static void showInvalidDeckInMultiPlayer() {
+        System.out.println("selected deck for second player is invalid");
+    }
+    public static void showInvalidClone() {
+        System.out.println("invalid clone");
     }
 }

@@ -3,6 +3,7 @@ package model.game;
 import model.cards.Army;
 import model.cards.Card;
 import model.other.Account;
+import model.variables.CardsArray;
 
 import java.util.ArrayList;
 
@@ -20,12 +21,45 @@ public class Game {
     private int reward;
     private int turnNumber = 1;
     private GameType type;
-
-    public Game(Account firstAccount, Account secondAccount, GameType type) throws CloneNotSupportedException {
+    private ArrayList<Cell> allCellsInTable = new ArrayList<>();
+    public Game(Account firstAccount, Account secondAccount, GameType type) {
         firstPlayer = new Player(firstAccount);
         secondPlayer = new Player(secondAccount);
+        for(Cell[] row : table) {
+            for(Cell cell : row) {
+                allCellsInTable.add(cell);
+            }
+        }
         this.type = type;
         currentGame = this;
+    }
+    public Game(Account firstAccount, Account secondAccount, GameType type, int numberOfFlags) {
+        this(firstAccount,secondAccount,type);
+        if(numberOfFlags%2 == 1) {
+            putFlagIn(table[TABLE_HEIGHT/2][TABLE_WIDTH/2]);
+        }
+        numberOfFlags/=2;
+        if(numberOfFlags%2 == 1) {
+            putFlagIn(table[TABLE_HEIGHT/2][TABLE_WIDTH/2-3]);
+            putFlagIn(table[TABLE_HEIGHT/2][TABLE_WIDTH/2+3]);
+        }
+        numberOfFlags/=2;
+        if(numberOfFlags%2 == 1) {
+            putFlagIn(table[TABLE_HEIGHT/2+2][TABLE_WIDTH/2-2]);
+            putFlagIn(table[TABLE_HEIGHT/2+2][TABLE_WIDTH/2+2]);
+            putFlagIn(table[TABLE_HEIGHT/2-2][TABLE_WIDTH/2-2]);
+            putFlagIn(table[TABLE_HEIGHT/2-2][TABLE_WIDTH/2+2]);
+        }
+    }
+    public Game(Account firstAccount, IntelligentPlayer intelligentPlayer, GameType type, int numberOfFlags) {
+        this(firstAccount,intelligentPlayer.getAccount(),type,numberOfFlags);
+        secondPlayer = intelligentPlayer;
+    }
+    public void putFlagIn(Cell cell) {
+        Flag flag = new Flag();
+        flags.add(flag);
+        flag.dropTo(cell);
+        cell.setFlag(flag);
     }
     public static Game getCurrentGame() {
         return currentGame;
@@ -171,7 +205,69 @@ public class Game {
         }
         return null;
     }
+    public CardsArray getAllAccountArmiesInCellArray(ArrayList<Cell> cells , Account account) {
+        CardsArray allArmiesInTable = new CardsArray();
+        for(Cell cell : cells) {
+            if(!cell.isEmpty() && cell.getInsideArmy().getAccount().equals(account)) allArmiesInTable.add(cell.getInsideArmy());
+        }
+        return allArmiesInTable;
+    }
 
+    public ArrayList<Cell> getAllCellsNearAccountArmies(Account account) {
+        CardsArray cards = getAllAccountArmiesInCellArray(getAllCellsInTable(),account);
+        ArrayList<Cell> cells = new ArrayList<>();
+        for(Card card : cards.getAllCards()){
+            cells.addAll(getAllNearCells(card.getWhereItIs()));
+        }
+        return cells;
+    }
+    public ArrayList<Cell> getAllCellsWithUniqueDistance(Cell cell,int distance) {
+        ArrayList<Cell> allCellsWithUniqueDistance = new ArrayList<>();
+        for(int xIncrease = -distance ; xIncrease <= distance ; xIncrease++) {
+            for(int yIncrease = -distance ; yIncrease <= distance ; yIncrease++) {
+                if(Math.abs(xIncrease)+Math.abs(yIncrease) <= distance && this.isTrueCoordinate(cell.getX()+xIncrease,cell.getY()+yIncrease)) {
+                    allCellsWithUniqueDistance.add(table[cell.getX()+xIncrease][cell.getY()+yIncrease]);
+                }
+            }
+        }
+        return allCellsWithUniqueDistance;
+    }
+    public ArrayList<Cell> getAllNearCells(Cell cell) {
+        ArrayList<Cell> allNearCells = new ArrayList<>();
+        for(int xIncrease = -1 ; xIncrease < 2 ; xIncrease++) {
+            for(int yIncrease = -1 ; yIncrease < 2 ; yIncrease++) {
+                if(this.isTrueCoordinate(cell.getX()+xIncrease,cell.getY()+yIncrease)) {
+                    allNearCells.add(table[cell.getX()+xIncrease][cell.getY()+yIncrease]);
+                }
+            }
+        }
+        return allNearCells;
+    }
+    public ArrayList<Cell> getAllNonNearCells(Cell cell) {
+        ArrayList<Cell> allNoneNearCells = getAllCellsInTable();
+        allNoneNearCells.removeAll(getAllNearCells(cell));
+        return allNoneNearCells;
+    }
+    public ArrayList<Cell> getAllCellsInTable() {
+        ArrayList<Cell> allCellsInTable = new ArrayList<>();
+        allCellsInTable.addAll(this.allCellsInTable);
+        return allCellsInTable;
+    }
+    public ArrayList<Cell> getAllCellsNearArmies(CardsArray armies) {
+        ArrayList<Cell> allCellsNearArmies = new ArrayList<>();
+        for(Card card : armies.getAllCards()) {
+            allCellsNearArmies.addAll(getAllNearCells(card.getWhereItIs()));
+        }
+        return allCellsNearArmies;
+    }
+    public boolean isTrueCoordinate(int x,int y) {
+        return x >= 0 && y >= 0 && x < TABLE_HEIGHT && y < TABLE_WIDTH;
+    }
+    public Account getAnotherAccount(Account account) {
+        if(firstPlayer.getAccount().equals(account)) return secondPlayer.getAccount();
+        else if(secondPlayer.getAccount().equals(account)) return firstPlayer.getAccount();
+        else    return null;
+    }
     public ArrayList<Army> getAllInGameCards(){
         ArrayList<Army> array = new ArrayList<>();
         array.addAll(firstPlayer.getInGameCards());
