@@ -14,6 +14,7 @@ import static model.cards.AttackType.HYBRID;
 import static model.cards.AttackType.RANGED;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import static model.variables.GlobalVariables.TABLE_HEIGHT;
 
@@ -280,9 +281,7 @@ public class Player {
 
     public CardsArray getEnemiesInHeroRow(){
         ArrayList<Cell> cells = new ArrayList<>();
-        for(Cell cell : Game.getCurrentGame().getTable()[hero.getWhereItIs().getX()]) {
-            cells.add(cell);
-        }
+        Collections.addAll(cells, Game.getCurrentGame().getTable()[hero.getWhereItIs().getX()]);
         return Game.getCurrentGame().getAllAccountArmiesInCellArray(cells,account);
     }
 
@@ -347,7 +346,7 @@ public class Player {
     }
     public void ExitFromGraveYard() {
         InGraveYard = false;
-      
+    }
     public CardsArray getEnemiesAround(Cell cell) {
         return  Game.getCurrentGame().getAllAccountArmiesInCellArray(Game.getCurrentGame().getAllNearCells(cell),
                 Game.getCurrentGame().getAnotherAccount(account));

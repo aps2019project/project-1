@@ -6,10 +6,11 @@ import view.BattleScreen;
 import java.awt.datatransfer.MimeTypeParseException;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.function.IntFunction;
 
 import static model.cards.CardType.*;
 
-public class CardsArray {
+public class CardsArray extends ArrayList<Army> {
     protected ArrayList<Card> allCards = new ArrayList<>();
 
     public CardsArray(){
@@ -105,6 +106,7 @@ public class CardsArray {
     public void remove(String name) {
         allCards.remove(findByName(name));
     }
+
 
     public void clear() {allCards.clear();}
 
