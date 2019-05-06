@@ -47,8 +47,8 @@ public class BattleHandler extends Handler{
                 if(!game.getWhoIsHisTurn().attack(game.findInTable(command.split(" ")[1]))) {
                     BattleScreen.showInvalidAttackError();
                 }
-            }else if (command.matches("attack combo \\d+( \\d+)+")) {
-                //
+            }else if (command.matches("attack combo (\\d+)( \\d+)+")) {
+
             }else if (command.matches("use special power(\\d+,\\d+)")) {
                 if(!game.getWhoIsHisTurn().heroHaveSpecialPower()) {
                     BattleScreen.showDoesNotHaveSpecialPower();
