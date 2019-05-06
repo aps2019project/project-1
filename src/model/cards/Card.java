@@ -41,6 +41,10 @@ public class Card implements Cloneable {
         return whereItIs;
     }
 
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
     public void setWhereItIs(Cell whereItIs) {
         this.whereItIs = whereItIs;
     }

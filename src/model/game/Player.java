@@ -45,6 +45,9 @@ public class Player {
     public Player(Account account,Deck deck) {
         this.account = account;
         this.deck = deck.copyAll();
+        for(Card card : deck.getCards().getAllCards()) {
+            card.setUserName(account.getUsername());
+        }
         this.usableItem = this.deck.getItem();
     }
 
@@ -153,7 +156,6 @@ public class Player {
         this.hero = hero;
         deck.deleteCard(hero);
         cell.put(hero, turnNumber);
-        hero.setWhereItIs(cell);
         this.inGameCards.add(hero);
     }
     public boolean isInRange(Cell attackersCell,Cell defenderCell) {
