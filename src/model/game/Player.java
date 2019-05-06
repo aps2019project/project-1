@@ -37,9 +37,11 @@ public class Player {
     private Item usableItem;
     protected Cell selectedCellToPutFromHand;
     private boolean usedManaPotion;
+
     public Player(Account account){
         this(account,account.getMainDeck());
     }
+
     public Player(Account account,Deck deck) {
         this.account = account;
         this.deck = deck.copyAll();
