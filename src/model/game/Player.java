@@ -99,6 +99,11 @@ public class Player {
         return collectibleItem;
     }
 
+    public void addItem(Item item) {
+        this.collectibleItem.add(item);
+    }
+
+
     public Hero getHero() {
         return hero;
     }
@@ -252,16 +257,11 @@ public class Player {
         } catch (NoSuchMethodException n) { }
     }
 
-    public void collectibleItemEffect(String itemName, Army army) throws IllegalAccessException, InvocationTargetException {
+    public void useCollectibleItem(String itemName, Army army) throws IllegalAccessException, InvocationTargetException {
         try {
             Item.class.getDeclaredMethod(itemName + "Collectible", Player.class, Army.class).invoke(null, this, army);
         } catch (NoSuchMethodException n) { }
     }
-
-    public void useCollectibleItem(String name, Army army) {
-
-    }
-
 
     public void startMatchSetup() {
         deck.fillHand(hand);
