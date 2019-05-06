@@ -8,8 +8,10 @@ import view.BattleScreen;
 
 import java.util.ArrayList;
 
+import static control.HandlerType.MENU;
+
 public class BattleMenuHandler extends Handler{
-    private Account account;
+    private Account account = Account.getCurrentAccount();
     private Account secondAccount;
     private GameType type;
     private IntelligentPlayer firstLevelPlayer;
@@ -21,6 +23,12 @@ public class BattleMenuHandler extends Handler{
 
     @Override
     HandlerType handleCommands() {
+        if(!account.getMainDeck().checkIfValid()) {
+            BattleScreen.showErrorInvalidDeck();
+            return MENU;
+        }
+        pageState = PageState.CHOOSE_NUMBER_OF_PLAYERS;
+        BattleScreen.showSelectNumberOfPlayerMenu();
         while (scanner.hasNext()) {
             if(command.matches("\\d")) {
                 if (pageState == PageState.CHOOSE_NUMBER_OF_PLAYERS) {
@@ -37,6 +45,22 @@ public class BattleMenuHandler extends Handler{
                     handleCustomFirstPage();
                 } else if (pageState == PageState.CUSTOM_SECOND) {
                     handleCustomSecondPage();
+                }
+            } else if (command.matches("exit")) {
+                if (pageState == PageState.CHOOSE_NUMBER_OF_PLAYERS) {
+                    return MENU;
+                } else if (pageState == PageState.SINGLE_PLAYER_GAME_TYPES) {
+                    pageState = PageState.CHOOSE_NUMBER_OF_PLAYERS;
+                } else if (pageState == PageState.MULTI_PLAYER_GAME_TYPES_FIRST) {
+                    pageState = PageState.CHOOSE_NUMBER_OF_PLAYERS;
+                } else if (pageState == PageState.MULTI_PLAYER_GAME_TYPES_SECOND) {
+                    pageState = PageState.MULTI_PLAYER_GAME_TYPES_FIRST;
+                } else if (pageState == PageState.STORY) {
+                    pageState = PageState.SINGLE_PLAYER_GAME_TYPES;
+                } else if (pageState == PageState.CUSTOM_FIRST) {
+                    pageState = PageState.SINGLE_PLAYER_GAME_TYPES;
+                } else if (pageState == PageState.CUSTOM_SECOND) {
+                    pageState = PageState.CUSTOM_FIRST;
                 }
             }
         }
@@ -63,10 +87,6 @@ public class BattleMenuHandler extends Handler{
 
     private static PageState pageState = PageState.NOTHING;
 
-    private void goToBattleMenu(Account account) {
-        pageState = PageState.CHOOSE_NUMBER_OF_PLAYERS;
-        BattleScreen.showSelectNumberOfPlayerMenu();
-    }
 
     private void gotoSinglePlayerMenu() {
         pageState = PageState.SINGLE_PLAYER_GAME_TYPES;

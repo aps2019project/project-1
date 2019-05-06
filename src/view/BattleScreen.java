@@ -167,4 +167,12 @@ public class BattleScreen extends Screen{
     public static void showInvalidClone() {
         System.out.println("invalid clone");
     }
+
+    public static void showDoesNotHaveSpecialPower() {
+        System.out.println("this hero dousn't have specia power");
+    }
+
+    public static void showNotEnoughMana(){
+        System.out.println("You don't have enough mana");
+    }
 }

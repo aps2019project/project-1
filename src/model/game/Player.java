@@ -159,6 +159,17 @@ public class Player {
                 || (attackersCell.getInsideArmy().getAttackType() == AttackType.RANGED && !Cell.isNear(attackersCell,defenderCell))
                 || (attackersCell.getInsideArmy().getAttackType() == AttackType.HYBRID);
     }
+    public boolean attackCombo(Cell opponentCardCell,Cell myCardCell,ArrayList<Cell> cells) {
+        boolean trueAttack = false;
+        CardsArray cardsArray = new CardsArray();
+        for(Cell cell : cells) {
+            if(cell == null || !isInRange(myCardCell,cell)) trueAttack = true;
+            cardsArray.add(cell.getInsideArmy());
+        }
+        if(!trueAttack) return false;
+        myCardCell.getInsideArmy().attackCombo(opponentCardCell,cardsArray);
+        return true;
+    }
     public boolean attack(Cell attackersCell,Cell defenderCell) {
         if(attackersCell == null) return false;
         if(!isInRange(attackersCell,defenderCell)) return false;
@@ -182,6 +193,21 @@ public class Player {
         //
         return false;
     }
+
+    public boolean heroHaveSpecialPower() {
+        if(this.getHero().getName().equals("Rostam")) return false;
+        return true;
+    }
+
+    public boolean useSpecialPower(Cell cell) {
+        selectedCardPlace = cell;
+        if(this.getHero().getMp() > this.mana) return false;
+        try {
+            this.getHero().useSpell(this);
+        } catch (Exception e) { }
+        return true;
+    }
+
     public boolean moveFromHandToCell(String name,Cell cell) {
         if( cell.isEmpty() &&
             Game.getCurrentGame().getAllCellsNearAccountArmies(account).indexOf(cell) != -1 &&
@@ -189,7 +215,9 @@ public class Player {
             Card card = hand.pick(name);
             if(card instanceof Spell) {
                 selectedCellToPutFromHand = cell;
-                //useSpell
+                try {
+                    Spell.useSpell(this, card.getName());
+                } catch (Exception e) {}
                 return true;
             }
             else if(card instanceof Army && cell.put((Army) card,turnNumber)) {
@@ -211,17 +239,13 @@ public class Player {
     public void usableItemEffect(String itemName) throws IllegalAccessException, InvocationTargetException {
         try {
             Item.class.getDeclaredMethod(itemName + "Usable", Player.class).invoke(null, this);
-        } catch (NoSuchMethodException n) {
-
-        }
+        } catch (NoSuchMethodException n) { }
     }
 
     public void collectibleItemEffect(String itemName, Army army) throws IllegalAccessException, InvocationTargetException {
         try {
             Item.class.getDeclaredMethod(itemName + "Collectible", Player.class, Army.class).invoke(null, this, army);
-        } catch (NoSuchMethodException n) {
-
-        }
+        } catch (NoSuchMethodException n) { }
     }
 
     public void useCollectibleItem() {
@@ -236,6 +260,12 @@ public class Player {
     public void nextTurnSetup() {
         movedCardsInThisTurn.clear();
         attackerCardsInThisTurn.clear();
+    }
+
+    public void setUpBuffs() {
+        Army.decreaseBuffTurns(this.getInGameCards());
+        Army.ActivateContinuousBuffs(this.getInGameCards());
+        Army.checkPoisonAndBleeding(this.getInGameCards());
     }
 
     public void play() {
@@ -351,6 +381,36 @@ public class Player {
         }
         return (Minion)cards.getRandomCard();
     }
+
+    public CardsArray getEnemiesAround(Cell cell) {
+        return  Game.getCurrentGame().getAllAccountArmiesInCellArray(Game.getCurrentGame().getAllNearCells(cell),
+                Game.getCurrentGame().getAnotherAccount(account));
+
+    }
+
+    public CardsArray getFriendsAround(Cell cell) {
+        return  Game.getCurrentGame().getAllAccountArmiesInCellArray(Game.getCurrentGame().getAllNearCells(cell),account);
+    }
+
+    public CardsArray getEnemiesInDistance2(Cell cell) {
+        return  Game.getCurrentGame().getAllAccountArmiesInCellArray(Game.getCurrentGame().getAllCellsWithUniqueDistance(cell,2),
+                Game.getCurrentGame().getAnotherAccount(account));
+
+    }
+
+    public Army getNearestEnemy(Cell cell) {
+        CardsArray cards =  Game.getCurrentGame().getAllAccountArmiesInCellArray(Game.getCurrentGame().getAllCellsInTable(),
+                            Game.getCurrentGame().getAnotherAccount(account));
+        Card nearestEnemy =  cards.getRandomCard();
+        if(nearestEnemy == null) return null;
+        for(Card card : cards.getAllCards()) {
+            if(Cell.getDistance(cell,card.getWhereItIs()) < Cell.getDistance(cell,nearestEnemy.getWhereItIs())) {
+                nearestEnemy = card;
+            }
+        }
+        return (Army)nearestEnemy;
+    }
+
     public void goToGraveYard() {
         InGraveYard = true;
     }
@@ -391,7 +451,6 @@ public class Player {
     }
 
     public Cell getOneCell() {
-        //
-        return null;
+        return selectedCardPlace;
     }
 }

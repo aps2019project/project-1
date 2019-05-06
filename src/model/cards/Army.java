@@ -2,6 +2,7 @@ package model.cards;
 
 import model.Buff.*;
 import model.game.Player;
+import model.variables.CardsArray;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -265,8 +266,8 @@ public class Army extends Card {
         return array.get(random);
     }
 
-    public void attackCombo(ArrayList<Army> array, Army target) {
-        for(Army army : array) {
+    public void attackCombo(Army target, CardsArray array) {
+        for(Army army : array.getArmy()) {
             target.getDamaged(army.getAp(), null);
         }
         this.attack(target);
