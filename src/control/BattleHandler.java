@@ -77,7 +77,7 @@ public class BattleHandler extends Handler{
             }else if (command.matches("end turn")) {
                 game.getWhoIsHisTurn().setEndTurn(true);
             }else if (command.matches("show collectables")) {
-                //
+                BattleScreen.showCollectibles(game.getWhoIsHisTurn().getCollectibleItem());
             }else if (command.matches("show info")) {
                 //
             }else if (command.matches("use [(]\\d+,\\d+[)]")) {
