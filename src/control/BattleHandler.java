@@ -43,12 +43,20 @@ public class BattleHandler extends Handler{
                         ,getCell(command.split(" ")[1]))) {
                     BattleScreen.showInvalidMoveError();
                 }
-            }else if (command.matches("attack \\d+")) {
+            }else if (command.matches("attack \\w+")) {
                 if(!game.getWhoIsHisTurn().attack(game.findInTable(command.split(" ")[1]))) {
                     BattleScreen.showInvalidAttackError();
                 }
-            }else if (command.matches("attack combo (\\d+)( \\d+)+")) {
-
+            }else if (command.matches("attack combo \\w+( \\w+)+")) {
+                Cell opponentCardCell = game.findInTable(command.split(" ")[2]);
+                Cell myCardCell = game.findInTable(command.split(" ")[3]);
+                ArrayList<Cell> cells = new ArrayList<>();
+                int counter = 4;
+                while(counter < command.split(" ").length) {
+                    cells.add(game.findInTable(command.split(" ")[counter]));
+                    counter++;
+                }
+                game.getWhoIsHisTurn().attackCombo(opponentCardCell,myCardCell,cells);
             }else if (command.matches("use special power(\\d+,\\d+)")) {
                 if(!game.getWhoIsHisTurn().heroHaveSpecialPower()) {
                     BattleScreen.showDoesNotHaveSpecialPower();

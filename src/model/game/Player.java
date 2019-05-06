@@ -159,6 +159,17 @@ public class Player {
                 || (attackersCell.getInsideArmy().getAttackType() == AttackType.RANGED && !Cell.isNear(attackersCell,defenderCell))
                 || (attackersCell.getInsideArmy().getAttackType() == AttackType.HYBRID);
     }
+    public boolean attackCombo(Cell opponentCardCell,Cell myCardCell,ArrayList<Cell> cells) {
+        boolean trueAttack = false;
+        CardsArray cardsArray = new CardsArray();
+        for(Cell cell : cells) {
+            if(cell == null || !isInRange(myCardCell,cell)) trueAttack = true;
+            cardsArray.add(cell.getInsideArmy());
+        }
+        if(!trueAttack) return false;
+        myCardCell.getInsideArmy().attackCombo(opponentCardCell,cardsArray);
+        return true;
+    }
     public boolean attack(Cell attackersCell,Cell defenderCell) {
         if(attackersCell == null) return false;
         if(!isInRange(attackersCell,defenderCell)) return false;
@@ -370,6 +381,36 @@ public class Player {
         }
         return (Minion)cards.getRandomCard();
     }
+
+    public CardsArray getEnemiesAround(Cell cell) {
+        return  Game.getCurrentGame().getAllAccountArmiesInCellArray(Game.getCurrentGame().getAllNearCells(cell),
+                Game.getCurrentGame().getAnotherAccount(account));
+
+    }
+
+    public CardsArray getFriendsAround(Cell cell) {
+        return  Game.getCurrentGame().getAllAccountArmiesInCellArray(Game.getCurrentGame().getAllNearCells(cell),account);
+    }
+
+    public CardsArray getEnemiesInDistance2(Cell cell) {
+        return  Game.getCurrentGame().getAllAccountArmiesInCellArray(Game.getCurrentGame().getAllCellsWithUniqueDistance(cell,2),
+                Game.getCurrentGame().getAnotherAccount(account));
+
+    }
+
+    public Army getNearestEnemy(Cell cell) {
+        CardsArray cards =  Game.getCurrentGame().getAllAccountArmiesInCellArray(Game.getCurrentGame().getAllCellsInTable(),
+                            Game.getCurrentGame().getAnotherAccount(account));
+        Card nearestEnemy =  cards.getRandomCard();
+        if(nearestEnemy == null) return null;
+        for(Card card : cards.getAllCards()) {
+            if(Cell.getDistance(cell,card.getWhereItIs()) < Cell.getDistance(cell,nearestEnemy.getWhereItIs())) {
+                nearestEnemy = card;
+            }
+        }
+        return (Army)nearestEnemy;
+    }
+
     public void goToGraveYard() {
         InGraveYard = true;
     }
