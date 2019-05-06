@@ -28,6 +28,7 @@ public class BattleMenuHandler extends Handler{
             BattleScreen.showErrorInvalidDeck();
             return MENU;
         }
+        setPlayersSteps();
         gotoChoosePlayerPage();
         while (scanner.hasNext()) {
             command = scanner.nextLine().toLowerCase().trim();
@@ -70,17 +71,12 @@ public class BattleMenuHandler extends Handler{
         return null;
     }
 
-    public Deck getDeck(int deckNumber) {
-        return null;
-        //
-    }
-
     public void setCustomDecks() {
         //
     }
 
     public void setPlayersSteps() {
-        customPlayer = new IntelligentPlayer(new Account("customPlayer","1234"));
+        //customPlayer = new IntelligentPlayer(new Account("customPlayer","1234"));
         Account account = new Account("firstLevelPlayer","1234");
         try {
             Card.makeStroyDeck(1, account);
@@ -290,5 +286,5 @@ enum PageState {
     STORY,
     CUSTOM_FIRST,
     CUSTOM_SECOND,
-    NOTHING
+    NOTHING,
 }

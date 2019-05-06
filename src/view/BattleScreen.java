@@ -13,7 +13,10 @@ import java.util.ArrayList;
 import static model.game.GameType.*;
 
 public class BattleScreen extends Screen{
-    private static Game game;
+    private static Game game = Game.getCurrentGame();
+    public static void setGame() {
+        game = Game.getCurrentGame();
+    }
     public static void showGameInfo(){
         System.out.println("firstPlayer mana is"+game.getFirstPlayer().getMana());
         System.out.println("secondPlayer mana is"+game.getSecondPlayer().getMana());

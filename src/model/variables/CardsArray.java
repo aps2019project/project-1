@@ -61,6 +61,7 @@ public class CardsArray {
     }
 
     public Card find(Card card) {
+        if(card == null) return null;
         return find(card.getID().getValue());
     }
 

@@ -26,9 +26,11 @@ public class Game {
     public Game(Account firstAccount, Account secondAccount, GameType type) {
         firstPlayer = new Player(firstAccount);
         secondPlayer = new Player(secondAccount);
-        for(Cell[] row : table) {
-            for(Cell cell : row) {
-                allCellsInTable.add(cell);
+
+        for(int counter1 = 0 ; counter1 < TABLE_HEIGHT ; counter1++) {
+            for(int counter2 = 0 ; counter2 < TABLE_WIDTH ; counter2++) {
+                table[counter1][counter2] = new Cell(counter1,counter2);
+                allCellsInTable.add(table[counter1][counter2]);
             }
         }
         this.type = type;

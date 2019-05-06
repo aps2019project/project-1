@@ -147,6 +147,7 @@ public class Card implements Cloneable {
                 deck.addCard(item);
         }
         account.addDeck(deck);
+        account.changeMainDeck(deck);
     }
 
     @Override
