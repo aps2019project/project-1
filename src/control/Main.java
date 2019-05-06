@@ -1,6 +1,8 @@
 package control;
 
 import model.cards.Card;
+import model.cards.Hero;
+import model.cards.Spell;
 import model.other.Account;
 
 public class Main {

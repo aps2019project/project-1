@@ -27,12 +27,13 @@ public class Card implements Cloneable {
     protected String description;
     protected CardType type;
 
-    Card(int number, String name, int price, String description, CardType type) {
+    Card(int number, String name, int price, String description, CardType type, int mana) {
         this.number = number;
         this.type = type;
         this.name = name;
         this.price = price;
         this.ID = new ID();
+        this.neededManaToPut = mana;
         this.description = description;
     }
 

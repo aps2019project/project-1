@@ -18,6 +18,11 @@ public class Cell {
         this.x = x;
         this.y = y;
     }
+
+    public void setEffect(CellEffect effect) {
+        this.effect = effect;
+    }
+
     public Army getInsideArmy() {
         return insideArmy;
     }

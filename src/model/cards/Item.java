@@ -16,7 +16,7 @@ public class Item extends Card {
     private ItemType itemType;
 
     Item(int number, String name, int price, ItemType itemType, String description) {
-        super(number, name, price, description, ITEM);
+        super(number, name, price, description, ITEM, 0);
         this.itemType = itemType;
         items.add(this);
         cards.add(this);
@@ -79,7 +79,7 @@ public class Item extends Card {
     }
 
     public static void ManaPotionCollectible(Player player, Army army) {
-
+        player.useManaPotion();
     }
 
     public static void RevengeousPotionCollectible(Player player, Army army) {
