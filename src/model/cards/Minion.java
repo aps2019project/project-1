@@ -13,7 +13,6 @@ import static model.cards.CardType.MINION;
 
 public class Minion extends Army {
     private static ArrayList<Minion> minions = new ArrayList<>();
-    private int number;
     private int mana;
     private SPTime spTime;
     private Race race;
@@ -22,7 +21,7 @@ public class Minion extends Army {
     Minion(int number, String name, int price, int hp
             , int ap, int ar, int mana, AttackType attackType
             , Race race, SPTime spTime, String description) {
-        super(number, name, price, description, hp, ap, ar, attackType, MINION);
+        super(number, name, price, description, hp, ap, ar, attackType, MINION, mana);
         this.mana = mana;
         this.spTime = spTime;
         this.race = race;
@@ -97,21 +96,17 @@ public class Minion extends Army {
         }
     }
 
-   /* @Override
+    @Override
     public String toString() {
-        return "Minion{" +
-                "mana=" + mana +
+        return "mana=" + mana +
                 ", spTime=" + spTime +
                 ", race=" + race +
-                ", specialBuffs=" + specialBuffs +
-                ", passiveBuffs=" + passiveBuffs +
                 ", ap=" + ap +
                 ", ID=" + ID +
                 ", name='" + name + '\'' +
                 ", price=" + price +
-                ", type=" + type +
-                '}';
-    }*/
+                ", type=" + type;
+    }
 
     public void PersianSwordsmanOnAttack(Army army) {
         army.addBuff(new Stun(1, 1, NORMAL));
@@ -128,7 +123,7 @@ public class Minion extends Army {
     }
 
     public void OneEyedGiantOnDeath(Player player, Cell cell) {
-        ArrayList<Army> array = player.getEnemiesAround(cell);
+        ArrayList<Army> array = player.getEnemiesAround(cell).getArmy();
         for (Army army : array) {
             army.getDamaged(2, this);
         }
@@ -139,7 +134,7 @@ public class Minion extends Army {
     }
 
     public void HugeSnakeOnSpawn(Player player, Cell cell) {
-        ArrayList<Army> array = player.getEnemiesInDistance2(cell);
+        ArrayList<Army> array = player.getEnemiesInDistance2(cell).getArmy();
         for (Army army : array) {
             army.addBuff(new Unholy(1, PERMANENT));
         }
@@ -165,7 +160,7 @@ public class Minion extends Army {
     }
 
     public void WitchPassive(Player player, Cell cell) {
-        ArrayList<Army> array = player.getFriendsAround(cell);
+        ArrayList<Army> array = player.getFriendsAround(cell).getArmy();
         array.add(this);
         for (Army army : array) {
             army.addBuff(new Power(2, AP, 1, NORMAL));
@@ -174,7 +169,7 @@ public class Minion extends Army {
     }
 
     public void GrandWitchPassive(Player player, Cell cell) {
-        ArrayList<Army> array = player.getFriendsAround(cell);
+        ArrayList<Army> array = player.getFriendsAround(cell).getArmy();
         array.add(this);
         for (Army army : array) {
             army.addBuff(new Power(2, AP, 1, NORMAL));
@@ -220,7 +215,7 @@ public class Minion extends Army {
     }
 
     public void NaneSarmaOnSpawn(Player player, Cell cell) {
-        ArrayList<Army> array = player.getEnemiesAround(cell);
+        ArrayList<Army> array = player.getEnemiesAround(cell).getArmy();
         for(Army army : array) {
             if(army instanceof Hero) continue;
             army.addBuff(new Stun(1, 1, NORMAL));

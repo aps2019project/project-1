@@ -2,6 +2,7 @@ package model.cards;
 
 import model.Buff.*;
 import model.game.Player;
+import model.variables.CardsArray;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -18,19 +19,14 @@ public class Army extends Card {
     protected ArrayList<Buff> buffs = new ArrayList<>();
     protected boolean isStunned;
     protected boolean isDisarmed;
-    protected int neededManaToAttack;//
     protected Player player;
 
-    public Army(int number, String name, int price, String description, int hp, int ap, int ar, AttackType attackType, CardType cardType) {
-        super(number, name, price, description, cardType);
+    public Army(int number, String name, int price, String description, int hp, int ap, int ar, AttackType attackType, CardType cardType, int mana) {
+        super(number, name, price, description, cardType, mana);
         this.hp = hp;
         this.ap = ap;
         this.ar = ar;
         this.attackType = attackType;
-    }
-
-    public int getNeededManaToAttack() {
-        return neededManaToAttack;
     }
 
     public int getHp() {
@@ -61,10 +57,6 @@ public class Army extends Card {
         this.player = player;
     }
 
-    public boolean isStuned() {
-        return isStunned;
-    }
-
     public boolean isDisarmed() {
         return isDisarmed;
     }
@@ -79,6 +71,10 @@ public class Army extends Card {
 
     public ArrayList<Buff> getBuffs() {
         return buffs;
+    }
+
+    public boolean isStunned() {
+        return isStunned;
     }
 
     public static void decreaseBuffTurns(ArrayList<Army> array) {
@@ -209,7 +205,6 @@ public class Army extends Card {
         if (army.getName().equals("Ashkbous") && ((Minion)army).AshkbousOnDefend(this)) return;
         army.getDamaged(this.getAp(), army);
         this.checkOnAttack(army);
-        army.counterAttack(this);
     }
 
     public void checkOnAttack(Army army) {
@@ -271,8 +266,8 @@ public class Army extends Card {
         return array.get(random);
     }
 
-    public void attackCombo(ArrayList<Army> array, Army target) {
-        for(Army army : array) {
+    public void attackCombo(Army target, CardsArray array) {
+        for(Army army : array.getArmy()) {
             target.getDamaged(army.getAp(), null);
         }
         this.attack(target);

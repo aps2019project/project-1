@@ -16,17 +16,23 @@ import java.util.regex.PatternSyntaxException;
 
 public class BattleHandler extends Handler{
     private static Game game;
+
+    public static BattlesOrderType getPlayingOrder() {
+        return null;
+        //
+    }
+
     @Override
     HandlerType handleCommands() {
         while (scanner.hasNext()) {
-            command = scanner.nextLine().trim();
+            command = scanner.nextLine().toLowerCase().trim();
             if (command.matches("game info")) {
                 BattleScreen.showGameInfo();
             } else if (command.matches("show my minions")) {
                 BattleScreen.showMinionsOf(game.getWhoIsHisTurn().getAccount());
             } else if (command.matches("show opponent minions")) {
                 BattleScreen.showMinionsOf(game.getWhoIsNotHisTurn().getAccount());
-            } else if (command.matches("show Card info \\d+")) {
+            } else if (command.matches("show card info \\d+")) {
                 BattleScreen.showCard(game.findInTable(command.split(" ")[3]).getInsideArmy());
             }else if (command.matches("select \\d+")) {
                 if(!game.getWhoIsHisTurn().setSelectedCard(game.findInTable(command.split(" ")[1]))){
@@ -52,7 +58,13 @@ public class BattleHandler extends Handler{
                 }
                 game.getWhoIsHisTurn().attackCombo(opponentCardCell,myCardCell,cells);
             }else if (command.matches("use special power(\\d+,\\d+)")) {
-                //
+                if(!game.getWhoIsHisTurn().heroHaveSpecialPower()) {
+                    BattleScreen.showDoesNotHaveSpecialPower();
+                }
+                if(!game.getWhoIsHisTurn().useSpecialPower(getCell(command))){
+                    BattleScreen.showNotEnoughMana();
+                }
+
             }else if (command.matches("show hand")) {
                 BattleScreen.showCardArray(game.getWhoIsHisTurn().getHand());
             }else if (command.matches("insert \\w+ in (\\d+,\\d+)")) {
@@ -90,6 +102,7 @@ public class BattleHandler extends Handler{
         }
         return HandlerType.BATTLE;
     }
+
     public void whatYouCanDo(Account account) {
         CardsArray allArmies = game.getAllAccountArmiesInCellArray(game.getAllCellsInTable(),account);
         for(Card card : allArmies.getAllCards()) {
@@ -98,6 +111,7 @@ public class BattleHandler extends Handler{
         }
         BattleScreen.showCardArray(game.getPlayer(account).getHand());
     }
+
     public Cell getCell(String input) {
         Pattern pattern = Pattern.compile("\\w*[(](\\d+)[,](\\d+)[)]");
         Matcher matcher = pattern.matcher(input);
@@ -108,4 +122,6 @@ public class BattleHandler extends Handler{
         }
         return null;
     }
+
+
 }

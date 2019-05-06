@@ -27,21 +27,22 @@ public class Card implements Cloneable {
     protected String description;
     protected CardType type;
 
+    Card(int number, String name, int price, String description, CardType type, int mana) {
+        this.number = number;
+        this.type = type;
+        this.name = name;
+        this.price = price;
+        this.ID = new ID();
+        this.neededManaToPut = mana;
+        this.description = description;
+    }
+
     public Cell getWhereItIs() {
         return whereItIs;
     }
 
     public void setWhereItIs(Cell whereItIs) {
         this.whereItIs = whereItIs;
-    }
-
-    Card(int number, String name, int price, String description, CardType type) {
-        this.number = number;
-        this.type = type;
-        this.name = name;
-        this.price = price;
-        this.ID = new ID();
-        this.description = description;
     }
 
     public int getNumber() {
@@ -147,4 +148,20 @@ public class Card implements Cloneable {
         }
         account.addDeck(deck);
     }
+
+    @Override
+    public String toString() {
+        switch (this.type) {
+            case HERO :
+                return "Hero - " + ((Hero)this).toString();
+            case MINION :
+                return "Minion - " + ((Minion)this).toString();
+            case SPELL :
+                return "Spell - " + ((Spell)this).toString();
+            case ITEM :
+                return "Item - " + ((Item)this).toString();
+        }
+        return null;
+    }
+
 }

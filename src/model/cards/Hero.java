@@ -1,6 +1,8 @@
 package model.cards;
 
 import model.Buff.*;
+import model.game.Cell;
+import model.game.CellEffect;
 import model.game.Player;
 
 import java.lang.reflect.InvocationTargetException;
@@ -16,7 +18,7 @@ public class Hero extends Army {
     private int mp, coolDown;
 
     Hero(int number, String name, int price, int hp, int ap, int ar, int mp, int coolDown, AttackType attackType, String description) {
-        super(number, name, price, description, hp, ap, ar, attackType, HERO);
+        super(number, name, price, description, hp, ap, ar, attackType, HERO, 0);
         this.mp = mp;
         this.coolDown = coolDown;
         heroes.add(this);
@@ -52,16 +54,14 @@ public class Hero extends Army {
 
     @Override
     public String toString() {
-        return "Hero{" +
-                "mp=" + mp +
+        return "mp=" + mp +
                 ", coolDown=" + coolDown +
                 ", ap=" + ap +
                 ", attackType=" + attackType +
                 ", ID=" + ID +
                 ", name='" + name + '\'' +
                 ", price=" + price +
-                ", type=" + type +
-                '}';
+                ", type=" + type;
     }
 
     public void useSpell(Player player) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
@@ -90,11 +90,12 @@ public class Hero extends Army {
     }
 
     public void KaveSpell(Player player){
-
+        Cell cell = player.getOneCell();
+        cell.setEffect(CellEffect.HOLY);
     }
 
     public void ArashSpell(Player player){
-        ArrayList<Army> array = player.getEnemiesInHeroRow();
+        ArrayList<Army> array = player.getEnemiesInHeroRow().getArmy();
         for(Army army : array){
             army.setAp(army.getAp() + 4);
         }
