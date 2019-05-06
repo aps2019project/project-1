@@ -11,7 +11,7 @@ import java.util.function.IntFunction;
 
 import static model.cards.CardType.*;
 
-public class CardsArray extends ArrayList<Army> {
+public class CardsArray {
 
     protected ArrayList<Card> allCards = new ArrayList<>();
 
@@ -69,6 +69,15 @@ public class CardsArray extends ArrayList<Army> {
             }
         }
         return items;
+    }
+
+    public ArrayList<Army> getArmy() {
+        ArrayList<Army> armies = new ArrayList<>();
+        for (Card card : allCards) {
+            if (card.getType() == MINION || card.getType() == HERO)
+                armies.add((Army) card);
+        }
+        return armies;
     }
 
     public Card find(Card card) {

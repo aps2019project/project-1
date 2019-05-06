@@ -27,14 +27,6 @@ public class Card implements Cloneable {
     protected String description;
     protected CardType type;
 
-    public Cell getWhereItIs() {
-        return whereItIs;
-    }
-
-    public void setWhereItIs(Cell whereItIs) {
-        this.whereItIs = whereItIs;
-    }
-
     Card(int number, String name, int price, String description, CardType type) {
         this.number = number;
         this.type = type;
@@ -42,6 +34,14 @@ public class Card implements Cloneable {
         this.price = price;
         this.ID = new ID();
         this.description = description;
+    }
+
+    public Cell getWhereItIs() {
+        return whereItIs;
+    }
+
+    public void setWhereItIs(Cell whereItIs) {
+        this.whereItIs = whereItIs;
     }
 
     public int getNumber() {
