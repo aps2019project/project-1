@@ -42,13 +42,11 @@ public class Item extends Card {
 
     @Override
     public String toString() {
-        return "Item{" +
-                "itemType=" + itemType +
+        return "itemType=" + itemType +
                 ", ID=" + ID +
                 ", name='" + name + '\'' +
                 ", price=" + price +
-                ", type=" + type +
-                '}';
+                ", type=" + type;
     }
 
     public static void HonorShieldUsbale(Player player) {

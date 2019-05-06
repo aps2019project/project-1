@@ -97,21 +97,17 @@ public class Minion extends Army {
         }
     }
 
-   /* @Override
+    @Override
     public String toString() {
-        return "Minion{" +
-                "mana=" + mana +
+        return "mana=" + mana +
                 ", spTime=" + spTime +
                 ", race=" + race +
-                ", specialBuffs=" + specialBuffs +
-                ", passiveBuffs=" + passiveBuffs +
                 ", ap=" + ap +
                 ", ID=" + ID +
                 ", name='" + name + '\'' +
                 ", price=" + price +
-                ", type=" + type +
-                '}';
-    }*/
+                ", type=" + type;
+    }
 
     public void PersianSwordsmanOnAttack(Army army) {
         army.addBuff(new Stun(1, 1, NORMAL));

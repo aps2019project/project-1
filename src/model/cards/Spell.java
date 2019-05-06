@@ -48,14 +48,12 @@ public class Spell extends Card {
 
     @Override
     public String toString() {
-        return "Spell{" +
-                "mana=" + mana +
+        return  "mana=" + mana +
                 ", spellTarget=" + target +
                 ", ID=" + ID +
                 ", name='" + name + '\'' +
                 ", price=" + price +
-                ", type=" + type +
-                '}';
+                ", type=" + type;
     }
 
 

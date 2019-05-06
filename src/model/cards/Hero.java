@@ -52,16 +52,14 @@ public class Hero extends Army {
 
     @Override
     public String toString() {
-        return "Hero{" +
-                "mp=" + mp +
+        return "mp=" + mp +
                 ", coolDown=" + coolDown +
                 ", ap=" + ap +
                 ", attackType=" + attackType +
                 ", ID=" + ID +
                 ", name='" + name + '\'' +
                 ", price=" + price +
-                ", type=" + type +
-                '}';
+                ", type=" + type;
     }
 
     public void useSpell(Player player) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
