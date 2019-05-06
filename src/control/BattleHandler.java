@@ -39,7 +39,7 @@ public class BattleHandler extends Handler{
                 if(!game.getWhoIsHisTurn().setSelectedCard(game.findInTable(command.split(" ")[1]))){
                     BattleScreen.showInvalidCardIdError();
                 }
-            }else if (command.matches("move to(\\d+,\\d+)")) {
+            }else if (command.matches("move to[(]\\d+,\\d+[)]")) {
                 if(!game.getWhoIsHisTurn().moveArmy(game.getWhoIsHisTurn().getSelectedCardPlace()
                         ,getCell(command.split(" ")[1]))) {
                     BattleScreen.showInvalidMoveError();
@@ -58,7 +58,7 @@ public class BattleHandler extends Handler{
                     counter++;
                 }
                 game.getWhoIsHisTurn().attackCombo(opponentCardCell,myCardCell,cells);
-            }else if (command.matches("use special power(\\d+,\\d+)")) {
+            }else if (command.matches("use special power[(]\\d+,\\d+[)]")) {
                 if(!game.getWhoIsHisTurn().heroHaveSpecialPower()) {
                     BattleScreen.showDoesNotHaveSpecialPower();
                 }
@@ -69,7 +69,7 @@ public class BattleHandler extends Handler{
 
             }else if (command.matches("show hand")) {
                 BattleScreen.showCardArray(game.getWhoIsHisTurn().getHand());
-            }else if (command.matches("insert \\w+ in (\\d+,\\d+)")) {
+            }else if (command.matches("insert \\w+ in [(]\\d+,\\d+[)]")) {
                 if(!game.getWhoIsHisTurn().moveFromHandToCell(command.split(" ")[1]
                         ,getCell(command.split(" ")[3]))) {
                     BattleScreen.showInvalidCardNameError();
@@ -80,7 +80,7 @@ public class BattleHandler extends Handler{
                 //
             }else if (command.matches("show info")) {
                 //
-            }else if (command.matches("use (\\d+,\\d+)")) {
+            }else if (command.matches("use [(]\\d+,\\d+[)]")) {
                 //
             }else if (command.matches("show next card")) {
                 BattleScreen.showNextCardFromDeck();
