@@ -15,11 +15,12 @@ import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
 public class BattleHandler extends Handler{
-    private static Game game;
-
-    public static BattlesOrderType getPlayingOrder() {
-        return null;
-        //
+    private static Game game = Game.getCurrentGame();
+    {
+        BattleScreen.setGame();
+    }
+    public void getOrder() {
+        handleCommands();
     }
 
     @Override
