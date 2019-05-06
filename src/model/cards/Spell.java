@@ -156,7 +156,7 @@ public class Spell extends Card {
     }
 
     public static void AllAttackEffect(Player player) {
-        ArrayList<Army> array = player.getAllEnemiesInOneColumn();
+        ArrayList<Army> array = player.getAllEnemiesInOneColumn().getArmy();
         for (Army army : array) {
             army.getDamaged(6, null);
         }

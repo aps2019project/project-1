@@ -92,7 +92,7 @@ public class Hero extends Army {
     }
 
     public void ArashSpell(Player player){
-        ArrayList<Army> array = player.getEnemiesInHeroRow();
+        ArrayList<Army> array = player.getEnemiesInHeroRow().getArmy();
         for(Army army : array){
             army.setAp(army.getAp() + 4);
         }
