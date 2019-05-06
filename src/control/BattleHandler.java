@@ -25,7 +25,7 @@ public class BattleHandler extends Handler{
 
     @Override
     HandlerType handleCommands() {
-        while (scanner.hasNext()) {
+        while (scanner.hasNext() && !game.getWhoIsHisTurn().isEndTurn()) {
             command = scanner.nextLine().toLowerCase().trim();
             if (command.matches("game info")) {
                 BattleScreen.showGameInfo();
@@ -33,9 +33,9 @@ public class BattleHandler extends Handler{
                 BattleScreen.showMinionsOf(game.getWhoIsHisTurn().getAccount());
             } else if (command.matches("show opponent minions")) {
                 BattleScreen.showMinionsOf(game.getWhoIsNotHisTurn().getAccount());
-            } else if (command.matches("show card info \\d+")) {
+            } else if (command.matches("show card info \\w+")) {
                 BattleScreen.showCard(game.findInTable(command.split(" ")[3]).getInsideArmy());
-            }else if (command.matches("select \\d+")) {
+            }else if (command.matches("select \\w+")) {
                 if(!game.getWhoIsHisTurn().setSelectedCard(game.findInTable(command.split(" ")[1]))){
                     BattleScreen.showInvalidCardIdError();
                 }

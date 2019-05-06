@@ -1,19 +1,13 @@
 package model.game;
 
 import control.BattleHandler;
-import control.BattlesOrderType;
 import model.cards.*;
 import model.other.Account;
 import model.variables.CardsArray;
-import model.variables.GlobalVariables;
-import java.lang.reflect.Array;
+
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
-import static model.cards.AttackType.HYBRID;
-import static model.cards.AttackType.RANGED;
-
-import java.util.ArrayList;
 import java.util.Collections;
 
 import static model.variables.GlobalVariables.TABLE_HEIGHT;
@@ -115,7 +109,6 @@ public class Player {
     public void setEndTurn(boolean endTurn) {
         this.endTurn = endTurn;
     }
-
     public boolean setSelectedCard(Cell selectedCardPlace) {
         if (selectedCardPlace == null) return false;
         this.selectedCardPlace = selectedCardPlace;

@@ -47,7 +47,7 @@ public class BattleScreen extends Screen{
     }
     public static void showArmy(Army army) {
         System.out.println(army.getID()+": "+army.getName()+", health: "+army.getHp()
-                +", location: ("+army.getWhereItIs().getX()+","+army.getWhereItIs().getY()+"), power: "+army.getAr());
+                +", location: ("+army.getWhereItIs().getX()+","+army.getWhereItIs().getY()+"), power: "+army.getAp());
     }
     public static void showHero(Hero hero) {
         System.out.println("Hero:");

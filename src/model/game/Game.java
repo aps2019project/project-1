@@ -56,6 +56,7 @@ public class Game {
     }
     public Game(Account firstAccount, IntelligentPlayer intelligentPlayer, GameType type, int numberOfFlags) {
         this(firstAccount,intelligentPlayer.getAccount(),type,numberOfFlags);
+        intelligentPlayer.setGame(this);
         secondPlayer = intelligentPlayer;
     }
     public void putFlagIn(Cell cell) {
@@ -151,7 +152,7 @@ public class Game {
         }
     }
     public void setupCardDeaf(Cell cell) {
-        if( cell.getInsideArmy().getHp() > 0) return;
+        if(cell.isEmpty() || cell.getInsideArmy().getHp() > 0) return;
         Card card = cell.pick();
         if(card.getFlag() != null) {
             card.getFlag().dropTo(cell);

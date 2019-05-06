@@ -236,6 +236,7 @@ public class Minion extends Army {
                 Minion.class.getDeclaredMethod(this.getName() +"OnSpawn", Player.class, Cell.class).invoke(this, player, cell);
             } catch (Exception n){}
         }
+        if(this.getPlayer().getUsableItem() == null) return;
         String itemName = this.getPlayer().getUsableItem().getName();
         switch (itemName){
             case "AssassinationDagger":
