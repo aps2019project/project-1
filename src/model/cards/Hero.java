@@ -15,8 +15,8 @@ public class Hero extends Army {
 
     private int mp, coolDown;
 
-    Hero(String name, int price, int hp, int ap, int ar, int mp, int coolDown, AttackType attackType, String description) {
-        super(name, price, description, hp, ap, ar, attackType, HERO);
+    Hero(int number, String name, int price, int hp, int ap, int ar, int mp, int coolDown, AttackType attackType, String description) {
+        super(number, name, price, description, hp, ap, ar, attackType, HERO);
         this.mp = mp;
         this.coolDown = coolDown;
         heroes.add(this);
@@ -37,7 +37,8 @@ public class Hero extends Army {
 
     public static void scanHeroes(ArrayList<String[]> data){
         for(String[] line : data){
-            new Hero(line[1]
+            new Hero(Integer.parseInt(line[0])
+                    ,line[1]
                     , Integer.parseInt(line[2])
                     , Integer.parseInt(line[3])
                     , Integer.parseInt(line[4])

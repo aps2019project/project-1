@@ -69,7 +69,7 @@ class ShopHandler extends Handler {
 
         if (card.getType().equals(CardType.ITEM)) {
             Item item = (Item) card;
-            if (item.getItemType().equals(ItemType.COLLECTABLE)) {
+            if (item.getItemType().equals(ItemType.COLLECTIBLE)) {
                 ShopScreen.showCardNotFound();
                 return;
             } else if (account.getCollection().getAllItems().size() >= 3) {
@@ -98,12 +98,13 @@ class ShopHandler extends Handler {
 
         if (card.getType().equals(CardType.ITEM)) {
             Item item = (Item) card;
-            if (item.getItemType().equals(ItemType.COLLECTABLE)) {
+            if (item.getItemType().equals(ItemType.COLLECTIBLE)) {
                 ShopScreen.showCardNotFound();
                 return;
             }
         }
         account.increaseDaric(card.getPrice());
+        account.deleteCardFromAllDecks(card.getName());
         account.removeCardFromCollection(card);
         ShopScreen.showSellWasSuccessful();
     }

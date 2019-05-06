@@ -1,11 +1,15 @@
 package model.cards;
 
 import model.Buff.*;
-import model.variables.CardsArray;
+import model.game.Player;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Random;
 
+import static model.Buff.BuffTImeType.*;
+import static model.Buff.PowerBuffType.*;
+import static model.cards.AttackType.*;
 import static model.cards.SPTime.*;
 
 public class Army extends Card {
@@ -15,9 +19,10 @@ public class Army extends Card {
     protected boolean isStunned;
     protected boolean isDisarmed;
     protected int neededManaToAttack;//
+    protected Player player;
 
-    public Army(String name, int price, String description, int hp, int ap, int ar, AttackType attackType, CardType cardType) {
-        super(name, price, description, cardType);
+    public Army(int number, String name, int price, String description, int hp, int ap, int ar, AttackType attackType, CardType cardType) {
+        super(number, name, price, description, cardType);
         this.hp = hp;
         this.ap = ap;
         this.ar = ar;
@@ -48,6 +53,14 @@ public class Army extends Card {
         this.ap = ap;
     }
 
+    public Player getPlayer() {
+        return player;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+
     public boolean isStuned() {
         return isStunned;
     }
@@ -68,9 +81,9 @@ public class Army extends Card {
         return buffs;
     }
 
-    public static void decreaseBuffTurns(CardsArray array) {
-        for (Card card : array.getAllCards()) {
-            Iterator iterator = ((Army) card).getBuffs().iterator();
+    public static void decreaseBuffTurns(ArrayList<Army> array) {
+        for (Army army : array) {
+            Iterator iterator = army.getBuffs().iterator();
             while (iterator.hasNext()) {
                 Buff buff = (Buff) iterator.next();
                 buff.decreaseTurns();
@@ -81,9 +94,8 @@ public class Army extends Card {
         }
     }
 
-    public static void ActivateContinuousBuffs(CardsArray array) {
-        for (Card card : array.getAllCards()) {
-            Army army = (Army) card;
+    public static void ActivateContinuousBuffs(ArrayList<Army> array) {
+        for (Army army : array) {
             for (Buff buff : army.getBuffs()) {
                 if (buff.getBuffTImeType() == BuffTImeType.CONTINUOUS) {
                     buff.setTurns(1);
@@ -92,7 +104,24 @@ public class Army extends Card {
         }
     }
 
+    public static void checkPoisonAndBleeding(ArrayList<Army> array) {
+        for (Army army : array) {
+            army.setHp(army.getHp() - army.haveBuff(Poison.class));
+            for (Buff buff : army.getBuffs()) {
+                if (buff instanceof Bleeding) {
+                    army.setHp(army.getHp() - ((Bleeding) buff).getFirst());
+                }
+            }
+        }
+    }
+
     public void addBuff(Buff buff) {
+        if(this.getName().equals("WildHog") || this.getName().equals("Piran") || this.getName().equals("Giv")){
+            try {
+                if ((boolean) Minion.class.getDeclaredMethod(this.getName() + "OnDefend", Buff.class).invoke(this, buff))
+                    return;
+            } catch (Exception e){}
+        }
         this.buffs.add(buff);
         this.activateBuff(buff);
     }
@@ -177,41 +206,75 @@ public class Army extends Card {
 
     public void attack(Army army) {
         if (this.isStunned) return;
+        if (army.getName().equals("Ashkbous") && ((Minion)army).AshkbousOnDefend(this)) return;
         army.getDamaged(this.getAp(), army);
         this.checkOnAttack(army);
+        army.counterAttack(this);
     }
 
     public void checkOnAttack(Army army) {
-        if (this.getName().equals("Zahack")) {
-            army.addBuff(new Poison(3, BuffTImeType.NORMAL));
+        if (this instanceof Hero) {
+            Hero hero = (Hero)this;
+            if (hero.getName().equals("Zahack"))
+                army.addBuff(new Poison(3, NORMAL));
+            String itemName = hero.getPlayer().getUsableItem().getName();
+            switch (itemName) {
+                case "DamoolArc":
+                    if (hero.getAttackType() != MELEE)
+                        army.addBuff(new Disarm(1, 1, NORMAL));
+                    break;
+                case "ShockHammer":
+                    army.addBuff(new Disarm(1, 1, NORMAL));
+                    break;
+            }
         }
         if (this instanceof Minion && ((Minion) this).getSpTime() == ON_ATTACK) {
-
-        }
-    }
-
-    public void getDamaged(int number, Army army) {
-        int holyBuffs = this.haveBuff(Holy.class);
-        if (holyBuffs < number) {
-            number -= holyBuffs;
-            this.setHp(this.getHp() - number);
-        }
-        this.checkOnDefend(army);
-    }
-
-    public void checkOnDefend(Army army) {
-        if (this instanceof Minion && ((Minion) this).getSpTime() == ON_DEFEND) {
-            if (army == null) {
-
-            } else {
-
+            try {
+                Minion.class.getDeclaredMethod(this.name + "OnAttack", Army.class).invoke(this, army);
+            } catch (Exception e){}
+            String itemName = this.getPlayer().getUsableItem().getName();
+            switch (itemName) {
+                case "TerrorHood":
+                    army.addBuff(new Weakness(2, AP, 1, NORMAL));
+                    break;
+                case "PoisonousDagger":
+                    army.addBuff(new Poison(1, NORMAL));
+                    break;
             }
         }
     }
 
-    public void counterAttack(Army army) {
-        if (this.isDisarmed) return;
-        this.attack(army);
+    public void getDamaged(int number, Army army) {
+        if(this.getName().equals("Giv")) return;
+        int holyBuffs = this.haveBuff(Holy.class);
+        int unholyBuffs = this.haveBuff(Unholy.class);
+        try {
+            if (army.getName().equals("PredatorLion")) holyBuffs = 0;
+        } catch (NullPointerException n) {
+        }
+
+        if (holyBuffs < number) {
+            number -= holyBuffs;
+            this.setHp(this.getHp() - number);
+        }
+        this.setHp(this.getHp() - unholyBuffs);
     }
 
+    public void counterAttack(Army army) {
+        if (this.isDisarmed) return;
+        army.getDamaged(this.getAp(), army);
+        this.checkOnAttack(army);
+    }
+
+    public static Army getRandomArmy(ArrayList<Army> array) {
+        int random = (new Random()).nextInt(array.size());
+        return array.get(random);
+    }
+
+    public void attackCombo(ArrayList<Army> array, Army target) {
+        for(Army army : array) {
+            target.getDamaged(army.getAp(), null);
+        }
+        this.attack(target);
+    }
 }
