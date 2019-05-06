@@ -52,8 +52,9 @@ public class BattleScreen extends Screen{
     public static void showHero(Hero hero) {
         System.out.println("Hero:");
         System.out.println("Name: "+hero.getName());
-        System.out.println("Cost: "+hero.getCoolDown());//
-        System.out.println("Desc: "+hero.getMp());//
+        System.out.println("Cool down: "+hero.getCoolDown());//
+        System.out.println("Mp: "+hero.getMp());//
+        System.out.println("Hp: "+hero.getHp());
     }
     public static void showMinion(Minion minion) {
         System.out.println("Minion:");
@@ -119,6 +120,7 @@ public class BattleScreen extends Screen{
             System.out.print(card.getID()+" that it is in ");
             showCellsCoordinate(card.getWhereItIs());
         }
+        System.out.println();
     }
     public static void showCellsCoordinate(Cell cell) {
         System.out.print(" ("+cell.getX()+","+cell.getY()+")");

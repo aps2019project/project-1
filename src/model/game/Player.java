@@ -146,8 +146,8 @@ public class Player {
 
     public boolean moveArmy(Cell presentCell, Cell destinationCell) {
         if (presentCell == null || destinationCell == null) return false;
-        if (destinationCell.isEmpty() || movedCardsInThisTurn.find(presentCell.getInsideArmy()) == null
-                || attackerCardsInThisTurn.find(presentCell.getInsideArmy()) == null) return false;
+        if (!destinationCell.isEmpty() || movedCardsInThisTurn.find(presentCell.getInsideArmy()) != null
+                || attackerCardsInThisTurn.find(presentCell.getInsideArmy()) != null) return false;
         if (Cell.getDistance(presentCell, destinationCell) > 2) return false;
         Army army = presentCell.pick();
         movedCardsInThisTurn.add(army);
@@ -233,7 +233,6 @@ public class Player {
                 movedCardsInThisTurn.add(card);
                 attackerCardsInThisTurn.add(card);
                 this.inGameCards.add(card);
-                ((Army)card).setPlayer(this);
                 if(card instanceof Minion){
                     Minion minion = (Minion)card;
                     minion.checkOnSpawn(this, cell);
