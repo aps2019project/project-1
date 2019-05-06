@@ -83,6 +83,7 @@ class ShopHandler extends Handler {
         } catch (CloneNotSupportedException e) {
             ShopScreen.showSomethingIsWrong();
         }
+        card.setUserName(account.getUsername());
         account.decreaseDaric(card.getPrice());
         account.addCardToCollection(card);
         ShopScreen.showBuyWasSuccessful();

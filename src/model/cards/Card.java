@@ -27,6 +27,10 @@ public class Card implements Cloneable {
     protected String description;
     protected CardType type;
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     Card(int number, String name, int price, String description, CardType type, int mana) {
         this.number = number;
         this.type = type;
