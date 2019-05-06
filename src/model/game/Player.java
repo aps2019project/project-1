@@ -21,7 +21,7 @@ import static model.variables.GlobalVariables.TABLE_HEIGHT;
 public class Player {
     protected Account account;
     protected Deck deck;
-    protected Hand hand;
+    protected Hand hand = new Hand();
     protected int mana;
     protected CardsArray graveYard = new CardsArray();
     protected CardsArray inGameCards = new CardsArray();
@@ -128,8 +128,8 @@ public class Player {
     public void setMana() {
         if (turnNumber <= 7) mana = turnNumber + 1;
         else mana = 9;
-        if (this.usableItem.getName().equals("WisdomCrown") && turnNumber<4) mana++;
-        if (this.usableItem.getName().equals("KingWisdom")) mana++;
+        if (this.usableItem != null && this.usableItem.getName().equals("WisdomCrown") && turnNumber<4) mana++;
+        if (this.usableItem != null && this.usableItem.getName().equals("KingWisdom")) mana++;
         if (this.usedManaPotion) mana += 3;
     }
 
@@ -153,6 +153,7 @@ public class Player {
         this.hero = hero;
         deck.deleteCard(hero);
         cell.put(hero, turnNumber);
+        hero.setWhereItIs(cell);
         this.inGameCards.add(hero);
     }
     public boolean isInRange(Cell attackersCell,Cell defenderCell) {
@@ -257,8 +258,10 @@ public class Player {
 
     public void startMatchSetup() {
         deck.fillHand(hand);
+        if(this.usableItem == null) return;
         try {
             this.usableItemEffect(this.getUsableItem().getName());
+
         }catch (Exception e){ }
     }
 
@@ -278,10 +281,7 @@ public class Player {
         increaseTurnNumber();
         setMana();
         deck.transferCardTo(hand);
-        while (!endTurn) {
-            BattlesOrderType orderType = BattleHandler.getPlayingOrder();
-            //////////
-        }
+        new BattleHandler().getOrder();
     }
 
     public boolean haveCard(Card card) {

@@ -47,7 +47,7 @@ public class Cell {
         return insideArmy == null;
     }
     public boolean put(Army army,int turnNumber) {
-        if(this.isEmpty() || army == null) return false;
+        if(!this.isEmpty() || army == null) return false;
         this.insideArmy = army;
         army.setWhereItIs(this);
         if(flag != null) {
