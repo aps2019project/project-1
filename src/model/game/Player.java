@@ -451,7 +451,6 @@ public class Player {
     }
 
     public Cell getOneCell() {
-
-        return null;
+        return selectedCardPlace;
     }
 }
