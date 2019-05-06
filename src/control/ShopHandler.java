@@ -79,6 +79,7 @@ class ShopHandler extends Handler {
         }
         try {
             card = card.clone();
+            card.setUserName(account.getUsername());
         } catch (CloneNotSupportedException e) {
             ShopScreen.showSomethingIsWrong();
         }

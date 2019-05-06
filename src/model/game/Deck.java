@@ -49,10 +49,14 @@ public class Deck {
     }
 
     public Hero getHero() {
+        if(cards.getAllHeros().size() == 0) return null;
+        hero = cards.getAllHeros().get(0);
         return hero;
     }
 
     public Item getItem() {
+        if(cards.getAllItems().size() == 0) return null;
+        item = cards.getAllItems().get(0);
         return item;
     }
 
