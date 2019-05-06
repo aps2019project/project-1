@@ -13,70 +13,53 @@ import static model.cards.CardType.*;
 
 public class CardsArray {
 
-    protected ArrayList<Card> allCards = new ArrayList<>();
+    private ArrayList<Hero> allHeroes = new ArrayList<>();
+    private ArrayList<Minion> allMinions = new ArrayList<>();
+    private ArrayList<Spell> allSpells = new ArrayList<>();
+    private ArrayList<Item> allItems = new ArrayList<>();
 
     public CardsArray(){
     }
 
     public ArrayList<Card> getAllCards() {
-        sortCards();
+        ArrayList<Card> allCards = new ArrayList<>();
+        allCards.addAll(heroCards());
+        allCards.addAll(spellCards());
+        allCards.addAll(itemCards());
+        allCards.addAll(minionCards());
+        sortCards(allCards);
         return allCards;
     }
 
     public ArrayList<Hero> getAllHeros() {
-        ArrayList<Hero> heroes = new ArrayList<>();
-        for (Card card : allCards) {
-            if (card.getType() == HERO)
-                heroes.add((Hero) card);
-        }
-        return heroes;
+        return this.allHeroes;
     }
 
     public ArrayList<Minion> getAllMinions() {
-        ArrayList<Minion> minions = new ArrayList<>();
-        for (Card card : allCards) {
-            if (card.getType() == MINION)
-                minions.add((Minion) card);
-        }
-        return minions;
+        return this.allMinions;
     }
 
     public ArrayList<Spell> getAllSpells() {
-        ArrayList<Spell> spells = new ArrayList<>();
-        for (Card card : allCards) {
-            if (card.getType() == SPELL)
-                spells.add((Spell) card);
-        }
-        return spells;
+        return this.allSpells;
     }
 
     public ArrayList<Item> getAllItems() {
-        ArrayList<Item> items = new ArrayList<>();
-        for (Card card : allCards) {
-            if (card.getType() == ITEM)
-                items.add((Item) card);
-        }
-        return items;
+        return this.allItems;
     }
 
     public ArrayList<Item> getSellableItems() {
         ArrayList<Item> items = new ArrayList<>();
-        for (Card card : allCards) {
-            if (card.getType() == ITEM) {
-                Item item = (Item) card;
-                if (item.getItemType().equals(ItemType.USABLE))
-                    items.add((Item) card);
-            }
+        for (Item item : allItems) {
+            if (item.getItemType().equals(ItemType.USABLE))
+                items.add(item);
         }
         return items;
     }
 
     public ArrayList<Army> getArmy() {
         ArrayList<Army> armies = new ArrayList<>();
-        for (Card card : allCards) {
-            if (card.getType() == MINION || card.getType() == HERO)
-                armies.add((Army) card);
-        }
+        armies.addAll(getAllHeros());
+        armies.addAll(getAllMinions());
         return armies;
     }
 
@@ -85,7 +68,7 @@ public class CardsArray {
     }
 
     public Card find(String IDValue) {
-        for (Card card : allCards) {
+        for (Card card : getAllCards()) {
             if (card.isSameAs(IDValue))
                 return card;
         }
@@ -93,7 +76,7 @@ public class CardsArray {
     }
 
     public Card findByName(String name) {
-        for (Card cardCounter : this.allCards) {
+        for (Card cardCounter : getAllCards()) {
             if (cardCounter.getName().toLowerCase().equals(name.toLowerCase())){
                 return cardCounter;
             }
@@ -102,24 +85,65 @@ public class CardsArray {
     }
 
     public boolean add(Card card) {
-        if (this.find(card) == null) {
-            this.allCards.add(card);
+        if (this.find(card) != null) {
+            return false;
+        }
+        try {
+            switch (card.getType()) {
+                case ITEM:
+                    allItems.add((Item) card);
+                    break;
+                case HERO:
+                    allHeroes.add((Hero) card);
+                    break;
+                case MINION:
+                    allMinions.add((Minion) card);
+                    break;
+                case SPELL:
+                    allSpells.add((Spell) card);
+                    break;
+            }
             return true;
-        } else {
+        }
+        catch (Exception e) {
+            System.out.println(e.getMessage());
             return false;
         }
     }
 
     public void remove(Card card) {
-        allCards.remove(card);
+        if (this.find(card) != null) {
+            return;
+        }
+        try {
+            switch (card.getType()) {
+                case ITEM:
+                    System.out.println(card);
+                    allItems.remove(card);
+                    break;
+                case HERO:
+                    allHeroes.remove(card);
+                    break;
+                case MINION:
+                    allMinions.remove(card);
+                    break;
+                case SPELL:
+                    allSpells.remove(card);
+                    break;
+            }
+        }
+        catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
-    public void remove(String name) {
-        allCards.remove(findByName(name));
+
+    public void clear() {
+        allSpells.clear();
+        allHeroes.clear();
+        allMinions.clear();
+        allItems.clear();
     }
-
-
-    public void clear() {allCards.clear();}
 
     public Card pick(String name) {
         Card card =  findByName(name);
@@ -128,12 +152,12 @@ public class CardsArray {
     }
 
     public Card getRandomCard() {
-        return allCards.get((int)Math.floor(Math.random()*allCards.size()));
+        return getAllCards().get((int)Math.floor(Math.random()*getAllCards().size()));
     }
 
     public CardsArray copyAll() {
         CardsArray copyFromCardList = new CardsArray();
-        for(Card card : this.allCards) {
+        for(Card card : getAllCards()) {
             try {
                 copyFromCardList.add(card.clone());
             }
@@ -144,14 +168,37 @@ public class CardsArray {
         return copyFromCardList;
     }
 
-    private void sortCards() {
+    private void sortCards(ArrayList<Card> allCards) {
         allCards.sort(Comparator.comparing(Card::getType));
+    }
+
+    private ArrayList<Card> heroCards() {
+        ArrayList<Card> cards = new ArrayList<>(allHeroes);
+        return cards;
+    }
+
+    private ArrayList<Card> spellCards() {
+        ArrayList<Card> cards = new ArrayList<>(allSpells);
+        return cards;
+    }
+
+    private ArrayList<Card> itemCards() {
+        ArrayList<Card> cards = new ArrayList<>(allItems);
+        return cards;
+    }
+
+    private ArrayList<Card> minionCards() {
+        ArrayList<Card> cards = new ArrayList<>(allMinions);
+        return cards;
     }
 
     @Override
     public String toString() {
         return "CardsArray{" +
-                "allCards=" + allCards +
+                "allHeroes=" + allHeroes +
+                ", allMinions=" + allMinions +
+                ", allSpells=" + allSpells +
+                ", allItems=" + allItems +
                 '}';
     }
 

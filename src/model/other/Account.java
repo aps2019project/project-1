@@ -185,8 +185,8 @@ public class Account {
             writer.write(gson.toJson(Account.getAccounts()));
             writer.close();
         }
-        catch (IOException e) {
-            e.printStackTrace();
+        catch (Exception e) {
+            System.out.println(e.getMessage());
         }
     }
 
