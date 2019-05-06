@@ -79,7 +79,7 @@ public class Item extends Card {
     }
 
     public static void ManaPotionCollectible(Player player, Army army) {
-
+        player.useManaPotion();
     }
 
     public static void RevengeousPotionCollectible(Player player, Army army) {

@@ -56,10 +56,6 @@ public class Army extends Card {
         this.player = player;
     }
 
-    public boolean isStuned() {
-        return isStunned;
-    }
-
     public boolean isDisarmed() {
         return isDisarmed;
     }
@@ -74,6 +70,10 @@ public class Army extends Card {
 
     public ArrayList<Buff> getBuffs() {
         return buffs;
+    }
+
+    public boolean isStunned() {
+        return isStunned;
     }
 
     public static void decreaseBuffTurns(ArrayList<Army> array) {
@@ -204,7 +204,6 @@ public class Army extends Card {
         if (army.getName().equals("Ashkbous") && ((Minion)army).AshkbousOnDefend(this)) return;
         army.getDamaged(this.getAp(), army);
         this.checkOnAttack(army);
-        army.counterAttack(this);
     }
 
     public void checkOnAttack(Army army) {

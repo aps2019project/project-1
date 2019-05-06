@@ -13,7 +13,6 @@ import static model.cards.CardType.MINION;
 
 public class Minion extends Army {
     private static ArrayList<Minion> minions = new ArrayList<>();
-    private int number;
     private int mana;
     private SPTime spTime;
     private Race race;

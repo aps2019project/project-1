@@ -36,6 +36,7 @@ public class Player {
     protected boolean InGraveYard = false;
     private Item usableItem;
     protected Cell selectedCellToPutFromHand;
+    private boolean usedManaPotion;
     public Player(Account account){
         this(account,account.getMainDeck());
     }
@@ -45,6 +46,9 @@ public class Player {
         this.usableItem = this.deck.getItem();
     }
 
+    public void useManaPotion() {
+        usedManaPotion = true;
+    }
 
     public Cell getSelectedCardPlace() {
         return selectedCardPlace;
@@ -124,6 +128,7 @@ public class Player {
         else mana = 9;
         if (this.usableItem.getName().equals("WisdomCrown") && turnNumber<4) mana++;
         if (this.usableItem.getName().equals("KingWisdom")) mana++;
+        if (this.usedManaPotion) mana += 3;
     }
 
     public void addToGraveYard(Card card) {
@@ -158,8 +163,15 @@ public class Player {
         if(attackersCell == null) return false;
         if(!isInRange(attackersCell,defenderCell)) return false;
         attackersCell.getInsideArmy().attack(defenderCell.getInsideArmy());
+        this.counterAttack(defenderCell, attackersCell);
         return true;
+    }
 
+    public void counterAttack(Cell attackersCell,Cell defenderCell) {
+        if(attackersCell == null) return;
+        if(!isInRange(attackersCell,defenderCell)) return;
+        if(defenderCell.getInsideArmy().isDisarmed()) return;
+        attackersCell.getInsideArmy().attack(defenderCell.getInsideArmy());
     }
 
     public boolean attack(Cell defenderCell) {

@@ -10,7 +10,6 @@ public class Main {
     public static void main(String[] args) {
         Card.scanAllCards();
         Account.readAccountDetails();
-        System.out.println(Card.getCards().getAllSpells().get(0));
         HandlerType handler = new AccountHandler().handleCommands();
         while (handler != null) {
             Account.saveAccountDetails();
