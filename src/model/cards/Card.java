@@ -115,7 +115,7 @@ public class Card implements Cloneable {
         return neededManaToPut;
     }
 
-    public void makeStroyDeck(int storyNumber, Account account) throws Exception {
+    public static void makeStroyDeck(int storyNumber, Account account) throws Exception {
         Deck deck = new Deck("Story " + storyNumber);
         File file = new File("Files/StoryLevels.txt");
         Scanner scanner = new Scanner(file);
