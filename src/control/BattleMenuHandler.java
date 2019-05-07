@@ -33,23 +33,7 @@ public class BattleMenuHandler extends Handler{
         while (scanner.hasNext()) {
             command = scanner.nextLine().toLowerCase().trim();
             System.out.println(pageState);
-            if(command.matches("\\d")) {
-                if (pageState == PageState.CHOOSE_NUMBER_OF_PLAYERS) {
-                    handleChoosePlayer();
-                } else if (pageState == PageState.SINGLE_PLAYER_GAME_TYPES) {
-                    handleSinglePlayer();
-                } else if (pageState == PageState.MULTI_PLAYER_GAME_TYPES_FIRST) {
-                    handleMultiPlayerFirstMenu();
-                } else if (pageState == PageState.MULTI_PLAYER_GAME_TYPES_SECOND) {
-                    handleMultiPlayerSecondMenu();
-                } else if (pageState == PageState.STORY) {
-                    handleStory();
-                } else if (pageState == PageState.CUSTOM_FIRST) {
-                    handleCustomFirstPage();
-                } else if (pageState == PageState.CUSTOM_SECOND) {
-                    handleCustomSecondPage();
-                }
-            } else if (command.matches("exit")) {
+             if (command.matches("exit")) {
                 if (pageState == PageState.CHOOSE_NUMBER_OF_PLAYERS) {
 
                     return MENU;
@@ -66,13 +50,33 @@ public class BattleMenuHandler extends Handler{
                 } else if (pageState == PageState.CUSTOM_SECOND) {
                     gotoCustomMenuFirstPage();
                 }
-            }
+            } else {
+                 if (pageState == PageState.CHOOSE_NUMBER_OF_PLAYERS) {
+                     handleChoosePlayer();
+                 } else if (pageState == PageState.SINGLE_PLAYER_GAME_TYPES) {
+                     handleSinglePlayer();
+                 } else if (pageState == PageState.MULTI_PLAYER_GAME_TYPES_FIRST) {
+                     handleMultiPlayerFirstMenu();
+                 } else if (pageState == PageState.MULTI_PLAYER_GAME_TYPES_SECOND) {
+                     handleMultiPlayerSecondMenu();
+                 } else if (pageState == PageState.STORY) {
+                     handleStory();
+                 } else if (pageState == PageState.CUSTOM_FIRST) {
+                     handleCustomFirstPage();
+                 } else if (pageState == PageState.CUSTOM_SECOND) {
+                     handleCustomSecondPage();
+                 }
+             }
         }
         return null;
     }
 
     public void setCustomDecks() {
-        //
+        if(hero == null) return;
+        for(Deck deck : customDecks) {
+            deck.deleteCard(deck.getHero());
+            deck.addCard(hero);
+        }
     }
 
     public void setPlayersSteps() {
@@ -80,16 +84,19 @@ public class BattleMenuHandler extends Handler{
         Account account = new Account("firstLevelPlayer","1234");
         try {
             Card.makeStroyDeck(1, account);
+            customDecks.add(account.getAllDecks().get(0));
         } catch (Exception e){}
         firstLevelPlayer = new IntelligentPlayer(account);
         account = new Account("secondLevelPlayer","1234");
         try {
             Card.makeStroyDeck(2, account);
+            customDecks.add(account.getAllDecks().get(0));
         } catch (Exception e){}
         secondLevelPlayer = new IntelligentPlayer(account);
         account = new Account("thirdLevelPlayer","1234");
         try {
             Card.makeStroyDeck(3, account);
+            customDecks.add(account.getAllDecks().get(0));
         } catch (Exception e){}
         thirdLevelPlayer = new IntelligentPlayer(account);
     }
@@ -144,6 +151,7 @@ public class BattleMenuHandler extends Handler{
 
     private void gotoCustomMenuSecondPage() {
         pageState = PageState.CUSTOM_SECOND;
+        setCustomDecks();
         BattleScreen.decks(customDecks);
     }
 
@@ -156,14 +164,14 @@ public class BattleMenuHandler extends Handler{
     }
 
     private void playGame(int numberOfFlags) {
-        if(!secondAccount.getMainDeck().checkIfValid()) {
+        if(secondAccount.getMainDeck() == null || !secondAccount.getMainDeck().checkIfValid()) {
             BattleScreen.showInvalidDeckInMultiPlayer();
             return;
         }
         Game game = new Game(account,secondAccount,type,numberOfFlags);
         game.startMatch();
         MatchResult result = game.getResults();
-        //set reward
+        System.out.println("this account win: "+game.getWinner().getUsername());
     }
 
     private void playGame(int numberOfFlags,IntelligentPlayer player) {
@@ -257,18 +265,34 @@ public class BattleMenuHandler extends Handler{
 
     private void handleCustomSecondPage() {
         if(command.matches("start game \\d+ 1")) {
+            if(Integer.parseInt(command.split(" ")[2]) > customDecks.size()) {
+                BattleScreen.showErrorInvalidDeck();
+            }
             type = GameType.KILL_HERO;
-            customPlayer.setDeck(customDecks.get(Integer.parseInt(command.split(" ")[2])));
+            Account account = new Account("customplayer","1234");
+            account.setMainDeck(customDecks.get(Integer.parseInt(command.split(" ")[2])));
+            customPlayer = new IntelligentPlayer(account);
             playGame(0,customPlayer);
         }
         else if(command.matches("start game \\d+ 2")) {
+            if(Integer.parseInt(command.split(" ")[2]) >= customDecks.size()) {
+                BattleScreen.showErrorInvalidDeck();
+                return;
+            }
             type = GameType.CAPTURE_THE_FLAG;
-            customPlayer.setDeck(customDecks.get(Integer.parseInt(command.split(" ")[2])));
+            Account account = new Account("customplayer","1234");
+            account.setMainDeck(customDecks.get(Integer.parseInt(command.split(" ")[2])));
+            customPlayer = new IntelligentPlayer(account);
             playGame(1,customPlayer);
         }
         else if(command.matches("start game \\d+ 3 \\d+")) {
+            if(Integer.parseInt(command.split(" ")[2]) > customDecks.size()) {
+                BattleScreen.showErrorInvalidDeck();
+            }
             type = GameType.ROLLUP_FLAGS;
-            customPlayer.setDeck(customDecks.get(Integer.parseInt(command.split(" ")[2])));
+            Account account = new Account("customplayer","1234");
+            account.setMainDeck(customDecks.get(Integer.parseInt(command.split(" ")[2])));
+            customPlayer = new IntelligentPlayer(account);
             playGame(Integer.parseInt(command.split(" ")[4]),customPlayer);
         }
 

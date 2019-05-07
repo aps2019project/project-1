@@ -62,7 +62,9 @@ public class Account {
     public ArrayList<Deck> getAllDecks() {
         return allDecks;
     }
-
+    public void setMainDeck(Deck deck) {
+        this.mainDeck = deck;
+    }
     public Deck findDeck(String name) {
         for (Deck deck : allDecks) {
             if (deck.getName().equals(name))

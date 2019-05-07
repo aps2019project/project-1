@@ -25,7 +25,7 @@ public class BattleHandler extends Handler{
 
     @Override
     HandlerType handleCommands() {
-        while (scanner.hasNext() && !game.getWhoIsHisTurn().isEndTurn()) {
+        while (!game.getWhoIsHisTurn().isEndTurn() && scanner.hasNext()) {
             command = scanner.nextLine().toLowerCase().trim();
             if (command.matches("game info")) {
                 BattleScreen.showGameInfo();
@@ -69,9 +69,9 @@ public class BattleHandler extends Handler{
 
             }else if (command.matches("show hand")) {
                 BattleScreen.showCardArray(game.getWhoIsHisTurn().getHand());
-            }else if (command.matches("insert \\w+ in [(]\\d+,\\d+[)]")) {
+            }else if (command.matches("insert \\w+ in[(]\\d+,\\d+[)]")) {
                 if(!game.getWhoIsHisTurn().moveFromHandToCell(command.split(" ")[1]
-                        ,getCell(command.split(" ")[3]))) {
+                        ,getCell(command.split(" ")[2]))) {
                     BattleScreen.showInvalidCardNameError();
                 }
             }else if (command.matches("end turn")) {
@@ -85,8 +85,8 @@ public class BattleHandler extends Handler{
             }else if (command.matches("show next card")) {
                 BattleScreen.showNextCardFromDeck();
             }else if (command.matches("enter graveyard")) {
-                game.getWhoIsHisTurn().getGraveYard();
-            }else if (command.matches("show info \\d+")) {
+                game.getWhoIsHisTurn().goToGraveYard();
+            }else if (command.matches("show info [^ ]")) {
                 if(game.getWhoIsHisTurn().isInGraveYard())
                     BattleScreen.showCard(game.getWhoIsHisTurn().getGraveYard().find(command.split(" ")[2]));
                 else
@@ -98,8 +98,16 @@ public class BattleHandler extends Handler{
                     BattleScreen.showErrorYourNotInGraveYard();
             }else if (command.matches("help")) {
                 whatYouCanDo(game.getWhoIsHisTurn().getAccount());
-            } else {
-                //
+            } else if (command.matches("exit")) {
+                if(game.getWhoIsHisTurn().isInGraveYard()) {
+                    game.getWhoIsHisTurn().exitFromGraveYard();
+                }
+                else {
+                    BattleScreen.showErrorYourNotInGraveYard();
+                }
+            }
+            else {
+                BattleScreen.showInvalidCommand();
             }
         }
         return HandlerType.BATTLE;
