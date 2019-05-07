@@ -27,7 +27,7 @@ public class Player {
     protected boolean heroKilled = false;
     protected Hero hero;
     protected Cell selectedCardPlace;
-    protected boolean InGraveYard = false;
+    protected boolean inGraveYard = false;
     private CardsArray collectibleItem = new CardsArray();
     private Item usableItem;
     protected Cell selectedCellToPutFromHand;
@@ -71,6 +71,10 @@ public class Player {
 
     public CardsArray getGraveYard() {
         return graveYard;
+    }
+
+    public void exitFromGraveYard() {
+        inGraveYard = false;
     }
 
     public CardsArray getMovedCardsInThisTurn() {
@@ -407,11 +411,11 @@ public class Player {
     }
 
     public void goToGraveYard() {
-        InGraveYard = true;
+        inGraveYard = true;
     }
 
     public void ExitFromGraveYard() {
-        InGraveYard = false;
+        inGraveYard = false;
     }
 
     public CardsArray getFriendsAround(Cell cell) {
@@ -425,7 +429,7 @@ public class Player {
     }
 
     public boolean isInGraveYard() {
-        return InGraveYard;
+        return inGraveYard;
     }
 
     public Cell getOneCell() {

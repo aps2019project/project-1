@@ -65,7 +65,13 @@ public class BattleScreen extends Screen{
         System.out.println("Cost: "+minion.getRace());//
         System.out.println("Desc:");//
     }
-    public static void showSpell(Spell spell) {
+    public static void showItem(Item item) {
+        System.out.println("Item: ");
+        System.out.println("Name:"+item.getName());;
+        System.out.println("ID:"+item.getID());;
+
+    }
+        public static void showSpell(Spell spell) {
         System.out.println("Spell:");
         System.out.println("Name: "+spell.getName());
         System.out.println("MP: ");//
@@ -76,6 +82,7 @@ public class BattleScreen extends Screen{
         if(card instanceof Hero) showHero((Hero)card);
         else if(card instanceof Minion) showMinion((Minion)card);
         else if(card instanceof Spell) showSpell((Spell)card);
+        else if(card instanceof Item) showItem((Item)card);
     }
     public static void showInvalidCardIdError() {
         System.out.println("Invalid card id");
@@ -183,13 +190,17 @@ public class BattleScreen extends Screen{
 
     public static void showCollectibles(CardsArray array){
         ArrayList<Item> items = array.getAllItems();
-
         System.out.println("Item:");
         for (int i = 1; i <= items.size(); ++i) {
             Item item = items.get(i - 1);
             System.out.printf("\t%d: Name: [\"%s\"] - ID: %s - Desc: %s\n", i, item.getName(),
                     item.getID().getValue(),
                     item.getDescription());
+        }
+    }
+    public static void showItems() {
+        for(Item item : game.getWhoIsHisTurn().getCollectibleItem().getAllItems()) {
+            showCard(item);
         }
     }
 }
