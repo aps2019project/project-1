@@ -132,6 +132,7 @@ public class Army extends Card {
         Iterator iterator = this.getBuffs().iterator();
         while (iterator.hasNext()) {
             Buff buff = (Buff) iterator.next();
+            System.out.println(buff.getBuffType() +" "+ buffType +" "+ (buff.getBuffType() != buffType));
             if (buff.getBuffType() != buffType) {
                 continue;
             }

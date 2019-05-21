@@ -231,11 +231,9 @@ public class Minion extends Army {
     }
 
     public void checkOnSpawn(Player player, Cell cell) {
-        if (this.getSpTime() == SPTime.ON_SPAWN){
             try{
                 Minion.class.getDeclaredMethod(this.getName() +"OnSpawn", Player.class, Cell.class).invoke(this, player, cell);
             } catch (Exception n){}
-        }
         if(this.getPlayer().getUsableItem() == null) return;
         String itemName = this.getPlayer().getUsableItem().getName();
         switch (itemName){
@@ -254,11 +252,13 @@ public class Minion extends Army {
                 Minion.class.getDeclaredMethod(this.getName() +"OnDeath", Player.class, Cell.class).invoke(this, player, cell);
             } catch (Exception n){}
         }
-        String itemName = this.getPlayer().getUsableItem().getName();
-        switch (itemName){
-            case "SoulEater":
-                Army.getRandomArmy(player.getInGameCards()).addBuff(new Power(1, AP, PERMANENT));
-                break;
+        if(this.getPlayer().getUsableItem() != null) {
+            String itemName = this.getPlayer().getUsableItem().getName();
+            switch (itemName) {
+                case "SoulEater":
+                    Army.getRandomArmy(player.getInGameCards()).addBuff(new Power(1, AP, PERMANENT));
+                    break;
+            }
         }
         if(this.haveDeathCurse){
             Army army = player.getNearestEnemy(cell);

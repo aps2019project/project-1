@@ -103,6 +103,7 @@ public class Hero extends Army {
 
     public void AfsaneSpell(Player player){
         Army army = player.getOneEnemy();
+        System.out.println(army.getName());
         army.deleteBuffs(BuffType.POSITIVE);
     }
 

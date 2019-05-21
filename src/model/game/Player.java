@@ -217,6 +217,7 @@ public class Player {
         try {
             this.getHero().useSpell(this);
         } catch (Exception e) { }
+        this.mana -= this.getHero().getMp();
         return true;
     }
 
