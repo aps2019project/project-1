@@ -171,12 +171,22 @@ public class BattleMenuHandler extends Handler{
         Game game = new Game(account,secondAccount,type,numberOfFlags);
         game.startMatch();
         MatchResult result = game.getResults();
+        game.getWinner().increaseDaric(1000);
         System.out.println("this account win: "+game.getWinner().getUsername());
     }
 
     private void playGame(int numberOfFlags,IntelligentPlayer player) {
         Game game = new Game(account,player,type,numberOfFlags);
         game.startMatch();
+        if(game.getType() == GameType.KILL_HERO) {
+            game.getWinner().increaseDaric(500);
+        }
+        else if(game.getType() == GameType.CAPTURE_THE_FLAG) {
+            game.getWinner().increaseDaric(1000);
+        }
+        else if(game.getType() == GameType.ROLLUP_FLAGS) {
+            game.getWinner().increaseDaric(1500);
+        }
         MatchResult result = game.getResults();
     }
 

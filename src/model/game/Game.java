@@ -158,7 +158,9 @@ public class Game {
             card.getFlag().dropTo(cell);
             cell.add(card.getFlag());
         }
-        ((Minion)card).chekcOnDeath(((Minion) card).getPlayer(), cell);
+        if(card instanceof Minion) {
+            ((Minion)card).chekcOnDeath(((Minion) card).getPlayer(), cell);
+        }
         this.getPlayer(card.getAccount()).addToGraveYard(card);
     }
     public boolean isGameEnded() {
