@@ -2,6 +2,7 @@ package model.cards;
 
 import model.Buff.Holy;
 import model.Buff.Power;
+import model.game.Cell;
 import model.game.Player;
 
 import java.util.ArrayList;
@@ -15,7 +16,8 @@ public class Item extends Card {
     private static ArrayList<Item> items = new ArrayList<>();
     private ItemType itemType;
 
-    Item(int number, String name, int price, ItemType itemType, String description) {
+
+    public Item(int number, String name, int price, ItemType itemType, String description) {
         super(number, name, price, description, ITEM, 0);
         this.itemType = itemType;
         items.add(this);
@@ -29,6 +31,7 @@ public class Item extends Card {
     public ItemType getItemType() {
         return itemType;
     }
+
 
     public static void scanItems(ArrayList<String[]> data) {
         for (String[] line : data) {

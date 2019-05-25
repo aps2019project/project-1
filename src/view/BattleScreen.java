@@ -78,11 +78,13 @@ public class BattleScreen extends Screen{
         System.out.println("Cost: ");//
         System.out.println("Desc: ");//
     }
-    public static void showCard(Card card) {
+    public static boolean showCard(Card card) {
         if(card instanceof Hero) showHero((Hero)card);
         else if(card instanceof Minion) showMinion((Minion)card);
         else if(card instanceof Spell) showSpell((Spell)card);
         else if(card instanceof Item) showItem((Item)card);
+        else return false;
+        return true;
     }
     public static void showInvalidCardIdError() {
         System.out.println("Invalid card id");

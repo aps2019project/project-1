@@ -32,6 +32,7 @@ public class Player {
     private Item usableItem;
     protected Cell selectedCellToPutFromHand;
     private boolean usedManaPotion;
+    protected Item selectedItem;
 
     public Player(Account account){
         this(account,account.getMainDeck());
@@ -44,6 +45,7 @@ public class Player {
             card.setUserName(account.getUsername());
         }
         this.usableItem = this.deck.getItem();
+        //this.collectibleItem.add(this.usableItem);
     }
 
     public void useManaPotion() {
@@ -52,6 +54,14 @@ public class Player {
 
     public Cell getSelectedCardPlace() {
         return selectedCardPlace;
+    }
+
+    public void setSelectedItem(Item selectedItem) {
+        this.selectedItem = selectedItem;
+    }
+
+    public Item getSelectedItem() {
+        return selectedItem;
     }
 
     public void setDeck(Deck deck) {
