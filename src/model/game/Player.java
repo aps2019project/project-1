@@ -172,10 +172,10 @@ public class Player {
                 || (attackersCell.getInsideArmy().getAttackType() == AttackType.HYBRID);
     }
     public boolean attackCombo(Cell opponentCardCell,Cell myCardCell,ArrayList<Cell> cells) {
-        boolean trueAttack = false;
+        boolean trueAttack = true;
         CardsArray cardsArray = new CardsArray();
         for(Cell cell : cells) {
-            if(cell == null || !isInRange(myCardCell,cell)) trueAttack = true;
+            if(cell == null || !isInRange(myCardCell,cell)) trueAttack = false;
             cardsArray.add(cell.getInsideArmy());
         }
         if(!trueAttack) return false;
