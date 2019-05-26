@@ -267,6 +267,12 @@ public class Player {
     }
 
     public void useCollectibleItem(String itemName, Army army) throws IllegalAccessException, InvocationTargetException {
+        for(Item item : collectibleItem.getAllItems()) {
+            if(item.getName().equals(itemName)) {
+                collectibleItem.getAllItems().remove(item);
+                break;
+            }
+        }
         try {
             Item.class.getDeclaredMethod(itemName + "Collectible", Player.class, Army.class).invoke(null, this, army);
         } catch (NoSuchMethodException n) { }

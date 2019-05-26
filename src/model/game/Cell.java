@@ -19,7 +19,7 @@ public class Cell {
         this.y = y;
     }
 
-    public void removeItem(Item item) {
+    public void removeItem() {
         this.insideItem = null;
     }
 
@@ -67,6 +67,7 @@ public class Cell {
         }
         if(this.insideItem != null){
             army.getPlayer().addItem(this.insideItem);
+            this.removeItem();
         }
         getEffect();
         return true;
