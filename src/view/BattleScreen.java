@@ -26,7 +26,9 @@ public class BattleScreen extends Screen{
         }
         else if(game.getType() == CAPTURE_THE_FLAG) {
             System.out.println("flag's place is ("+game.getFlags().get(0).getCell().getX()+","+game.getFlags().get(0).getCell().getY()+")");
-            System.out.println("flag's taken by "+game.getFlags().get(0).getArmy().getName());
+            try {
+                System.out.println("flag's taken by " + game.getFlags().get(0).getArmy().getName());
+            } catch (NullPointerException npe){}
         }
         else if(game.getType() == ROLLUP_FLAGS) {
             for(Flag flag : game.getFlags()) {

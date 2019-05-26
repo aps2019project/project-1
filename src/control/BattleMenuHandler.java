@@ -175,7 +175,11 @@ public class BattleMenuHandler extends Handler{
             this.gotoChoosePlayerPage();
         } else {
             MatchResult result = game.getResults();
+//            System.out.println(account.getDaric());
+//            System.out.println(secondAccount.getDaric());
             game.getWinner().increaseDaric(1000);
+//            System.out.println(account.getDaric());
+//            System.out.println(secondAccount.getDaric());
             System.out.println("this account win: " + game.getWinner().getUsername());
         }
     }
