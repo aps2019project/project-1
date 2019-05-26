@@ -32,6 +32,7 @@ public class Player {
     private Item usableItem;
     protected Cell selectedCellToPutFromHand;
     private boolean usedManaPotion;
+    private int usedSpecialPowerTurn = 0;
 
     public Player(Account account){
         this(account,account.getMainDeck());
@@ -100,7 +101,6 @@ public class Player {
     public void addItem(Item item) {
         this.collectibleItem.add(item);
     }
-
 
     public Hero getHero() {
         return hero;
@@ -172,10 +172,10 @@ public class Player {
                 || (attackersCell.getInsideArmy().getAttackType() == AttackType.HYBRID);
     }
     public boolean attackCombo(Cell opponentCardCell,Cell myCardCell,ArrayList<Cell> cells) {
-        boolean trueAttack = false;
+        boolean trueAttack = true;
         CardsArray cardsArray = new CardsArray();
         for(Cell cell : cells) {
-            if(cell == null || !isInRange(myCardCell,cell)) trueAttack = true;
+            if(cell == null || !isInRange(myCardCell,cell)) trueAttack = false;
             cardsArray.add(cell.getInsideArmy());
         }
         if(!trueAttack) return false;
@@ -214,10 +214,12 @@ public class Player {
     public boolean useSpecialPower(Cell cell) {
         selectedCardPlace = cell;
         if(this.getHero().getMp() > this.mana) return false;
+        if( this.usedSpecialPowerTurn != 0 && (this.turnNumber - this.usedSpecialPowerTurn < this.getHero().getCoolDown())) return false;
         try {
             this.getHero().useSpell(this);
         } catch (Exception e) { }
         this.mana -= this.getHero().getMp();
+        this.usedSpecialPowerTurn = this.turnNumber;
         return true;
     }
 
