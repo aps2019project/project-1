@@ -78,7 +78,6 @@ public class BattleHandler extends Handler{
                 if(!game.getWhoIsHisTurn().useSpecialPower(getCell(command))){
                     BattleScreen.showNotEnoughMana();
                 }
-                game.getWhoIsHisTurn().useSpecialPower(getCell(command.split(" ")[2]));
 
             }else if (command.matches("show hand")) {
                 BattleScreen.showCardArray(game.getWhoIsHisTurn().getHand());

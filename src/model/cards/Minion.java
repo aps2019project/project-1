@@ -198,12 +198,8 @@ public class Minion extends Army {
     }
 
     public void BahmanOnSpawn(Player player, Cell cell) {
-        while (true) {
             Army army = Army.getRandomArmy(player.getEnemyPlayer().getInGameCards());
-            if (army instanceof Hero) continue;
             army.setHp(army.getHp() - 16);
-
-        }
     }
 
     public boolean AshkbousOnDefend(Army army) {
@@ -231,11 +227,9 @@ public class Minion extends Army {
     }
 
     public void checkOnSpawn(Player player, Cell cell) {
-        if (this.getSpTime() == SPTime.ON_SPAWN){
             try{
                 Minion.class.getDeclaredMethod(this.getName() +"OnSpawn", Player.class, Cell.class).invoke(this, player, cell);
             } catch (Exception n){}
-        }
         if(this.getPlayer().getUsableItem() == null) return;
         String itemName = this.getPlayer().getUsableItem().getName();
         switch (itemName){

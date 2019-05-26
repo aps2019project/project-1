@@ -32,6 +32,7 @@ public class Player {
     private Item usableItem;
     protected Cell selectedCellToPutFromHand;
     private boolean usedManaPotion;
+    private int usedSpecialPowerTurn = 0;
     protected Item selectedItem;
 
     public Player(Account account){
@@ -110,7 +111,6 @@ public class Player {
     public void addItem(Item item) {
         this.collectibleItem.add(item);
     }
-
 
     public Hero getHero() {
         return hero;
@@ -224,9 +224,12 @@ public class Player {
     public boolean useSpecialPower(Cell cell) {
         selectedCardPlace = cell;
         if(this.getHero().getMp() > this.mana) return false;
+        if( this.usedSpecialPowerTurn != 0 && (this.turnNumber - this.usedSpecialPowerTurn < this.getHero().getCoolDown())) return false;
         try {
             this.getHero().useSpell(this);
         } catch (Exception e) { }
+        this.mana -= this.getHero().getMp();
+        this.usedSpecialPowerTurn = this.turnNumber;
         return true;
     }
 

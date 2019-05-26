@@ -209,30 +209,34 @@ public class Army extends Card {
             if (hero.getName().equals("Zahack"))
                 army.addBuff(new Poison(3, NORMAL));
             if(hero.getPlayer().getUsableItem() == null) return;
-            String itemName = hero.getPlayer().getUsableItem().getName();
-            switch (itemName) {
-                case "DamoolArc":
-                    if (hero.getAttackType() != MELEE)
+            try {
+                String itemName = hero.getPlayer().getUsableItem().getName();
+                switch (itemName) {
+                    case "DamoolArc":
+                        if (hero.getAttackType() != MELEE)
+                            army.addBuff(new Disarm(1, 1, NORMAL));
+                        break;
+                    case "ShockHammer":
                         army.addBuff(new Disarm(1, 1, NORMAL));
-                    break;
-                case "ShockHammer":
-                    army.addBuff(new Disarm(1, 1, NORMAL));
-                    break;
-            }
+                        break;
+                }
+            } catch (NullPointerException npe) {}
         }
         if (this instanceof Minion && ((Minion) this).getSpTime() == ON_ATTACK) {
             try {
                 Minion.class.getDeclaredMethod(this.name + "OnAttack", Army.class).invoke(this, army);
             } catch (Exception e){}
-            String itemName = this.getPlayer().getUsableItem().getName();
-            switch (itemName) {
-                case "TerrorHood":
-                    army.addBuff(new Weakness(2, AP, 1, NORMAL));
-                    break;
-                case "PoisonousDagger":
-                    army.addBuff(new Poison(1, NORMAL));
-                    break;
-            }
+            try {
+                String itemName = this.getPlayer().getUsableItem().getName();
+                switch (itemName) {
+                    case "TerrorHood":
+                        army.addBuff(new Weakness(2, AP, 1, NORMAL));
+                        break;
+                    case "PoisonousDagger":
+                        army.addBuff(new Poison(1, NORMAL));
+                        break;
+                }
+            } catch (NullPointerException npe) {}
         }
     }
 
@@ -268,5 +272,6 @@ public class Army extends Card {
             target.getDamaged(army.getAp(), null);
         }
         this.attack(target);
+        target.counterAttack(this);
     }
 }
