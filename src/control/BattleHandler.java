@@ -96,7 +96,7 @@ public class BattleHandler extends Handler{
                 }
             }else if (command.matches("use [(]\\d+,\\d+[)]")) {
                 try {
-                    game.getWhoIsHisTurn().usableItemEffect(game.getWhoIsHisTurn().getSelectedItem().getName());
+                    game.getWhoIsHisTurn().useCollectibleItem(game.getWhoIsHisTurn().getSelectedItem().getName(), getCell(command).getInsideArmy());
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
                 } catch (InvocationTargetException e) {
