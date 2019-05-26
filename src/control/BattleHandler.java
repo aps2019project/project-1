@@ -27,7 +27,7 @@ public class BattleHandler extends Handler{
 
     @Override
     HandlerType handleCommands() {
-        while (!game.getWhoIsHisTurn().isEndTurn() && scanner.hasNext()) {
+        while (!game.getWhoIsHisTurn().isEndTurn() && !game.isExitFromGame() && scanner.hasNext()) {
             command = scanner.nextLine().toLowerCase().trim();
             if (command.matches("game info")) {
                 BattleScreen.showGameInfo();
@@ -96,7 +96,7 @@ public class BattleHandler extends Handler{
                 }
             }else if (command.matches("use [(]\\d+,\\d+[)]")) {
                 try {
-                    game.getWhoIsHisTurn().usableItemEffect(game.getWhoIsHisTurn().getSelectedItem().getName());
+                    game.getWhoIsHisTurn().useCollectibleItem(game.getWhoIsHisTurn().getSelectedItem().getName(), getCell(command).getInsideArmy());
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
                 } catch (InvocationTargetException e) {
@@ -127,6 +127,8 @@ public class BattleHandler extends Handler{
                 else {
                     BattleScreen.showErrorYourNotInGraveYard();
                 }
+            } else if(command.matches("end game")) {
+                game.exitFromGame();
             }
             else {
                 BattleScreen.showInvalidCommand();

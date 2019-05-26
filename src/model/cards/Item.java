@@ -4,6 +4,7 @@ import model.Buff.Holy;
 import model.Buff.Power;
 import model.game.Cell;
 import model.game.Player;
+import model.variables.CardsArray;
 
 import java.util.ArrayList;
 
@@ -14,6 +15,7 @@ import static model.cards.CardType.ITEM;
 
 public class Item extends Card {
     private static ArrayList<Item> items = new ArrayList<>();
+    private static CardsArray collectableItems = new CardsArray();
     private ItemType itemType;
 
 
@@ -22,10 +24,15 @@ public class Item extends Card {
         this.itemType = itemType;
         items.add(this);
         cards.add(this);
+        if(itemType == ItemType.COLLECTIBLE) collectableItems.add(this);
     }
 
     public static ArrayList<Item> getItems() {
         return items;
+    }
+
+    public static CardsArray getCollectableItems() {
+        return collectableItems;
     }
 
     public ItemType getItemType() {

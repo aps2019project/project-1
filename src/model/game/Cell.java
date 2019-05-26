@@ -19,12 +19,20 @@ public class Cell {
         this.y = y;
     }
 
+    public void removeItem() {
+        this.insideItem = null;
+    }
+
     public void setEffect(CellEffect effect) {
         this.effect = effect;
     }
 
     public void setInsideItem(Item insideItem) {
         this.insideItem = insideItem;
+    }
+
+    public Item getInsideItem() {
+        return insideItem;
     }
 
     public Army getInsideArmy() {
@@ -59,6 +67,7 @@ public class Cell {
         }
         if(this.insideItem != null){
             army.getPlayer().addItem(this.insideItem);
+            this.removeItem();
         }
         getEffect();
         return true;
