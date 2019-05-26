@@ -23,6 +23,10 @@ public class Cell {
         this.effect = effect;
     }
 
+    public void setInsideItem(Item insideItem) {
+        this.insideItem = insideItem;
+    }
+
     public Army getInsideArmy() {
         return insideArmy;
     }
@@ -56,7 +60,7 @@ public class Cell {
         if(this.insideItem != null){
             army.getPlayer().addItem(this.insideItem);
         }
-        //Action cell effect
+        getEffect();
         return true;
     }
     public Army pick() {
@@ -88,7 +92,8 @@ public class Cell {
         return cells.get(index);
     }
     public void getEffect(){
-        //cell effects
+        if(effect == CellEffect.FIERY) ActionFire();
+        else if(effect == CellEffect.POISON) ActionPoisonBuff();
     }
     public void ActionPoisonBuff() {
         insideArmy.decreaseHp(1);

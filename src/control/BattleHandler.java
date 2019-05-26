@@ -2,6 +2,7 @@ package control;
 
 import model.cards.Army;
 import model.cards.Card;
+import model.cards.Item;
 import model.game.Cell;
 import model.game.Game;
 import model.other.Account;
@@ -9,6 +10,7 @@ import model.variables.CardsArray;
 import view.BattleScreen;
 
 import javax.management.BadAttributeValueExpException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -36,8 +38,19 @@ public class BattleHandler extends Handler{
             } else if (command.matches("show card info [^ ]+")) {
                 BattleScreen.showCard(game.findInTable(command.split(" ")[3]).getInsideArmy());
             }else if (command.matches("select [^ ]+")) {
-                if(!game.getWhoIsHisTurn().setSelectedCard(game.findInTable(command.split(" ")[1]))){
-                    BattleScreen.showInvalidCardIdError();
+                if(!game.getWhoIsHisTurn().setSelectedCard(game.findInTable(command.split(" ")[1]))) {
+                    if (game.getWhoIsHisTurn().getCollectibleItem().find(command.split(" ")[1]) != null) {
+                        try {
+                            Item item = (Item) game.getWhoIsHisTurn().getCollectibleItem().find(command.split(" ")[1]);
+                            game.getWhoIsHisTurn().setSelectedItem(item);
+                        } catch (NullPointerException e) {
+                            System.out.println(e);
+                        } catch (Exception e) {
+                            System.out.println(e);
+                        }
+                    } else {
+                        BattleScreen.showInvalidCardIdError();
+                    }
                 }
             }else if (command.matches("move to[(]\\d+,\\d+[)]")) {
                 if(!game.getWhoIsHisTurn().moveArmy(game.getWhoIsHisTurn().getSelectedCardPlace()
@@ -78,9 +91,19 @@ public class BattleHandler extends Handler{
             }else if (command.matches("show collectables")) {
                 BattleScreen.showCollectibles(game.getWhoIsHisTurn().getCollectibleItem());
             }else if (command.matches("show info")) {
-                //
+                if(!BattleScreen.showCard(game.getWhoIsHisTurn().getSelectedItem())) {
+                    BattleScreen.showInvalidCardNameError();
+                }
             }else if (command.matches("use [(]\\d+,\\d+[)]")) {
-                //
+                try {
+                    game.getWhoIsHisTurn().usableItemEffect(game.getWhoIsHisTurn().getSelectedItem().getName());
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                } catch (InvocationTargetException e) {
+                    e.printStackTrace();
+                } catch (NullPointerException e) {
+                    e.printStackTrace();
+                }
             }else if (command.matches("show next card")) {
                 BattleScreen.showNextCardFromDeck();
             }else if (command.matches("enter graveyard")) {

@@ -2,6 +2,7 @@ package model.game;
 
 import model.cards.Army;
 import model.cards.Card;
+import model.cards.Item;
 import model.cards.Minion;
 import model.other.Account;
 import model.variables.CardsArray;
@@ -26,7 +27,6 @@ public class Game {
     public Game(Account firstAccount, Account secondAccount, GameType type) {
         firstPlayer = new Player(firstAccount);
         secondPlayer = new Player(secondAccount);
-
         for(int counter1 = 0 ; counter1 < TABLE_HEIGHT ; counter1++) {
             for(int counter2 = 0 ; counter2 < TABLE_WIDTH ; counter2++) {
                 table[counter1][counter2] = new Cell(counter1,counter2);
@@ -35,6 +35,7 @@ public class Game {
         }
         this.type = type;
         currentGame = this;
+        //create Item
     }
     public Game(Account firstAccount, Account secondAccount, GameType type, int numberOfFlags) {
         this(firstAccount,secondAccount,type);
@@ -158,7 +159,9 @@ public class Game {
             card.getFlag().dropTo(cell);
             cell.add(card.getFlag());
         }
-        ((Minion)card).chekcOnDeath(((Minion) card).getPlayer(), cell);
+        if(card instanceof Minion) {
+            ((Minion)card).chekcOnDeath(((Minion) card).getPlayer(), cell);
+        }
         this.getPlayer(card.getAccount()).addToGraveYard(card);
     }
     public boolean isGameEnded() {
