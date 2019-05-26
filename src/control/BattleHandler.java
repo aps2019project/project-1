@@ -27,7 +27,7 @@ public class BattleHandler extends Handler{
 
     @Override
     HandlerType handleCommands() {
-        while (!game.getWhoIsHisTurn().isEndTurn() && scanner.hasNext()) {
+        while (!game.getWhoIsHisTurn().isEndTurn() && !game.isExitFromGame() && scanner.hasNext()) {
             command = scanner.nextLine().toLowerCase().trim();
             if (command.matches("game info")) {
                 BattleScreen.showGameInfo();
@@ -127,6 +127,8 @@ public class BattleHandler extends Handler{
                 else {
                     BattleScreen.showErrorYourNotInGraveYard();
                 }
+            } else if(command.matches("end game")) {
+                game.exitFromGame();
             }
             else {
                 BattleScreen.showInvalidCommand();

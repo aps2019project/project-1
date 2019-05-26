@@ -23,6 +23,7 @@ public class Game {
     private int reward;
     private int turnNumber = 1;
     private GameType type;
+    private boolean exitFromGame = false;
     private ArrayList<Cell> allCellsInTable = new ArrayList<>();
     public Game(Account firstAccount, Account secondAccount, GameType type) {
         firstPlayer = new Player(firstAccount);
@@ -67,6 +68,15 @@ public class Game {
         flag.dropTo(cell);
         cell.setFlag(flag);
     }
+
+    public boolean isExitFromGame() {
+        return exitFromGame;
+    }
+
+    public void exitFromGame() {
+        this.exitFromGame = true;
+    }
+
     public static Game getCurrentGame() {
         return currentGame;
     }
@@ -131,7 +141,7 @@ public class Game {
         setupCardsDeaf();
         if(whoIsHisTurn == firstPlayer) whoIsHisTurn = secondPlayer;
         else                            whoIsHisTurn = firstPlayer;
-        if(isGameEnded())  return;
+        if(isGameEnded() || this.isExitFromGame())  return;
         nextTurn();
     }
     public MatchResult getResults() {
