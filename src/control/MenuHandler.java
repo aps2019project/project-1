@@ -22,7 +22,10 @@ public class MenuHandler extends Handler {
                 return SHOP;
             } else if (command.matches("enter battle")) {
                 return BATTLE;
-            } else if (command.matches("exit")) {
+            } else if(command.matches("create custom card")){
+                return CUSTOM;
+            }
+            else if (command.matches("exit")) {
                 Account.setCurrentAccount(null);
                 return ACCOUNT;
             } else if (command.matches("help")) {
