@@ -14,6 +14,7 @@ import static model.cards.CardType.HERO;
 
 public class Hero extends Army {
     private static ArrayList<Hero> heroes = new ArrayList<>();
+    private static int lastNumebr = 0;
 
     private int mp, coolDown;
 
@@ -23,6 +24,11 @@ public class Hero extends Army {
         this.coolDown = coolDown;
         heroes.add(this);
         cards.add(this);
+        lastNumebr = number;
+    }
+
+    public static int getLastNumebr() {
+        return lastNumebr;
     }
 
     public static ArrayList<Hero> getHeroes() {

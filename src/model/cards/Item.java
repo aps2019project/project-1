@@ -16,6 +16,7 @@ import static model.cards.CardType.ITEM;
 public class Item extends Card {
     private static ArrayList<Item> items = new ArrayList<>();
     private static CardsArray collectableItems = new CardsArray();
+    private static int lastNumebr = 0;
     private ItemType itemType;
 
 
@@ -25,6 +26,11 @@ public class Item extends Card {
         items.add(this);
         cards.add(this);
         if(itemType == ItemType.COLLECTIBLE) collectableItems.add(this);
+        lastNumebr = number;
+    }
+
+    public static int getLastNumebr() {
+        return lastNumebr;
     }
 
     public static ArrayList<Item> getItems() {
