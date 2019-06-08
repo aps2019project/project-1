@@ -4,12 +4,12 @@ import model.Buff.*;
 import model.game.Cell;
 import model.game.Player;
 
+import static model.Buff.BuffEffectType.*;
 import static model.Buff.BuffTImeType.*;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
-import static model.Buff.BuffType.*;
 import static model.Buff.PowerBuffType.*;
 import static model.cards.CardType.SPELL;
 import static model.game.CellEffect.*;

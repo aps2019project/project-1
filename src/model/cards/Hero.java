@@ -122,7 +122,7 @@ public class Hero extends Army {
             if(army == null ) return;
             if(specialBuff.getTargetType() == TargetType.FRIEND && !player.isFriend(army)) return;
             if(specialBuff.getTargetType() == TargetType.ENEMY && player.isFriend(army)) return;
-
+            System.out.println(specialBuff.getClass().getName());
             army.addBuff(specialBuff);
         }
         Hero.class.getDeclaredMethod(this.name + "Spell", Player.class).invoke(this, player);
@@ -164,7 +164,7 @@ public class Hero extends Army {
     public void AfsaneSpell(Player player){
         Army army = player.getOneEnemy();
         System.out.println(army.getName());
-        army.deleteBuffs(BuffType.POSITIVE);
+        army.deleteBuffs(BuffEffectType.POSITIVE);
     }
 
     public void EsfandiarSpell(Player player){
