@@ -88,7 +88,10 @@ public class Hero extends Army {
             }
             heroes.add(hero);
             cards.add(hero);
-            Account.getCurrentAccount().addCardToCollection(hero);
+            if(Account.getCurrentAccount() != null) {
+                hero.setUserName(Account.getCurrentAccount().getUsername());
+                Account.getCurrentAccount().addCardToCollection(hero);
+            }
         }
         return hero;
     }
