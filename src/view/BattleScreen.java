@@ -62,9 +62,9 @@ public class BattleScreen extends Screen{
         System.out.println("Minion:");
         System.out.println("Name: "+minion.getName());
         System.out.println("HP: "+minion.getHp());
-        System.out.println("Range: "+minion.getRace());//
+        System.out.println("Range: "+minion.getAr());//
         System.out.println("Combo-ability: ");//
-        System.out.println("Cost: "+minion.getRace());//
+        System.out.println("Cost: "+minion.getPrice());//
         System.out.println("Desc:");//
     }
     public static void showItem(Item item) {

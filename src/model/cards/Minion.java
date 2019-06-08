@@ -77,11 +77,6 @@ public class Minion extends Army {
                 spTime = SPTime.valueOf(line[9].toUpperCase().replace(" ", "_"));
             }
 
-            Race race = null;
-            if (!line[10].equals("-")) {
-                race = Race.valueOf(line[10].toUpperCase());
-            }
-
             new Minion(Integer.parseInt(line[0])
                     ,line[1]
                     , Integer.parseInt(line[2])

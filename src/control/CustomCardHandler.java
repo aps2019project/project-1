@@ -69,9 +69,6 @@ public class CustomCardHandler extends Handler {
         CustomCardHandlerScreen.showEnterRange();
         data.add(scanner.nextLine());
 
-        CustomCardHandlerScreen.showEnterSpecialPower();
-        data.add(scanner.nextLine());
-
         if(cardType == CardType.MINION){
             CustomCardHandlerScreen.showEnterSpecialPowerActivation();
             data.add(scanner.nextLine());
@@ -82,6 +79,9 @@ public class CustomCardHandler extends Handler {
             CustomCardHandlerScreen.showsSecialPowerCooldown();
             data.add(scanner.nextLine());
         }
+
+        CustomCardHandlerScreen.showEnterSpecialPower();
+        getBuff();
     }
 
     public void getSpell() {
@@ -93,7 +93,23 @@ public class CustomCardHandler extends Handler {
     }
 
     public void getBuff() {
+        CustomCardHandlerScreen.showEnterBuffName();
+        data.add(scanner.nextLine()) ;
 
+        CustomCardHandlerScreen.showEnterBuffType();
+        data.add(scanner.nextLine()) ;
+
+        CustomCardHandlerScreen.showEnterBuffValue();
+        data.add(scanner.nextLine()) ;
+
+        CustomCardHandlerScreen.showEnterBuffDelay();
+        data.add(scanner.nextLine()) ;
+
+        CustomCardHandlerScreen.showEnterBuffLast();
+        data.add(scanner.nextLine()) ;
+
+        CustomCardHandlerScreen.showEnterBuffFrindOrEnemy();
+        data.add(scanner.nextLine()) ;
     }
 
 }
