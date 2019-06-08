@@ -9,3 +9,4 @@ NO.,Name,Price,Health Point,Attack Power,Type of Attack,Attack Range,Spell,MP,Co
 8,Afsane,11000,40,3,ranged,3,Dispel one enemy,1,2
 9,Esfandiar,12000,35,3,hybrid,3,Have 3 passive holy buff,0,1
 10,Rostam,8000,55,7,hybrid,4,None,0,0
+11,abolfazl,1000,20,20,melee,0,-,2,2,afafa,power,3,0,2,friend

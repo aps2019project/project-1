@@ -7,7 +7,7 @@ import model.game.Player;
 import java.util.ArrayList;
 
 import static model.Buff.BuffTImeType.*;
-import static model.Buff.BuffType.*;
+import static model.Buff.BuffEffectType.*;
 import static model.Buff.PowerBuffType.*;
 import static model.cards.CardType.MINION;
 
@@ -187,7 +187,7 @@ public class Minion extends Army {
     }
 
     public boolean GivOnDefend(Buff buff) {
-        return buff.getBuffType() == BuffType.NEGATIVE;
+        return buff.getBuffEffectType() == NEGATIVE;
     }
 
     public void BahmanOnSpawn(Player player, Cell cell) {

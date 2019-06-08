@@ -1,5 +1,5 @@
 package model.Buff;
 
 public enum BuffType {
-    POSITIVE, NEGATIVE
+    BLEEDING, DISARM, HOLY, POISON, POWER, STUN, UNHOLY, WEAKNESS
 }

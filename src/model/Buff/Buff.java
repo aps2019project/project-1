@@ -4,27 +4,34 @@ public class Buff {
     protected int number;
     protected int turns;
     protected int delay = 0;
-    protected TargetType targetType = null;
     protected BuffType buffType;
+    protected TargetType targetType = null;
+    protected BuffEffectType buffEffectType;
     protected BuffTImeType buffTImeType;
 
-    public Buff(int number, BuffType buffType, BuffTImeType buffTImeType){
-        this.number = number;
+    public Buff(BuffType buffType, int number, BuffEffectType buffEffectType, BuffTImeType buffTImeType){
         this.buffType = buffType;
+        this.number = number;
+        this.buffEffectType = buffEffectType;
         this.buffTImeType = buffTImeType;
         if(buffTImeType == BuffTImeType.PERMANENT) this.turns = -1;
     }
 
-    public Buff(int number, int turns, BuffType buffType, BuffTImeType buffTImeType){
-        this(number, buffType, buffTImeType);
+    public Buff(BuffType buffType,int number, int turns, BuffEffectType buffEffectType, BuffTImeType buffTImeType){
+        this(buffType, number, buffEffectType, buffTImeType);
         this.turns = turns;
     }
 
-    public Buff(int value, int delay, int last, TargetType targetType){
+    public Buff(BuffType buffType,int value, int delay, int last, TargetType targetType){
+        this.buffType = buffType;
         this.number = value;
         this.delay = delay;
         this.turns = last;
         this.targetType = targetType;
+    }
+
+    public BuffType getBuffType() {
+        return buffType;
     }
 
     public int getNumber() {
@@ -39,8 +46,8 @@ public class Buff {
         return delay;
     }
 
-    public BuffType getBuffType() {
-        return buffType;
+    public BuffEffectType getBuffEffectType() {
+        return buffEffectType;
     }
 
     public BuffTImeType getBuffTImeType() {

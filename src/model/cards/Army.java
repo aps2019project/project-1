@@ -133,11 +133,11 @@ public class Army extends Card {
         return sum;
     }
 
-    public void deleteBuffs(BuffType buffType) {
+    public void deleteBuffs(BuffEffectType buffType) {
         Iterator iterator = this.getBuffs().iterator();
         while (iterator.hasNext()) {
             Buff buff = (Buff) iterator.next();
-            if (buff.getBuffType() != buffType) {
+            if (buff.getBuffEffectType() != buffType) {
                 continue;
             }
             if (buff.getBuffTImeType() == BuffTImeType.CONTINUOUS) {
