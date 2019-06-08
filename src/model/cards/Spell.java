@@ -2,7 +2,6 @@ package model.cards;
 
 import model.Buff.*;
 import model.game.Cell;
-import model.game.CellEffect;
 import model.game.Player;
 
 import static model.Buff.BuffTImeType.*;
@@ -17,7 +16,7 @@ import static model.game.CellEffect.*;
 
 public class Spell extends Card {
     private static ArrayList<Spell> spells = new ArrayList<>();
-    private static int lastNumebr = 0;
+    private static int lastNumber = 0;
     private int mana;
     private String target;
 
@@ -27,15 +26,15 @@ public class Spell extends Card {
         spells.add(this);
         cards.add(this);
         this.target = target;
-        lastNumebr = number;
+        lastNumber = number;
     }
 
     public static ArrayList<Spell> getSpells() {
         return spells;
     }
 
-    public static int getLastNumebr() {
-        return lastNumebr;
+    public static int getLastNumber() {
+        return lastNumber;
     }
 
     public int getMana() {

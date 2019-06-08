@@ -13,26 +13,24 @@ import static model.cards.CardType.MINION;
 
 public class Minion extends Army {
     private static ArrayList<Minion> minions = new ArrayList<>();
-    private static int lastNumebr = 0;
+    private static int lastNumber = 0;
     private int mana;
     private SPTime spTime;
-    private Race race;
     private boolean haveDeathCurse;
 
     Minion(int number, String name, int price, int hp
             , int ap, int ar, int mana, AttackType attackType
-            , Race race, SPTime spTime, String description) {
+            , SPTime spTime, String description) {
         super(number, name, price, description, hp, ap, ar, attackType, MINION, mana);
         this.mana = mana;
         this.spTime = spTime;
-        this.race = race;
         minions.add(this);
         cards.add(this);
-        lastNumebr = number;
+        lastNumber = number;
     }
 
-    public static int getLastNumebr() {
-        return lastNumebr;
+    public static int getLastNumber() {
+        return lastNumber;
     }
 
     public static ArrayList<Minion> getMinions() {
@@ -71,21 +69,12 @@ public class Minion extends Army {
         return spTime;
     }
 
-    public Race getRace() {
-        return race;
-    }
-
     public static void scanMinions(ArrayList<String[]> data) {
         for (String[] line : data) {
             SPTime spTime = null;
 
             if (!line[9].equals("-")) {
                 spTime = SPTime.valueOf(line[9].toUpperCase().replace(" ", "_"));
-            }
-
-            Race race = null;
-            if (!line[10].equals("-")) {
-                race = Race.valueOf(line[10].toUpperCase());
             }
 
             new Minion(Integer.parseInt(line[0])
@@ -96,7 +85,6 @@ public class Minion extends Army {
                     , Integer.parseInt(line[7])
                     , Integer.parseInt(line[3])
                     , AttackType.valueOf(line[6].toUpperCase())
-                    , race
                     , spTime
                     , line[8]);
         }
@@ -106,7 +94,6 @@ public class Minion extends Army {
     public String toString() {
         return "mana=" + mana +
                 ", spTime=" + spTime +
-                ", race=" + race +
                 ", ap=" + ap +
                 ", ID=" + ID +
                 ", name='" + name + '\'' +

@@ -11,6 +11,11 @@ public class Power extends Buff {
         this.type = type;
     }
 
+    public Power(int value, PowerBuffType type, int delay, int last, TargetType targetType){
+        super(value, delay, last, targetType);
+        this.type = type;
+    }
+
     public PowerBuffType getType() {
         return type;
     }

@@ -79,6 +79,11 @@ public class Army extends Card {
             while (iterator.hasNext()) {
                 Buff buff = (Buff) iterator.next();
                 buff.decreaseTurns();
+                if(buff.getDelay() != 0){
+                    buff.decreaseDelay();
+                    if(buff.getDelay() == 0)
+                        army.activateBuff(buff);
+                }
                 if (buff.getTurns() == 0 && buff.getBuffTImeType() != BuffTImeType.CONTINUOUS) {
                     iterator.remove();
                 }
@@ -145,6 +150,7 @@ public class Army extends Card {
     }
 
     public void activateBuff(Buff buff) {
+        if(buff.getDelay() != 0) return;
         if (buff instanceof Disarm) {
             this.isDisarmed = true;
         } else if (buff instanceof Stun) {
