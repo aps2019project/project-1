@@ -13,7 +13,7 @@ import static model.cards.CardType.MINION;
 
 public class Minion extends Army {
     private static ArrayList<Minion> minions = new ArrayList<>();
-    private static int lastNumebr = 0;
+    private static int lastNumber = 0;
     private int mana;
     private SPTime spTime;
     private boolean haveDeathCurse;
@@ -26,11 +26,11 @@ public class Minion extends Army {
         this.spTime = spTime;
         minions.add(this);
         cards.add(this);
-        lastNumebr = number;
+        lastNumber = number;
     }
 
-    public static int getLastNumebr() {
-        return lastNumebr;
+    public static int getLastNumber() {
+        return lastNumber;
     }
 
     public static ArrayList<Minion> getMinions() {

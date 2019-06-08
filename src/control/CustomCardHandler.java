@@ -35,17 +35,18 @@ public class CustomCardHandler extends Handler {
         switch (cardType) {
             case HERO:
                 getMinionAndHero();
-                data.add(0, Integer.toString(Hero.getLastNumebr() + 1));
+                data.add(0, Integer.toString(Hero.getLastNumber() + 1));
                 CvsWriter.write("Heroes", data);
+                Hero.createHero(data.toArray(new String[data.size()]));
                 break;
             case MINION:
                 getMinionAndHero();
-                data.add(0, Integer.toString(Minion.getLastNumebr() + 1));
+                data.add(0, Integer.toString(Minion.getLastNumber() + 1));
                 CvsWriter.write("Minions", data);
                 break;
             case SPELL:
                 getSpell();
-                data.add(0, Integer.toString(Spell.getLastNumebr() + 1));
+                data.add(0, Integer.toString(Spell.getLastNumber() + 1));
                 CvsWriter.write("Spells", data);
                 break;
         }
@@ -73,6 +74,7 @@ public class CustomCardHandler extends Handler {
             CustomCardHandlerScreen.showEnterSpecialPowerActivation();
             data.add(scanner.nextLine());
         } else {
+            data.add("-");
             CustomCardHandlerScreen.showEnterMP();
             data.add(scanner.nextLine());
 
