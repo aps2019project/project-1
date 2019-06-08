@@ -3,6 +3,8 @@ package model.Buff;
 public class Buff {
     protected int number;
     protected int turns;
+    protected int delay = 0;
+    protected TargetType targetType = null;
     protected BuffType buffType;
     protected BuffTImeType buffTImeType;
 
@@ -18,12 +20,23 @@ public class Buff {
         this.turns = turns;
     }
 
+    public Buff(int value, int delay, int last, TargetType targetType){
+        this.number = value;
+        this.delay = delay;
+        this.turns = last;
+        this.targetType = targetType;
+    }
+
     public int getNumber() {
         return number;
     }
 
     public int getTurns() {
         return turns;
+    }
+
+    public int getDelay() {
+        return delay;
     }
 
     public BuffType getBuffType() {
@@ -40,5 +53,13 @@ public class Buff {
 
     public void decreaseTurns (){
         this.turns --;
+    }
+
+    public void decreaseDelay() {
+        this.delay --;
+    }
+
+    public TargetType getTargetType() {
+        return targetType;
     }
 }

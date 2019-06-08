@@ -454,4 +454,8 @@ public class Player {
     public Cell getOneCell() {
         return selectedCardPlace;
     }
+
+    public boolean isFriend(Army army) {
+        return inGameCards.find(army) != null;
+    }
 }

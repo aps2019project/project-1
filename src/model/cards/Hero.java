@@ -17,6 +17,7 @@ public class Hero extends Army {
     private static int lastNumebr = 0;
 
     private int mp, coolDown;
+    private Buff specialBuff = null;
 
     Hero(int number, String name, int price, int hp, int ap, int ar, int mp, int coolDown, AttackType attackType, String description) {
         super(number, name, price, description, hp, ap, ar, attackType, HERO, 0);
@@ -45,7 +46,7 @@ public class Hero extends Army {
 
     public static void scanHeroes(ArrayList<String[]> data){
         for(String[] line : data){
-            new Hero(Integer.parseInt(line[0])
+            Hero hero = new Hero(Integer.parseInt(line[0])
                     ,line[1]
                     , Integer.parseInt(line[2])
                     , Integer.parseInt(line[3])
@@ -55,7 +56,38 @@ public class Hero extends Army {
                     , Integer.parseInt(line[9])
                     , AttackType.valueOf(line[5].toUpperCase())
                     , line[7]);
+            if(hero.getNumber() > 10) {
+                String buffType = line[11];
+                int value = Integer.parseInt(line[12]);
+                int delay = Integer.parseInt(line[13]);
+                int last = Integer.parseInt(line[14]);
+                TargetType targetType = TargetType.valueOf(line[15].toUpperCase());
+                switch (buffType) {
+                    case "power":
+                        Power power = new Power(value, AP, delay, last, targetType);
+                        hero.setSpecialBuff(power);
+                        break;
+                    case "weakening":
+                        break;
+                    case "holy":
+                        break;
+                    case "poison":
+                        break;
+                    case "stun":
+                        break;
+                    case "disarm":
+                        break;
+                }
+            }
         }
+    }
+
+    public Buff getSpecialBuff() {
+        return specialBuff;
+    }
+
+    public void setSpecialBuff(Buff specialBuff) {
+        this.specialBuff = specialBuff;
     }
 
     @Override
@@ -71,6 +103,14 @@ public class Hero extends Army {
     }
 
     public void useSpell(Player player) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+        if(this.specialBuff != null) {
+            Army army = player.getSelectedCardPlace().getInsideArmy();
+            if(army == null ) return;
+            if(specialBuff.getTargetType() == TargetType.FRIEND && !player.isFriend(army)) return;
+            if(specialBuff.getTargetType() == TargetType.ENEMY && player.isFriend(army)) return;
+
+            army.addBuff(specialBuff);
+        }
         Hero.class.getDeclaredMethod(this.name + "Spell", Player.class).invoke(this, player);
     }
 
