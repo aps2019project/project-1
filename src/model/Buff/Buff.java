@@ -1,33 +1,45 @@
 package model.Buff;
 
+import static model.Buff.BuffEffectType.*;
+import static model.Buff.BuffType.*;
+
 public class Buff {
     protected int number;
     protected int turns;
     protected int delay = 0;
     protected BuffType buffType;
-    protected TargetType targetType = null;
+    protected TargetType targetType;
     protected BuffEffectType buffEffectType;
     protected BuffTImeType buffTImeType;
+    protected PowerBuffType powerBuffType;
 
-    public Buff(BuffType buffType, int number, BuffEffectType buffEffectType, BuffTImeType buffTImeType){
+    public Buff(BuffType buffType, int number, BuffTImeType buffTImeType){
         this.buffType = buffType;
+        this.setBuffEffectType(buffType);
         this.number = number;
-        this.buffEffectType = buffEffectType;
         this.buffTImeType = buffTImeType;
         if(buffTImeType == BuffTImeType.PERMANENT) this.turns = -1;
     }
 
-    public Buff(BuffType buffType,int number, int turns, BuffEffectType buffEffectType, BuffTImeType buffTImeType){
-        this(buffType, number, buffEffectType, buffTImeType);
+    public Buff(BuffType buffType, int number, int turns, BuffTImeType buffTImeType){
+        this(buffType, number, buffTImeType);
         this.turns = turns;
     }
 
-    public Buff(BuffType buffType,int value, int delay, int last, TargetType targetType){
+    public Buff(BuffType buffType, int value, int delay, int last, TargetType targetType){
         this.buffType = buffType;
+        this.setBuffEffectType(buffType);
         this.number = value;
         this.delay = delay;
         this.turns = last;
         this.targetType = targetType;
+    }
+
+    public void setBuffEffectType(BuffType buffType) {
+        if(buffType == POWER || buffType == HOLY)
+            this.buffEffectType = POSITIVE;
+        else
+            this.buffEffectType = NEGATIVE;
     }
 
     public BuffType getBuffType() {
@@ -68,5 +80,13 @@ public class Buff {
 
     public TargetType getTargetType() {
         return targetType;
+    }
+
+    public PowerBuffType getPowerBuffType() {
+        return powerBuffType;
+    }
+
+    public void setPowerBuffType(PowerBuffType powerBuffType) {
+        this.powerBuffType = powerBuffType;
     }
 }

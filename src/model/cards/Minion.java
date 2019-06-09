@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import static model.Buff.BuffTImeType.*;
 import static model.Buff.BuffEffectType.*;
+import static model.Buff.BuffType.*;
 import static model.Buff.PowerBuffType.*;
 import static model.cards.CardType.MINION;
 
@@ -112,7 +113,9 @@ public class Minion extends Army {
     }
 
     public void EagleOnSpawn(Player player, Cell cell) {
-        this.addBuff(new Power(10, HP, 1, CONTINUOUS));
+        Buff buff = new Buff(POWER, 10, 1, CONTINUOUS);
+        buff.setPowerBuffType(HP);
+        this.addBuff(buff);
     }
 
     public void OneEyedGiantOnDeath(Player player, Cell cell) {
@@ -156,7 +159,9 @@ public class Minion extends Army {
         ArrayList<Army> array = player.getFriendsAround(cell).getArmy();
         array.add(this);
         for (Army army : array) {
-            army.addBuff(new Power(2, AP, 1, NORMAL));
+            Buff buff = new Buff(POWER, 2, 1, NORMAL);
+            buff.setPowerBuffType(AP);
+            army.addBuff(buff);
             army.addBuff(new Weakness(1, HP, 1, NORMAL));
         }
     }
@@ -165,7 +170,9 @@ public class Minion extends Army {
         ArrayList<Army> array = player.getFriendsAround(cell).getArmy();
         array.add(this);
         for (Army army : array) {
-            army.addBuff(new Power(2, AP, 1, NORMAL));
+            Buff buff = new Buff(POWER, 2, 1, NORMAL);
+            buff.setPowerBuffType(AP);
+            army.addBuff(buff);
             army.addBuff(new Holy(1, 1, CONTINUOUS));
         }
     }
@@ -174,7 +181,9 @@ public class Minion extends Army {
         ArrayList<Army> array = player.getInGameCards();
         for (Army army : array) {
             if (army instanceof Hero) continue;
-            army.addBuff(new Power(1, AP, 1, CONTINUOUS));
+            Buff buff = new Buff(POWER, 1, 1, CONTINUOUS);
+            buff.setPowerBuffType(AP);
+            army.addBuff(buff);
         }
     }
 
@@ -245,7 +254,9 @@ public class Minion extends Army {
             String itemName = this.getPlayer().getUsableItem().getName();
             switch (itemName) {
                 case "SoulEater":
-                    Army.getRandomArmy(player.getInGameCards()).addBuff(new Power(1, AP, PERMANENT));
+                    Buff buff = new Buff(POWER, 1, PERMANENT);
+                    buff.setPowerBuffType(AP);
+                    Army.getRandomArmy(player.getInGameCards()).addBuff(buff);
                     break;
             }
         }

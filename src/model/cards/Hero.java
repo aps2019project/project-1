@@ -10,6 +10,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
 import static model.Buff.BuffTImeType.*;
+import static model.Buff.BuffType.*;
 import static model.Buff.PowerBuffType.*;
 import static model.cards.CardType.HERO;
 
@@ -72,10 +73,12 @@ public class Hero extends Army {
             TargetType targetType = TargetType.valueOf(line[15].toUpperCase());
             switch (buffType) {
                 case "power":
-                    Power power = new Power(value, AP, delay, last, targetType);
-                    hero.setSpecialBuff(power);
+                    Buff buff = new Buff(POWER, value, delay, last, targetType);
+                    buff.setPowerBuffType(AP);
+                    hero.setSpecialBuff(buff);
+                    System.out.println(hero.getSpecialBuff().getPowerBuffType());
                     break;
-                case "weakening":
+                case "weakness":
                     break;
                 case "holy":
                     break;
@@ -122,14 +125,16 @@ public class Hero extends Army {
             if(army == null ) return;
             if(specialBuff.getTargetType() == TargetType.FRIEND && !player.isFriend(army)) return;
             if(specialBuff.getTargetType() == TargetType.ENEMY && player.isFriend(army)) return;
-            System.out.println(specialBuff.getClass().getName());
+            System.out.println(specialBuff.getBuffType() +" "+ specialBuff.getPowerBuffType()+ " "+ specialBuff.getTurns());
             army.addBuff(specialBuff);
-        }
-        Hero.class.getDeclaredMethod(this.name + "Spell", Player.class).invoke(this, player);
+        } else
+            Hero.class.getDeclaredMethod(this.name + "Spell", Player.class).invoke(this, player);
     }
 
     public void WhiteDemonSpell(Player player){
-        this.addBuff(new Power(4, AP, PERMANENT));
+        Buff buff = new Buff(POWER, 4, PERMANENT);
+        buff.setPowerBuffType(AP);
+        this.addBuff(buff);
     }
 
     public void SimorghSpell(Player player){

@@ -1,7 +1,8 @@
 package model.cards;
 
+import model.Buff.Buff;
+import model.Buff.BuffType;
 import model.Buff.Holy;
-import model.Buff.Power;
 import model.game.Cell;
 import model.game.Player;
 import model.variables.CardsArray;
@@ -89,7 +90,9 @@ public class Item extends Card {
     public static void ElixirCollectible(Player player, Army army) {
         if(army instanceof Minion) {
             army.setHp(army.getHp() + 3);
-            army.addBuff(new Power(3, AP, NORMAL));
+            Buff buff = new Buff(BuffType.POWER, 3, NORMAL);
+            buff.setPowerBuffType(AP);
+            army.addBuff(buff);
         }
 
     }
