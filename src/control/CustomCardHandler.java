@@ -34,19 +34,19 @@ public class CustomCardHandler extends Handler {
 
         switch (cardType) {
             case HERO:
-                getMinionAndHero();
                 data.add(0, Integer.toString(Hero.getLastNumber() + 1));
+                getMinionAndHero();
                 CvsWriter.write("Heroes", data);
                 Hero.createHero(data.toArray(new String[data.size()]));
                 break;
             case MINION:
-                getMinionAndHero();
                 data.add(0, Integer.toString(Minion.getLastNumber() + 1));
+                getMinionAndHero();
                 CvsWriter.write("Minions", data);
                 break;
             case SPELL:
-                getSpell();
                 data.add(0, Integer.toString(Spell.getLastNumber() + 1));
+                getSpell();
                 CvsWriter.write("Spells", data);
                 break;
         }

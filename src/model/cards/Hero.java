@@ -79,7 +79,6 @@ public class Hero extends Army {
             if(powerBuffType != null)
                 buff.setPowerBuffType(PowerBuffType.valueOf(powerBuffType.toUpperCase()));
             hero.setSpecialBuff(buff);
-            System.out.println(buff.getPowerBuffType());
             heroes.add(hero);
             cards.add(hero);
             if(Account.getCurrentAccount() != null) {

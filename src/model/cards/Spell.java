@@ -66,7 +66,6 @@ public class Spell extends Card {
                 if(powerBuffType != null)
                     buff.setPowerBuffType(PowerBuffType.valueOf(powerBuffType.toUpperCase()));
                 spell.setSpecialBuff(buff);
-                System.out.println(buff.getPowerBuffType());
                 spells.add(spell);
                 cards.add(spell);
                 if(Account.getCurrentAccount() != null) {
