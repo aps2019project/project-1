@@ -99,7 +99,13 @@ public class CustomCardHandler extends Handler {
         data.add(scanner.nextLine()) ;
 
         CustomCardHandlerScreen.showEnterBuffType();
-        data.add(scanner.nextLine()) ;
+        String buffType = scanner.nextLine();
+        data.add(buffType) ;
+
+        if(buffType.equals("power") || buffType.equals("weakness")){
+            CustomCardHandlerScreen.showEnterPowerBuffType();
+            data.add(scanner.nextLine());
+        }
 
         CustomCardHandlerScreen.showEnterBuffValue();
         data.add(scanner.nextLine()) ;

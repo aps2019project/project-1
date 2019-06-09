@@ -54,7 +54,7 @@ public class Hero extends Army {
         }
     }
 
-    public static Hero createHero(String[] line) {
+    public static void createHero(String[] line) {
         Hero hero = new Hero(Integer.parseInt(line[0])
                 ,line[1]
                 , Integer.parseInt(line[2])
@@ -71,23 +71,11 @@ public class Hero extends Army {
             int delay = Integer.parseInt(line[13]);
             int last = Integer.parseInt(line[14]);
             TargetType targetType = TargetType.valueOf(line[15].toUpperCase());
-            switch (buffType) {
-                case "power":
-                    Buff buff = new Buff(POWER, value, delay, last, targetType);
-                    buff.setPowerBuffType(AP);
-                    hero.setSpecialBuff(buff);
-                    break;
-                case "weakness":
-                    break;
-                case "holy":
-                    break;
-                case "poison":
-                    break;
-                case "stun":
-                    break;
-                case "disarm":
-                    break;
-            }
+            Buff buff = new Buff(POWER, value, delay, last, targetType);
+            if(buffType.equals("power") || buffType.equals("weakness"))
+                buff.setPowerBuffType(AP);
+            hero.setSpecialBuff(buff);
+
             heroes.add(hero);
             cards.add(hero);
             if(Account.getCurrentAccount() != null) {
@@ -95,7 +83,6 @@ public class Hero extends Army {
                 Account.getCurrentAccount().addCardToCollection(hero);
             }
         }
-        return hero;
     }
 
     public Buff getSpecialBuff() {

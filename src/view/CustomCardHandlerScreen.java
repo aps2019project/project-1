@@ -82,4 +82,8 @@ public class CustomCardHandlerScreen extends Screen{
         System.out.println("Buff Friend Or Enemy : ");
     }
 
+    public static void showEnterPowerBuffType() {
+        System.out.println("AP Or HP : ");
+    }
+
 }

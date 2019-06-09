@@ -3,6 +3,7 @@ package model.cards;
 import model.Buff.*;
 import model.game.Cell;
 import model.game.Player;
+import model.other.Account;
 
 import java.util.ArrayList;
 
@@ -18,6 +19,7 @@ public class Minion extends Army {
     private int mana;
     private SPTime spTime;
     private boolean haveDeathCurse;
+    private Buff specialBuff = null;
 
     Minion(int number, String name, int price, int hp
             , int ap, int ar, int mana, AttackType attackType
@@ -78,7 +80,7 @@ public class Minion extends Army {
                 spTime = SPTime.valueOf(line[9].toUpperCase().replace(" ", "_"));
             }
 
-            new Minion(Integer.parseInt(line[0])
+            Minion minion = new Minion(Integer.parseInt(line[0])
                     ,line[1]
                     , Integer.parseInt(line[2])
                     , Integer.parseInt(line[4])
@@ -88,6 +90,24 @@ public class Minion extends Army {
                     , AttackType.valueOf(line[6].toUpperCase())
                     , spTime
                     , line[8]);
+            if(minion.getNumber() > 40) {
+                String buffType = line[10];
+                int value = Integer.parseInt(line[11]);
+                int delay = Integer.parseInt(line[12]);
+                int last = Integer.parseInt(line[13]);
+                TargetType targetType = TargetType.valueOf(line[14].toUpperCase());
+                Buff buff = new Buff(POWER, value, delay, last, targetType);
+                if(buffType.equals("power") || buffType.equals("weakness"))
+                    buff.setPowerBuffType(AP);
+                minion.setSpecialBuff(buff);
+
+                minions.add(minion);
+                cards.add(minion);
+                if(Account.getCurrentAccount() != null) {
+                    minion.setUserName(Account.getCurrentAccount().getUsername());
+                    Account.getCurrentAccount().addCardToCollection(minion);
+                }
+            }
         }
     }
 
@@ -266,4 +286,11 @@ public class Minion extends Army {
         }
     }
 
+    public Buff getSpecialBuff() {
+        return specialBuff;
+    }
+
+    public void setSpecialBuff(Buff specialBuff) {
+        this.specialBuff = specialBuff;
+    }
 }
