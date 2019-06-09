@@ -53,16 +53,20 @@ public class Spell extends Card {
                     , line[5]
                     , line[4]);
             if(spell.getNumber() > 20) {
-                String buffType = line[6];
-                int value = Integer.parseInt(line[7]);
-                int delay = Integer.parseInt(line[8]);
-                int last = Integer.parseInt(line[9]);
-                TargetType targetType = TargetType.valueOf(line[10].toUpperCase());
-                Buff buff = new Buff(POWER, value, delay, last, targetType);
+                int col = 10;
+                String powerBuffType = null;
+                String buffType = line[col++];
                 if(buffType.equals("power") || buffType.equals("weakness"))
-                    buff.setPowerBuffType(AP);
+                    powerBuffType = line[col++];
+                int value = Integer.parseInt(line[col++]);
+                int delay = Integer.parseInt(line[col++]);
+                int last = Integer.parseInt(line[col++]);
+                TargetType targetType = TargetType.valueOf(line[col++].toUpperCase());
+                Buff buff = new Buff(POWER, value, delay, last, targetType);
+                if(powerBuffType != null)
+                    buff.setPowerBuffType(PowerBuffType.valueOf(powerBuffType.toUpperCase()));
                 spell.setSpecialBuff(buff);
-
+                System.out.println(buff.getPowerBuffType());
                 spells.add(spell);
                 cards.add(spell);
                 if(Account.getCurrentAccount() != null) {
