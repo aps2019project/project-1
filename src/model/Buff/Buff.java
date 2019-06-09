@@ -71,6 +71,7 @@ public class Buff {
     }
 
     public void decreaseTurns (){
+        if(this.delay > 0) return;
         this.turns --;
     }
 

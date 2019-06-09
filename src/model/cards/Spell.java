@@ -4,6 +4,7 @@ import model.Buff.*;
 import model.game.Cell;
 import model.game.CellEffect;
 import model.game.Player;
+import model.other.Account;
 
 import static model.Buff.BuffEffectType.*;
 import static model.Buff.BuffTImeType.*;
@@ -20,6 +21,7 @@ public class Spell extends Card {
     private static int lastNumber = 0;
     private int mana;
     private String target;
+    private Buff specialBuff = null;
 
     Spell(int number, String name, int price, int mana, String description, String target) {
         super(number, name, price, description, SPELL, mana);
@@ -44,12 +46,30 @@ public class Spell extends Card {
 
     public static void scanSpells(ArrayList<String[]> data) {
         for (String[] line : data) {
-            new Spell(Integer.parseInt(line[0])
+            Spell spell = new Spell(Integer.parseInt(line[0])
                     ,line[1]
                     , Integer.parseInt(line[2])
                     , Integer.parseInt(line[3])
                     , line[5]
                     , line[4]);
+            if(spell.getNumber() > 20) {
+                String buffType = line[6];
+                int value = Integer.parseInt(line[7]);
+                int delay = Integer.parseInt(line[8]);
+                int last = Integer.parseInt(line[9]);
+                TargetType targetType = TargetType.valueOf(line[10].toUpperCase());
+                Buff buff = new Buff(POWER, value, delay, last, targetType);
+                if(buffType.equals("power") || buffType.equals("weakness"))
+                    buff.setPowerBuffType(AP);
+                spell.setSpecialBuff(buff);
+
+                spells.add(spell);
+                cards.add(spell);
+                if(Account.getCurrentAccount() != null) {
+                    spell.setUserName(Account.getCurrentAccount().getUsername());
+                    Account.getCurrentAccount().addCardToCollection(spell);
+                }
+            }
 
         }
     }
@@ -202,4 +222,11 @@ public class Spell extends Card {
         army.addBuff(new Stun(1, 2, NORMAL));
     }
 
+    public Buff getSpecialBuff() {
+        return specialBuff;
+    }
+
+    public void setSpecialBuff(Buff specialBuff) {
+        this.specialBuff = specialBuff;
+    }
 }
