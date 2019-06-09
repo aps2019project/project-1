@@ -227,7 +227,7 @@ public class Player {
         if( this.usedSpecialPowerTurn != 0 && (this.turnNumber - this.usedSpecialPowerTurn < this.getHero().getCoolDown())) return false;
         try {
             this.getHero().useSpell(this);
-        } catch (Exception e) { }
+        } catch (Exception e) { e.printStackTrace();}
         this.mana -= this.getHero().getMp();
         this.usedSpecialPowerTurn = this.turnNumber;
         return true;

@@ -3,11 +3,11 @@ package model.Buff;
 public class Weakness extends Buff {
     private PowerBuffType type;
     public Weakness(int number, PowerBuffType powerBuffType, BuffTImeType buffTImeType){
-        super(BuffType.WEAKNESS, number, BuffEffectType.NEGATIVE, buffTImeType);
+        super(BuffType.WEAKNESS, number, buffTImeType);
         this.type = powerBuffType;
     }
     public Weakness(int number, PowerBuffType powerBuffType, int turns, BuffTImeType buffTImeType){
-        super(BuffType.WEAKNESS, number, turns, BuffEffectType.NEGATIVE, buffTImeType);
+        super(BuffType.WEAKNESS, number, turns, buffTImeType);
         this.type = powerBuffType;
     }
 

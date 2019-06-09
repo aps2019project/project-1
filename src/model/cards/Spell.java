@@ -2,6 +2,7 @@ package model.cards;
 
 import model.Buff.*;
 import model.game.Cell;
+import model.game.CellEffect;
 import model.game.Player;
 
 import static model.Buff.BuffEffectType.*;
@@ -10,9 +11,9 @@ import static model.Buff.BuffTImeType.*;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
+import static model.Buff.BuffType.*;
 import static model.Buff.PowerBuffType.*;
 import static model.cards.CardType.SPELL;
-import static model.game.CellEffect.*;
 
 public class Spell extends Card {
     private static ArrayList<Spell> spells = new ArrayList<>();
@@ -104,7 +105,7 @@ public class Spell extends Card {
     public static void HellFireEffect(Player player) {
         ArrayList<Cell> array = player.getSquare2();
         for(Cell cell : array) {
-            cell.setEffect(FIERY);
+            cell.setEffect(CellEffect.FIERY);
         }
     }
 
@@ -116,7 +117,7 @@ public class Spell extends Card {
     public static void PoisonLakeEffect(Player player) {
         ArrayList<Cell> array = player.getSquare3();
         for(Cell cell : array) {
-            cell.setEffect(POISON);
+            cell.setEffect(CellEffect.POISON);
         }
     }
 
@@ -157,13 +158,17 @@ public class Spell extends Card {
 
     public static void PowerUpEffect(Player player) {
         Army army = player.getOneFriend();
-        army.addBuff(new Power(6, AP, PERMANENT));
+        Buff buff = new Buff(POWER, 6, PERMANENT);
+        buff.setPowerBuffType(AP);
+        army.addBuff(buff);
     }
 
     public static void AllPowerEffect(Player player) {
         ArrayList<Army> array = player.getInGameCards();
         for (Army army : array) {
-            army.addBuff(new Power(2, AP, PERMANENT));
+            Buff buff = new Buff(POWER, 2, PERMANENT);
+            buff.setPowerBuffType(AP);
+            army.addBuff(buff);
         }
     }
 
@@ -182,7 +187,9 @@ public class Spell extends Card {
     public static void SacrificeEffect(Player player){
         Army army = player.getOneFriendMinion();
         army.addBuff(new Weakness(6, HP, PERMANENT));
-        army.addBuff(new Power(8, AP, PERMANENT));
+        Buff buff = new Buff(POWER, 8, PERMANENT);
+        buff.setPowerBuffType(AP);
+        army.addBuff(buff);
     }
 
     public static void KingsGuardEffect(Player player){

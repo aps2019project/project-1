@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Bleeding extends Buff {
     private ArrayList<Integer> bleed = new ArrayList<>();
     public Bleeding(ArrayList<Integer> array){
-        super(BuffType.BLEEDING, 1, array.size(), BuffEffectType.NEGATIVE, BuffTImeType.NORMAL);
+        super(BuffType.BLEEDING, 1, array.size(),  BuffTImeType.NORMAL);
         bleed.addAll(array);
     }
 

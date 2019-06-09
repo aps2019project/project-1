@@ -85,6 +85,7 @@ public class Army extends Card {
                         army.activateBuff(buff);
                 }
                 if (buff.getTurns() == 0 && buff.getBuffTImeType() != BuffTImeType.CONTINUOUS) {
+                    army.deactivateBuff(buff);
                     iterator.remove();
                 }
             }
@@ -159,7 +160,7 @@ public class Army extends Card {
                 this.isStunned = true;
                 break;
             case POWER:
-                switch (((Power) buff).getType()) {
+                switch (buff.getPowerBuffType()) {
                     case AP:
                         this.ap += buff.getNumber();
                         break;
@@ -169,7 +170,7 @@ public class Army extends Card {
                 }
                 break;
             case WEAKNESS:
-                switch (((Weakness) buff).getType()) {
+                switch (buff.getPowerBuffType()) {
                     case AP:
                         this.ap -= buff.getNumber();
                         break;
@@ -190,7 +191,7 @@ public class Army extends Card {
                 this.isStunned = false;
                 break;
             case POWER:
-                switch (((Power) buff).getType()) {
+                switch (buff.getPowerBuffType()) {
                     case AP:
                         this.ap -= buff.getNumber();
                         break;
@@ -200,7 +201,7 @@ public class Army extends Card {
                 }
                 break;
             case WEAKNESS:
-                switch (((Weakness) buff).getType()) {
+                switch (buff.getPowerBuffType()) {
                     case AP:
                         this.ap += buff.getNumber();
                         break;
