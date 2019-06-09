@@ -34,19 +34,19 @@ public class CustomCardHandler extends Handler {
 
         switch (cardType) {
             case HERO:
-                getMinionAndHero();
                 data.add(0, Integer.toString(Hero.getLastNumber() + 1));
+                getMinionAndHero();
                 CvsWriter.write("Heroes", data);
                 Hero.createHero(data.toArray(new String[data.size()]));
                 break;
             case MINION:
-                getMinionAndHero();
                 data.add(0, Integer.toString(Minion.getLastNumber() + 1));
+                getMinionAndHero();
                 CvsWriter.write("Minions", data);
                 break;
             case SPELL:
-                getSpell();
                 data.add(0, Integer.toString(Spell.getLastNumber() + 1));
+                getSpell();
                 CvsWriter.write("Spells", data);
                 break;
         }
@@ -65,16 +65,15 @@ public class CustomCardHandler extends Handler {
         data.add(scanner.nextLine());
 
         CustomCardHandlerScreen.showEnterAttackType();
-        data.add(scanner.nextLine());
+        data.add(scanner.nextLine().toLowerCase());
 
         CustomCardHandlerScreen.showEnterRange();
         data.add(scanner.nextLine());
 
         if(cardType == CardType.MINION){
             CustomCardHandlerScreen.showEnterSpecialPowerActivation();
-            data.add(scanner.nextLine());
+            data.add(scanner.nextLine().toLowerCase());
         } else {
-            data.add("-");
             CustomCardHandlerScreen.showEnterMP();
             data.add(scanner.nextLine());
 
@@ -91,15 +90,25 @@ public class CustomCardHandler extends Handler {
         data.add(scanner.nextLine());
 
         CustomCardHandlerScreen.showEnterTarget();
-        data.add(scanner.nextLine());
+        data.add(scanner.nextLine().toLowerCase());
     }
 
     public void getBuff() {
         CustomCardHandlerScreen.showEnterBuffName();
-        data.add(scanner.nextLine()) ;
-
+        String buffName = scanner.nextLine();
+        switch (cardType){
+            case HERO:
+                data.add(7, buffName);
+                break;
+            case MINION:
+                data.add(8, buffName);
+                break;
+            case SPELL:
+                data.add(buffName);
+                break;
+        }
         CustomCardHandlerScreen.showEnterBuffType();
-        String buffType = scanner.nextLine();
+        String buffType = scanner.nextLine().toLowerCase();
         data.add(buffType) ;
 
         if(buffType.equals("power") || buffType.equals("weakness")){
