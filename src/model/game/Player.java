@@ -300,6 +300,7 @@ public class Player {
 
     public void play() {
         endTurn = false;
+        this.setUpBuffs();
         increaseTurnNumber();
         setMana();
         deck.transferCardTo(hand);

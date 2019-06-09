@@ -76,7 +76,6 @@ public class Hero extends Army {
                     Buff buff = new Buff(POWER, value, delay, last, targetType);
                     buff.setPowerBuffType(AP);
                     hero.setSpecialBuff(buff);
-                    System.out.println(hero.getSpecialBuff().getPowerBuffType());
                     break;
                 case "weakness":
                     break;
@@ -125,7 +124,6 @@ public class Hero extends Army {
             if(army == null ) return;
             if(specialBuff.getTargetType() == TargetType.FRIEND && !player.isFriend(army)) return;
             if(specialBuff.getTargetType() == TargetType.ENEMY && player.isFriend(army)) return;
-            System.out.println(specialBuff.getBuffType() +" "+ specialBuff.getPowerBuffType()+ " "+ specialBuff.getTurns());
             army.addBuff(specialBuff);
         } else
             Hero.class.getDeclaredMethod(this.name + "Spell", Player.class).invoke(this, player);
