@@ -46,34 +46,37 @@ public class Spell extends Card {
 
     public static void scanSpells(ArrayList<String[]> data) {
         for (String[] line : data) {
-            Spell spell = new Spell(Integer.parseInt(line[0])
-                    ,line[1]
-                    , Integer.parseInt(line[2])
-                    , Integer.parseInt(line[3])
-                    , line[5]
-                    , line[4]);
-            if(spell.getNumber() > 20) {
-                int col = 10;
-                String powerBuffType = null;
-                String buffType = line[col++];
-                if(buffType.equals("power") || buffType.equals("weakness"))
-                    powerBuffType = line[col++];
-                int value = Integer.parseInt(line[col++]);
-                int delay = Integer.parseInt(line[col++]);
-                int last = Integer.parseInt(line[col++]);
-                TargetType targetType = TargetType.valueOf(line[col++].toUpperCase());
-                Buff buff = new Buff(POWER, value, delay, last, targetType);
-                if(powerBuffType != null)
-                    buff.setPowerBuffType(PowerBuffType.valueOf(powerBuffType.toUpperCase()));
-                spell.setSpecialBuff(buff);
-                spells.add(spell);
-                cards.add(spell);
-                if(Account.getCurrentAccount() != null) {
-                    spell.setUserName(Account.getCurrentAccount().getUsername());
-                    Account.getCurrentAccount().addCardToCollection(spell);
-                }
-            }
+            createSpell(line);
+        }
+    }
 
+    public static void createSpell(String[] line) {
+        Spell spell = new Spell(Integer.parseInt(line[0])
+                ,line[1]
+                , Integer.parseInt(line[2])
+                , Integer.parseInt(line[3])
+                , line[5]
+                , line[4]);
+        if(spell.getNumber() > 20) {
+            int col = 10;
+            String powerBuffType = null;
+            String buffType = line[col++];
+            if(buffType.equals("power") || buffType.equals("weakness"))
+                powerBuffType = line[col++];
+            int value = Integer.parseInt(line[col++]);
+            int delay = Integer.parseInt(line[col++]);
+            int last = Integer.parseInt(line[col++]);
+            TargetType targetType = TargetType.valueOf(line[col++].toUpperCase());
+            Buff buff = new Buff(BuffType.valueOf(buffType.toUpperCase()), value, delay, last, targetType);
+            if(powerBuffType != null)
+                buff.setPowerBuffType(PowerBuffType.valueOf(powerBuffType.toUpperCase()));
+            spell.setSpecialBuff(buff);
+            spells.add(spell);
+            cards.add(spell);
+            if(Account.getCurrentAccount() != null) {
+                spell.setUserName(Account.getCurrentAccount().getUsername());
+                Account.getCurrentAccount().addCardToCollection(spell);
+            }
         }
     }
 

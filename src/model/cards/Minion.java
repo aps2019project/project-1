@@ -74,43 +74,46 @@ public class Minion extends Army {
 
     public static void scanMinions(ArrayList<String[]> data) {
         for (String[] line : data) {
-            SPTime spTime = null;
+            createMinion(line);
+        }
+    }
 
-            if (!line[9].equals("-")) {
-                spTime = SPTime.valueOf(line[9].toUpperCase().replace(" ", "_"));
-            }
+    public static void createMinion(String[] line) {
+        SPTime spTime = null;
 
-            Minion minion = new Minion(Integer.parseInt(line[0])
-                    ,line[1]
-                    , Integer.parseInt(line[2])
-                    , Integer.parseInt(line[4])
-                    , Integer.parseInt(line[5])
-                    , Integer.parseInt(line[7])
-                    , Integer.parseInt(line[3])
-                    , AttackType.valueOf(line[6].toUpperCase())
-                    , spTime
-                    , line[8]);
-            if(minion.getNumber() > 40) {
-                int col = 10;
-                String powerBuffType = null;
-                String buffType = line[col++];
-                if(buffType.equals("power") || buffType.equals("weakness"))
-                    powerBuffType = line[col++];
-                int value = Integer.parseInt(line[col++]);
-                int delay = Integer.parseInt(line[col++]);
-                int last = Integer.parseInt(line[col++]);
-                TargetType targetType = TargetType.valueOf(line[col++].toUpperCase());
-                Buff buff = new Buff(POWER, value, delay, last, targetType);
-                if(powerBuffType != null)
-                    buff.setPowerBuffType(PowerBuffType.valueOf(powerBuffType.toUpperCase()));
-                minion.setSpecialBuff(buff);
-                System.out.println(buff.getPowerBuffType());
-                minions.add(minion);
-                cards.add(minion);
-                if(Account.getCurrentAccount() != null) {
-                    minion.setUserName(Account.getCurrentAccount().getUsername());
-                    Account.getCurrentAccount().addCardToCollection(minion);
-                }
+        if (!line[9].equals("-")) {
+            spTime = SPTime.valueOf(line[9].toUpperCase().replace(" ", "_"));
+        }
+
+        Minion minion = new Minion(Integer.parseInt(line[0])
+                ,line[1]
+                , Integer.parseInt(line[2])
+                , Integer.parseInt(line[4])
+                , Integer.parseInt(line[5])
+                , Integer.parseInt(line[7])
+                , Integer.parseInt(line[3])
+                , AttackType.valueOf(line[6].toUpperCase())
+                , spTime
+                , line[8]);
+        if(minion.getNumber() > 40) {
+            int col = 10;
+            String powerBuffType = null;
+            String buffType = line[col++];
+            if(buffType.equals("power") || buffType.equals("weakness"))
+                powerBuffType = line[col++];
+            int value = Integer.parseInt(line[col++]);
+            int delay = Integer.parseInt(line[col++]);
+            int last = Integer.parseInt(line[col++]);
+            TargetType targetType = TargetType.valueOf(line[col++].toUpperCase());
+            Buff buff = new Buff(BuffType.valueOf(buffType.toUpperCase()), value, delay, last, targetType);
+            if(powerBuffType != null)
+                buff.setPowerBuffType(PowerBuffType.valueOf(powerBuffType.toUpperCase()));
+            minion.setSpecialBuff(buff);
+            minions.add(minion);
+            cards.add(minion);
+            if(Account.getCurrentAccount() != null) {
+                minion.setUserName(Account.getCurrentAccount().getUsername());
+                Account.getCurrentAccount().addCardToCollection(minion);
             }
         }
     }
@@ -255,6 +258,7 @@ public class Minion extends Army {
     public void checkOnSpawn(Player player, Cell cell) {
         if(specialBuff != null && spTime == SPTime.ON_SPAWN){
             this.addBuff(specialBuff);
+            return;
         }
         try{
             Minion.class.getDeclaredMethod(this.getName() +"OnSpawn", Player.class, Cell.class).invoke(this, player, cell);
@@ -268,6 +272,17 @@ public class Minion extends Army {
             case "Baptism":
                 this.addBuff(new Holy(1, 2, NORMAL));
                 break;
+        }
+    }
+
+    public void checkPassive(Player player, Cell cell) {
+        if(spTime != SPTime.PASSIVE) return;
+        if(specialBuff != null){
+            this.addBuff(specialBuff);
+        }else {
+            try{
+                Minion.class.getDeclaredMethod(this.getName() +"OnSpawn", Player.class, Cell.class).invoke(this, player, cell);
+            } catch (Exception n){ n.printStackTrace();}
         }
     }
 

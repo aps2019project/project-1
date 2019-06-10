@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 import java.util.Collections;
 
+import static model.cards.SPTime.*;
 import static model.variables.GlobalVariables.TABLE_HEIGHT;
 
 public class Player {
@@ -253,6 +254,7 @@ public class Player {
                 if(card instanceof Minion){
                     Minion minion = (Minion)card;
                     minion.checkOnSpawn(this, cell);
+                    minion.checkPassive(this, cell);
                 }
                 return true;
             }
@@ -300,11 +302,21 @@ public class Player {
 
     public void play() {
         endTurn = false;
+        this.checkPassive();
         this.setUpBuffs();
         increaseTurnNumber();
         setMana();
         deck.transferCardTo(hand);
         new BattleHandler().getOrder();
+    }
+
+    public void checkPassive() {
+        for(Cell cell : Game.getCurrentGame().getAllCellsInTable()){
+            Army army = cell.getInsideArmy();
+            if(army == null || army.getType() == CardType.HERO || !this.isFriend(army)) continue;
+            Minion minion = (Minion)army;
+            minion.checkPassive(this, cell);
+        }
     }
 
     public boolean haveCard(Card card) {

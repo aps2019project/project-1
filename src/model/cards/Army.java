@@ -152,6 +152,7 @@ public class Army extends Card {
 
     public void activateBuff(Buff buff) {
         if(buff.getDelay() != 0) return;
+        System.out.println(buff.getBuffType());
         switch (buff.getBuffType()){
             case DISARM:
                 this.isDisarmed = true;
@@ -239,7 +240,13 @@ public class Army extends Card {
                 }
             } catch (NullPointerException npe) {}
         }
-        if (this instanceof Minion && ((Minion) this).getSpTime() == ON_ATTACK) {
+        if (this instanceof Minion) {
+            Minion minion = (Minion) this;
+            if(minion.getSpTime() != ON_ATTACK) return;
+            if(minion.getSpecialBuff() != null){
+                army.addBuff(minion.getSpecialBuff());
+                return;
+            }
             try {
                 Minion.class.getDeclaredMethod(this.name + "OnAttack", Army.class).invoke(this, army);
             } catch (Exception e){}

@@ -43,11 +43,13 @@ public class CustomCardHandler extends Handler {
                 data.add(0, Integer.toString(Minion.getLastNumber() + 1));
                 getMinionAndHero();
                 CvsWriter.write("Minions", data);
+                Minion.createMinion(data.toArray(new String[data.size()]));
                 break;
             case SPELL:
                 data.add(0, Integer.toString(Spell.getLastNumber() + 1));
                 getSpell();
                 CvsWriter.write("Spells", data);
+                Spell.createSpell(data.toArray(new String[data.size()]));
                 break;
         }
         return MENU;
