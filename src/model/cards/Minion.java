@@ -109,7 +109,6 @@ public class Minion extends Army {
             if(powerBuffType != null)
                 buff.setPowerBuffType(PowerBuffType.valueOf(powerBuffType.toUpperCase()));
             minion.setSpecialBuff(buff);
-            System.out.println(buff.getPowerBuffType());
             minions.add(minion);
             cards.add(minion);
             if(Account.getCurrentAccount() != null) {
@@ -259,6 +258,7 @@ public class Minion extends Army {
     public void checkOnSpawn(Player player, Cell cell) {
         if(specialBuff != null && spTime == SPTime.ON_SPAWN){
             this.addBuff(specialBuff);
+            return;
         }
         try{
             Minion.class.getDeclaredMethod(this.getName() +"OnSpawn", Player.class, Cell.class).invoke(this, player, cell);
@@ -272,6 +272,17 @@ public class Minion extends Army {
             case "Baptism":
                 this.addBuff(new Holy(1, 2, NORMAL));
                 break;
+        }
+    }
+
+    public void checkPassive(Player player, Cell cell) {
+        if(spTime != SPTime.PASSIVE) return;
+        if(specialBuff != null){
+            this.addBuff(specialBuff);
+        }else {
+            try{
+                Minion.class.getDeclaredMethod(this.getName() +"OnSpawn", Player.class, Cell.class).invoke(this, player, cell);
+            } catch (Exception n){ n.printStackTrace();}
         }
     }
 
