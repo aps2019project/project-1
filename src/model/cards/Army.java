@@ -152,6 +152,7 @@ public class Army extends Card {
 
     public void activateBuff(Buff buff) {
         if(buff.getDelay() != 0) return;
+        System.out.println(buff.getBuffType());
         switch (buff.getBuffType()){
             case DISARM:
                 this.isDisarmed = true;

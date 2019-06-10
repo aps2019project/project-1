@@ -105,7 +105,7 @@ public class Minion extends Army {
             int delay = Integer.parseInt(line[col++]);
             int last = Integer.parseInt(line[col++]);
             TargetType targetType = TargetType.valueOf(line[col++].toUpperCase());
-            Buff buff = new Buff(POWER, value, delay, last, targetType);
+            Buff buff = new Buff(BuffType.valueOf(buffType.toUpperCase()), value, delay, last, targetType);
             if(powerBuffType != null)
                 buff.setPowerBuffType(PowerBuffType.valueOf(powerBuffType.toUpperCase()));
             minion.setSpecialBuff(buff);
