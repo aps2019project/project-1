@@ -79,7 +79,13 @@ public class Army extends Card {
             while (iterator.hasNext()) {
                 Buff buff = (Buff) iterator.next();
                 buff.decreaseTurns();
+                if(buff.getDelay() != 0){
+                    buff.decreaseDelay();
+                    if(buff.getDelay() == 0)
+                        army.activateBuff(buff);
+                }
                 if (buff.getTurns() == 0 && buff.getBuffTImeType() != BuffTImeType.CONTINUOUS) {
+                    army.deactivateBuff(buff);
                     iterator.remove();
                 }
             }
@@ -128,11 +134,11 @@ public class Army extends Card {
         return sum;
     }
 
-    public void deleteBuffs(BuffType buffType) {
+    public void deleteBuffs(BuffEffectType buffType) {
         Iterator iterator = this.getBuffs().iterator();
         while (iterator.hasNext()) {
             Buff buff = (Buff) iterator.next();
-            if (buff.getBuffType() != buffType) {
+            if (buff.getBuffEffectType() != buffType) {
                 continue;
             }
             if (buff.getBuffTImeType() == BuffTImeType.CONTINUOUS) {
@@ -145,54 +151,66 @@ public class Army extends Card {
     }
 
     public void activateBuff(Buff buff) {
-        if (buff instanceof Disarm) {
-            this.isDisarmed = true;
-        } else if (buff instanceof Stun) {
-            this.isStunned = true;
-        } else if (buff instanceof Power) {
-            switch (((Power) buff).getType()) {
-                case AP:
-                    this.ap += buff.getNumber();
-                    break;
-                case HP:
-                    this.hp += buff.getNumber();
-                    break;
-            }
-        } else if (buff instanceof Weakness) {
-            switch (((Weakness) buff).getType()) {
-                case AP:
-                    this.ap -= buff.getNumber();
-                    break;
-                case HP:
-                    this.hp -= buff.getNumber();
-                    break;
-            }
+        if(buff.getDelay() != 0) return;
+        System.out.println(buff.getBuffType());
+        switch (buff.getBuffType()){
+            case DISARM:
+                this.isDisarmed = true;
+                break;
+            case STUN:
+                this.isStunned = true;
+                break;
+            case POWER:
+                switch (buff.getPowerBuffType()) {
+                    case AP:
+                        this.ap += buff.getNumber();
+                        break;
+                    case HP:
+                        this.hp += buff.getNumber();
+                        break;
+                }
+                break;
+            case WEAKNESS:
+                switch (buff.getPowerBuffType()) {
+                    case AP:
+                        this.ap -= buff.getNumber();
+                        break;
+                    case HP:
+                        this.hp -= buff.getNumber();
+                        break;
+                }                break;
+
         }
     }
 
     public void deactivateBuff(Buff buff) {
-        if (buff instanceof Disarm && this.haveBuff(Disarm.class) == 0) {
-            this.isDisarmed = false;
-        } else if (buff instanceof Stun && this.haveBuff(Stun.class) == 0) {
-            this.isStunned = false;
-        } else if (buff instanceof Power) {
-            switch (((Power) buff).getType()) {
-                case AP:
-                    this.ap -= buff.getNumber();
-                    break;
-                case HP:
-                    this.hp -= buff.getNumber();
-                    break;
-            }
-        } else if (buff instanceof Weakness) {
-            switch (((Weakness) buff).getType()) {
-                case AP:
-                    this.ap += buff.getNumber();
-                    break;
-                case HP:
-                    this.hp += buff.getNumber();
-                    break;
-            }
+        switch (buff.getBuffType()){
+            case DISARM:
+                this.isDisarmed = false;
+                break;
+            case STUN:
+                this.isStunned = false;
+                break;
+            case POWER:
+                switch (buff.getPowerBuffType()) {
+                    case AP:
+                        this.ap -= buff.getNumber();
+                        break;
+                    case HP:
+                        this.hp -= buff.getNumber();
+                        break;
+                }
+                break;
+            case WEAKNESS:
+                switch (buff.getPowerBuffType()) {
+                    case AP:
+                        this.ap += buff.getNumber();
+                        break;
+                    case HP:
+                        this.hp += buff.getNumber();
+                        break;
+                }                break;
+
         }
     }
 
@@ -222,7 +240,13 @@ public class Army extends Card {
                 }
             } catch (NullPointerException npe) {}
         }
-        if (this instanceof Minion && ((Minion) this).getSpTime() == ON_ATTACK) {
+        if (this instanceof Minion) {
+            Minion minion = (Minion) this;
+            if(minion.getSpTime() != ON_ATTACK) return;
+            if(minion.getSpecialBuff() != null){
+                army.addBuff(minion.getSpecialBuff());
+                return;
+            }
             try {
                 Minion.class.getDeclaredMethod(this.name + "OnAttack", Army.class).invoke(this, army);
             } catch (Exception e){}

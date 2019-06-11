@@ -3,30 +3,37 @@ package model.cards;
 import model.Buff.*;
 import model.game.Cell;
 import model.game.Player;
+import model.other.Account;
 
 import java.util.ArrayList;
 
 import static model.Buff.BuffTImeType.*;
+import static model.Buff.BuffEffectType.*;
 import static model.Buff.BuffType.*;
 import static model.Buff.PowerBuffType.*;
 import static model.cards.CardType.MINION;
 
 public class Minion extends Army {
     private static ArrayList<Minion> minions = new ArrayList<>();
+    private static int lastNumber = 0;
     private int mana;
     private SPTime spTime;
-    private Race race;
     private boolean haveDeathCurse;
+    private Buff specialBuff = null;
 
     Minion(int number, String name, int price, int hp
             , int ap, int ar, int mana, AttackType attackType
-            , Race race, SPTime spTime, String description) {
+            , SPTime spTime, String description) {
         super(number, name, price, description, hp, ap, ar, attackType, MINION, mana);
         this.mana = mana;
         this.spTime = spTime;
-        this.race = race;
         minions.add(this);
         cards.add(this);
+        lastNumber = number;
+    }
+
+    public static int getLastNumber() {
+        return lastNumber;
     }
 
     public static ArrayList<Minion> getMinions() {
@@ -65,34 +72,49 @@ public class Minion extends Army {
         return spTime;
     }
 
-    public Race getRace() {
-        return race;
-    }
-
     public static void scanMinions(ArrayList<String[]> data) {
         for (String[] line : data) {
-            SPTime spTime = null;
+            createMinion(line);
+        }
+    }
 
-            if (!line[9].equals("-")) {
-                spTime = SPTime.valueOf(line[9].toUpperCase().replace(" ", "_"));
+    public static void createMinion(String[] line) {
+        SPTime spTime = null;
+
+        if (!line[9].equals("-")) {
+            spTime = SPTime.valueOf(line[9].toUpperCase().replace(" ", "_"));
+        }
+
+        Minion minion = new Minion(Integer.parseInt(line[0])
+                ,line[1]
+                , Integer.parseInt(line[2])
+                , Integer.parseInt(line[4])
+                , Integer.parseInt(line[5])
+                , Integer.parseInt(line[7])
+                , Integer.parseInt(line[3])
+                , AttackType.valueOf(line[6].toUpperCase())
+                , spTime
+                , line[8]);
+        if(minion.getNumber() > 40) {
+            int col = 10;
+            String powerBuffType = null;
+            String buffType = line[col++];
+            if(buffType.equals("power") || buffType.equals("weakness"))
+                powerBuffType = line[col++];
+            int value = Integer.parseInt(line[col++]);
+            int delay = Integer.parseInt(line[col++]);
+            int last = Integer.parseInt(line[col++]);
+            TargetType targetType = TargetType.valueOf(line[col++].toUpperCase());
+            Buff buff = new Buff(BuffType.valueOf(buffType.toUpperCase()), value, delay, last, targetType);
+            if(powerBuffType != null)
+                buff.setPowerBuffType(PowerBuffType.valueOf(powerBuffType.toUpperCase()));
+            minion.setSpecialBuff(buff);
+            minions.add(minion);
+            cards.add(minion);
+            if(Account.getCurrentAccount() != null) {
+                minion.setUserName(Account.getCurrentAccount().getUsername());
+                Account.getCurrentAccount().addCardToCollection(minion);
             }
-
-            Race race = null;
-            if (!line[10].equals("-")) {
-                race = Race.valueOf(line[10].toUpperCase());
-            }
-
-            new Minion(Integer.parseInt(line[0])
-                    ,line[1]
-                    , Integer.parseInt(line[2])
-                    , Integer.parseInt(line[4])
-                    , Integer.parseInt(line[5])
-                    , Integer.parseInt(line[7])
-                    , Integer.parseInt(line[3])
-                    , AttackType.valueOf(line[6].toUpperCase())
-                    , race
-                    , spTime
-                    , line[8]);
         }
     }
 
@@ -100,7 +122,6 @@ public class Minion extends Army {
     public String toString() {
         return "mana=" + mana +
                 ", spTime=" + spTime +
-                ", race=" + race +
                 ", ap=" + ap +
                 ", ID=" + ID +
                 ", name='" + name + '\'' +
@@ -119,7 +140,9 @@ public class Minion extends Army {
     }
 
     public void EagleOnSpawn(Player player, Cell cell) {
-        this.addBuff(new Power(10, HP, 1, CONTINUOUS));
+        Buff buff = new Buff(POWER, 10, 1, CONTINUOUS);
+        buff.setPowerBuffType(HP);
+        this.addBuff(buff);
     }
 
     public void OneEyedGiantOnDeath(Player player, Cell cell) {
@@ -163,7 +186,9 @@ public class Minion extends Army {
         ArrayList<Army> array = player.getFriendsAround(cell).getArmy();
         array.add(this);
         for (Army army : array) {
-            army.addBuff(new Power(2, AP, 1, NORMAL));
+            Buff buff = new Buff(POWER, 2, 1, NORMAL);
+            buff.setPowerBuffType(AP);
+            army.addBuff(buff);
             army.addBuff(new Weakness(1, HP, 1, NORMAL));
         }
     }
@@ -172,7 +197,9 @@ public class Minion extends Army {
         ArrayList<Army> array = player.getFriendsAround(cell).getArmy();
         array.add(this);
         for (Army army : array) {
-            army.addBuff(new Power(2, AP, 1, NORMAL));
+            Buff buff = new Buff(POWER, 2, 1, NORMAL);
+            buff.setPowerBuffType(AP);
+            army.addBuff(buff);
             army.addBuff(new Holy(1, 1, CONTINUOUS));
         }
     }
@@ -181,7 +208,9 @@ public class Minion extends Army {
         ArrayList<Army> array = player.getInGameCards();
         for (Army army : array) {
             if (army instanceof Hero) continue;
-            army.addBuff(new Power(1, AP, 1, CONTINUOUS));
+            Buff buff = new Buff(POWER, 1, 1, CONTINUOUS);
+            buff.setPowerBuffType(AP);
+            army.addBuff(buff);
         }
     }
 
@@ -194,7 +223,7 @@ public class Minion extends Army {
     }
 
     public boolean GivOnDefend(Buff buff) {
-        return buff.getBuffType() == BuffType.NEGATIVE;
+        return buff.getBuffEffectType() == NEGATIVE;
     }
 
     public void BahmanOnSpawn(Player player, Cell cell) {
@@ -227,9 +256,13 @@ public class Minion extends Army {
     }
 
     public void checkOnSpawn(Player player, Cell cell) {
-            try{
-                Minion.class.getDeclaredMethod(this.getName() +"OnSpawn", Player.class, Cell.class).invoke(this, player, cell);
-            } catch (Exception n){}
+        if(specialBuff != null && spTime == SPTime.ON_SPAWN){
+            this.addBuff(specialBuff);
+            return;
+        }
+        try{
+            Minion.class.getDeclaredMethod(this.getName() +"OnSpawn", Player.class, Cell.class).invoke(this, player, cell);
+        } catch (Exception n){}
         if(this.getPlayer().getUsableItem() == null) return;
         String itemName = this.getPlayer().getUsableItem().getName();
         switch (itemName){
@@ -239,6 +272,17 @@ public class Minion extends Army {
             case "Baptism":
                 this.addBuff(new Holy(1, 2, NORMAL));
                 break;
+        }
+    }
+
+    public void checkPassive(Player player, Cell cell) {
+        if(spTime != SPTime.PASSIVE) return;
+        if(specialBuff != null){
+            this.addBuff(specialBuff);
+        }else {
+            try{
+                Minion.class.getDeclaredMethod(this.getName() +"OnSpawn", Player.class, Cell.class).invoke(this, player, cell);
+            } catch (Exception n){ n.printStackTrace();}
         }
     }
 
@@ -252,7 +296,9 @@ public class Minion extends Army {
             String itemName = this.getPlayer().getUsableItem().getName();
             switch (itemName) {
                 case "SoulEater":
-                    Army.getRandomArmy(player.getInGameCards()).addBuff(new Power(1, AP, PERMANENT));
+                    Buff buff = new Buff(POWER, 1, PERMANENT);
+                    buff.setPowerBuffType(AP);
+                    Army.getRandomArmy(player.getInGameCards()).addBuff(buff);
                     break;
             }
         }
@@ -262,4 +308,11 @@ public class Minion extends Army {
         }
     }
 
+    public Buff getSpecialBuff() {
+        return specialBuff;
+    }
+
+    public void setSpecialBuff(Buff specialBuff) {
+        this.specialBuff = specialBuff;
+    }
 }

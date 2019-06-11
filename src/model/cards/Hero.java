@@ -4,25 +4,36 @@ import model.Buff.*;
 import model.game.Cell;
 import model.game.CellEffect;
 import model.game.Player;
+import model.other.Account;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
 import static model.Buff.BuffTImeType.*;
+import static model.Buff.BuffType.*;
 import static model.Buff.PowerBuffType.*;
 import static model.cards.CardType.HERO;
 
 public class Hero extends Army {
     private static ArrayList<Hero> heroes = new ArrayList<>();
+    private static int lastNumber = 0;
 
     private int mp, coolDown;
+    private Buff specialBuff = null;
 
     Hero(int number, String name, int price, int hp, int ap, int ar, int mp, int coolDown, AttackType attackType, String description) {
         super(number, name, price, description, hp, ap, ar, attackType, HERO, 0);
         this.mp = mp;
         this.coolDown = coolDown;
-        heroes.add(this);
-        cards.add(this);
+        if(number <=10) {
+            heroes.add(this);
+            cards.add(this);
+        }
+        lastNumber = number;
+    }
+
+    public static int getLastNumber() {
+        return lastNumber;
     }
 
     public static ArrayList<Hero> getHeroes() {
@@ -39,17 +50,50 @@ public class Hero extends Army {
 
     public static void scanHeroes(ArrayList<String[]> data){
         for(String[] line : data){
-            new Hero(Integer.parseInt(line[0])
-                    ,line[1]
-                    , Integer.parseInt(line[2])
-                    , Integer.parseInt(line[3])
-                    , Integer.parseInt(line[4])
-                    , Integer.parseInt(line[6])
-                    , Integer.parseInt(line[8])
-                    , Integer.parseInt(line[9])
-                    , AttackType.valueOf(line[5].toUpperCase())
-                    , line[7]);
+            createHero(line);
         }
+    }
+
+    public static void createHero(String[] line) {
+        Hero hero = new Hero(Integer.parseInt(line[0])
+                ,line[1]
+                , Integer.parseInt(line[2])
+                , Integer.parseInt(line[3])
+                , Integer.parseInt(line[4])
+                , Integer.parseInt(line[6])
+                , Integer.parseInt(line[8])
+                , Integer.parseInt(line[9])
+                , AttackType.valueOf(line[5].toUpperCase())
+                , line[7]);
+        if(hero.getNumber() > 10) {
+            int col = 10;
+            String powerBuffType = null;
+            String buffType = line[col++];
+            if(buffType.equals("power") || buffType.equals("weakness"))
+                powerBuffType = line[col++];
+            int value = Integer.parseInt(line[col++]);
+            int delay = Integer.parseInt(line[col++]);
+            int last = Integer.parseInt(line[col++]);
+            TargetType targetType = TargetType.valueOf(line[col++].toUpperCase());
+            Buff buff = new Buff(BuffType.valueOf(buffType.toUpperCase()), value, delay, last, targetType);
+            if(powerBuffType != null)
+                buff.setPowerBuffType(PowerBuffType.valueOf(powerBuffType.toUpperCase()));
+            hero.setSpecialBuff(buff);
+            heroes.add(hero);
+            cards.add(hero);
+            if(Account.getCurrentAccount() != null) {
+                hero.setUserName(Account.getCurrentAccount().getUsername());
+                Account.getCurrentAccount().addCardToCollection(hero);
+            }
+        }
+    }
+
+    public Buff getSpecialBuff() {
+        return specialBuff;
+    }
+
+    public void setSpecialBuff(Buff specialBuff) {
+        this.specialBuff = specialBuff;
     }
 
     @Override
@@ -65,11 +109,20 @@ public class Hero extends Army {
     }
 
     public void useSpell(Player player) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
-        Hero.class.getDeclaredMethod(this.name + "Spell", Player.class).invoke(this, player);
+        if(this.specialBuff != null) {
+            Army army = player.getSelectedCardPlace().getInsideArmy();
+            if(army == null ) return;
+            if(specialBuff.getTargetType() == TargetType.FRIEND && !player.isFriend(army)) return;
+            if(specialBuff.getTargetType() == TargetType.ENEMY && player.isFriend(army)) return;
+            army.addBuff(specialBuff);
+        } else
+            Hero.class.getDeclaredMethod(this.name + "Spell", Player.class).invoke(this, player);
     }
 
     public void WhiteDemonSpell(Player player){
-        this.addBuff(new Power(4, AP, PERMANENT));
+        Buff buff = new Buff(POWER, 4, PERMANENT);
+        buff.setPowerBuffType(AP);
+        this.addBuff(buff);
     }
 
     public void SimorghSpell(Player player){
@@ -104,7 +157,7 @@ public class Hero extends Army {
     public void AfsaneSpell(Player player){
         Army army = player.getOneEnemy();
         System.out.println(army.getName());
-        army.deleteBuffs(BuffType.POSITIVE);
+        army.deleteBuffs(BuffEffectType.POSITIVE);
     }
 
     public void EsfandiarSpell(Player player){

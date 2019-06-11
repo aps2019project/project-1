@@ -27,6 +27,9 @@ public class Main {
                 case SHOP:
                     handler = new ShopHandler().handleCommands();
                     break;
+                case CUSTOM:
+                    handler = new CustomCardHandler().handleCommands();
+                    break;
             }
         }
     }

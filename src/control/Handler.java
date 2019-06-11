@@ -10,4 +10,4 @@ abstract class Handler {
     abstract HandlerType handleCommands() throws CloneNotSupportedException;
 }
 
-enum HandlerType { ACCOUNT, BATTLE, COLLECTION, MENU, SHOP}
+enum HandlerType { ACCOUNT, BATTLE, COLLECTION, MENU, SHOP, CUSTOM}

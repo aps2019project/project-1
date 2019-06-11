@@ -1,7 +1,8 @@
 package model.cards;
 
+import model.Buff.Buff;
+import model.Buff.BuffType;
 import model.Buff.Holy;
-import model.Buff.Power;
 import model.game.Cell;
 import model.game.Player;
 import model.variables.CardsArray;
@@ -16,6 +17,7 @@ import static model.cards.CardType.ITEM;
 public class Item extends Card {
     private static ArrayList<Item> items = new ArrayList<>();
     private static CardsArray collectableItems = new CardsArray();
+    private static int lastNumebr = 0;
     private ItemType itemType;
 
 
@@ -25,6 +27,11 @@ public class Item extends Card {
         items.add(this);
         cards.add(this);
         if(itemType == ItemType.COLLECTIBLE) collectableItems.add(this);
+        lastNumebr = number;
+    }
+
+    public static int getLastNumebr() {
+        return lastNumebr;
     }
 
     public static ArrayList<Item> getItems() {
@@ -83,7 +90,9 @@ public class Item extends Card {
     public static void ElixirCollectible(Player player, Army army) {
         if(army instanceof Minion) {
             army.setHp(army.getHp() + 3);
-            army.addBuff(new Power(3, AP, NORMAL));
+            Buff buff = new Buff(BuffType.POWER, 3, NORMAL);
+            buff.setPowerBuffType(AP);
+            army.addBuff(buff);
         }
 
     }
