@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import static control.HandlerType.*;
 
 public class CustomCardHandler extends Handler {
-    ArrayList<String> data = new ArrayList<>();
+    ArrayList<String> data = new ArrayList<String>();
     CardType cardType;
 
     CustomCardHandler() {

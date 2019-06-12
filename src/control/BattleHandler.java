@@ -46,7 +46,7 @@ public class BattleHandler extends Handler{
                         } catch (NullPointerException e) {
                             System.out.println(e);
                         } catch (Exception e) {
-                            System.out.println(e);
+                            System.err.println(e);
                         }
                     } else {
                         BattleScreen.showInvalidCardIdError();
@@ -64,7 +64,7 @@ public class BattleHandler extends Handler{
             }else if (command.matches("attack combo [^ ]+( [^ ]+)+")) {
                 Cell opponentCardCell = game.findInTable(command.split(" ")[2]);
                 Cell myCardCell = game.findInTable(command.split(" ")[3]);
-                ArrayList<Cell> cells = new ArrayList<>();
+                ArrayList<Cell> cells = new ArrayList<Cell>();
                 int counter = 4;
                 while(counter < command.split(" ").length) {
                     cells.add(game.findInTable(command.split(" ")[counter]));

@@ -13,21 +13,18 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Scanner;
+import java.util.*;
 
 public class Account {
 
-    private static ArrayList<Account> accounts = new ArrayList<>();
+    private static ArrayList<Account> accounts = new ArrayList<Account>();
     private static Account currentAccount = null;
 
     private String username;
     private String password;
     private CardsArray collection = new CardsArray();
-    private ArrayList<Deck> allDecks = new ArrayList<>();
-    private ArrayList<MatchResult> matchHistory = new ArrayList<>();
+    private ArrayList<Deck> allDecks = new ArrayList<Deck>();
+    private ArrayList<MatchResult> matchHistory = new ArrayList<MatchResult>();
     private Deck mainDeck = new Deck();
     private int daric = 15000;
     private StoryProgress storyProgress;
@@ -173,10 +170,13 @@ public class Account {
     }
 
     private static void sortAccounts() {
-        accounts.sort((Account a1, Account a2) -> {
-            if (a1.getWonGames() == a2.getWonGames())
-                return a1.username.compareTo(a2.password);
-            return a2.getWonGames() - a1.getWonGames();
+        Collections.sort(accounts, new Comparator<Account>() {
+            @Override
+            public int compare(Account a1, Account a2) {
+                if (a1.getWonGames() == a2.getWonGames())
+                    return a1.username.compareTo(a2.username);
+                return a1.getWonGames() - a2.getWonGames();
+            }
         });
     }
 
@@ -246,17 +246,12 @@ public class Account {
         if (!(o instanceof Account)) return false;
         Account account = (Account) o;
         return getDaric() == account.getDaric() &&
-                getUsername().equals(account.getUsername()) &&
-                getPassword().equals(account.getPassword()) &&
-                Objects.equals(getCollection(), account.getCollection()) &&
-                Objects.equals(getAllDecks(), account.getAllDecks()) &&
-                Objects.equals(getMatchHistory(), account.getMatchHistory()) &&
-                Objects.equals(getMainDeck(), account.getMainDeck()) &&
+                getUsername().equals(account.username)&&
+                getPassword().equals(account.password) &&
+                getCollection().equals(account.collection) &&
+                getAllDecks().equals(account.allDecks) &&
+                getMatchHistory().equals(account.matchHistory) &&
+                getMainDeck().equals(account.mainDeck) &&
                 getStoryProgress() == account.getStoryProgress();
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getUsername(), getPassword(), getCollection(), getAllDecks(), getMatchHistory(), getMainDeck(), getDaric(), getStoryProgress());
     }
 }

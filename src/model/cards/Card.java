@@ -133,7 +133,7 @@ public class Card implements Cloneable {
         }
         storyNumber--;
         String[] line = lines[storyNumber].split(",");
-        ArrayList<Integer> array = new ArrayList<>();
+        ArrayList<Integer> array = new ArrayList<Integer>();
         for (String s : line) {
             array.add(Integer.parseInt(s));
         }

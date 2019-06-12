@@ -1,25 +1,25 @@
 package model.variables;
 
 import model.cards.*;
+import sun.awt.geom.AreaOp;
 import view.BattleScreen;
 
 import java.awt.datatransfer.MimeTypeParseException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
-import java.util.Objects;
-import java.util.function.IntFunction;
 
 import static model.cards.CardType.*;
 
 public class CardsArray {
 
-    private ArrayList<Hero> allHeroes = new ArrayList<>();
-    private ArrayList<Minion> allMinions = new ArrayList<>();
-    private ArrayList<Spell> allSpells = new ArrayList<>();
-    private ArrayList<Item> allItems = new ArrayList<>();
+    private ArrayList<Hero> allHeroes = new ArrayList<Hero>();
+    private ArrayList<Minion> allMinions = new ArrayList<Minion>();
+    private ArrayList<Spell> allSpells = new ArrayList<Spell>();
+    private ArrayList<Item> allItems = new ArrayList<Item>();
 
     public ArrayList<Card> getAllCards() {
-        ArrayList<Card> allCards = new ArrayList<>();
+        ArrayList<Card> allCards = new ArrayList<Card>();
         allCards.addAll(heroCards());
         allCards.addAll(spellCards());
         allCards.addAll(itemCards());
@@ -45,7 +45,7 @@ public class CardsArray {
     }
 
     public ArrayList<Item> getSellableItems() {
-        ArrayList<Item> items = new ArrayList<>();
+        ArrayList<Item> items = new ArrayList<Item>();
         for (Item item : allItems) {
             if (item.getItemType().equals(ItemType.USABLE))
                 items.add(item);
@@ -54,7 +54,7 @@ public class CardsArray {
     }
 
     public ArrayList<Army> getArmy() {
-        ArrayList<Army> armies = new ArrayList<>();
+        ArrayList<Army> armies = new ArrayList<Army>();
         armies.addAll(getAllHeros());
         armies.addAll(getAllMinions());
         return armies;
@@ -166,27 +166,28 @@ public class CardsArray {
     }
 
     private void sortCards(ArrayList<Card> allCards) {
-        allCards.sort(Comparator.comparing(Card::getType));
+        Collections.sort(allCards, new Comparator<Card>() {
+            @Override
+            public int compare(Card c1, Card c2) {
+                return c1.getType().compareTo(c2.getType());
+            }
+        });
     }
 
     private ArrayList<Card> heroCards() {
-        ArrayList<Card> cards = new ArrayList<>(allHeroes);
-        return cards;
+        return new ArrayList<Card>(allHeroes);
     }
 
     private ArrayList<Card> spellCards() {
-        ArrayList<Card> cards = new ArrayList<>(allSpells);
-        return cards;
+        return new ArrayList<Card>(allSpells);
     }
 
     private ArrayList<Card> itemCards() {
-        ArrayList<Card> cards = new ArrayList<>(allItems);
-        return cards;
+        return new ArrayList<Card>(allItems);
     }
 
     private ArrayList<Card> minionCards() {
-        ArrayList<Card> cards = new ArrayList<>(allMinions);
-        return cards;
+        return new ArrayList<Card>(allMinions);
     }
 
     @Override
@@ -205,12 +206,6 @@ public class CardsArray {
         if (!(o instanceof CardsArray)) return false;
         if (!super.equals(o)) return false;
         CardsArray armies = (CardsArray) o;
-        return Objects.equals(getAllCards(), armies.getAllCards());
+        return getAllCards().equals(armies.getAllCards());
     }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(super.hashCode(), getAllCards());
-    }
-
 }
