@@ -17,14 +17,14 @@ public class Game {
     private Player firstPlayer;
     private Player secondPlayer;
     private Cell[][] table = new Cell[TABLE_HEIGHT][TABLE_WIDTH];
-    private ArrayList<Flag> flags = new ArrayList<>();
+    private ArrayList<Flag> flags = new ArrayList<Flag>();
     private Player whoIsHisTurn;
     private Account winner;
     private int reward;
     private int turnNumber = 1;
     private GameType type;
     private boolean exitFromGame = false;
-    private ArrayList<Cell> allCellsInTable = new ArrayList<>();
+    private ArrayList<Cell> allCellsInTable = new ArrayList<Cell>();
     public Game(Account firstAccount, Account secondAccount, GameType type) {
         firstPlayer = new Player(firstAccount);
         secondPlayer = new Player(secondAccount);
@@ -234,14 +234,14 @@ public class Game {
 
     public ArrayList<Cell> getAllCellsNearAccountArmies(Account account) {
         CardsArray cards = getAllAccountArmiesInCellArray(getAllCellsInTable(),account);
-        ArrayList<Cell> cells = new ArrayList<>();
+        ArrayList<Cell> cells = new ArrayList<Cell>();
         for(Card card : cards.getAllCards()){
             cells.addAll(getAllNearCells(card.getWhereItIs()));
         }
         return cells;
     }
     public ArrayList<Cell> getAllCellsWithUniqueDistance(Cell cell,int distance) {
-        ArrayList<Cell> allCellsWithUniqueDistance = new ArrayList<>();
+        ArrayList<Cell> allCellsWithUniqueDistance = new ArrayList<Cell>();
         for(int xIncrease = -distance ; xIncrease <= distance ; xIncrease++) {
             for(int yIncrease = -distance ; yIncrease <= distance ; yIncrease++) {
                 if(Math.abs(xIncrease)+Math.abs(yIncrease) <= distance && this.isTrueCoordinate(cell.getX()+xIncrease,cell.getY()+yIncrease)) {
@@ -252,7 +252,7 @@ public class Game {
         return allCellsWithUniqueDistance;
     }
     public ArrayList<Cell> getAllNearCells(Cell cell) {
-        ArrayList<Cell> allNearCells = new ArrayList<>();
+        ArrayList<Cell> allNearCells = new ArrayList<Cell>();
         for(int xIncrease = -1 ; xIncrease < 2 ; xIncrease++) {
             for(int yIncrease = -1 ; yIncrease < 2 ; yIncrease++) {
                 if(this.isTrueCoordinate(cell.getX()+xIncrease,cell.getY()+yIncrease)) {
@@ -268,12 +268,12 @@ public class Game {
         return allNoneNearCells;
     }
     public ArrayList<Cell> getAllCellsInTable() {
-        ArrayList<Cell> allCellsInTable = new ArrayList<>();
+        ArrayList<Cell> allCellsInTable = new ArrayList<Cell>();
         allCellsInTable.addAll(this.allCellsInTable);
         return allCellsInTable;
     }
     public ArrayList<Cell> getAllCellsNearArmies(CardsArray armies) {
-        ArrayList<Cell> allCellsNearArmies = new ArrayList<>();
+        ArrayList<Cell> allCellsNearArmies = new ArrayList<Cell>();
         for(Card card : armies.getAllCards()) {
             allCellsNearArmies.addAll(getAllNearCells(card.getWhereItIs()));
         }
@@ -288,7 +288,7 @@ public class Game {
         else    return null;
     }
     public ArrayList<Army> getAllInGameCards(){
-        ArrayList<Army> array = new ArrayList<>();
+        ArrayList<Army> array = new ArrayList<Army>();
         array.addAll(firstPlayer.getInGameCards());
         array.addAll(secondPlayer.getInGameCards());
         return array;

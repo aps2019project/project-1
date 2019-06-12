@@ -15,7 +15,7 @@ import static model.cards.AttackType.*;
 import static model.cards.CardType.ITEM;
 
 public class Item extends Card {
-    private static ArrayList<Item> items = new ArrayList<>();
+    private static ArrayList<Item> items = new ArrayList<Item>();
     private static CardsArray collectableItems = new CardsArray();
     private static int lastNumebr = 0;
     private ItemType itemType;

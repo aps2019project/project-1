@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class CsvReader {
 
     public static ArrayList<String[]> readCards(String cardType){
-        ArrayList<String[]> data = new ArrayList<>();
+        ArrayList<String[]> data = new ArrayList<String[]>();
         String fileAddress = "Files/" + cardType +".csv";
         try {
             FileReader fileReader = new FileReader(fileAddress);

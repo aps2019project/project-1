@@ -14,7 +14,7 @@ import static model.Buff.PowerBuffType.*;
 import static model.cards.CardType.MINION;
 
 public class Minion extends Army {
-    private static ArrayList<Minion> minions = new ArrayList<>();
+    private static ArrayList<Minion> minions = new ArrayList<Minion>();
     private static int lastNumber = 0;
     private int mana;
     private SPTime spTime;
@@ -265,13 +265,10 @@ public class Minion extends Army {
         } catch (Exception n){}
         if(this.getPlayer().getUsableItem() == null) return;
         String itemName = this.getPlayer().getUsableItem().getName();
-        switch (itemName){
-            case "AssassinationDagger":
-                player.getEnemyPlayer().getHero().getDamaged(1, null);
-                break;
-            case "Baptism":
-                this.addBuff(new Holy(1, 2, NORMAL));
-                break;
+        if ("AssassinationDagger".equals(itemName)) {
+            player.getEnemyPlayer().getHero().getDamaged(1, null);
+        } else if ("Baptism".equals(itemName)) {
+            this.addBuff(new Holy(1, 2, NORMAL));
         }
     }
 
@@ -294,12 +291,10 @@ public class Minion extends Army {
         }
         if(this.getPlayer().getUsableItem() != null) {
             String itemName = this.getPlayer().getUsableItem().getName();
-            switch (itemName) {
-                case "SoulEater":
-                    Buff buff = new Buff(POWER, 1, PERMANENT);
-                    buff.setPowerBuffType(AP);
-                    Army.getRandomArmy(player.getInGameCards()).addBuff(buff);
-                    break;
+            if ("SoulEater".equals(itemName)) {
+                Buff buff = new Buff(POWER, 1, PERMANENT);
+                buff.setPowerBuffType(AP);
+                Army.getRandomArmy(player.getInGameCards()).addBuff(buff);
             }
         }
         if(this.haveDeathCurse){

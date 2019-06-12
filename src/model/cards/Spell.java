@@ -17,7 +17,7 @@ import static model.Buff.PowerBuffType.*;
 import static model.cards.CardType.SPELL;
 
 public class Spell extends Card {
-    private static ArrayList<Spell> spells = new ArrayList<>();
+    private static ArrayList<Spell> spells = new ArrayList<Spell>();
     private static int lastNumber = 0;
     private int mana;
     private String target;

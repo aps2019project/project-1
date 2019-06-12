@@ -337,7 +337,7 @@ public class Player {
     }
 
     public ArrayList<Army> getInGameCards() {
-        ArrayList<Army> army = new ArrayList<>();
+        ArrayList<Army> army = new ArrayList<Army>();
         for (Card card : this.inGameCards.getAllCards()) {
             army.add((Army) card);
         }
@@ -360,13 +360,13 @@ public class Player {
     }
 
     public CardsArray getEnemiesInHeroRow(){
-        ArrayList<Cell> cells = new ArrayList<>();
+        ArrayList<Cell> cells = new ArrayList<Cell>();
         Collections.addAll(cells, Game.getCurrentGame().getTable()[hero.getWhereItIs().getX()]);
         return Game.getCurrentGame().getAllAccountArmiesInCellArray(cells,account);
     }
 
     public ArrayList<Cell> getSquare(int size) {
-        ArrayList<Cell> cells = new ArrayList<>();
+        ArrayList<Cell> cells = new ArrayList<Cell>();
         for(int xIncrease = 0 ; xIncrease < size ; xIncrease++) {
             for(int yIncrease = 0 ; yIncrease < size ; yIncrease++) {
                 if(Game.getCurrentGame().isTrueCoordinate(  selectedCellToPutFromHand.getX()+xIncrease,
@@ -393,7 +393,7 @@ public class Player {
     }
 
     public CardsArray getAllEnemiesInOneColumn(){
-        ArrayList<Cell> cells = new ArrayList<>();
+        ArrayList<Cell> cells = new ArrayList<Cell>();
         for(int counter = 0 ; counter < TABLE_HEIGHT ; counter++) {
             cells.add(Game.getCurrentGame().getTable()[counter][selectedCellToPutFromHand.getY()]);
         }

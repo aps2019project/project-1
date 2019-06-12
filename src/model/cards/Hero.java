@@ -15,7 +15,7 @@ import static model.Buff.PowerBuffType.*;
 import static model.cards.CardType.HERO;
 
 public class Hero extends Army {
-    private static ArrayList<Hero> heroes = new ArrayList<>();
+    private static ArrayList<Hero> heroes = new ArrayList<Hero>();
     private static int lastNumber = 0;
 
     private int mp, coolDown;

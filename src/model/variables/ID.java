@@ -5,7 +5,7 @@ import java.util.Random;
 
 public class ID {
 
-    private static ArrayList<ID> allIDs = new ArrayList<>();
+    private static ArrayList<ID> allIDs = new ArrayList<ID>();
     private String value;
 
     public ID() {

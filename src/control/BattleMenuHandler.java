@@ -19,7 +19,7 @@ public class BattleMenuHandler extends Handler{
     private IntelligentPlayer secondLevelPlayer;
     private IntelligentPlayer thirdLevelPlayer;
     private IntelligentPlayer customPlayer;
-    private ArrayList<Deck> customDecks = new ArrayList<>();
+    private ArrayList<Deck> customDecks = new ArrayList<Deck>();
     private Hero hero;
     private static PageState pageState = PageState.NOTHING;
 

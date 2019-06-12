@@ -17,7 +17,7 @@ import static model.cards.SPTime.*;
 public class Army extends Card {
     protected int hp, ap, ar;
     protected AttackType attackType;
-    protected ArrayList<Buff> buffs = new ArrayList<>();
+    protected ArrayList<Buff> buffs = new ArrayList<Buff>();
     protected boolean isStunned;
     protected boolean isDisarmed;
 
@@ -116,9 +116,11 @@ public class Army extends Card {
     public void addBuff(Buff buff) {
         if(this.getName().equals("WildHog") || this.getName().equals("Piran") || this.getName().equals("Giv")){
             try {
-                if ((boolean) Minion.class.getDeclaredMethod(this.getName() + "OnDefend", Buff.class).invoke(this, buff))
-                    return;
-            } catch (Exception e){}
+                Minion.class.getDeclaredMethod(this.getName() + "OnDefend", Buff.class).invoke(this, buff);
+                return;
+            } catch (Exception e){
+                e.printStackTrace();
+            }
         }
         this.buffs.add(buff);
         this.activateBuff(buff);
@@ -229,14 +231,11 @@ public class Army extends Card {
             if(hero.getPlayer().getUsableItem() == null) return;
             try {
                 String itemName = hero.getPlayer().getUsableItem().getName();
-                switch (itemName) {
-                    case "DamoolArc":
-                        if (hero.getAttackType() != MELEE)
-                            army.addBuff(new Disarm(1, 1, NORMAL));
-                        break;
-                    case "ShockHammer":
+                if ("DamoolArc".equals(itemName)) {
+                    if (hero.getAttackType() != MELEE)
                         army.addBuff(new Disarm(1, 1, NORMAL));
-                        break;
+                } else if ("ShockHammer".equals(itemName)) {
+                    army.addBuff(new Disarm(1, 1, NORMAL));
                 }
             } catch (NullPointerException npe) {}
         }
@@ -252,13 +251,10 @@ public class Army extends Card {
             } catch (Exception e){}
             try {
                 String itemName = this.getPlayer().getUsableItem().getName();
-                switch (itemName) {
-                    case "TerrorHood":
-                        army.addBuff(new Weakness(2, AP, 1, NORMAL));
-                        break;
-                    case "PoisonousDagger":
-                        army.addBuff(new Poison(1, NORMAL));
-                        break;
+                if ("TerrorHood".equals(itemName)) {
+                    army.addBuff(new Weakness(2, AP, 1, NORMAL));
+                } else if ("PoisonousDagger".equals(itemName)) {
+                    army.addBuff(new Poison(1, NORMAL));
                 }
             } catch (NullPointerException npe) {}
         }
