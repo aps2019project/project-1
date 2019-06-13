@@ -10,9 +10,11 @@ import graphic.screen.LoadingScreen;
 import graphic.screen.ScreenManager;
 
 public class Main extends ApplicationAdapter {
-	SpriteBatch batch;
+	private SpriteBatch batch;
+
 	public static final int WIDTH = 1600;
 	public static final int HEIGHT = 900;
+	public static final String FONT_CHARACTERS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789][_!$%#@|\\/?-+=()*&.;,{}\"´`'<>";
 
 	@Override
 	public void create () {

@@ -4,6 +4,7 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
+import sun.font.TrueTypeFont;
 
 public class AssetHandler {
 
@@ -25,6 +26,11 @@ public class AssetHandler {
         assetManager.load("button/signUp1.png", Texture.class);
         assetManager.load("button/signUp2.png", Texture.class);
         assetManager.load("button/button_close.png", Texture.class);
+
+        /*for (int i = 1; i < 10; ++i) {
+            assetManager.load("fonts/" + i + ".ttf", TrueTypeFont.class);
+        }*/
+
     }
 
 }
