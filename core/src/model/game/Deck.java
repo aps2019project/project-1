@@ -109,14 +109,9 @@ public class Deck {
         if (this == o) return true;
         if (!(o instanceof Deck)) return false;
         Deck deck = (Deck) o;
-        return Objects.equals(getName(), deck.getName()) &&
-                Objects.equals(getCards(), deck.getCards()) &&
-                Objects.equals(getHero(), deck.getHero()) &&
-                Objects.equals(getItem(), deck.getItem());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getName(), getCards(), getHero(), getItem());
+        return getName().equals(deck.name) &&
+                getCards().equals(deck.cards)&&
+                getHero().equals(deck.hero) &&
+                getItem().equals(deck.item);
     }
 }
