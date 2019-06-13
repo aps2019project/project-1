@@ -10,8 +10,7 @@ import graphic.screen.ScreenManager;
 
 public class Main extends ApplicationAdapter {
 	SpriteBatch batch;
-	Texture img;
-	
+
 	@Override
 	public void create () {
 		AssetHandler.load();
@@ -26,14 +25,10 @@ public class Main extends ApplicationAdapter {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		ScreenManager.getScreen().update();
 		ScreenManager.getScreen().render(batch);
-		batch.begin();
-		batch.draw(img, 0, 0);
-		batch.end();
 	}
 	
 	@Override
 	public void dispose () {
 		batch.dispose();
-		img.dispose();
 	}
 }
