@@ -10,13 +10,22 @@ public class CvsWriter {
         String fileAddress = "Files/" + cardType +".csv";
         try {
             FileWriter fileWriter = new FileWriter(fileAddress, true);
-            fileWriter.append(String.join(",", data));
+            fileWriter.append(join(',', data));
             fileWriter.append("\n");
             fileWriter.flush();
             fileWriter.close();
         } catch (IOException io){
             io.printStackTrace();
         }
+    }
 
+    public static String join(char c, ArrayList<String> data) {
+        StringBuilder stringBuilder = new StringBuilder();
+        for(String string : data){
+            stringBuilder.append(string);
+            stringBuilder.append(c);
+        }
+        stringBuilder.deleteCharAt(stringBuilder.length());
+        return stringBuilder.toString();
     }
 }
