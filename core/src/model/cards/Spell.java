@@ -20,7 +20,8 @@ public class Spell extends Card {
     private static ArrayList<Spell> spells = new ArrayList<Spell>();
     private static int lastNumber = 0;
     private int mana;
-    private String target;
+    private String targetDescription;
+    private SpellTargetType spellTargetType;
     private Buff specialBuff = null;
 
     Spell(int number, String name, int price, int mana, String description, String target) {
@@ -28,7 +29,7 @@ public class Spell extends Card {
         this.mana = mana;
         spells.add(this);
         cards.add(this);
-        this.target = target;
+        this.targetDescription = target;
         lastNumber = number;
     }
 
@@ -42,6 +43,10 @@ public class Spell extends Card {
 
     public int getMana() {
         return mana;
+    }
+
+    public SpellTargetType getSpellTargetType() {
+        return spellTargetType;
     }
 
     public static void scanSpells(ArrayList<String[]> data) {
@@ -58,7 +63,8 @@ public class Spell extends Card {
                 , line[5]
                 , line[4]);
         if(spell.getNumber() > 20) {
-            int col = 10;
+            int col = 6;
+            spell.spellTargetType = SpellTargetType.valueOf(line[4].toUpperCase().replace(" ", "_"));
             String powerBuffType = null;
             String buffType = line[col++];
             if(buffType.equals("power") || buffType.equals("weakness"))
@@ -83,7 +89,7 @@ public class Spell extends Card {
     @Override
     public String toString() {
         return  "mana=" + mana +
-                ", spellTarget=" + target +
+                ", spellTarget=" + targetDescription +
                 ", ID=" + ID +
                 ", name='" + name + '\'' +
                 ", price=" + price +

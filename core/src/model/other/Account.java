@@ -183,7 +183,7 @@ public class Account {
     public static void saveAccountDetails() {
         Gson gson = new GsonBuilder().create();
         try {
-            Writer writer = new FileWriter("Files/Data/Accounts.json");
+            Writer writer = new FileWriter("core/assets/Files/Data/Accounts.json");
             writer.write(gson.toJson(Account.getAccounts()));
             writer.close();
         }
