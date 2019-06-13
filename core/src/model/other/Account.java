@@ -59,9 +59,11 @@ public class Account {
     public ArrayList<Deck> getAllDecks() {
         return allDecks;
     }
+
     public void setMainDeck(Deck deck) {
         this.mainDeck = deck;
     }
+
     public Deck findDeck(String name) {
         for (Deck deck : allDecks) {
             if (deck.getName().equals(name))
@@ -228,6 +230,14 @@ public class Account {
                     card = deck.getCards().findByName(cardName);
             }
         }
+    }
+
+    public static boolean isUserNameAvailable(String username) {
+        if (doesAccountExist(username))
+            return false;
+        if (username.length() < 5)
+            return false;
+        return username.matches("[a-zA-Z].*");
     }
 
     @Override

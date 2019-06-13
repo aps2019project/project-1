@@ -12,6 +12,7 @@ public class AssetHandler {
     }
 
     public static void load() {
+        assetManager.load("backGround/login_backGround.png", Texture.class);
         assetManager.load("badlogic.jpg", Texture.class);
     }
 
