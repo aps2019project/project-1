@@ -93,6 +93,9 @@ public class CustomCardHandler extends Handler {
 
         CustomCardHandlerScreen.showEnterTarget();
         data.add(scanner.nextLine().toLowerCase());
+
+        CustomCardHandlerScreen.showEnterSpecialPower();
+        getBuff();
     }
 
     public void getBuff() {

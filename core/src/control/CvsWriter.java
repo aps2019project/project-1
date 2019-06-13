@@ -25,7 +25,7 @@ public class CvsWriter {
             stringBuilder.append(string);
             stringBuilder.append(c);
         }
-        stringBuilder.deleteCharAt(stringBuilder.length());
+        stringBuilder.deleteCharAt(stringBuilder.length() - 1);
         return stringBuilder.toString();
     }
 }
