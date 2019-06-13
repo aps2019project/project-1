@@ -205,6 +205,10 @@ public class Player {
         if(attackersCell == null) return;
         if(!isInRange(attackersCell,defenderCell)) return;
         if(defenderCell.getInsideArmy().isDisarmed()) return;
+        Army attacker = attackersCell.getInsideArmy();
+        if(attacker instanceof  Minion){
+            ((Minion)attacker).checkOnDefend(defenderCell.getInsideArmy());
+        }
         attackersCell.getInsideArmy().attack(defenderCell.getInsideArmy());
     }
 

@@ -303,6 +303,13 @@ public class Minion extends Army {
         }
     }
 
+    public void checkOnDefend(Army army){
+        if(this.getSpTime() != SPTime.ON_DEFEND) return;
+        if(this.specialBuff != null){
+            army.addBuff(this.specialBuff);
+        }
+    }
+
     public Buff getSpecialBuff() {
         return specialBuff;
     }
