@@ -96,9 +96,50 @@ public class Spell extends Card {
                 ", type=" + type;
     }
 
-
     public static void useSpell(Player player, String spellname) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+        Spell spell = (Spell)Card.getCards().findByName(spellname);
+        if(spell.getSpecialBuff() != null){
+            spell.useCustomSpell(player);
+        }
         Spell.class.getDeclaredMethod(spellname + "Effect", Player.class).invoke(null, player);
+    }
+
+    public void useCustomSpell(Player player) {
+        ArrayList<Army> targets = new ArrayList<Army>();
+        switch (spellTargetType){
+            case ONE:
+                Cell cell = player.getOneCell();
+                if(cell.getInsideArmy() != null)
+                    targets.add(cell.getInsideArmy());
+                break;
+            case SQUARE_2:
+                targets = getArmiesFromCells(player.getSquare2());
+                break;
+            case SQUARE_3:
+                targets = getArmiesFromCells(player.getSquare3());
+                break;
+            case ALL_ENEMIES:
+                targets = player.getEnemyPlayer().getInGameCards();
+                break;
+            case ALL_FRIENDS:
+                targets = player.getInGameCards();
+                break;
+        }
+        for(Army army : targets){
+            if(specialBuff.getTargetType() == TargetType.FRIEND && !player.isFriend(army)) continue;
+            if(specialBuff.getTargetType() == TargetType.ENEMY && player.isFriend(army)) continue;
+            army.addBuff(specialBuff);
+        }
+    }
+
+    public ArrayList<Army> getArmiesFromCells(ArrayList<Cell> cells){
+        ArrayList<Army> armies = new ArrayList<Army>();
+        for(Cell cell : cells){
+            if(cell.getInsideArmy() != null){
+                armies.add(cell.getInsideArmy());
+            }
+        }
+        return armies;
     }
 
     public static void TotalDisarmEffect(Player player) {
