@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class CvsWriter {
 
     public static void write(String cardType, ArrayList<String> data) {
-        String fileAddress = "Files/" + cardType +".csv";
+        String fileAddress = "core/assets/Files/" + cardType +".csv";
         try {
             FileWriter fileWriter = new FileWriter(fileAddress, true);
             fileWriter.append(join(',', data));

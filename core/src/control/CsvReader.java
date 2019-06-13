@@ -9,7 +9,7 @@ public class CsvReader {
 
     public static ArrayList<String[]> readCards(String cardType){
         ArrayList<String[]> data = new ArrayList<String[]>();
-        String fileAddress = "Files/" + cardType +".csv";
+        String fileAddress = "core/assets/Files/" + cardType +".csv";
         try {
             FileReader fileReader = new FileReader(fileAddress);
             BufferedReader reader = new BufferedReader(fileReader);
