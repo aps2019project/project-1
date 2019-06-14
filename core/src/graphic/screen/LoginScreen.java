@@ -57,7 +57,6 @@ public class LoginScreen extends Screen {
     @Override
     public void create() {
         animation = new MoveAnimation("loading.gif", 0, 300, 1600, 800, MoveType.SIMPLE, true);
-
         setCameraAndVeiwport();
         createBackGroundMusic();
         loadAssets();
@@ -69,7 +68,7 @@ public class LoginScreen extends Screen {
     @Override
     public void update() {
         camera.update();
-        viewport.update(viewport.getScreenWidth(), viewport.getScreenHeight());
+//        viewport.update(camera.viewportWidth, camera.viewportHeight);
         mousePos.set(Gdx.input.getX(), Gdx.input.getY());
         mousePos = viewport.unproject(mousePos);
 

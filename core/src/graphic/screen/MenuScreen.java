@@ -25,18 +25,29 @@ public class MenuScreen extends Screen {
     @Override
     public void create() {
         setCameraAndVeiwport();
-        lanternAnimation = new ArrayList<MoveAnimation>();
-        for (int i = 0; i < 10; ++i) {
-            int xStart = 700 + (int) (200 * Math.random());
-            int yStart = 400 + (int) (100 * Math.random());
-            int xEnd = 1700, yEnd = 1000;
-            int lanternType = (int) (3 * Math.random() + 1);
-            lanternAnimation.add(new MoveAnimation("lantern_large_" + lanternType + ".png", xStart, yStart, xEnd, yEnd, MoveType.RANDOM, false));
-        }
+        createLanternsAnimation();
         shapeRenderer = new ShapeRenderer();
         backGroundPic1 = AssetHandler.getData().get("backGround/menu1.png");
         backGroundPic2 = AssetHandler.getData().get("backGround/menu2.png");
         createBackGroundMusic();
+    }
+
+    private void createLanternsAnimation() {
+        lanternAnimation = new ArrayList<MoveAnimation>();
+        for (int i = 0; i < 40; ++i) {
+            float xStart = 100 + (int) (900 * Math.random());
+            float yStart = (750 - xStart/6f) + (int) (100 * Math.random());
+            float xEnd = 900 + (float)(Math.random() * 700), yEnd = 900;
+            int lanternType = (int) (5 * Math.random() + 1);
+            if (lanternType < 3)
+                lanternType = 1;
+            else if (lanternType < 5)
+                lanternType = 2;
+            else
+                lanternType = 3;
+            lanternAnimation.add(new MoveAnimation("lantern_large_" + lanternType + ".png", xStart, yStart, xEnd, yEnd, MoveType.SIMPLE, true));
+            lanternAnimation.get(i).setSpeed((float)( 1 + (Math.random() + 0.5f) - lanternType / 2));
+        }
     }
 
     private void createBackGroundMusic() {
@@ -52,7 +63,7 @@ public class MenuScreen extends Screen {
         Gdx.input.setInputProcessor(new InputProcessor() {
             @Override
             public boolean keyDown(int keycode) {
-                ScreenManager.setScreen(new BattleScreen());
+                ScreenManager.setScreen(new LoginScreen());
                 return false;
             }
 
@@ -98,16 +109,23 @@ public class MenuScreen extends Screen {
         batch.setProjectionMatrix(camera.combined);
         shapeRenderer.setProjectionMatrix(camera.combined);
 
+        drawBackGround(batch);
+        showLanternsAnimation(batch);
+
+
+    }
+
+    private void drawBackGround(SpriteBatch batch) {
         batch.begin();
         batch.draw(backGroundPic1, 0, 0);
         batch.draw(backGroundPic2, Main.WIDTH - backGroundPic2.getWidth(), 0);
         batch.end();
+    }
 
+    private void showLanternsAnimation(SpriteBatch batch) {
         for (MoveAnimation animation: lanternAnimation) {
-            animation.draw(batch, 20);
+            animation.draw(batch);
         }
-
-
     }
 
     @Override
