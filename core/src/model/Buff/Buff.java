@@ -1,5 +1,7 @@
 package model.Buff;
 
+import java.util.ArrayList;
+
 import static model.Buff.BuffEffectType.*;
 import static model.Buff.BuffType.*;
 
@@ -12,6 +14,8 @@ public class Buff {
     protected BuffEffectType buffEffectType;
     protected BuffTImeType buffTImeType;
     protected PowerBuffType powerBuffType;
+    private ArrayList<Integer> bleed = new ArrayList<Integer>();
+
 
     public Buff(BuffType buffType, int number, BuffTImeType buffTImeType){
         this.buffType = buffType;
@@ -40,6 +44,16 @@ public class Buff {
             this.buffEffectType = POSITIVE;
         else
             this.buffEffectType = NEGATIVE;
+    }
+
+    public void setBleeding(ArrayList<Integer> arrayList){
+        bleed.addAll(arrayList);
+    }
+
+    public int getFirstBleeding() {
+        int n = bleed.get(0);
+        bleed.remove(0);
+        return n;
     }
 
     public BuffType getBuffType() {
