@@ -2,13 +2,13 @@ package graphic.screen;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import graphic.main.AssetHandler;
 import graphic.main.Main;
 
 
 public class LoadingScreen extends Screen {
+
 
     @Override
     public void create() {
@@ -28,8 +28,6 @@ public class LoadingScreen extends Screen {
     @Override
     public void render(SpriteBatch batch) {
         batch.setProjectionMatrix(camera.combined);
-
-
     }
 
     @Override

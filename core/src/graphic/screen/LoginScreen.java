@@ -7,17 +7,17 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.GlyphLayout;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGeneratorLoader;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import graphic.Others.GifDecoder;
 import graphic.Others.SlotType;
 import graphic.main.AssetHandler;
 import graphic.main.Button;
+import graphic.main.Gif;
 import graphic.main.Main;
 import model.other.Account;
 import sun.security.util.Password;
@@ -27,6 +27,8 @@ import java.awt.*;
 
 public class LoginScreen extends Screen {
 
+    private Gif test;
+    int x, y;
     private Texture backGround;
     private Texture userNameSlot;
     private Texture passwordSlot;
@@ -50,6 +52,8 @@ public class LoginScreen extends Screen {
 
     @Override
     public void create() {
+
+
         setCameraAndVeiwport();
         createBackGroundMusic();
         loadAssets();
@@ -60,7 +64,6 @@ public class LoginScreen extends Screen {
 
     @Override
     public void update() {
-
         camera.update();
         viewport.update(viewport.getScreenWidth(), viewport.getScreenHeight());
         mousePos.set(Gdx.input.getX(), Gdx.input.getY());
@@ -202,19 +205,18 @@ public class LoginScreen extends Screen {
 
     @Override
     public void render(SpriteBatch batch) {
-        batch.setProjectionMatrix(camera.combined);
+        batch.setProjectionMatrix(viewport.getCamera().combined);
         shapeRenderer.setProjectionMatrix(camera.combined);
         drawBackGround(batch);
         drawButtons(batch);
         glyphLayout.setText(font, "lqj");
         if (signUpButton.isActive()) {
             drawSignUpSlots(batch);
-        }
-        else if (loginButton.isActive()) {
+        } else if (loginButton.isActive()) {
             drawLoginSlot(batch);
         }
-    }
 
+    }
     @Override
     public void dispose() {
         music.dispose();
@@ -232,6 +234,9 @@ public class LoginScreen extends Screen {
     }
 
     private void createNewObjects() {
+        x = 0;
+        y = 450;
+        test = new Gif("loading.gif");
         mousePos = new Vector2();
         userName = "";
         password = "";
