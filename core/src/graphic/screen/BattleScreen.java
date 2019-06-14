@@ -20,7 +20,7 @@ public class BattleScreen extends Screen {
     public void create() {
         setCameraAndVeiwport();
         shapeRenderer = new ShapeRenderer();
-        backGround = AssetHandler.getData().get("backGround/battle background.png");
+        backGround = AssetHandler.getData().get("backGround/battle_background.png");
         music = AssetHandler.getData().get("music/battle.mp3");
         music.setLooping(true);
         music.setVolume(0.5f);
