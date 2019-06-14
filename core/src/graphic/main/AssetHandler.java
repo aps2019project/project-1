@@ -16,9 +16,10 @@ public class AssetHandler {
 
     public static void load() {
         assetManager.load("backGround/login_backGround.png", Texture.class);
-        assetManager.load("backGround/loginInfo.png", Texture.class);
-        assetManager.load("backGround/signUpInfo.png", Texture.class);
+        assetManager.load("backGround/menu1.png", Texture.class);
+        assetManager.load("backGround/menu2.png", Texture.class);
         assetManager.load("music/login.mp3", Music.class);
+        assetManager.load("music/menu.mp3", Music.class);
         assetManager.load("sfx/click.mp3", Sound.class);
         assetManager.load("button/login1.png", Texture.class);
         assetManager.load("button/login2.png", Texture.class);
