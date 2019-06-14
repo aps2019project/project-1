@@ -177,7 +177,7 @@ public class LoginScreen extends Screen {
 
                 if (closeButton.isActive()) {
                     ScreenManager.getScreen().dispose();
-                    System.exit(0);
+                    Gdx.app.exit();
                 }
 
                 return false;
@@ -235,7 +235,7 @@ public class LoginScreen extends Screen {
         x = temp1.getWidth() + x;
         signUpButton = new Button("button/signUp1.png", "button/signUp2.png", "sfx/click.mp3",x, y);
         signUpButton.setActive(true);
-        closeButton = new Button("button/button_close.png", "button/button_close.png", "sfx/click.mp3", Main.WIDTH - 60, Main.HEIGHT - 60);
+        closeButton = new Button("button/button_close.png", "button/button_close.png", "sfx/click.mp3", Main.WIDTH - 80, Main.HEIGHT - 80);
     }
 
     private void createNewObjects() {
