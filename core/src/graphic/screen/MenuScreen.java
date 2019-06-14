@@ -23,9 +23,13 @@ public class MenuScreen extends Screen {
         shapeRenderer = new ShapeRenderer();
         backGroundPic1 = AssetHandler.getData().get("backGround/menu1.png");
         backGroundPic2 = AssetHandler.getData().get("backGround/menu2.png");
+        createBackGroundMusic();
+    }
+
+    private void createBackGroundMusic() {
         music = AssetHandler.getData().get("music/menu.mp3");
         music.setLooping(true);
-        music.setVolume(0.5f);
+        music.setVolume(0.05f);
         music.play();
     }
 
