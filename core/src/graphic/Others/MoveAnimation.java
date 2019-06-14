@@ -72,7 +72,7 @@ public class MoveAnimation {
             y = currentLoc.y + xAdditional * (endLoc.y - startLoc.y) / (endLoc.x - startLoc.x);
         else if (this.moveType == MoveType.RANDOM)
             y = currentLoc.y + xAdditional * (endLoc.y - startLoc.y) / (endLoc.x - startLoc.x) + (float)((Math.random() * ((10) + 1)) - 5);
-        if (x < endLoc.x + 5 && x > endLoc.x - 5)
+        if (x > endLoc.x + 5 && x < endLoc.x - 5)
             currentLoc = startLoc;
         else
             currentLoc.set(x, y);
