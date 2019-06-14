@@ -34,10 +34,10 @@ public class MenuScreen extends Screen {
 
     private void createLanternsAnimation() {
         lanternAnimation = new ArrayList<MoveAnimation>();
-        for (int i = 0; i < 20; ++i) {
-            float xStart = 300 + (int) (1000 * Math.random());
+        for (int i = 0; i < 40; ++i) {
+            float xStart = 100 + (int) (900 * Math.random());
             float yStart = (750 - xStart/6f) + (int) (100 * Math.random());
-            float xEnd = 1300 + (float)(Math.random() * 200), yEnd = 900;
+            float xEnd = 900 + (float)(Math.random() * 700), yEnd = 900;
             int lanternType = (int) (5 * Math.random() + 1);
             if (lanternType < 3)
                 lanternType = 1;
@@ -63,7 +63,7 @@ public class MenuScreen extends Screen {
         Gdx.input.setInputProcessor(new InputProcessor() {
             @Override
             public boolean keyDown(int keycode) {
-                ScreenManager.setScreen(new BattleScreen());
+                ScreenManager.setScreen(new LoginScreen());
                 return false;
             }
 

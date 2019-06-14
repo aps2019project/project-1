@@ -18,13 +18,19 @@ public class MoveAnimation {
     private MoveType moveType;
     private float speed;
 
-    public MoveAnimation(Texture texture, Vector2 startLoc, Vector2 endLoc, MoveType moveType, boolean loop) {
-        this.texture = texture;
-        this.startLoc = startLoc;
+    public MoveAnimation(String path, float xStart, float yStart, float xEnd, float yEnd, MoveType moveType, boolean loop) {
+        if (path.split("\\.")[1].equals("gif")) {
+            isTexture = false;
+            this.gif = new Gif(path);
+        }
+        else {
+            this.texture = AssetHandler.getData().get(path);
+            isTexture = true;
+        }
+        this.startLoc = new Vector2(xStart, yStart);
         this.currentLoc = new Vector2(startLoc);
-        this.endLoc = endLoc;
+        this.endLoc = new Vector2(xEnd, yEnd);
         this.moveType = moveType;
-        isTexture = true;
         this.loop = loop;
     }
 
@@ -44,27 +50,21 @@ public class MoveAnimation {
         this.loop = loop;
     }
 
-    public MoveAnimation(String path, float xStart, float yStart, float xEnd, float yEnd, MoveType moveType, boolean loop) {
-        if (path.split("\\.")[1].equals("gif")) {
-            isTexture = false;
-            this.gif = new Gif(path);
-        }
-        else {
-            this.texture = AssetHandler.getData().get(path);
-            isTexture = true;
-        }
-        this.startLoc = new Vector2(xStart, yStart);
-        this.currentLoc = new Vector2(startLoc);
-        this.endLoc = new Vector2(xEnd, yEnd);
-        this.moveType = moveType;
-        this.loop = loop;
-    }
-
     public MoveAnimation(Texture texture, float xStart, float yStart, float xEnd, float yEnd, MoveType moveType, boolean loop) {
         this.texture = texture;
         this.startLoc = new Vector2(xStart, yStart);
         this.currentLoc = new Vector2(startLoc);
         this.endLoc = new Vector2(xEnd, yEnd);
+        this.moveType = moveType;
+        isTexture = true;
+        this.loop = loop;
+    }
+
+    public MoveAnimation(Texture texture, Vector2 startLoc, Vector2 endLoc, MoveType moveType, boolean loop) {
+        this.texture = texture;
+        this.startLoc = startLoc;
+        this.currentLoc = new Vector2(startLoc);
+        this.endLoc = endLoc;
         this.moveType = moveType;
         isTexture = true;
         this.loop = loop;
