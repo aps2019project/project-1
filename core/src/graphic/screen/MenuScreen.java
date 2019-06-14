@@ -8,8 +8,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import graphic.main.AssetHandler;
 import graphic.main.Main;
-
-import java.awt.*;
+import model.game.Game;
+import model.other.Account;
 
 public class MenuScreen extends Screen {
 

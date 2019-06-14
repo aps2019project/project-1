@@ -32,6 +32,7 @@ public class AssetHandler {
         assetManager.load("slots/empty.png", Texture.class);
         assetManager.load("slots/password.png", Texture.class);
         assetManager.load("slots/userName.png", Texture.class);
+        assetManager.load("battle/mana.png", Texture.class);
 
         /*for (int i = 1; i < 10; ++i) {
             assetManager.load("fonts/" + i + ".ttf", TrueTypeFont.class);
