@@ -15,21 +15,29 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGeneratorLoader;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import graphic.Others.SlotType;
 import graphic.main.AssetHandler;
 import graphic.main.Button;
 import graphic.main.Main;
+import model.other.Account;
+import sun.security.util.Password;
+import view.AccountScreen;
 
 import java.awt.*;
 
 public class LoginScreen extends Screen {
 
     private Texture backGround;
-    private Texture loginBack;
-    private Texture signUpBack;
+    private Texture userNameSlot;
+    private Texture passwordSlot;
+    private Texture confirmPasswordSlot;
+    private Texture emptySlot;
+    private Texture checkIcon;
+    private Texture crossIcon;
     private String userName;
     private String password;
     private String confirmPassword;
-    private int order = 1;
+    private SlotType currentSlot;
     private Button loginButton;
     private Button signUpButton;
     private Button closeButton;
@@ -52,19 +60,22 @@ public class LoginScreen extends Screen {
         music.setVolume(0.05f);
         music.play();
         backGround = AssetHandler.getData().get("backGround/login_backGround.png");
-        loginBack = AssetHandler.getData().get("backGround/loginInfo.png");
-        signUpBack = AssetHandler.getData().get("backGround/signUpInfo.png");
+        emptySlot = AssetHandler.getData().get("slots/empty.png");
+        userNameSlot = AssetHandler.getData().get("slots/userName.png");
+        passwordSlot = AssetHandler.getData().get("slots/password.png");
+        confirmPasswordSlot = AssetHandler.getData().get("slots/confirm.png");
         shapeRenderer = new ShapeRenderer();
         mousePos = new Vector2();
+
+        currentSlot = SlotType.USERNAME;
 
         glyphLayout = new GlyphLayout();
 
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/9.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = 30;
-        parameter.color = Main.toColor(new Color(0xEEEDE6));
+        parameter.color = Main.toColor(new Color(0xFFFFFF));
         font = generator.generateFont(parameter);
-        font.setColor(Main.toColor(new Color(0xEEEAE3)));
         generator.dispose();
 
         userName = "";
@@ -80,7 +91,6 @@ public class LoginScreen extends Screen {
         x = temp1.getWidth() + x;
         signUpButton = new Button("button/signUp1.png", "button/signUp2.png", "sfx/click.mp3",x, y);
         signUpButton.setActive(true);
-
         closeButton = new Button("button/button_close.png", "button/button_close.png", "sfx/click.mp3", Main.WIDTH - 60, Main.HEIGHT - 60);
 
 
@@ -106,14 +116,14 @@ public class LoginScreen extends Screen {
                 }
 
                 if (addedChar != '\0') {
-                    switch (order) {
-                        case 1:
+                    switch (currentSlot) {
+                        case USERNAME:
                             userName = userName + (char) (keycode - Input.Keys.A + 'a');
                             break;
-                        case 2:
+                        case PASSWORD:
                             password = password + (char) (keycode - Input.Keys.A + 'a');
                             break;
-                        case 3:
+                        case CONFIRM:
                             confirmPassword = confirmPassword + (char) (keycode - Input.Keys.A + 'a');
                             break;
                     }
@@ -121,27 +131,40 @@ public class LoginScreen extends Screen {
 
 
                 if (keycode == Input.Keys.BACKSPACE) {
-                    switch (order) {
-                        case 1:
+                    switch (currentSlot) {
+                        case USERNAME:
                             if (!userName.equals(""))
                                 userName = userName.substring(0, userName.length() - 1);
                             break;
-                        case 2:
+                        case PASSWORD:
                             if (!password.equals(""))
                                 password = password.substring(0, password.length() - 1);
                             break;
-                        case 3:
+                        case CONFIRM:
                             if (!confirmPassword.equals(""))
                                 confirmPassword = confirmPassword.substring(0, confirmPassword.length() - 1);                            break;
                     }
                 }
+
                 if (keycode == Input.Keys.TAB) {
-                    order++;
-                    if (signUpButton.isActive() && order > 3)
-                        order = 1;
-                    if (loginButton.isActive() && order > 2)
-                        order = 1;
+                    if (currentSlot.equals(SlotType.USERNAME))
+                        currentSlot = SlotType.PASSWORD;
+                    else if (currentSlot.equals(SlotType.PASSWORD) && signUpButton.isActive())
+                        currentSlot = SlotType.CONFIRM;
+                    else
+                        currentSlot = SlotType.USERNAME;
+
                 }
+
+                if (keycode == Input.Keys.ENTER) {
+                    if (signUpButton.isActive() && Account.isUserNameAvailable(userName)) {
+                        if (password.equals("") || confirmPassword.equals(""))
+                            return false;
+                        if (password.equals(confirmPassword))
+                            Account.setCurrentAccount(new Account(userName, password));
+                    }
+                }
+
                 return false;
             }
 
@@ -160,10 +183,18 @@ public class LoginScreen extends Screen {
                 if (loginButton.contains(mousePos)) {
                     loginButton.setActive(true);
                     signUpButton.setActive(false);
+                    userName = "";
+                    password = "";
+                    confirmPassword = "";
+                    currentSlot = SlotType.USERNAME;
                 }
                 else if (signUpButton.contains(mousePos)) {
                     loginButton.setActive(false);
                     signUpButton.setActive(true);
+                    userName = "";
+                    password = "";
+                    confirmPassword = "";
+                    currentSlot = SlotType.USERNAME;
                 }
 
                 if (closeButton.isActive()) {
@@ -208,27 +239,50 @@ public class LoginScreen extends Screen {
 
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(Main.toColor(new Color(0xFFFEFEFD, true)));
-        shapeRenderer.rect(0, 0, 800, 900);
+        shapeRenderer.rect(0, 0, (800/1600f)* camera.viewportWidth, camera.viewportHeight);
         shapeRenderer.end();
 
         loginButton.draw(batch);
         signUpButton.draw(batch);
         closeButton.draw(batch);
+        glyphLayout.setText(font, "lqj");
 
-        font.setColor(0,0,0,1);
         if (signUpButton.isActive()) {
             batch.begin();
-            batch.draw(signUpBack, (800 - signUpBack.getWidth()) / 2, (800 - signUpBack.getHeight()) / 2);
-            font.draw(batch, userName, 270, 535);
-            font.draw(batch, password, 270, 435);
-            font.draw(batch, confirmPassword, 270, 335);
+            if (userName.equals("") && currentSlot != SlotType.USERNAME) {
+                batch.draw(userNameSlot, (800 - emptySlot.getWidth()) / 2, 650);
+            }
+            else {
+                batch.draw(emptySlot, (800 - emptySlot.getWidth()) / 2, 650);
+            }
+            font.draw(batch, userName, 50 +(800 - emptySlot.getWidth()) / 2, 650 + glyphLayout.height + (emptySlot.getHeight() - glyphLayout.height) / 2);
+
+            if (password.equals("") && currentSlot != SlotType.PASSWORD)
+                batch.draw(passwordSlot, (800 - emptySlot.getWidth()) / 2, 450);
+            else
+                batch.draw(emptySlot, (800 - emptySlot.getWidth()) / 2, 450);
+            font.draw(batch, password, 50 + (800 - emptySlot.getWidth()) / 2, 450 + glyphLayout.height + (emptySlot.getHeight() - glyphLayout.height) / 2);
+
+            if (confirmPassword.equals("") && currentSlot != SlotType.CONFIRM)
+                batch.draw(confirmPasswordSlot, (800 - emptySlot.getWidth()) / 2, 250);
+            else
+                batch.draw(emptySlot, (800 - emptySlot.getWidth()) / 2, 250);
+            font.draw(batch, confirmPassword, 500 +(800 - emptySlot.getWidth()) / 2, 250 + glyphLayout.height + (emptySlot.getHeight() - glyphLayout.height) / 2);
             batch.end();
         }
         else if (loginButton.isActive()) {
             batch.begin();
-            batch.draw(loginBack, (800 - loginBack.getWidth()) / 2, (800 - loginBack.getHeight()) / 2);
-            font.draw(batch, userName, 160, 570);
-            font.draw(batch, password, 160, 455);
+            if (userName.equals("") && currentSlot != SlotType.USERNAME)
+                batch.draw(userNameSlot, (800 - userNameSlot.getWidth()) / 2, 500);
+            else
+                batch.draw(emptySlot, (800 - emptySlot.getWidth()) / 2, 500);
+            font.draw(batch, userName, 50 + (800 - emptySlot.getWidth()) / 2, 500 + glyphLayout.height + (emptySlot.getHeight() - glyphLayout.height) / 2);
+
+            if (password.equals("") && currentSlot != SlotType.PASSWORD)
+                batch.draw(passwordSlot, (800 - passwordSlot.getWidth()) / 2, 300);
+            else
+                batch.draw(emptySlot, (800 - emptySlot.getWidth()) / 2, 300);
+            font.draw(batch, password, 50 + (800 - emptySlot.getWidth()) / 2, 450 + glyphLayout.height + (emptySlot.getHeight() - glyphLayout.height) / 2);
             batch.end();
         }
 
@@ -237,7 +291,6 @@ public class LoginScreen extends Screen {
 
     @Override
     public void dispose() {
-
         music.dispose();
     }
 }
