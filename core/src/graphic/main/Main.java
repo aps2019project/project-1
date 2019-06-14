@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import control.BattleMenuHandler;
 import graphic.screen.LoadingScreen;
 import graphic.screen.ScreenManager;
 import model.other.Account;
@@ -22,6 +23,7 @@ public class Main extends ApplicationAdapter {
 		AssetHandler.load();
 		ScreenManager.setScreen(new LoadingScreen());
 		batch = new SpriteBatch();
+		Account.readAccountDetails();
 		control.Main main = new control.Main();
 		main.start();
 	}

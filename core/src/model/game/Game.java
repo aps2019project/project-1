@@ -1,5 +1,7 @@
 package model.game;
 
+import graphic.screen.BattleScreen;
+import graphic.screen.ScreenManager;
 import model.cards.Army;
 import model.cards.Card;
 import model.cards.Item;
@@ -36,8 +38,8 @@ public class Game {
         }
         this.type = type;
         currentGame = this;
-        table[2][2].setInsideItem(Item.getCollectableItems().getAllItems().get(0));
-        table[2][6].setInsideItem(Item.getCollectableItems().getAllItems().get(3));
+//        table[2][2].setInsideItem(Item.getCollectableItems().getAllItems().get(0));
+//        table[2][6].setInsideItem(Item.getCollectableItems().getAllItems().get(3));
     }
     public Game(Account firstAccount, Account secondAccount, GameType type, int numberOfFlags) {
         this(firstAccount,secondAccount,type);
