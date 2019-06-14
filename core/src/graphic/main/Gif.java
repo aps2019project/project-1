@@ -29,4 +29,12 @@ public class Gif {
         batch.end();
     }
 
+    public float getWidth() {
+        return animation.getKeyFrame(time).getRegionWidth();
+    }
+
+    public float getHeight() {
+        return animation.getKeyFrame(time).getRegionHeight();
+    }
+
 }
