@@ -11,7 +11,6 @@ import graphic.Others.MoveType;
 import graphic.main.AssetHandler;
 import graphic.main.Main;
 
-import java.awt.*;
 import java.util.ArrayList;
 
 public class MenuScreen extends Screen {
@@ -32,7 +31,7 @@ public class MenuScreen extends Screen {
             int yStart = 400 + (int) (100 * Math.random());
             int xEnd = 1700, yEnd = 1000;
             int lanternType = (int) (3 * Math.random() + 1);
-            lanternAnimation.add(new MoveAnimation("lantern_large_" + lanternType + ".png", xStart, yStart, xEnd, yEnd, MoveType.RANDOM));
+            lanternAnimation.add(new MoveAnimation("lantern_large_" + lanternType + ".png", xStart, yStart, xEnd, yEnd, MoveType.RANDOM, false));
         }
         shapeRenderer = new ShapeRenderer();
         backGroundPic1 = AssetHandler.getData().get("backGround/menu1.png");
