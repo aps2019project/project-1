@@ -32,6 +32,7 @@ public class AssetHandler {
         assetManager.load("slots/empty.png", Texture.class);
         assetManager.load("slots/password.png", Texture.class);
         assetManager.load("slots/userName.png", Texture.class);
+        assetManager.load("battle/mana.png", Texture.class);
         assetManager.load("lantern_large_1.png", Texture.class);
         assetManager.load("lantern_large_2.png", Texture.class);
         assetManager.load("lantern_large_3.png", Texture.class);
