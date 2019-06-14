@@ -37,7 +37,6 @@ public class BattleScreen extends Screen {
         music.setVolume(0.5f);
         music.play();
         manaStart1 = new Vector2(100, 100);
-
     }
 
     @Override
@@ -56,9 +55,11 @@ public class BattleScreen extends Screen {
 
 
         batch.begin();
-        for(int i =0; i<player1.getMana(); i++){
-            batch.draw(mana, (int)(manaStart1.x + i*mana.getWidth()), (int)manaStart1.y);
-        }
+//        batch.draw(mana, 300,300);
+        
+//        for(int i = 0; i<player1.getMana(); i++){
+//            batch.draw(mana, (int)(manaStart1.x + i*mana.getWidth()), (int)manaStart1.y);
+//        }
         batch.draw(backGround, 0, 0);
         batch.end();
 
