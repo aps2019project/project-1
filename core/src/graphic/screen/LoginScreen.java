@@ -14,6 +14,8 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import graphic.Others.GifDecoder;
+import graphic.Others.MoveAnimation;
+import graphic.Others.MoveType;
 import graphic.Others.SlotType;
 import graphic.main.AssetHandler;
 import graphic.main.Button;
@@ -49,10 +51,12 @@ public class LoginScreen extends Screen {
     private BitmapFont font;
     private GlyphLayout glyphLayout;
 
+    private MoveAnimation animation;
+
 
     @Override
     public void create() {
-
+        animation = new MoveAnimation("loading.gif", 0, 300, 1600, 800, MoveType.SIMPLE, true);
 
         setCameraAndVeiwport();
         createBackGroundMusic();
@@ -216,6 +220,8 @@ public class LoginScreen extends Screen {
             drawLoginSlot(batch);
         }
 
+        animation.draw(batch, 5, 200, 200);
+
     }
     @Override
     public void dispose() {
@@ -257,7 +263,7 @@ public class LoginScreen extends Screen {
     private void createBackGroundMusic() {
         music = AssetHandler.getData().get("music/login.mp3");
         music.setLooping(true);
-        music.setVolume(0.05f);
+        music.setVolume(0.5f);
         music.play();
     }
 

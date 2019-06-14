@@ -22,6 +22,8 @@ public class Main extends ApplicationAdapter {
 		AssetHandler.load();
 		ScreenManager.setScreen(new LoadingScreen());
 		batch = new SpriteBatch();
+		Account.readAccountDetails();
+
 	}
 
 	@Override
