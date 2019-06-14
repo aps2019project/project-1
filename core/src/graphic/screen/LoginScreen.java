@@ -212,15 +212,11 @@ public class LoginScreen extends Screen {
         glyphLayout.setText(font, "lqj");
         if (signUpButton.isActive()) {
             drawSignUpSlots(batch);
-        }
-        else if (loginButton.isActive()) {
+        } else if (loginButton.isActive()) {
             drawLoginSlot(batch);
         }
 
-        test.draw(batch, 765, 385);
-
     }
-
     @Override
     public void dispose() {
         music.dispose();
