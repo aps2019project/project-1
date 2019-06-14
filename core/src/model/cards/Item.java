@@ -2,14 +2,13 @@ package model.cards;
 
 import model.Buff.Buff;
 import model.Buff.BuffType;
-import model.Buff.Holy;
-import model.game.Cell;
 import model.game.Player;
 import model.variables.CardsArray;
 
 import java.util.ArrayList;
 
 import static model.Buff.BuffTImeType.*;
+import static model.Buff.BuffType.*;
 import static model.Buff.PowerBuffType.*;
 import static model.cards.AttackType.*;
 import static model.cards.CardType.ITEM;
@@ -67,7 +66,7 @@ public class Item extends Card {
     }
 
     public static void HonorShieldUsbale(Player player) {
-        player.getHero().addBuff(new Holy(12, PERMANENT));
+        player.getHero().addBuff(new Buff(HOLY, 12, PERMANENT));
     }
 
     public static void SimurghFeatherUsable(Player player) {
@@ -102,7 +101,7 @@ public class Item extends Card {
     }
 
     public static void RevengeousPotionCollectible(Player player, Army army) {
-        army.addBuff(new Holy(10, 2, NORMAL));
+        army.addBuff(new Buff(HOLY, 10, 2, NORMAL));
     }
 
     public static void DeathCurseCollectible(Player player, Army army) {

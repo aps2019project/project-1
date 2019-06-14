@@ -130,13 +130,15 @@ public class Minion extends Army {
     }
 
     public void PersianSwordsmanOnAttack(Army army) {
-        army.addBuff(new Stun(1, 1, NORMAL));
+        army.addBuff(new Buff(STUN, 1, 1, NORMAL));
 
     }
 
     public void TuranianSpyOnAttack(Army army) {
-        army.addBuff(new Disarm(1, 1, NORMAL));
-        army.addBuff(new Poison(4, NORMAL));
+        Buff disarm = new Buff(DISARM, 1, 1 , NORMAL);
+        army.addBuff(disarm);
+        Buff poison = new Buff(POISON, 4, NORMAL);
+        army.addBuff(poison);
     }
 
     public void EagleOnSpawn(Player player, Cell cell) {
@@ -153,13 +155,14 @@ public class Minion extends Army {
     }
 
     public void PoisonousSnakeOnAttack(Army army) {
-        army.addBuff(new Poison(3, NORMAL));
+        Buff poison = new Buff(POISON, 3, NORMAL);
+        army.addBuff(poison);
     }
 
     public void HugeSnakeOnSpawn(Player player, Cell cell) {
         ArrayList<Army> array = player.getEnemiesInDistance2(cell).getArmy();
         for (Army army : array) {
-            army.addBuff(new Unholy(1, PERMANENT));
+            army.addBuff(new Buff(UNHOLY, 1, PERMANENT));
         }
     }
 
@@ -167,19 +170,23 @@ public class Minion extends Army {
         ArrayList<Integer> bleed = new ArrayList<Integer>();
         bleed.add(6);
         bleed.add(4);
-        army.addBuff(new Bleeding(bleed));
+        Buff buff = new Buff(BLEEDING, 1, bleed.size(), NORMAL);
+        buff.setBleeding(bleed);
+        army.addBuff(buff);
     }
 
     public void PanterOnAttack(Army army) {
         ArrayList<Integer> bleed = new ArrayList<Integer>();
         bleed.add(8);
-        army.addBuff(new Bleeding(bleed));
+        Buff buff = new Buff(BLEEDING, 1, bleed.size(), NORMAL);
+        buff.setBleeding(bleed);
     }
 
     public void WolfOnAttack(Army army) {
         ArrayList<Integer> bleed = new ArrayList<Integer>();
         bleed.add(6);
-        army.addBuff(new Bleeding(bleed));
+        Buff buff = new Buff(BLEEDING, 1, bleed.size(), NORMAL);
+        buff.setBleeding(bleed);
     }
 
     public void WitchPassive(Player player, Cell cell) {
@@ -189,7 +196,9 @@ public class Minion extends Army {
             Buff buff = new Buff(POWER, 2, 1, NORMAL);
             buff.setPowerBuffType(AP);
             army.addBuff(buff);
-            army.addBuff(new Weakness(1, HP, 1, NORMAL));
+            Buff buff1 = new Buff(WEAKNESS, 1, 1, NORMAL);
+            buff1.setPowerBuffType(HP);
+            army.addBuff(buff1);
         }
     }
 
@@ -200,7 +209,7 @@ public class Minion extends Army {
             Buff buff = new Buff(POWER, 2, 1, NORMAL);
             buff.setPowerBuffType(AP);
             army.addBuff(buff);
-            army.addBuff(new Holy(1, 1, CONTINUOUS));
+            army.addBuff(new Buff(HOLY, 1, 1, CONTINUOUS));
         }
     }
 
@@ -215,11 +224,11 @@ public class Minion extends Army {
     }
 
     public boolean WildHogOnDefend(Buff buff) {
-        return buff instanceof Disarm;
+        return buff.getBuffType() == DISARM;
     }
 
     public boolean PiranOnDefend(Buff buff) {
-        return buff instanceof Poison;
+        return buff.getBuffType() == POISON;
     }
 
     public boolean GivOnDefend(Buff buff) {
@@ -243,12 +252,12 @@ public class Minion extends Army {
         ArrayList<Army> array = player.getEnemiesAround(cell).getArmy();
         for(Army army : array) {
             if(army instanceof Hero) continue;
-            army.addBuff(new Stun(1, 1, NORMAL));
+            army.addBuff(new Buff(STUN, 1, 1, NORMAL));
         }
     }
 
     public void FuladZerehOnSpawn(Player player, Cell cell) {
-        this.addBuff(new Holy(12, 1, CONTINUOUS));
+        this.addBuff(new Buff(HOLY, 12, 1, CONTINUOUS));
     }
 
     public void  SiavashOnDeath(Player player, Cell cell) {
@@ -268,7 +277,7 @@ public class Minion extends Army {
         if ("AssassinationDagger".equals(itemName)) {
             player.getEnemyPlayer().getHero().getDamaged(1, null);
         } else if ("Baptism".equals(itemName)) {
-            this.addBuff(new Holy(1, 2, NORMAL));
+            this.addBuff(new Buff(HOLY, 1, 2, NORMAL));
         }
     }
 

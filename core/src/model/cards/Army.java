@@ -10,6 +10,7 @@ import java.util.Iterator;
 import java.util.Random;
 
 import static model.Buff.BuffTImeType.*;
+import static model.Buff.BuffType.*;
 import static model.Buff.PowerBuffType.*;
 import static model.cards.AttackType.*;
 import static model.cards.SPTime.*;
@@ -104,10 +105,10 @@ public class Army extends Card {
 
     public static void checkPoisonAndBleeding(ArrayList<Army> array) {
         for (Army army : array) {
-            army.setHp(army.getHp() - army.haveBuff(Poison.class));
+            army.setHp(army.getHp() - army.haveBuff(BuffType.POISON));
             for (Buff buff : army.getBuffs()) {
-                if (buff instanceof Bleeding) {
-                    army.setHp(army.getHp() - ((Bleeding) buff).getFirst());
+                if (buff.getBuffType() == BLEEDING) {
+                    army.setHp(army.getHp() - buff.getFirstBleeding());
                 }
             }
         }
@@ -126,10 +127,10 @@ public class Army extends Card {
         this.activateBuff(buff);
     }
 
-    public int haveBuff(Class buffClass) {
+    public int haveBuff(BuffType buffType) {
         int sum = 0;
         for (Buff buff : this.getBuffs()) {
-            if (buff.getClass() == buffClass && buff.getTurns() != 0) {
+            if (buff.getBuffType() == buffType && buff.getTurns() != 0) {
                 sum += buff.getNumber();
             }
         }
@@ -227,15 +228,15 @@ public class Army extends Card {
         if (this instanceof Hero) {
             Hero hero = (Hero)this;
             if (hero.getName().equals("Zahack"))
-                army.addBuff(new Poison(3, NORMAL));
+                army.addBuff(new Buff(POISON, 3, NORMAL));
             if(hero.getPlayer().getUsableItem() == null) return;
             try {
                 String itemName = hero.getPlayer().getUsableItem().getName();
                 if ("DamoolArc".equals(itemName)) {
                     if (hero.getAttackType() != MELEE)
-                        army.addBuff(new Disarm(1, 1, NORMAL));
+                        army.addBuff(new Buff(DISARM, 1, 1, NORMAL));
                 } else if ("ShockHammer".equals(itemName)) {
-                    army.addBuff(new Disarm(1, 1, NORMAL));
+                    army.addBuff(new Buff(DISARM, 1, 1, NORMAL));
                 }
             } catch (NullPointerException npe) {}
         }
@@ -252,9 +253,11 @@ public class Army extends Card {
             try {
                 String itemName = this.getPlayer().getUsableItem().getName();
                 if ("TerrorHood".equals(itemName)) {
-                    army.addBuff(new Weakness(2, AP, 1, NORMAL));
+                    Buff buff = new Buff(WEAKNESS, 2, 1, NORMAL);
+                    buff.setPowerBuffType(AP);
+                    army.addBuff(buff);
                 } else if ("PoisonousDagger".equals(itemName)) {
-                    army.addBuff(new Poison(1, NORMAL));
+                    army.addBuff(new Buff(POISON, 1, NORMAL));
                 }
             } catch (NullPointerException npe) {}
         }
@@ -262,8 +265,8 @@ public class Army extends Card {
 
     public void getDamaged(int number, Army army) {
         if(this.getName().equals("Giv")) return;
-        int holyBuffs = this.haveBuff(Holy.class);
-        int unholyBuffs = this.haveBuff(Unholy.class);
+        int holyBuffs = this.haveBuff(HOLY);
+        int unholyBuffs = this.haveBuff(UNHOLY);
         try {
             if (army.getName().equals("PredatorLion")) holyBuffs = 0;
         } catch (NullPointerException n) {

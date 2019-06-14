@@ -128,18 +128,19 @@ public class Hero extends Army {
     public void SimorghSpell(Player player){
         ArrayList<Army> array = player.getEnemyPlayer().getInGameCards();
         for(Army army : array){
-            army.addBuff(new Stun(1, 1, NORMAL));
+            army.addBuff(new Buff(STUN, 1, 1, NORMAL));
         }
     }
 
     public void DragonSpell(Player player){
         Army army = player.getOneEnemy();
-        army.addBuff(new Disarm(1, PERMANENT));
+        Buff disarm = new Buff(DISARM, 1, PERMANENT);
+        army.addBuff(disarm);
     }
 
     public void RakhshSpell(Player player){
         Army army = player.getOneEnemy();
-        army.addBuff(new Stun(1, 1, NORMAL));
+        army.addBuff(new Buff(STUN, 1, 1, NORMAL));
     }
 
     public void KaveSpell(Player player){
@@ -161,7 +162,7 @@ public class Hero extends Army {
     }
 
     public void EsfandiarSpell(Player player){
-        this.addBuff(new Holy(3, CONTINUOUS));
+        this.addBuff(new Buff(HOLY, 3, CONTINUOUS));
     }
 
 }

@@ -144,7 +144,7 @@ public class Spell extends Card {
 
     public static void TotalDisarmEffect(Player player) {
         Army army = player.getOneEnemy();
-        army.addBuff(new Disarm(1, PERMANENT));
+        army.addBuff(new Buff(DISARM, 1, PERMANENT));
     }
 
     public static void AreaDispelEffect(Player player) {
@@ -196,21 +196,21 @@ public class Spell extends Card {
 
     public static void MadnessEffect(Player player) {
         Army army = player.getOneFriend();
-        army.addBuff(new Holy(4, 3, NORMAL));
-        army.addBuff(new Disarm(1, 3, NORMAL));
+        army.addBuff(new Buff(HOLY, 4, 3, NORMAL));
+        army.addBuff(new Buff(DISARM, 1, 3, NORMAL));
     }
 
     public static void AllDisarmEffect(Player player) {
         ArrayList<Army> array = player.getEnemyPlayer().getInGameCards();
         for (Army army : array) {
-            army.addBuff(new Disarm(1, 1, NORMAL));
+            army.addBuff(new Buff(DISARM, 1, 1, NORMAL));
         }
     }
 
     public static void AllPoisonEffect(Player player) {
         ArrayList<Army> array = player.getEnemyPlayer().getInGameCards();
         for (Army army : array) {
-            army.addBuff(new Poison(4, NORMAL));
+            army.addBuff(new Buff(POISON,4, NORMAL));
         }
     }
 
@@ -225,8 +225,10 @@ public class Spell extends Card {
 
     public static void HealthWithProfitEffect(Player player) {
         Army army = player.getOneFriend();
-        army.addBuff(new Weakness(6, HP, PERMANENT));
-        army.addBuff(new Holy(2, 3, NORMAL));
+        Buff buff = new Buff(WEAKNESS, 6, PERMANENT);
+        buff.setPowerBuffType(HP);
+        army.addBuff(buff);
+        army.addBuff(new Buff(HOLY, 2, 3, NORMAL));
     }
 
     public static void PowerUpEffect(Player player) {
@@ -254,15 +256,19 @@ public class Spell extends Card {
 
     public static void WeakeningEffect(Player player) {
         Army army = player.getOneEnemyMinion();
-        army.addBuff(new Weakness(4, AP, PERMANENT));
+        Buff buff = new Buff(WEAKNESS, 4, PERMANENT);
+        buff.setPowerBuffType(AP);
+        army.addBuff(buff);
     }
 
     public static void SacrificeEffect(Player player){
         Army army = player.getOneFriendMinion();
-        army.addBuff(new Weakness(6, HP, PERMANENT));
-        Buff buff = new Buff(POWER, 8, PERMANENT);
-        buff.setPowerBuffType(AP);
+        Buff buff = new Buff(WEAKNESS, 6, PERMANENT);
+        buff.setPowerBuffType(HP);
         army.addBuff(buff);
+        Buff buff1 = new Buff(POWER, 8, PERMANENT);
+        buff1.setPowerBuffType(AP);
+        army.addBuff(buff1);
     }
 
     public static void KingsGuardEffect(Player player){
@@ -272,7 +278,7 @@ public class Spell extends Card {
 
     public static void ShockEffect(Player player) {
         Army army = player.getOneEnemy();
-        army.addBuff(new Stun(1, 2, NORMAL));
+        army.addBuff(new Buff(STUN, 1, 2, NORMAL));
     }
 
     public Buff getSpecialBuff() {
