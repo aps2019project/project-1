@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import graphic.screen.LoadingScreen;
 import graphic.screen.ScreenManager;
+import model.other.Account;
 
 public class Main extends ApplicationAdapter {
 	private SpriteBatch batch;
@@ -21,6 +22,7 @@ public class Main extends ApplicationAdapter {
 		AssetHandler.load();
 		ScreenManager.setScreen(new LoadingScreen());
 		batch = new SpriteBatch();
+		Account.readAccountDetails();
 
 	}
 
