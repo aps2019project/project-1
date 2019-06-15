@@ -16,15 +16,21 @@ public class MoveAnimation {
     private Vector2 endLoc;
     private Vector2 currentLoc;
     private MoveType moveType;
-    private int speed = 323234234;
+    private float speed;
 
-    public MoveAnimation(Texture texture, Vector2 startLoc, Vector2 endLoc, MoveType moveType, boolean loop) {
-        this.texture = texture;
-        this.startLoc = startLoc;
+    public MoveAnimation(String path, float xStart, float yStart, float xEnd, float yEnd, MoveType moveType, boolean loop) {
+        if (path.split("\\.")[1].equals("gif")) {
+            isTexture = false;
+            this.gif = new Gif(path);
+        }
+        else {
+            this.texture = AssetHandler.getData().get(path);
+            isTexture = true;
+        }
+        this.startLoc = new Vector2(xStart, yStart);
         this.currentLoc = new Vector2(startLoc);
-        this.endLoc = endLoc;
+        this.endLoc = new Vector2(xEnd, yEnd);
         this.moveType = moveType;
-        isTexture = true;
         this.loop = loop;
     }
 
@@ -44,27 +50,21 @@ public class MoveAnimation {
         this.loop = loop;
     }
 
-    public MoveAnimation(String path, float xStart, float yStart, float xEnd, float yEnd, MoveType moveType, boolean loop) {
-        if (path.split("\\.")[1].equals("gif")) {
-            isTexture = false;
-            this.gif = new Gif(path);
-        }
-        else {
-            this.texture = AssetHandler.getData().get(path);
-            isTexture = true;
-        }
-        this.startLoc = new Vector2(xStart, yStart);
-        this.currentLoc = new Vector2(startLoc);
-        this.endLoc = new Vector2(xEnd, yEnd);
-        this.moveType = moveType;
-        this.loop = loop;
-    }
-
     public MoveAnimation(Texture texture, float xStart, float yStart, float xEnd, float yEnd, MoveType moveType, boolean loop) {
         this.texture = texture;
         this.startLoc = new Vector2(xStart, yStart);
         this.currentLoc = new Vector2(startLoc);
         this.endLoc = new Vector2(xEnd, yEnd);
+        this.moveType = moveType;
+        isTexture = true;
+        this.loop = loop;
+    }
+
+    public MoveAnimation(Texture texture, Vector2 startLoc, Vector2 endLoc, MoveType moveType, boolean loop) {
+        this.texture = texture;
+        this.startLoc = startLoc;
+        this.currentLoc = new Vector2(startLoc);
+        this.endLoc = endLoc;
         this.moveType = moveType;
         isTexture = true;
         this.loop = loop;
@@ -90,7 +90,7 @@ public class MoveAnimation {
         this.loop = loop;
     }
 
-    public void draw(SpriteBatch batch, int speed, float width, float height) {
+    public void draw(SpriteBatch batch, float speed, float width, float height) {
         this.speed = speed;
         updateLocation(speed);
         if (isTexture) {
@@ -103,16 +103,24 @@ public class MoveAnimation {
         }
     }
 
-    public void draw(SpriteBatch batch, int speed) {
-        this.speed = speed;
+    public void draw(SpriteBatch batch, float speed) {
         if (isTexture)
             draw(batch, speed, texture.getWidth(), texture.getHeight());
         else
             draw(batch, speed, gif.getWidth(), gif.getHeight());
     }
 
-    private void updateLocation(int speed) {
-        int xAdditional = speed * Integer.signum((int)endLoc.x - (int)startLoc.x);
+    public void draw(SpriteBatch batch) {
+        draw(batch, speed);
+    }
+
+    public MoveAnimation setSpeed(float speed) {
+        this.speed = speed;
+        return this;
+    }
+
+    private void updateLocation(float speed) {
+        float xAdditional = speed * Integer.signum((int)endLoc.x - (int)startLoc.x);
         float x = currentLoc.x + xAdditional;
         float y = 0;
         if (this.moveType == MoveType.SIMPLE)

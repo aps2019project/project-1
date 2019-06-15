@@ -22,7 +22,7 @@ public class LoadingScreen extends Screen {
     public void update() {
         camera.update();
         if (AssetHandler.getData().update())
-            ScreenManager.setScreen(new LoginScreen());
+            ScreenManager.setScreen(new MenuScreen());
     }
 
     @Override
