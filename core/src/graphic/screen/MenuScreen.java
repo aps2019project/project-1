@@ -1,11 +1,13 @@
 package graphic.screen;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Vector2;
 import graphic.Others.MoveAnimation;
 import graphic.Others.MoveType;
 import graphic.main.AssetHandler;
@@ -20,10 +22,11 @@ public class MenuScreen extends Screen {
     private Music music;
     private Texture backGroundPic1;
     private Texture backGroundPic2;
+    private Button gameMakerButton;
+    private Button shopButton;
+    private Button collectionButton;
+    private Vector2 mousePos;
     private ArrayList<MoveAnimation> lanternAnimation;
-
-    private Button testButton;
-
 
     @Override
     public void create() {
@@ -32,17 +35,28 @@ public class MenuScreen extends Screen {
         shapeRenderer = new ShapeRenderer();
         backGroundPic1 = AssetHandler.getData().get("backGround/menu1.png");
         backGroundPic2 = AssetHandler.getData().get("backGround/menu2.png");
+
+        String font = "fonts/Arial 24.fnt";
+        gameMakerButton = new Button("button/menuButton.png", 200, 100, 300, 50, "Play Game", font);
+        shopButton =  new Button("button/menuButton.png", 150, 200, 300, 50, "Enter Shop", font);
+        collectionButton =  new Button("button/menuButton.png", 100, 300, 300, 50, "Enter Collection", font);
+        mousePos = new Vector2();
         createBackGroundMusic();
     }
 
     @Override
     public void update() {
         camera.update();
+        mousePos.set(Gdx.input.getX(), Gdx.input.getY());
+        mousePos = viewport.unproject(mousePos);
+
+        collectionButton.setActive(collectionButton.contains(mousePos));
+        shopButton.setActive(shopButton.contains(mousePos));
+        gameMakerButton.setActive(gameMakerButton.contains(mousePos));
 
         Gdx.input.setInputProcessor(new InputProcessor() {
             @Override
             public boolean keyDown(int keycode) {
-                ScreenManager.setScreen(new LoginScreen());
                 return false;
             }
 
@@ -58,6 +72,10 @@ public class MenuScreen extends Screen {
 
             @Override
             public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+                if (button != Input.Buttons.LEFT)
+                    return false;
+                if (gameMakerButton.isActive())
+                    ScreenManager.setScreen(new BattleScreen());
                 return false;
             }
 
@@ -88,10 +106,14 @@ public class MenuScreen extends Screen {
         batch.setProjectionMatrix(camera.combined);
         shapeRenderer.setProjectionMatrix(camera.combined);
 
+
         drawBackGround(batch);
         showLanternsAnimation(batch);
 
 
+        gameMakerButton.draw(batch);
+        shopButton.draw(batch);
+        collectionButton.draw(batch);
     }
 
     @Override
