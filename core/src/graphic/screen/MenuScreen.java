@@ -108,8 +108,6 @@ public class MenuScreen extends Screen {
 
 
         drawBackGround(batch);
-        showLanternsAnimation(batch);
-
 
         gameMakerButton.draw(batch);
         shopButton.draw(batch);
@@ -151,11 +149,5 @@ public class MenuScreen extends Screen {
         batch.draw(backGroundPic1, 0, 0);
         batch.draw(backGroundPic2, Main.WIDTH - backGroundPic2.getWidth(), 0);
         batch.end();
-    }
-
-    private void showLanternsAnimation(SpriteBatch batch) {
-        for (MoveAnimation animation: lanternAnimation) {
-            animation.draw(batch);
-        }
     }
 }
