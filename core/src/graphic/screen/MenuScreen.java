@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import graphic.Others.MoveAnimation;
 import graphic.Others.MoveType;
 import graphic.main.AssetHandler;
+import graphic.main.Button;
 import graphic.main.Main;
 
 import java.util.ArrayList;
@@ -21,6 +22,8 @@ public class MenuScreen extends Screen {
     private Texture backGroundPic2;
     private ArrayList<MoveAnimation> lanternAnimation;
 
+    private Button testButton;
+
 
     @Override
     public void create() {
@@ -32,34 +35,10 @@ public class MenuScreen extends Screen {
         createBackGroundMusic();
     }
 
-    private void createLanternsAnimation() {
-        lanternAnimation = new ArrayList<MoveAnimation>();
-        for (int i = 0; i < 40; ++i) {
-            float xStart = 100 + (int) (900 * Math.random());
-            float yStart = (750 - xStart/6f) + (int) (100 * Math.random());
-            float xEnd = 900 + (float)(Math.random() * 700), yEnd = 900;
-            int lanternType = (int) (5 * Math.random() + 1);
-            if (lanternType < 3)
-                lanternType = 1;
-            else if (lanternType < 5)
-                lanternType = 2;
-            else
-                lanternType = 3;
-            lanternAnimation.add(new MoveAnimation("lantern_large_" + lanternType + ".png", xStart, yStart, xEnd, yEnd, MoveType.SIMPLE, true));
-            lanternAnimation.get(i).setSpeed((float)( 1 + (Math.random() + 0.5f) - lanternType / 2));
-        }
-    }
-
-    private void createBackGroundMusic() {
-        music = AssetHandler.getData().get("music/menu.mp3");
-        music.setLooping(true);
-        music.setVolume(0.05f);
-        music.play();
-    }
-
     @Override
     public void update() {
         camera.update();
+
         Gdx.input.setInputProcessor(new InputProcessor() {
             @Override
             public boolean keyDown(int keycode) {
@@ -115,6 +94,36 @@ public class MenuScreen extends Screen {
 
     }
 
+    @Override
+    public void dispose() {
+        music.dispose();
+    }
+
+    private void createLanternsAnimation() {
+        lanternAnimation = new ArrayList<MoveAnimation>();
+        for (int i = 0; i < 40; ++i) {
+            float xStart = 100 + (int) (900 * Math.random());
+            float yStart = (750 - xStart/6f) + (int) (100 * Math.random());
+            float xEnd = 900 + (float)(Math.random() * 700), yEnd = 900;
+            int lanternType = (int) (5 * Math.random() + 1);
+            if (lanternType < 3)
+                lanternType = 1;
+            else if (lanternType < 5)
+                lanternType = 2;
+            else
+                lanternType = 3;
+            lanternAnimation.add(new MoveAnimation("lantern_large_" + lanternType + ".png", xStart, yStart, xEnd, yEnd, MoveType.SIMPLE, true));
+            lanternAnimation.get(i).setSpeed((float)( 1 + (Math.random() + 0.5f) - lanternType / 2));
+        }
+    }
+
+    private void createBackGroundMusic() {
+        music = AssetHandler.getData().get("music/menu.mp3");
+        music.setLooping(true);
+        music.setVolume(0.05f);
+        music.play();
+    }
+
     private void drawBackGround(SpriteBatch batch) {
         batch.begin();
         batch.draw(backGroundPic1, 0, 0);
@@ -126,10 +135,5 @@ public class MenuScreen extends Screen {
         for (MoveAnimation animation: lanternAnimation) {
             animation.draw(batch);
         }
-    }
-
-    @Override
-    public void dispose() {
-        music.dispose();
     }
 }
