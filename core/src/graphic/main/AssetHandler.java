@@ -24,9 +24,9 @@ public class AssetHandler {
         assetManager.load("music/menu.mp3", Music.class);
         assetManager.load("music/battle.mp3", Music.class);
         assetManager.load("sfx/click.mp3", Sound.class);
-        assetManager.load("sfx/attack.m4a", Sound.class);
-        assetManager.load("sfx/death.m4a", Sound.class);
-        assetManager.load("sfx/run.m4a", Sound.class);
+        assetManager.load("sfx/attack.mp3", Sound.class);
+        assetManager.load("sfx/death.mp3", Sound.class);
+        assetManager.load("sfx/run.mp3", Sound.class);
         assetManager.load("button/login1.png", Texture.class);
         assetManager.load("button/login2.png", Texture.class);
         assetManager.load("button/signUp1.png", Texture.class);
