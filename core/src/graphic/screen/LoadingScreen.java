@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import graphic.main.AssetHandler;
 import graphic.main.Main;
+import model.other.Account;
 
 
 public class LoadingScreen extends Screen {
@@ -12,6 +13,7 @@ public class LoadingScreen extends Screen {
 
     @Override
     public void create() {
+        Account.readAccountDetails();
         camera = new OrthographicCamera();
         viewport = new FitViewport(Main.WIDTH, Main.HEIGHT, camera);
         viewport.apply();
@@ -22,7 +24,7 @@ public class LoadingScreen extends Screen {
     public void update() {
         camera.update();
         if (AssetHandler.getData().update())
-            ScreenManager.setScreen(new MenuScreen());
+            ScreenManager.setScreen(new LoginScreen());
     }
 
     @Override

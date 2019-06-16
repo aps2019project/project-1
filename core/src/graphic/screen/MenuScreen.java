@@ -25,6 +25,9 @@ public class MenuScreen extends Screen {
     private Button gameMakerButton;
     private Button shopButton;
     private Button collectionButton;
+    private Button customCardButton;
+    private Button profileButton;
+    private Button exitButton;
     private Vector2 mousePos;
     private ArrayList<MoveAnimation> lanternAnimation;
 
@@ -37,9 +40,12 @@ public class MenuScreen extends Screen {
         backGroundPic2 = AssetHandler.getData().get("backGround/menu2.png");
 
         String font = "fonts/Arial 24.fnt";
-        gameMakerButton = new Button("button/menuButton.png", 200, 100, 300, 50, "Play Game", font);
-        shopButton =  new Button("button/menuButton.png", 150, 200, 300, 50, "Enter Shop", font);
-        collectionButton =  new Button("button/menuButton.png", 100, 300, 300, 50, "Enter Collection", font);
+        customCardButton =  new Button("button/menuButton.png","button/menuButtonActive.png", 250, 100, 300, 50, "Create Card", font);
+        gameMakerButton = new Button("button/menuButton.png", "button/menuButtonActive.png", 200, 200, 300, 50, "Play Game", font);
+        shopButton =  new Button("button/menuButton.png", "button/menuButtonActive.png",150, 300, 300, 50, "Enter Shop", font);
+        collectionButton =  new Button("button/menuButton.png","button/menuButtonActive.png", 100, 400, 300, 50, "Enter Collection", font);
+        exitButton = new Button("button/exit.png", Main.WIDTH - 200, Main.HEIGHT - 200);
+        profileButton = new Button("button/profile.png", Main.WIDTH - 200, Main.HEIGHT - 400);
         mousePos = new Vector2();
         createBackGroundMusic();
     }
@@ -53,6 +59,10 @@ public class MenuScreen extends Screen {
         collectionButton.setActive(collectionButton.contains(mousePos));
         shopButton.setActive(shopButton.contains(mousePos));
         gameMakerButton.setActive(gameMakerButton.contains(mousePos));
+        customCardButton.setActive(customCardButton.contains(mousePos));
+        profileButton.setActive(profileButton.contains(mousePos));
+        exitButton.setActive(exitButton.contains(mousePos));
+
 
         Gdx.input.setInputProcessor(new InputProcessor() {
             @Override
@@ -108,12 +118,19 @@ public class MenuScreen extends Screen {
 
 
         drawBackGround(batch);
-        showLanternsAnimation(batch);
-
-
+        showLanternAnimation(batch);
         gameMakerButton.draw(batch);
         shopButton.draw(batch);
         collectionButton.draw(batch);
+        customCardButton.draw(batch);
+        profileButton.draw(batch);
+        exitButton.draw(batch);
+    }
+
+    private void showLanternAnimation(SpriteBatch batch) {
+        for (MoveAnimation animation: lanternAnimation) {
+            animation.draw(batch);
+        }
     }
 
     @Override
@@ -151,11 +168,5 @@ public class MenuScreen extends Screen {
         batch.draw(backGroundPic1, 0, 0);
         batch.draw(backGroundPic2, Main.WIDTH - backGroundPic2.getWidth(), 0);
         batch.end();
-    }
-
-    private void showLanternsAnimation(SpriteBatch batch) {
-        for (MoveAnimation animation: lanternAnimation) {
-            animation.draw(batch);
-        }
     }
 }
