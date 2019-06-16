@@ -20,12 +20,12 @@ public class Main extends ApplicationAdapter {
 
 	@Override
 	public void create () {
+		control.Main main = new control.Main();
+		main.start();
 		AssetHandler.load();
 		ScreenManager.setScreen(new LoadingScreen());
 		batch = new SpriteBatch();
 		Account.readAccountDetails();
-		control.Main main = new control.Main();
-		main.start();
 	}
 
 	@Override
