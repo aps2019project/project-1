@@ -44,7 +44,7 @@ public class BattleScreen extends Screen {
         music.setLooping(true);
         music.setVolume(0.5f);
         music.play();
-        manaStart1 = new Vector2(200, 700);
+        manaStart1 = new Vector2(270, 730);
 
         hero1Icon1 = AssetHandler.getData().get(player1.getHero().getIconId());
         hero1Icon2 = AssetHandler.getData().get(player2.getHero().getIconId());
@@ -85,6 +85,6 @@ public class BattleScreen extends Screen {
     }
 
     public void drawHeroIcon(SpriteBatch batch) {
-        batch.draw(hero1Icon1, 10, 730);
+        batch.draw(hero1Icon1, 70, 700);
     }
 }
