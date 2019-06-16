@@ -29,6 +29,10 @@ public class BattleScreen extends Screen {
     private Texture hero1Icon1;
     private Texture hero1Icon2;
 
+    private Color cellColorDefault = new Color(0, 0, 50, 0.2f);
+    private Color cellColorPlayer1 = new Color(0, 0, 200, 0.2f);
+    private Color cellColorPlayer2 = new Color(200, 0, 0, 0.2f);
+
     @Override
     public void create() {
         setCameraAndVeiwport();
