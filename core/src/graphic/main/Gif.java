@@ -11,6 +11,10 @@ public class Gif {
     private Animation<TextureRegion> animation;
     private float time = 0;
 
+    public Gif(Animation<TextureRegion> animation) {
+        this.animation = animation;
+    }
+
     public Gif(String gifAddress) {
         animation = GifDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal(gifAddress).read());
     }

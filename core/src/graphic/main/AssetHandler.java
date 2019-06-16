@@ -4,6 +4,7 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import sun.font.TrueTypeFont;
 
 public class AssetHandler {
@@ -36,6 +37,14 @@ public class AssetHandler {
         assetManager.load("lantern_large_1.png", Texture.class);
         assetManager.load("lantern_large_2.png", Texture.class);
         assetManager.load("lantern_large_3.png", Texture.class);
+        assetManager.load("button/menuButton.png", Texture.class);
+        assetManager.load("button/menuButtonActive.png", Texture.class);
+        assetManager.load("button/profile.png", Texture.class);
+        assetManager.load("button/exit.png", Texture.class);
+        assetManager.load("fonts/Arial 12.fnt", BitmapFont.class);
+        assetManager.load("fonts/Arial 16.fnt", BitmapFont.class);
+        assetManager.load("fonts/Arial 24.fnt", BitmapFont.class);
+        assetManager.load("fonts/Arial 36.fnt", BitmapFont.class);
 
 
         /*for (int i = 1; i < 10; ++i) {
