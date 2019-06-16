@@ -120,18 +120,10 @@ public class MoveAnimation {
     }
 
     private void updateLocation(float speed) {
-        float xAdditional = speed * Integer.signum((int)endLoc.x - (int)startLoc.x);
-        float x = currentLoc.x + xAdditional;
-        float y = 0;
-        if (this.moveType == MoveType.SIMPLE)
-            y = currentLoc.y + xAdditional * (endLoc.y - startLoc.y) / (endLoc.x - startLoc.x);
-        else if (this.moveType == MoveType.RANDOM)
-            y = currentLoc.y + xAdditional * (endLoc.y - startLoc.y) / (endLoc.x - startLoc.x) + (float)((Math.random() * ((10) + 1)) - 5);
-
-        if (loop && isFinished())
-            currentLoc.set(startLoc.x, startLoc.y);
-        else
-            currentLoc.set(x, y);
+        Vector2 path = new Vector2(endLoc.x - startLoc.x, endLoc.y - startLoc.y);
+        float xAdditional = speed * path.x / path.len();
+        float yAdditional = speed * path.y / path.len();
+        currentLoc.add(xAdditional, yAdditional);
     }
 
     public boolean isFinished() {

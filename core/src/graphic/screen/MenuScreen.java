@@ -85,7 +85,8 @@ public class MenuScreen extends Screen {
                 if (button != Input.Buttons.LEFT)
                     return false;
                 if (gameMakerButton.isActive())
-                    ScreenManager.setScreen(new BattleScreen());
+                    ScreenManager.setScreen(new TestScreen());
+
                 return false;
             }
 

@@ -13,7 +13,6 @@ public class LoadingScreen extends Screen {
 
     @Override
     public void create() {
-        Account.readAccountDetails();
         camera = new OrthographicCamera();
         viewport = new FitViewport(Main.WIDTH, Main.HEIGHT, camera);
         viewport.apply();
@@ -24,12 +23,13 @@ public class LoadingScreen extends Screen {
     public void update() {
         camera.update();
         if (AssetHandler.getData().update())
-            ScreenManager.setScreen(new LoginScreen());
+            ScreenManager.setScreen(new TestScreen());
+
+
     }
 
     @Override
     public void render(SpriteBatch batch) {
-        batch.setProjectionMatrix(camera.combined);
     }
 
     @Override

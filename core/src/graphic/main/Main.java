@@ -16,14 +16,13 @@ public class Main extends ApplicationAdapter {
 
 	public static final int WIDTH = 1600;
 	public static final int HEIGHT = 900;
-	public static final String FONT_CHARACTERS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789][_!$%#@|\\/?-+=()*&.;,{}\"´`'<>";
 
 	@Override
 	public void create () {
 		AssetHandler.load();
 		ScreenManager.setScreen(new LoadingScreen());
 		batch = new SpriteBatch();
-		Account.readAccountDetails();
+//		Account.readAccountDetails();
 		control.Main main = new control.Main();
 		main.start();
 	}
