@@ -43,7 +43,6 @@ public class AssetHandler {
         assetManager.load("fonts/Arial 24.fnt", BitmapFont.class);
         assetManager.load("fonts/Arial 36.fnt", BitmapFont.class);
 
-
         /*for (int i = 1; i < 10; ++i) {
             assetManager.load("fonts/" + i + ".ttf", TrueTypeFont.class);
         }*/
