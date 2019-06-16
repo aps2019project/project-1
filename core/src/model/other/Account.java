@@ -217,8 +217,12 @@ public class Account {
         catch (Exception e) {
             e.printStackTrace();
         }
-
         reader.close();
+
+        for (Account account: accounts) {
+            account.setMainDeck(account.findDeck(account.getMainDeck().getName()));
+        }
+
     }
 
     public void deleteCardFromAllDecks(String cardName){

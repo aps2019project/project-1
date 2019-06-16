@@ -25,18 +25,29 @@ public class BattleScreen extends Screen {
     private Player player2;
     private Texture mana;
     private Vector2 manaStart1;
+    private Vector2 manaStart2;
+    private Texture hero1Icon1;
+    private Texture hero1Icon2;
 
     @Override
     public void create() {
         setCameraAndVeiwport();
         shapeRenderer = new ShapeRenderer();
+
+        game = Game.getCurrentGame();
+        player1 = game.getFirstPlayer();
+        player2 = game.getSecondPlayer();
+
         backGround = AssetHandler.getData().get("backGround/battle_background.png");
         music = AssetHandler.getData().get("music/battle.mp3");
         mana = AssetHandler.getData().get("battle/mana.png");
         music.setLooping(true);
         music.setVolume(0.5f);
         music.play();
-        manaStart1 = new Vector2(200, 800);
+        manaStart1 = new Vector2(270, 730);
+
+        hero1Icon1 = AssetHandler.getData().get(player1.getHero().getIconId());
+        hero1Icon2 = AssetHandler.getData().get(player2.getHero().getIconId());
     }
 
     @Override
@@ -52,24 +63,28 @@ public class BattleScreen extends Screen {
         batch.setProjectionMatrix(camera.combined);
         shapeRenderer.setProjectionMatrix(camera.combined);
 
-
-
         batch.begin();
         batch.draw(backGround, 0, 0);
+        drawMana(batch);
+        drawHeroIcon(batch);
 
-        for(int i = 0; i<player1.getMana(); i++){
-            batch.draw(mana, (int)(manaStart1.x + i*mana.getWidth()), (int)manaStart1.y);
-        }
 
         batch.end();
-
-
-
 
     }
 
     @Override
     public void dispose() {
         music.dispose();
+    }
+
+    public void drawMana(SpriteBatch batch) {
+        for(int i = 0; i<player1.getMana(); i++){
+            batch.draw(mana, (int)(manaStart1.x + i*mana.getWidth()), (int)manaStart1.y);
+        }
+    }
+
+    public void drawHeroIcon(SpriteBatch batch) {
+        batch.draw(hero1Icon1, 70, 700);
     }
 }
