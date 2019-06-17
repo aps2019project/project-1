@@ -87,8 +87,8 @@ public class BattleScreen extends Screen {
         batch.draw(backGround, 0, 0);
         drawMana(batch);
         drawHeroIcon(batch);
+        batch.draw(backGround, 2000, 2000);
         drawTable(shapeRenderer);
-
         batch.end();
 
     }
