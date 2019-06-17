@@ -3,6 +3,8 @@ package graphic.screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
@@ -30,6 +32,7 @@ public class BattleScreen extends Screen {
     private Vector2 manaStart2;
     private Texture hero1Icon1;
     private Texture hero1Icon2;
+    private Texture heroHpIcon;
 
     private Vector2 tableCord1;
     private Vector2 tableCord2;
@@ -51,6 +54,7 @@ public class BattleScreen extends Screen {
         backGround = AssetHandler.getData().get("backGround/battle_background.png");
         music = AssetHandler.getData().get("music/battle.mp3");
         mana = AssetHandler.getData().get("battle/mana.png");
+        heroHpIcon = AssetHandler.getData().get("battle/icon general hp.png");
         music.setLooping(true);
         music.setVolume(0.5f);
         music.play();
@@ -88,6 +92,8 @@ public class BattleScreen extends Screen {
         batch.draw(backGround, 0, 0);
         drawMana(batch);
         drawHeroIcon(batch);
+        drawPlayersName(batch);
+        drawHeroesHp(batch);
         batch.draw(backGround, 2000, 2000);
         drawTable(shapeRenderer);
         batch.end();
@@ -111,6 +117,34 @@ public class BattleScreen extends Screen {
     public void drawHeroIcon(SpriteBatch batch) {
         batch.draw(hero1Icon1, 70, 700);
         batch.draw(hero1Icon2, 1310, 700);
+    }
+
+    public void drawHeroesHp(SpriteBatch batch) {
+        batch.draw(heroHpIcon, 142, 690);
+        batch.draw(heroHpIcon, 1382 , 690);
+
+        BitmapFont font = AssetHandler.getData().get("fonts/Arial 36.fnt");
+        GlyphLayout glyphLayout1 = new GlyphLayout();
+        GlyphLayout glyphLayout2 = new GlyphLayout();
+
+        glyphLayout1.setText(font, Integer.toString(player1.getHero().getHp()));
+        font.draw(batch,Integer.toString(player1.getHero().getHp()), 165, 750);
+
+        glyphLayout2.setText(font, Integer.toString(player2.getHero().getHp()));
+        font.draw(batch,Integer.toString(player2.getHero().getHp()), 1405, 750);
+    }
+
+    public void drawPlayersName(SpriteBatch batch){
+        BitmapFont font = AssetHandler.getData().get("fonts/Arial 36.fnt");
+        GlyphLayout glyphLayout1 = new GlyphLayout();
+        GlyphLayout glyphLayout2 = new GlyphLayout();
+
+        glyphLayout1.setText(font, player1.getAccount().getUsername());
+        font.draw(batch, player1.getAccount().getUsername(), 290, 830);
+
+        glyphLayout2.setText(font, player2.getAccount().getUsername());
+        font.draw(batch, player2.getAccount().getUsername(), 1310 - glyphLayout2.width, 830);
+
     }
 
     public void drawTable(ShapeRenderer shapeRenderer) {
