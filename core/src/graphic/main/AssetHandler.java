@@ -59,6 +59,8 @@ public class AssetHandler {
         assetManager.load("Card/Hero/Icon/9.png", Texture.class);
         assetManager.load("Card/Hero/Icon/10.png", Texture.class);
         assetManager.load("Card/Hero/Icon/11.png", Texture.class);
+        assetManager.load("battle/icon general hp.png", Texture.class);
+
 
         /*for (int i = 1; i < 10; ++i) {
             assetManager.load("fonts/" + i + ".ttf", TrueTypeFont.class);
