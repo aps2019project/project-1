@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import graphic.main.AssetHandler;
 import graphic.main.Main;
+import model.cards.Army;
 import model.game.Game;
 import model.game.GameType;
 import model.game.Player;
@@ -118,10 +119,17 @@ public class BattleScreen extends Screen {
             for (int col = 0; col < 9; col++) {
                 float x = tableCord1.x + col * (cellSizeX + cellDistance);
                 float y = tableCord1.y - row * (cellSizeY + cellDistance);
-//                if(game.getTable()[row][col].getInsideArmy() == null){
+                Army army = game.getTable()[row][col].getInsideArmy();
+                if(army == null){
                     shapeRenderer.setColor(0, 0, 50/255f, 0.2f);
-                    shapeRenderer.rect(x, y, cellSizeX, cellSizeY);
-//                }
+                } else {
+                    if(player1.isFriend(army)){
+                        shapeRenderer.setColor(0, 0, 200/255f, 0.2f);
+                    } else {
+                        shapeRenderer.setColor(200/255f, 0, 0, 0.2f);
+                    }
+                }
+                shapeRenderer.rect(x, y, cellSizeX, cellSizeY);
             }
         }
         shapeRenderer.end();
