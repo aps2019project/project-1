@@ -37,11 +37,11 @@ public class ArmyAnimation {
         runAnimation = null;
     }
 
-    public void draw(SpriteBatch batch, float x, float y) {
+    public void draw(SpriteBatch batch, float x, float y, float width, float height) {
         this.x = x;
         this.y = y;
         if (runAnimation != null && !runAnimation.isFinished()) {
-            runAnimation.draw(batch, 5, 200, 200);
+            runAnimation.draw(batch, 5, width, height);
             return;
         }
         else if (runAnimation != null)
@@ -52,8 +52,13 @@ public class ArmyAnimation {
         }
         if (currentGif.isFinished())
             normalGif.setTime();
-        currentGif.draw(batch, x, y, 300, 300);
+        currentGif.draw(batch, x, y, width, height);
+    }
 
+
+
+    public void draw(SpriteBatch batch, float x, float y) {
+        draw(batch, x, y, 150, 150);
     }
 
     public void run( float xEnd, float yEnd) {

@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import graphic.Others.ArmyAnimation;
+import graphic.Others.CardTexture;
 import graphic.main.Gif;
 import graphic.main.Main;
 import model.cards.Army;
@@ -20,19 +21,16 @@ import java.util.ArrayList;
 public class TestScreen extends Screen {
 
     private ShapeRenderer shapeRenderer;
-//    private ArmyAnimation animation;
-    private ArrayList<ArmyAnimation> generals = new ArrayList<ArmyAnimation>();
-    private Gif gif;
+    private CardTexture cardTexture;
     private Vector2 mousPos;
+//    private ArmyAnimation animation;
 
     @Override
     public void create() {
+//        animation = new ArmyAnimation("Card/Hero/1.atlas");
+        cardTexture = new CardTexture("adasd", "adahgfhgfhfhfhfhfhfhg jfghgfhg jfhgf hfhgf hfhgfgh da", 12, 3, "Card/Hero/8.atlas");
         setCameraAndVeiwport();
         mousPos = new Vector2();
-        for (int i = 1; i < 12; ++i) {
-            generals.add(new ArmyAnimation("Card/Hero/" + i + ".atlas"));
-        }
-        gif = new Gif("loading.gif");
         shapeRenderer = new ShapeRenderer();
 
     }
@@ -45,12 +43,6 @@ public class TestScreen extends Screen {
         Gdx.input.setInputProcessor(new InputProcessor() {
             @Override
             public boolean keyDown(int keycode) {
-                if (keycode == Input.Keys.A)
-                    for (ArmyAnimation animation: generals)
-                        animation.attack();
-                else if (keycode == Input.Keys.D)
-                    for (ArmyAnimation animation: generals)
-                        animation.death();
 
                 return false;
             }
@@ -67,8 +59,6 @@ public class TestScreen extends Screen {
 
             @Override
             public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-                for (ArmyAnimation animation: generals)
-                    animation.run(mousPos.x, mousPos.y);
                 return false;
             }
 
@@ -101,21 +91,9 @@ public class TestScreen extends Screen {
     public void render(SpriteBatch batch) {
 
         batch.setProjectionMatrix(camera.combined);
-        shapeRenderer.setProjectionMatrix(camera.combined);
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(Main.toColor(new Color(98787)));
-        shapeRenderer.rect(0, 0, Main.WIDTH, Main.HEIGHT);
-        shapeRenderer.end();
-        for (int i = 0; i < 6; ++i) {
-            int x = 100 + 300 * i;
-            int y = 100;
-            generals.get(i).draw(batch, x, y);
-        }
-        for (int i = 0; i < 5; ++i) {
-            int x = 100 + 300 * i;
-            int y = 500;
-            generals.get(i + 6).draw(batch, x, y);
-        }
+        cardTexture.draw(batch, 500, 500);
+
+//        animation.draw(batch, 100, 100, 300, 300);
 
     }
 
