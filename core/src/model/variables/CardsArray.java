@@ -12,9 +12,16 @@ public class CardsArray {
     public CardsArray() {
     }
 
-    public CardsArray(ArrayList<String> cardNames) {
+    public CardsArray(ArrayList<String> cardNames, String userName) {
         for (String cardName: cardNames) {
-            add(Card.getCards().findByName(cardName));
+            Card card = Card.getCards().findByName(cardName);
+            try {
+                card = card.clone();
+            } catch (CloneNotSupportedException e) {
+                e.printStackTrace();
+            }
+            card.setUserName(userName);
+            add(card);
         }
     }
 
