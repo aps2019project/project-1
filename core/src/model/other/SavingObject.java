@@ -58,7 +58,7 @@ public class SavingObject {
     private void addAllDecks(Account account) {
         for (Map.Entry<String, ArrayList<String>> tempDeck: allDecks.entrySet()) {
             String deckName = tempDeck.getKey();
-            CardsArray cards = new CardsArray(tempDeck.getValue());
+            CardsArray cards = new CardsArray(tempDeck.getValue(), this.username);
             account.addDeck(new Deck(deckName, cards));
         }
     }
@@ -66,6 +66,7 @@ public class SavingObject {
     private void addCollection(Account account) {
         for (String cardName: collection) {
             Card card = Card.getCards().findByName(cardName);
+            card.setUserName(this.username);
             account.addCardToCollection(card);
         }
     }

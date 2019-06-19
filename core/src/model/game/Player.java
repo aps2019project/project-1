@@ -473,6 +473,7 @@ public class Player {
     }
 
     public boolean isFriend(Army army) {
-        return inGameCards.find(army) != null;
+        return army.getAccount() == this.getAccount();
+//        return inGameCards.find(army) != null;
     }
 }

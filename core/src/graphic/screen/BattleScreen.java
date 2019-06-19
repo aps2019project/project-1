@@ -14,10 +14,12 @@ import graphic.Others.ArmyAnimation;
 import graphic.main.AssetHandler;
 import graphic.main.Main;
 import model.cards.Army;
+import model.cards.Hero;
 import model.game.Game;
 import model.game.GameType;
 import model.game.Player;
 import model.other.Account;
+import graphic.main.Button;
 
 import javax.xml.soap.Text;
 import java.awt.*;
@@ -42,9 +44,12 @@ public class BattleScreen extends Screen {
     private Vector2 tableCord2;
     private Vector2 tableCord3;
     private Vector2 tableCord4;
+    private Vector2 mousePos;
     private float cellSizeX;
     private float cellSizeY;
     private float cellDistance;
+
+    private Button endGameButton;
 
     private ArmyAnimation hero1;
 
@@ -65,8 +70,13 @@ public class BattleScreen extends Screen {
         music.setLooping(true);
         music.setVolume(0.5f);
         music.play();
+
+        endGameButton = new Button("button/yellow.png", "button/yellow glow.png", 1300, 100, "End Turn", "fonts/Arial 24.fnt");
         manaStart1 = new Vector2(270, 730);
         manaStart2 = new Vector2(1330 - mana.getWidth(), 730);
+
+        mousePos = new Vector2();
+
         hero1Icon1 = AssetHandler.getData().get(player1.getHero().getIconId());
         hero1Icon2 = AssetHandler.getData().get(player2.getHero().getIconId());
 
@@ -89,6 +99,11 @@ public class BattleScreen extends Screen {
         game = Game.getCurrentGame();
         player1 = game.getFirstPlayer();
         player2 = game.getSecondPlayer();
+
+        mousePos.set(Gdx.input.getX(), Gdx.input.getY());
+        mousePos = viewport.unproject(mousePos);
+
+        endGameButton.setActive(endGameButton.contains(mousePos));
 
         Gdx.input.setInputProcessor(new InputProcessor() {
             @Override
@@ -115,6 +130,10 @@ public class BattleScreen extends Screen {
 
             @Override
             public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+                if(endGameButton.isActive()){
+                    System.out.println("he he he");
+                    Game.getCurrentGame().getWhoIsHisTurn().setEndTurn(true);
+                }
                 return false;
             }
 
@@ -157,6 +176,8 @@ public class BattleScreen extends Screen {
         drawTable(batch);
         batch.end();
 
+        endGameButton.draw(batch);
+
     }
 
     @Override
@@ -174,8 +195,17 @@ public class BattleScreen extends Screen {
     }
 
     public void drawHeroIcon(SpriteBatch batch) {
-        batch.draw(hero1Icon1, 70, 700);
-        batch.draw(hero1Icon2, 1310, 700);
+        if(game.getWhoIsHisTurn().getAccount().getUsername().equals(player1.getAccount().getUsername())){
+            batch.draw(hero1Icon1, 70, 700);
+            batch.setColor(Main.toColor(new Color(0xBE928F87, true)));
+            batch.draw(hero1Icon2, 1310, 700);
+            batch.setColor(com.badlogic.gdx.graphics.Color.WHITE);
+        } else {
+            batch.draw(hero1Icon2, 1310, 700);
+            batch.setColor(Main.toColor(new Color(0xBE928F87, true)));
+            batch.draw(hero1Icon1, 70, 700);
+            batch.setColor(com.badlogic.gdx.graphics.Color.WHITE);
+        }
     }
 
     public void drawHeroesHp(SpriteBatch batch) {

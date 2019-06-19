@@ -20,6 +20,11 @@ public class Deck {
     public Deck(String name,CardsArray cards) {
         this.name = name;
         this.cards = cards;
+        if(cards.getAllHeroes().size() > 0)
+            this.hero = cards.getAllHeroes().get(0);
+        if(cards.getAllItems().size() > 0)
+            this.item = cards.getAllItems().get(0);
+
     }
 
     public void deleteCard(Card card) {
