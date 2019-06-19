@@ -68,7 +68,18 @@ public class AssetHandler {
         assetManager.load("battle/Tile.png", Texture.class);
         assetManager.load("button/yellow.png", Texture.class);
         assetManager.load("button/yellow glow.png", Texture.class);
-
+        assetManager.load("button/shop left.png", Texture.class);
+        assetManager.load("button/shop left active.png", Texture.class);
+        assetManager.load("button/shop middle.png", Texture.class);
+        assetManager.load("button/shop middle active.png", Texture.class);
+        assetManager.load("button/shop right.png", Texture.class);
+        assetManager.load("button/shop right active.png", Texture.class);
+        assetManager.load("button/shop sb.png", Texture.class);
+        assetManager.load("button/shop sb active.png", Texture.class);
+        assetManager.load("button/shop done.png", Texture.class);
+        assetManager.load("button/back.png", Texture.class);
+        assetManager.load("backGround/brand.png", Texture.class);
+        assetManager.load("button/daric slot.png", Texture.class);
         /*for (int i = 1; i < 10; ++i) {
             assetManager.load("fonts/" + i + ".ttf", TrueTypeFont.class);
         }*/

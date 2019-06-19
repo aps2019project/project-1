@@ -4,9 +4,14 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import model.cards.Card;
+import model.cards.CardType;
+import model.cards.Item;
+import model.cards.ItemType;
 import model.game.Deck;
 import model.game.MatchResult;
 import model.variables.CardsArray;
+import view.ShopScreen;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -234,6 +239,8 @@ public class Account {
             temp.getAccount();
         }
 
+        Account.setCurrentAccount(accounts.get(0));
+
     }
 
     public void deleteCardFromAllDecks(String cardName){
@@ -252,6 +259,50 @@ public class Account {
         if (username.length() < 5)
             return false;
         return username.matches("[a-zA-Z].*");
+    }
+
+    public void buyCard(String name) {
+        Card card = Card.getCards().findByName(name);
+        if (card == null)
+            return;
+        else if (getCollection().findByName(card.getName()) != null)
+            return;
+        else if (getDaric() < card.getPrice())
+            return;
+
+
+        if (card.getType().equals(CardType.ITEM)) {
+            Item item = (Item) card;
+            if (item.getItemType().equals(ItemType.COLLECTIBLE)) {
+                return;
+            } else if (getCollection().getAllItems().size() >= 3) {
+                return;
+            }
+        }
+        try {
+            card = card.clone();
+            card.setUserName(getUsername());
+        } catch (CloneNotSupportedException ignored) {
+        }
+        card.setUserName(getUsername());
+        decreaseDaric(card.getPrice());
+        addCardToCollection(card);
+    }
+
+    public void sellCard(String name) {
+        Card card = getCollection().findByName(name);
+        if (card == null)
+            return;
+
+        if (card.getType().equals(CardType.ITEM)) {
+            Item item = (Item) card;
+            if (item.getItemType().equals(ItemType.COLLECTIBLE))
+                return;
+        }
+        increaseDaric(card.getPrice());
+        deleteCardFromAllDecks(card.getName());
+        removeCardFromCollection(card);
+        getCollection().remove(card);
     }
 
     @Override

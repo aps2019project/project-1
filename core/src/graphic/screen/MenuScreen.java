@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
@@ -13,6 +14,7 @@ import graphic.main.AssetHandler;
 import graphic.main.Button;
 import graphic.main.Main;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 public class MenuScreen extends Screen {
@@ -20,6 +22,7 @@ public class MenuScreen extends Screen {
     private ShapeRenderer shapeRenderer;
     private Texture backGroundPic1;
     private Texture backGroundPic2;
+    private Texture brand;
     private Button gameMakerButton;
     private Button shopButton;
     private Button collectionButton;
@@ -37,7 +40,8 @@ public class MenuScreen extends Screen {
         backGroundPic1 = AssetHandler.getData().get("backGround/menu1.png");
         backGroundPic2 = AssetHandler.getData().get("backGround/menu2.png");
 
-        String font = "fonts/Arial 24.fnt";
+        BitmapFont font = AssetHandler.getData().get("fonts/Arial 24.fnt");
+        font.setColor(Main.toColor(new Color(0xFFF6FE)));
         customCardButton =  new Button("button/menuButton.png","button/menuButtonActive.png", 250, 100, 300, 50, "Create Card", font);
         gameMakerButton = new Button("button/menuButton.png", "button/menuButtonActive.png", 200, 200, 300, 50, "Play Game", font);
         shopButton =  new Button("button/menuButton.png", "button/menuButtonActive.png",150, 300, 300, 50, "Enter Shop", font);
@@ -46,6 +50,7 @@ public class MenuScreen extends Screen {
         profileButton = new Button("button/profile.png", Main.WIDTH - 200, Main.HEIGHT - 400);
         mousePos = new Vector2();
         playBackGroundMusic("music/menu.mp3");
+        brand = AssetHandler.getData().get("backGround/brand.png");
     }
 
     @Override
@@ -123,7 +128,6 @@ public class MenuScreen extends Screen {
 
 
         drawBackGround(batch);
-        showLanternAnimation(batch);
         gameMakerButton.draw(batch);
         shopButton.draw(batch);
         collectionButton.draw(batch);
@@ -166,6 +170,11 @@ public class MenuScreen extends Screen {
         batch.begin();
         batch.draw(backGroundPic1, 0, 0);
         batch.draw(backGroundPic2, Main.WIDTH - backGroundPic2.getWidth(), 0);
+        batch.end();
+
+        showLanternAnimation(batch);
+        batch.begin();
+        batch.draw(brand,(Main.WIDTH - brand.getWidth()) / 2, (Main.HEIGHT - brand.getHeight()) / 2);
         batch.end();
     }
 }
