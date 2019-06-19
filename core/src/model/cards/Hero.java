@@ -27,15 +27,15 @@ public class Hero extends Army {
         super(number, name, price, description, hp, ap, ar, attackType, HERO, 0);
         this.mp = mp;
         this.coolDown = coolDown;
+        lastNumber = number;
+        iconId = "Card/Hero/Icon/" + number +".png";
+        if(number > 11) {
+            iconId = "Card/Hero/Icon/11.png";
+        }
         if(number <=10) {
             heroes.add(this);
             cards.add(this);
         }
-        lastNumber = number;
-
-        iconId = "Card/Hero/Icon/" + number +".png";
-        if(number > 11)
-            iconId = "Card/Hero/Icon/11.png";
     }
 
     public static int getLastNumber() {

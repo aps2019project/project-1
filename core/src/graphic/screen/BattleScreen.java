@@ -14,6 +14,7 @@ import graphic.Others.ArmyAnimation;
 import graphic.main.AssetHandler;
 import graphic.main.Main;
 import model.cards.Army;
+import model.cards.Hero;
 import model.game.Game;
 import model.game.GameType;
 import model.game.Player;
@@ -67,6 +68,7 @@ public class BattleScreen extends Screen {
         music.play();
         manaStart1 = new Vector2(270, 730);
         manaStart2 = new Vector2(1330 - mana.getWidth(), 730);
+
         hero1Icon1 = AssetHandler.getData().get(player1.getHero().getIconId());
         hero1Icon2 = AssetHandler.getData().get(player2.getHero().getIconId());
 
@@ -174,8 +176,17 @@ public class BattleScreen extends Screen {
     }
 
     public void drawHeroIcon(SpriteBatch batch) {
-        batch.draw(hero1Icon1, 70, 700);
-        batch.draw(hero1Icon2, 1310, 700);
+        if(game.getWhoIsHisTurn().getAccount().getUsername().equals(player1.getAccount().getUsername())){
+            batch.draw(hero1Icon1, 70, 700);
+            batch.setColor(Main.toColor(new Color(0xBE928F87, true)));
+            batch.draw(hero1Icon2, 1310, 700);
+            batch.setColor(com.badlogic.gdx.graphics.Color.WHITE);
+        } else {
+            batch.draw(hero1Icon2, 1310, 700);
+            batch.setColor(Main.toColor(new Color(0xBE928F87, true)));
+            batch.draw(hero1Icon1, 70, 700);
+            batch.setColor(com.badlogic.gdx.graphics.Color.WHITE);
+        }
     }
 
     public void drawHeroesHp(SpriteBatch batch) {
