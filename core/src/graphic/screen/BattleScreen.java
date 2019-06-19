@@ -1,7 +1,6 @@
 package graphic.screen;
 
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
@@ -155,12 +154,12 @@ public class BattleScreen extends Screen {
                 float y = tableCord1.y - row * (cellSizeY + cellDistance);
                 Army army = game.getTable()[row][col].getInsideArmy();
                 if(army == null){
-                    shapeRenderer.setColor(0, 0, 50/255f, 0.2f);
+                    shapeRenderer.setColor(Main.toColor(new Color(0x32000064, true)));
                 } else {
                     if(player1.isFriend(army)){
-                        shapeRenderer.setColor(0, 0, 200/255f, 0.2f);
+                        shapeRenderer.setColor(Main.toColor(new Color(0x320000C8, true)));
                     } else {
-                        shapeRenderer.setColor(200/255f, 0, 0, 0.2f);
+                        shapeRenderer.setColor(Main.toColor(new Color(0x32C80000, true)));
                     }
                 }
                 shapeRenderer.rect(x, y, cellSizeX, cellSizeY);
