@@ -220,7 +220,8 @@ public class Account {
         reader.close();
 
         for (Account account: accounts) {
-            account.setMainDeck(account.findDeck(account.getMainDeck().getName()));
+            if (account.getMainDeck() != null)
+                account.setMainDeck(account.findDeck(account.getMainDeck().getName()));
         }
 
     }

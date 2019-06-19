@@ -42,7 +42,7 @@ public class LoginScreen extends Screen {
 
     @Override
     public void create() {
-        setCameraAndVeiwport();
+        setCameraAndViewport();
         createBackGroundMusic();
         loadAssets();
         createNewObjects();

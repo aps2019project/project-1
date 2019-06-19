@@ -3,7 +3,6 @@ package graphic.screen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -19,7 +18,6 @@ import java.util.ArrayList;
 public class MenuScreen extends Screen {
 
     private ShapeRenderer shapeRenderer;
-    private Music music;
     private Texture backGroundPic1;
     private Texture backGroundPic2;
     private Button gameMakerButton;
@@ -33,7 +31,7 @@ public class MenuScreen extends Screen {
 
     @Override
     public void create() {
-        setCameraAndVeiwport();
+        setCameraAndViewport();
         createLanternsAnimation();
         shapeRenderer = new ShapeRenderer();
         backGroundPic1 = AssetHandler.getData().get("backGround/menu1.png");
@@ -47,7 +45,7 @@ public class MenuScreen extends Screen {
         exitButton = new Button("button/exit.png", Main.WIDTH - 200, Main.HEIGHT - 200);
         profileButton = new Button("button/profile.png", Main.WIDTH - 200, Main.HEIGHT - 400);
         mousePos = new Vector2();
-        createBackGroundMusic();
+        playBackGroundMusic("music/menu.mp3");
     }
 
     @Override
@@ -67,6 +65,10 @@ public class MenuScreen extends Screen {
         Gdx.input.setInputProcessor(new InputProcessor() {
             @Override
             public boolean keyDown(int keycode) {
+                if (keycode == Input.Keys.UP)
+                    setMusicVolume(true);
+                if (keycode == Input.Keys.DOWN)
+                    setMusicVolume(false);
                 return false;
             }
 
@@ -85,7 +87,8 @@ public class MenuScreen extends Screen {
                 if (button != Input.Buttons.LEFT)
                     return false;
                 if (gameMakerButton.isActive())
-                    ScreenManager.setScreen(new BattleScreen());
+                    ScreenManager.setScreen(new TestScreen());
+
                 return false;
             }
 
@@ -154,13 +157,6 @@ public class MenuScreen extends Screen {
             lanternAnimation.add(new MoveAnimation("lantern_large_" + lanternType + ".png", xStart, yStart, xEnd, yEnd, MoveType.SIMPLE, true));
             lanternAnimation.get(i).setSpeed((float)( 1 + (Math.random() + 0.5f) - lanternType / 2));
         }
-    }
-
-    private void createBackGroundMusic() {
-        music = AssetHandler.getData().get("music/menu.mp3");
-        music.setLooping(true);
-        music.setVolume(0.05f);
-        music.play();
     }
 
     private void drawBackGround(SpriteBatch batch) {

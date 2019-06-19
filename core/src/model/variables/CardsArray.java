@@ -1,15 +1,11 @@
 package model.variables;
 
 import model.cards.*;
-import sun.awt.geom.AreaOp;
 import view.BattleScreen;
 
-import java.awt.datatransfer.MimeTypeParseException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-
-import static model.cards.CardType.*;
 
 public class CardsArray {
 
@@ -28,7 +24,7 @@ public class CardsArray {
         return allCards;
     }
 
-    public ArrayList<Hero> getAllHeros() {
+    public ArrayList<Hero> getAllHeroes() {
         return this.allHeroes;
     }
 
@@ -55,7 +51,7 @@ public class CardsArray {
 
     public ArrayList<Army> getArmy() {
         ArrayList<Army> armies = new ArrayList<Army>();
-        armies.addAll(getAllHeros());
+        armies.addAll(getAllHeroes());
         armies.addAll(getAllMinions());
         return armies;
     }

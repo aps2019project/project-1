@@ -44,7 +44,7 @@ public class BattleScreen extends Screen {
 
     @Override
     public void create() {
-        setCameraAndVeiwport();
+        setCameraAndViewport();
         shapeRenderer = new ShapeRenderer();
 
         game = Game.getCurrentGame();
