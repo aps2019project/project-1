@@ -8,10 +8,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import graphic.Others.CardTexture;
+import graphic.Others.MoveAnimation;
+import graphic.Others.MoveType;
 import graphic.main.AssetHandler;
-import model.cards.Army;
 import model.cards.Card;
-import model.cards.Hero;
 import model.cards.Minion;
 
 import java.util.ArrayList;
@@ -26,6 +26,7 @@ public class TestScreen extends Screen {
     private ArrayList<Minion> allCards;
     private ArrayList<CardTexture> cardTextures;
     private int startListFrom = 0;
+    private ArrayList<MoveAnimation> snowAnimation;
 
 
     @Override
@@ -38,6 +39,19 @@ public class TestScreen extends Screen {
         allCards = Card.getCards().getAllMinions();
         playBackGroundMusic("music/shop.mp3");
 
+        snowAnimation = new ArrayList<MoveAnimation>();
+        for (int i = 0; i < 100; ++i) {
+            int xStart = (int) (400 + 1200 * Math.random());
+            int xEnd = (int) (xStart - 150 + 300 * Math.random());
+            int random = (int) (Math.random() * 5);
+            if (random > 3)
+                snowAnimation.add(new MoveAnimation("animation/snow2.png", xStart, 900, xEnd, 0, MoveType.SIMPLE, true));
+            else
+                snowAnimation.add(new MoveAnimation("animation/snow.png", xStart, 900, xEnd, 0, MoveType.SIMPLE, true));
+
+            snowAnimation.get(i).setSpeed((float) (0.2f + Math.random()));
+        }
+
         cardTextures = new ArrayList<CardTexture>();
 
 
@@ -49,15 +63,6 @@ public class TestScreen extends Screen {
         camera.update();
         mousePos.set(Gdx.input.getX(), Gdx.input.getY());
         mousePos = viewport.unproject(mousePos);
-
-        cardTextures.clear();
-        for (int i = 0; i < 8; ++i) {
-            Army army = allCards.get(i + startListFrom);
-            CardTexture texture;
-            texture = new CardTexture(army.getName(), army.getDescription(), army.getAp(), army.getHp(), "Card/Hero/1.atlas");
-            cardTextures.add(texture);
-        }
-
 
 
         Gdx.input.setInputProcessor(new InputProcessor() {
@@ -123,14 +128,6 @@ public class TestScreen extends Screen {
         batch.setProjectionMatrix(camera.combined);
         drawBackGround(batch);
 
-//        for (int i = 0; i < 4; ++i) {
-//            cardTextures.get(i).draw(batch, 10 + 300 * i, 500);
-//        }
-//        for (int i = 4; i < 8; ++i) {
-//            cardTextures.get(i).draw(batch, 10 + 300 * (i - startListFrom), 200);
-//
-//        }
-
 
     }
 
@@ -138,6 +135,10 @@ public class TestScreen extends Screen {
         batch.begin();
         batch.draw(backGround, 0, 0);
         batch.draw(middleGround, 0, 0);
+        batch.end();
+        for (MoveAnimation animation: snowAnimation)
+            animation.draw(batch);
+        batch.begin();
         batch.draw(forGround, 0, 0);
         batch.end();
     }

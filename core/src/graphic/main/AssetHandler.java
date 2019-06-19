@@ -51,6 +51,8 @@ public class AssetHandler {
         assetManager.load("fonts/Arial 36.fnt", BitmapFont.class);
         assetManager.load("Card/backGround/deActive.png", Texture.class);
         assetManager.load("Card/backGround/active.png", Texture.class);
+        assetManager.load("animation/snow.png", Texture.class);
+        assetManager.load("animation/snow2.png", Texture.class);
 
         /*for (int i = 1; i < 10; ++i) {
             assetManager.load("fonts/" + i + ".ttf", TrueTypeFont.class);
