@@ -326,7 +326,7 @@ public class TestScreen extends Screen {
     private void updateDaricShow() {
         BitmapFont font = new BitmapFont(AssetHandler.getData().get("fonts/Arial 36.fnt", BitmapFont.class).getData(), AssetHandler.getData().get("fonts/Arial 36.fnt", BitmapFont.class).getRegions(), true);
         font.setColor(Main.toColor(new Color(0xFF6100)));
-        daricPicture = new Button("button/daric slot.png", 1000, 50, String.valueOf(Account.getCurrentAccount().getDaric()), font);
+        daricPicture = new Button("button/daric slot.png", 1200, 50, String.valueOf(Account.getCurrentAccount().getDaric()), font);
     }
 
     private void changeCurrentList(CardListTexture temp) {
