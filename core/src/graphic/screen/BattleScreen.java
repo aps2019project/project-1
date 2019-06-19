@@ -1,13 +1,16 @@
 package graphic.screen;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
+import graphic.Others.ArmyAnimation;
 import graphic.main.AssetHandler;
 import graphic.main.Main;
 import model.cards.Army;
@@ -28,6 +31,7 @@ public class BattleScreen extends Screen {
     private Player player1;
     private Player player2;
     private Texture mana;
+    private Texture tile;
     private Vector2 manaStart1;
     private Vector2 manaStart2;
     private Texture hero1Icon1;
@@ -42,6 +46,8 @@ public class BattleScreen extends Screen {
     private float cellSizeY;
     private float cellDistance;
 
+    private ArmyAnimation hero1;
+
     @Override
     public void create() {
         setCameraAndViewport();
@@ -54,6 +60,7 @@ public class BattleScreen extends Screen {
         backGround = AssetHandler.getData().get("backGround/battle_background.png");
         music = AssetHandler.getData().get("music/battle.mp3");
         mana = AssetHandler.getData().get("battle/mana.png");
+        tile = AssetHandler.getData().get("battle/Tile.png");
         heroHpIcon = AssetHandler.getData().get("battle/icon general hp.png");
         music.setLooping(true);
         music.setVolume(0.5f);
@@ -72,6 +79,7 @@ public class BattleScreen extends Screen {
 
         cellSizeX = (tableCord2.x - tableCord1.x - 8*cellDistance) / 9;
         cellSizeY = (tableCord1.y - tableCord3.y - 4*cellDistance) / 5;
+
     }
 
     @Override
@@ -81,11 +89,61 @@ public class BattleScreen extends Screen {
         game = Game.getCurrentGame();
         player1 = game.getFirstPlayer();
         player2 = game.getSecondPlayer();
+
+        Gdx.input.setInputProcessor(new InputProcessor() {
+            @Override
+            public boolean keyDown(int keycode) {
+                if(keycode == Input.Keys.A){
+                    hero1.attack();
+                } else if(keycode == Input.Keys.D) {
+                    hero1.death();
+                } else if(keycode == Input.Keys.R) {
+                    hero1.run(200, 200);
+                }
+                return false;
+            }
+
+            @Override
+            public boolean keyUp(int keycode) {
+                return false;
+            }
+
+            @Override
+            public boolean keyTyped(char character) {
+                return false;
+            }
+
+            @Override
+            public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+                return false;
+            }
+
+            @Override
+            public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+                return false;
+            }
+
+            @Override
+            public boolean touchDragged(int screenX, int screenY, int pointer) {
+                return false;
+            }
+
+            @Override
+            public boolean mouseMoved(int screenX, int screenY) {
+                return false;
+            }
+
+            @Override
+            public boolean scrolled(int amount) {
+                return false;
+            }
+        });
     }
 
     @Override
     public void render(SpriteBatch batch) {
         batch.setProjectionMatrix(camera.combined);
+        batch.enableBlending();
         shapeRenderer.setProjectionMatrix(camera.combined);
 
         batch.begin();
@@ -94,8 +152,9 @@ public class BattleScreen extends Screen {
         drawHeroIcon(batch);
         drawPlayersName(batch);
         drawHeroesHp(batch);
-        batch.draw(backGround, 2000, 2000);
-        drawTable(shapeRenderer);
+
+//        batch.draw(backGround, 2000, 2000);
+        drawTable(batch);
         batch.end();
 
     }
@@ -147,25 +206,28 @@ public class BattleScreen extends Screen {
 
     }
 
-    public void drawTable(ShapeRenderer shapeRenderer) {
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+    public void drawTable( SpriteBatch batch) {
         for (int row = 0; row < 5; row++) {
             for (int col = 0; col < 9; col++) {
                 float x = tableCord1.x + col * (cellSizeX + cellDistance);
                 float y = tableCord1.y - row * (cellSizeY + cellDistance);
                 Army army = game.getTable()[row][col].getInsideArmy();
                 if(army == null){
-                    shapeRenderer.setColor(0, 0, 50/255f, 0.2f);
+                    batch.setColor(Main.toColor(new Color(0x3DB0C0F9, true)));
+                    batch.draw(tile, x, y, cellSizeX, cellSizeY);
+                    batch.setColor(com.badlogic.gdx.graphics.Color.WHITE);
                 } else {
                     if(player1.isFriend(army)){
-                        shapeRenderer.setColor(0, 0, 200/255f, 0.2f);
+                        batch.setColor(Main.toColor(new Color(0x750000E3, true)));
+                        batch.draw(tile, x, y, cellSizeX, cellSizeY);
+                        batch.setColor(com.badlogic.gdx.graphics.Color.WHITE);
                     } else {
-                        shapeRenderer.setColor(200/255f, 0, 0, 0.2f);
+                        batch.setColor(Main.toColor(new Color(0x83C80000, true)));
+                        batch.draw(tile, x, y, cellSizeX, cellSizeY);
+                        batch.setColor(com.badlogic.gdx.graphics.Color.WHITE);
                     }
                 }
-                shapeRenderer.rect(x, y, cellSizeX, cellSizeY);
             }
         }
-        shapeRenderer.end();
     }
 }

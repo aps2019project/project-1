@@ -38,6 +38,7 @@ public class AssetHandler {
         assetManager.load("slots/password.png", Texture.class);
         assetManager.load("slots/userName.png", Texture.class);
         assetManager.load("battle/mana.png", Texture.class);
+        assetManager.load("battle/icon general hp.png", Texture.class);
         assetManager.load("lantern_large_1.png", Texture.class);
         assetManager.load("lantern_large_2.png", Texture.class);
         assetManager.load("lantern_large_3.png", Texture.class);
@@ -51,6 +52,19 @@ public class AssetHandler {
         assetManager.load("fonts/Arial 36.fnt", BitmapFont.class);
         assetManager.load("Card/backGround/deActive.png", Texture.class);
         assetManager.load("Card/backGround/active.png", Texture.class);
+        assetManager.load("Card/Hero/Icon/1.png", Texture.class);
+        assetManager.load("Card/Hero/Icon/2.png", Texture.class);
+        assetManager.load("Card/Hero/Icon/3.png", Texture.class);
+        assetManager.load("Card/Hero/Icon/4.png", Texture.class);
+        assetManager.load("Card/Hero/Icon/5.png", Texture.class);
+        assetManager.load("Card/Hero/Icon/6.png", Texture.class);
+        assetManager.load("Card/Hero/Icon/7.png", Texture.class);
+        assetManager.load("Card/Hero/Icon/8.png", Texture.class);
+        assetManager.load("Card/Hero/Icon/9.png", Texture.class);
+        assetManager.load("Card/Hero/Icon/10.png", Texture.class);
+        assetManager.load("Card/Hero/Icon/11.png", Texture.class);
+        assetManager.load("battle/Tile.png", Texture.class);
+
 
         /*for (int i = 1; i < 10; ++i) {
             assetManager.load("fonts/" + i + ".ttf", TrueTypeFont.class);

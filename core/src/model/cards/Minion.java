@@ -1,5 +1,6 @@
 package model.cards;
 
+import graphic.Others.ArmyAnimation;
 import model.Buff.*;
 import model.game.Cell;
 import model.game.Player;
@@ -30,6 +31,7 @@ public class Minion extends Army {
         minions.add(this);
         cards.add(this);
         lastNumber = number;
+//        this.animation = new ArmyAnimation("Card/Hero/2.atlas");
     }
 
     public static int getLastNumber() {
