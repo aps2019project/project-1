@@ -28,8 +28,8 @@ public class CardTexture {
         glyphLayout = new GlyphLayout();
         activePic = AssetHandler.getData().get("Card/backGround/active.png");
         deActivePic = AssetHandler.getData().get("Card/backGround/deActive.png");
-        arial16 = AssetHandler.getData().get("fonts/Arial 16.fnt");
-        arial24 = AssetHandler.getData().get("fonts/Arial 24.fnt");
+        arial16 = new BitmapFont(AssetHandler.getData().get("fonts/Arial 16.fnt", BitmapFont.class).getData() ,AssetHandler.getData().get("fonts/Arial 16.fnt", BitmapFont.class).getRegions(), true);
+        arial24 = new BitmapFont(AssetHandler.getData().get("fonts/Arial 24.fnt", BitmapFont.class).getData() ,AssetHandler.getData().get("fonts/Arial 24.fnt", BitmapFont.class).getRegions(), true);
         arial24.setColor(Main.toColor(new Color(764765576)));
         arial16.setColor(Main.toColor(new Color(0x949592)));
         this.name = name;
@@ -55,4 +55,7 @@ public class CardTexture {
         gif.draw(batch, x + 50, y + 150, 150, 150);
     }
 
+    public String getName() {
+        return name;
+    }
 }

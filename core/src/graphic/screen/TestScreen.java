@@ -6,7 +6,6 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import graphic.Others.CardTexture;
 import graphic.Others.MoveAnimation;
@@ -14,8 +13,7 @@ import graphic.Others.MoveType;
 import graphic.main.AssetHandler;
 import graphic.main.Button;
 import graphic.main.Main;
-import model.cards.Card;
-import model.cards.Minion;
+import model.cards.*;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -32,9 +30,14 @@ public class TestScreen extends Screen {
     private Button itemButton;
     private Button sellButton;
     private Button buyButton;
-    private ArrayList<Minion> allCards;
-    private ArrayList<CardTexture> cardTextures;
-    private int startListFrom = 0;
+    private Button backButton;
+    private Button collectionButton;
+    private CardListTexture heroList;
+    private CardListTexture minionList;
+    private CardListTexture spellList;
+    private CardListTexture itemList;
+    private CardListTexture currentList;
+
     private ArrayList<MoveAnimation> snowAnimation;
 
 
@@ -45,14 +48,37 @@ public class TestScreen extends Screen {
         middleGround = AssetHandler.getData().get("backGround/shop2.png");
         forGround = AssetHandler.getData().get("backGround/shop3.png");
         mousePos = new Vector2();
-        allCards = Card.getCards().getAllMinions();
         playBackGroundMusic("music/shop.mp3");
 
         createSnowAnimation();
         createButtons();
 
-        cardTextures = new ArrayList<CardTexture>();
+        heroList = new CardListTexture(3, 2, 70, 140);
+        for (int i = 0; i < Card.getCards().getAllHeroes().size(); ++i) {
+            Hero temp = Card.getCards().getAllHeroes().get(i);
+            heroList.addCardTexture(new CardTexture(temp.getName(), temp.getDescription(), temp.getAp(), temp.getHp(), "Card/Hero/" + (i%11+1) +".atlas"));
+        }
 
+        minionList = new CardListTexture(3, 2, 70, 140);
+        for (int i = 0; i < Card.getCards().getAllMinions().size(); ++i) {
+            Minion temp = Card.getCards().getAllMinions().get(i);
+            minionList.addCardTexture(new CardTexture(temp.getName(), temp.getDescription(), temp.getAp(), temp.getHp(), "Card/Hero/" + 3 +".atlas"));
+        }
+
+        spellList = new CardListTexture(3, 2, 70, 140);
+        for (int i = 0; i < Card.getCards().getAllSpells().size(); ++i) {
+            Spell temp = Card.getCards().getAllSpells().get(i);
+            spellList.addCardTexture(new CardTexture(temp.getName(), temp.getDescription(), 5, 5, "Card/Hero/" + 7+".atlas"));
+        }
+
+        itemList = new CardListTexture(3, 2, 70, 140);
+        for (int i = 0; i < Card.getCards().getAllItems().size(); ++i) {
+            Item temp = Card.getCards().getAllItems().get(i);
+            itemList.addCardTexture(new CardTexture(temp.getName(), temp.getDescription(), 10, 10, "Card/Hero/" + (5) +".atlas"));
+        }
+
+
+        currentList = heroList;
 
 
     }
@@ -64,18 +90,16 @@ public class TestScreen extends Screen {
         mousePos.set(Gdx.input.getX(), Gdx.input.getY());
         mousePos = viewport.unproject(mousePos);
 
+        backButton.setActive(backButton.contains(mousePos));
 
         Gdx.input.setInputProcessor(new InputProcessor() {
             @Override
             public boolean keyDown(int keycode) {
                 if (keycode == Input.Keys.RIGHT) {
-                    if (startListFrom + 8 < allCards.size())
-                        startListFrom += 8;
+                    currentList.nextPage();
                 }
                 else if (keycode == Input.Keys.LEFT) {
-                    if (startListFrom - 8 >= 0)
-                        startListFrom -= 8;
-
+                   currentList.previousPage();
                 } else if (keycode == Input.Keys.PAGE_DOWN) {
                     setMusicVolume(false);
                 } else if (keycode == Input.Keys.PAGE_UP) {
@@ -101,7 +125,24 @@ public class TestScreen extends Screen {
                     minionButton.setActive(minionButton.contains(mousePos));
                     spellButton.setActive(spellButton.contains(mousePos));
                     itemButton.setActive(itemButton.contains(mousePos));
+                    if (heroButton.isActive())
+                        currentList = heroList;
+                    else if (minionButton.isActive())
+                        currentList = minionList;
+                    else if (itemButton.isActive())
+                        currentList = itemList;
+                    else
+                        currentList = spellList;
                 }
+                else if (buyButton.contains(mousePos) || sellButton.contains(mousePos)) {
+                    buyButton.setActive(buyButton.contains(mousePos));
+                    sellButton.setActive(sellButton.contains(mousePos));
+                }
+
+
+
+                if (backButton.isActive())
+                    ScreenManager.setScreen(new MenuScreen());
 
                 return false;
             }
@@ -139,6 +180,11 @@ public class TestScreen extends Screen {
         minionButton.draw(batch);
         spellButton.draw(batch);
         itemButton.draw(batch);
+        sellButton.draw(batch);
+        buyButton.draw(batch);
+        backButton.draw(batch);
+
+        currentList.draw(batch);
 
 
     }
@@ -166,11 +212,19 @@ public class TestScreen extends Screen {
 
     private void createButtons() {
         BitmapFont font = AssetHandler.getData().get("fonts/Arial 24.fnt");
-        font.setColor(Main.toColor(new Color(0xFF7E05)));
-        heroButton = new Button("button/shop left.png", "button/shop left active.png", 300, 700, "Hero", font);
-        minionButton = new Button("button/shop middle.png", "button/shop middle active.png", 500, 700, "Minion", font);
-        spellButton = new Button("button/shop middle.png", "button/shop middle active.png", 700, 700, "Spell", font);
-        itemButton = new Button("button/shop right.png", "button/shop right active.png", 900, 700, "Item", font);
+        font.setColor(Main.toColor(new Color(0xFFFDFD)));
+        heroButton = new Button("button/shop left.png", "button/shop left active.png", 100, 830, "Hero", font);
+        minionButton = new Button("button/shop middle.png", "button/shop middle active.png", 300, 830, "Minion", font);
+        spellButton = new Button("button/shop middle.png", "button/shop middle active.png", 500, 830, "Spell", font);
+        itemButton = new Button("button/shop right.png", "button/shop right active.png", 700, 830, "Item", font);
+        heroButton.setActive(true);
+        font = AssetHandler.getData().get("fonts/Arial 36.fnt");
+        font.setColor(Main.toColor(new Color(0xFFFDFD)));
+        sellButton = new Button("button/shop sb.png", "button/shop sb active.png", 1250, 350, "Sell", font);
+        buyButton = new Button("button/shop sb.png", "button/shop sb active.png", 1250, 450, "Buy", font);
+        buyButton.setActive(true);
+        backButton = new Button("button/back.png", "button/back.png", 0, 850, 50,50);
+
     }
 
     private void drawBackGround(SpriteBatch batch) {
