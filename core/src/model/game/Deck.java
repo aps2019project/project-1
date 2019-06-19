@@ -17,7 +17,7 @@ public class Deck {
         this.name = name;
         cards = new CardsArray();
     }
-    private Deck(String name,CardsArray cards) {
+    public Deck(String name,CardsArray cards) {
         this.name = name;
         this.cards = cards;
     }

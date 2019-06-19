@@ -6,31 +6,31 @@ import java.util.Date;
 
 public class MatchResult {
 
-    private Account firstPlayer;
-    private Account secondPlayer;
-    private Account winner;
+    private String firstPlayer;
+    private String secondPlayer;
+    private String winner;
     private Date date;
     private int reward;
 
     public MatchResult(Account firstPlayer, Account secondPlayer, Account winner, int reward) {
-        this.firstPlayer = firstPlayer;
-        this.secondPlayer = secondPlayer;
-        this.winner = winner;
+        this.firstPlayer = firstPlayer.getUsername();
+        this.secondPlayer = secondPlayer.getUsername();
+        this.winner = winner.getUsername();
         this.date = new Date();
         this.reward = reward;
         //need to add functions
     }
 
     public Account getFirstPlayer() {
-        return firstPlayer;
+        return Account.findAccount(firstPlayer);
     }
 
     public Account getSecondPlayer() {
-        return secondPlayer;
+        return Account.findAccount(secondPlayer);
     }
 
     public Account getWinner() {
-        return winner;
+        return Account.findAccount(winner);
     }
 
     public Date getDate() {

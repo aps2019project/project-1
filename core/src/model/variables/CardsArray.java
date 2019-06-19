@@ -9,6 +9,15 @@ import java.util.Comparator;
 
 public class CardsArray {
 
+    public CardsArray() {
+    }
+
+    public CardsArray(ArrayList<String> cardNames) {
+        for (String cardName: cardNames) {
+            add(Card.getCards().findByName(cardName));
+        }
+    }
+
     private ArrayList<Hero> allHeroes = new ArrayList<Hero>();
     private ArrayList<Minion> allMinions = new ArrayList<Minion>();
     private ArrayList<Spell> allSpells = new ArrayList<Spell>();
@@ -79,6 +88,8 @@ public class CardsArray {
     }
 
     public boolean add(Card card) {
+        if (card == null)
+            return false;
         if (this.find(card) != null) {
             return false;
         }
@@ -106,6 +117,8 @@ public class CardsArray {
     }
 
     public void remove(Card card) {
+        if (card == null)
+            return;
         if (this.find(card) == null) {
             return;
         }

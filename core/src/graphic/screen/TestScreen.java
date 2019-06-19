@@ -71,9 +71,9 @@ public class TestScreen extends Screen {
                     if (startListFrom - 8 >= 0)
                         startListFrom -= 8;
 
-                } else if (keycode == Input.Keys.DOWN) {
+                } else if (keycode == Input.Keys.PAGE_DOWN) {
                     setMusicVolume(false);
-                } else if (keycode == Input.Keys.UP) {
+                } else if (keycode == Input.Keys.PAGE_UP) {
                     setMusicVolume(true);
                 }
                 return false;
@@ -144,6 +144,8 @@ public class TestScreen extends Screen {
 
     @Override
     public void dispose() {
+        music.stop();
+        music.dispose();
 
     }
 }
