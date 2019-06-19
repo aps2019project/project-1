@@ -17,11 +17,15 @@ public class AssetHandler {
 
     public static void load() {
         assetManager.load("backGround/login_backGround.png", Texture.class);
+        assetManager.load("backGround/shop1.png", Texture.class);
+        assetManager.load("backGround/shop2.png", Texture.class);
+        assetManager.load("backGround/shop3.png", Texture.class);
         assetManager.load("backGround/battle_background.png", Texture.class);
         assetManager.load("backGround/menu1.png", Texture.class);
         assetManager.load("backGround/menu2.png", Texture.class);
         assetManager.load("music/login.mp3", Music.class);
         assetManager.load("music/menu.mp3", Music.class);
+        assetManager.load("music/shop.mp3", Music.class);
         assetManager.load("music/battle.mp3", Music.class);
         assetManager.load("sfx/click.mp3", Sound.class);
         assetManager.load("button/login1.png", Texture.class);
