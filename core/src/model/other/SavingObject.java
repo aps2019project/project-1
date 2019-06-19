@@ -42,7 +42,7 @@ public class SavingObject {
         addCollection(account);
         addAllDecks(account);
         addHistory(account);
-        if (!mainDeck.equals(""))
+        if (mainDeck != null)
             account.setMainDeck(account.findDeck(mainDeck));
         account.setDaric(daric);
         account.setStoryProgress(storyProgress);

@@ -192,7 +192,7 @@ public class Account {
     public static void saveAccountDetails() {
         Gson gson = new GsonBuilder().create();
         ArrayList<SavingObject> savingObjects = new ArrayList<SavingObject>();
-        for (Account account: Account.getAccounts()) {
+        for (Account account: accounts) {
             savingObjects.add(new SavingObject(account));
         }
         try {
@@ -229,8 +229,9 @@ public class Account {
         }
         reader.close();
 
+        accounts.clear();
         for (SavingObject temp: data) {
-            accounts.add(temp.getAccount());
+            temp.getAccount();
         }
 
     }

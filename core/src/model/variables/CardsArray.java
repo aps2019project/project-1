@@ -94,6 +94,11 @@ public class CardsArray {
             return false;
         }
         try {
+            card = card.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+        try {
             switch (card.getType()) {
                 case ITEM:
                     allItems.add((Item) card);
