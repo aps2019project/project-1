@@ -143,6 +143,7 @@ public class BattleScreen extends Screen {
     @Override
     public void render(SpriteBatch batch) {
         batch.setProjectionMatrix(camera.combined);
+        batch.enableBlending();
         shapeRenderer.setProjectionMatrix(camera.combined);
 
         batch.begin();
