@@ -152,10 +152,10 @@ public class BattleScreen extends Screen {
         drawHeroIcon(batch);
         drawPlayersName(batch);
         drawHeroesHp(batch);
-        batch.draw(tile, 100, 100, cellSizeX, cellSizeY);
-        batch.draw(backGround, 2000, 2000);
+
+//        batch.draw(backGround, 2000, 2000);
+        drawTable(batch);
         batch.end();
-        drawTable(shapeRenderer, batch);
 
     }
 
@@ -206,27 +206,26 @@ public class BattleScreen extends Screen {
 
     }
 
-    public void drawTable(ShapeRenderer shapeRenderer, SpriteBatch batch) {
+    public void drawTable( SpriteBatch batch) {
         for (int row = 0; row < 5; row++) {
             for (int col = 0; col < 9; col++) {
                 float x = tableCord1.x + col * (cellSizeX + cellDistance);
                 float y = tableCord1.y - row * (cellSizeY + cellDistance);
                 Army army = game.getTable()[row][col].getInsideArmy();
                 if(army == null){
-                    shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-                    shapeRenderer.setColor(Main.toColor(new Color(0x32000064, true)));
-                    shapeRenderer.rect(x, y, cellSizeX, cellSizeY);
-                    shapeRenderer.end();
+                    batch.setColor(Main.toColor(new Color(0x3DB0C0F9, true)));
+                    batch.draw(tile, x, y, cellSizeX, cellSizeY);
+                    batch.setColor(com.badlogic.gdx.graphics.Color.WHITE);
                 } else {
-                    shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
                     if(player1.isFriend(army)){
-                        shapeRenderer.setColor(Main.toColor(new Color(0x320000C8, true)));
+                        batch.setColor(Main.toColor(new Color(0x750000E3, true)));
+                        batch.draw(tile, x, y, cellSizeX, cellSizeY);
+                        batch.setColor(com.badlogic.gdx.graphics.Color.WHITE);
                     } else {
-                        shapeRenderer.setColor(Main.toColor(new Color(0x32C80000, true)));
+                        batch.setColor(Main.toColor(new Color(0x83C80000, true)));
+                        batch.draw(tile, x, y, cellSizeX, cellSizeY);
+                        batch.setColor(com.badlogic.gdx.graphics.Color.WHITE);
                     }
-                    shapeRenderer.rect(x, y, cellSizeX, cellSizeY);
-                    shapeRenderer.end();
-
                 }
             }
         }
