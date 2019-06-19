@@ -1,5 +1,6 @@
 package model.cards;
 
+import com.badlogic.gdx.graphics.Texture;
 import model.Buff.*;
 import model.game.Cell;
 import model.game.CellEffect;
@@ -20,6 +21,7 @@ public class Hero extends Army {
 
     private int mp, coolDown;
     private Buff specialBuff = null;
+    private String iconId;
 
     Hero(int number, String name, int price, int hp, int ap, int ar, int mp, int coolDown, AttackType attackType, String description) {
         super(number, name, price, description, hp, ap, ar, attackType, HERO, 0);
@@ -30,6 +32,10 @@ public class Hero extends Army {
             cards.add(this);
         }
         lastNumber = number;
+
+        iconId = "Card/Hero/Icon/" + number +".png";
+        if(number > 11)
+            iconId = "Card/Hero/Icon/11.png";
     }
 
     public static int getLastNumber() {
@@ -46,6 +52,10 @@ public class Hero extends Army {
 
     public int getCoolDown() {
         return coolDown;
+    }
+
+    public String getIconId() {
+        return iconId;
     }
 
     public static void scanHeroes(ArrayList<String[]> data){
