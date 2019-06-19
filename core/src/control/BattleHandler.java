@@ -29,6 +29,7 @@ public class BattleHandler extends Handler{
     HandlerType handleCommands() {
         while (!game.getWhoIsHisTurn().isEndTurn() && !game.isExitFromGame() && scanner.hasNext()) {
             command = scanner.nextLine().toLowerCase().trim();
+            game = Game.getCurrentGame();
             if (command.matches("game info")) {
                 BattleScreen.showGameInfo();
             } else if (command.matches("show my minions")) {
