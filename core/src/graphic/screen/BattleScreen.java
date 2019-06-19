@@ -172,7 +172,6 @@ public class BattleScreen extends Screen {
         drawPlayersName(batch);
         drawHeroesHp(batch);
 
-//        batch.draw(backGround, 2000, 2000);
         drawTable(batch);
         batch.end();
 
