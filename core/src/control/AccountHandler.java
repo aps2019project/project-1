@@ -14,7 +14,6 @@ class AccountHandler extends Handler {
 
     @Override
     HandlerType handleCommands() {
-        Account.saveAccountDetails();
         while (scanner.hasNext()) {
             command = scanner.nextLine().trim();
             if (command.matches("create account \\w+")) {

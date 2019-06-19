@@ -71,6 +71,14 @@ public class Account {
         return null;
     }
 
+    void setDaric(int daric) {
+        this.daric = daric;
+    }
+
+    void setStoryProgress(StoryProgress storyProgress) {
+        this.storyProgress = storyProgress;
+    }
+
     public Deck getMainDeck() {
         return mainDeck;
     }
@@ -183,9 +191,13 @@ public class Account {
 
     public static void saveAccountDetails() {
         Gson gson = new GsonBuilder().create();
+        ArrayList<SavingObject> savingObjects = new ArrayList<SavingObject>();
+        for (Account account: accounts) {
+            savingObjects.add(new SavingObject(account));
+        }
         try {
             Writer writer = new FileWriter("Files/Data/Accounts.json");
-            writer.write(gson.toJson(Account.getAccounts()));
+            writer.write(gson.toJson(savingObjects));
             writer.close();
         }
         catch (Exception e) {
@@ -194,11 +206,11 @@ public class Account {
     }
 
     public static void readAccountDetails() {
-        Type type = new TypeToken<List<Account>>() {}.getType();
+        Type type = new TypeToken<ArrayList<SavingObject>>() {}.getType();
         Gson gson = new GsonBuilder().create();
         Scanner reader;
         String str = "";
-
+        ArrayList<SavingObject> data = new ArrayList<SavingObject>();
         try {
             reader = new Scanner(new File("Files/Data/Accounts.json"));
         }
@@ -210,18 +222,16 @@ public class Account {
             str = reader.nextLine();
         }
         try {
-            List<Account> data = gson.fromJson(str, type);
-            if (data != null)
-                accounts.addAll(data);
+            data = gson.fromJson(str, type);
         }
         catch (Exception e) {
             e.printStackTrace();
         }
         reader.close();
 
-        for (Account account: accounts) {
-            if (account.getMainDeck() != null)
-                account.setMainDeck(account.findDeck(account.getMainDeck().getName()));
+        accounts.clear();
+        for (SavingObject temp: data) {
+            temp.getAccount();
         }
 
     }

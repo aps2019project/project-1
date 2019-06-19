@@ -65,9 +65,9 @@ public class MenuScreen extends Screen {
         Gdx.input.setInputProcessor(new InputProcessor() {
             @Override
             public boolean keyDown(int keycode) {
-                if (keycode == Input.Keys.UP)
+                if (keycode == Input.Keys.PAGE_UP)
                     setMusicVolume(true);
-                if (keycode == Input.Keys.DOWN)
+                if (keycode == Input.Keys.PAGE_DOWN)
                     setMusicVolume(false);
                 return false;
             }
@@ -140,6 +140,7 @@ public class MenuScreen extends Screen {
 
     @Override
     public void dispose() {
+        music.stop();
         music.dispose();
     }
 
