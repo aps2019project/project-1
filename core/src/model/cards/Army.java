@@ -1,5 +1,6 @@
 package model.cards;
 
+import graphic.Others.ArmyAnimation;
 import model.Buff.*;
 import model.game.Game;
 import model.game.Player;
@@ -21,6 +22,7 @@ public class Army extends Card {
     protected ArrayList<Buff> buffs = new ArrayList<Buff>();
     protected boolean isStunned;
     protected boolean isDisarmed;
+//    protected ArmyAnimation animation = new ArmyAnimation("Card/Hero/1.atlas");
 
     public Army(int number, String name, int price, String description, int hp, int ap, int ar, AttackType attackType, CardType cardType, int mana) {
         super(number, name, price, description, cardType, mana);
@@ -28,11 +30,13 @@ public class Army extends Card {
         this.ap = ap;
         this.ar = ar;
         this.attackType = attackType;
+
     }
 
     public int getHp() {
         return hp;
     }
+
 
     public int getAp() {
         return ap;
