@@ -14,6 +14,7 @@ import graphic.main.AssetHandler;
 import graphic.main.Button;
 import graphic.main.Main;
 import model.cards.*;
+import model.other.Account;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -31,11 +32,17 @@ public class TestScreen extends Screen {
     private Button sellButton;
     private Button buyButton;
     private Button backButton;
+    private Button daricPicture;
     private Button collectionButton;
-    private CardListTexture heroList;
-    private CardListTexture minionList;
-    private CardListTexture spellList;
-    private CardListTexture itemList;
+    private Button doneButton;
+    private CardListTexture allHeroList;
+    private CardListTexture allMinionList;
+    private CardListTexture allSpellList;
+    private CardListTexture allItemList;
+    private CardListTexture playerHeroList;
+    private CardListTexture playerMinionList;
+    private CardListTexture playerSpellList;
+    private CardListTexture playerItemList;
     private CardListTexture currentList;
     private String selectedCard;
 
@@ -54,35 +61,59 @@ public class TestScreen extends Screen {
         createSnowAnimation();
         createButtons();
 
-        heroList = new CardListTexture(3, 2, 70, 140);
+        allHeroList = new CardListTexture(3, 2, 70, 140);
         for (int i = 0; i < Card.getCards().getAllHeroes().size(); ++i) {
             Hero temp = Card.getCards().getAllHeroes().get(i);
-            heroList.addCardTexture(new CardTexture(temp.getName(), temp.getDescription(), temp.getAp(), temp.getHp(), "Card/Hero/" + (i%11+1) +".atlas"));
+            allHeroList.addCardTexture(new CardTexture(temp.getName(), temp.getDescription(), temp.getAp(), temp.getHp(), "Card/Hero/" + (i%11+1) +".atlas"));
         }
 
-        minionList = new CardListTexture(3, 2, 70, 140);
+        allMinionList = new CardListTexture(3, 2, 70, 140);
         for (int i = 0; i < Card.getCards().getAllMinions().size(); ++i) {
             Minion temp = Card.getCards().getAllMinions().get(i);
-            minionList.addCardTexture(new CardTexture(temp.getName(), temp.getDescription(), temp.getAp(), temp.getHp(), "Card/Hero/" + 3 +".atlas"));
+            allMinionList.addCardTexture(new CardTexture(temp.getName(), temp.getDescription(), temp.getAp(), temp.getHp(), "Card/Hero/" + 3 +".atlas"));
         }
 
-        spellList = new CardListTexture(3, 2, 70, 140);
-        for (int i = 0; i < Card.getCards().getAllSpells().size(); ++i) {
+        allSpellList = new CardListTexture(3, 2, 70, 140);
+        for (int i = 0; i < Card.getCards().getSellableItems().size(); ++i) {
             Spell temp = Card.getCards().getAllSpells().get(i);
-            spellList.addCardTexture(new CardTexture(temp.getName(), temp.getDescription(), 5, 5, "Card/Hero/" + 7+".atlas"));
+            allSpellList.addCardTexture(new CardTexture(temp.getName(), temp.getDescription(), 5, 5, "Card/Hero/" + 7+".atlas"));
         }
 
-        itemList = new CardListTexture(3, 2, 70, 140);
+        allItemList = new CardListTexture(3, 2, 70, 140);
         for (int i = 0; i < Card.getCards().getAllItems().size(); ++i) {
             Item temp = Card.getCards().getAllItems().get(i);
-            itemList.addCardTexture(new CardTexture(temp.getName(), temp.getDescription(), 10, 10, "Card/Hero/" + (5) +".atlas"));
+            allItemList.addCardTexture(new CardTexture(temp.getName(), temp.getDescription(), 10, 10, "Card/Hero/" + (5) +".atlas"));
         }
 
+        getPlayerCards();
 
-        currentList = heroList;
+
+        currentList = allHeroList;
 
         playBackGroundMusic("music/shop.mp3");
 
+    }
+
+    private void getPlayerCards() {
+        playerHeroList = new CardListTexture(3, 2, 70, 140);
+        for (Hero temp: Account.getCurrentAccount().getCollection().getAllHeroes()) {
+            playerHeroList.addCardTexture(new CardTexture(temp.getName(), temp.getDescription(), temp.getAp(), temp.getHp(), "Card/Hero/" + 7 + ".atlas"));
+        }
+
+        playerMinionList = new CardListTexture(3, 2, 70, 140);
+        for (Minion temp: Account.getCurrentAccount().getCollection().getAllMinions()) {
+            playerMinionList.addCardTexture(new CardTexture(temp.getName(), temp.getDescription(), temp.getAp(), temp.getHp(), "Card/Hero/" + 9 + ".atlas"));
+        }
+
+        playerSpellList = new CardListTexture(3, 2, 70, 140);
+        for (Spell temp: Account.getCurrentAccount().getCollection().getAllSpells()) {
+            playerSpellList.addCardTexture(new CardTexture(temp.getName(), temp.getDescription(), 5, 5, "Card/Hero/" + 2 + ".atlas"));
+        }
+
+        playerItemList = new CardListTexture(3, 2, 70, 140);
+        for (Item temp: Account.getCurrentAccount().getCollection().getSellableItems()) {
+            playerItemList.addCardTexture(new CardTexture(temp.getName(), temp.getDescription(), 10, 10, "Card/Hero/" + 3 + ".atlas"));
+        }
     }
 
     @Override
@@ -93,6 +124,7 @@ public class TestScreen extends Screen {
         mousePos = viewport.unproject(mousePos);
 
         backButton.setActive(backButton.contains(mousePos));
+        doneButton.setActive(doneButton.contains(mousePos));
 
         Gdx.input.setInputProcessor(new InputProcessor() {
             @Override
@@ -127,24 +159,56 @@ public class TestScreen extends Screen {
                     minionButton.setActive(minionButton.contains(mousePos));
                     spellButton.setActive(spellButton.contains(mousePos));
                     itemButton.setActive(itemButton.contains(mousePos));
-                    if (heroButton.isActive())
-                        changeCurrentList(heroList);
-                    else if (minionButton.isActive())
-                        changeCurrentList(minionList);
-                    else if (itemButton.isActive())
-                        changeCurrentList(itemList);
-                    else
-                        changeCurrentList(spellList);
+                    if (buyButton.isActive()) {
+                        if (heroButton.isActive())
+                            changeCurrentList(allHeroList);
+                        else if (minionButton.isActive())
+                            changeCurrentList(allMinionList);
+                        else if (itemButton.isActive())
+                            changeCurrentList(allItemList);
+                        else
+                            changeCurrentList(allSpellList);
+                    }
+                    if (sellButton.isActive()) {
+                        if (heroButton.isActive())
+                            changeCurrentList(playerHeroList);
+                        else if (minionButton.isActive())
+                            changeCurrentList(playerMinionList);
+                        else if (itemButton.isActive())
+                            changeCurrentList(playerItemList);
+                        else
+                            changeCurrentList(playerSpellList);
+                    }
+                    selectedCard = "";
                 }
                 else if (buyButton.contains(mousePos) || sellButton.contains(mousePos)) {
                     buyButton.setActive(buyButton.contains(mousePos));
                     sellButton.setActive(sellButton.contains(mousePos));
+                    refreshAllLists();
                 }
 
                 if (currentList.contains(mousePos)) {
                     selectedCard = currentList.getSelectedCardName(mousePos);
                 }
 
+
+                if (doneButton.isActive()) {
+                    if (selectedCard.equals(""))
+                        return false;
+                    if (sellButton.isActive()) {
+                        Account.getCurrentAccount().sellCard(selectedCard);
+                        getPlayerCards();
+                        refreshAllLists();
+                        updateDaricShow();
+
+                    }
+                    if (buyButton.isActive()) {
+                        Account.getCurrentAccount().buyCard(selectedCard);
+                        getPlayerCards();
+                        refreshAllLists();
+                        updateDaricShow();
+                    }
+                }
 
                 if (backButton.isActive())
                     ScreenManager.setScreen(new MenuScreen());
@@ -175,6 +239,21 @@ public class TestScreen extends Screen {
 
     }
 
+    private void refreshAllLists() {
+        heroButton.setActive(true);
+        minionButton.setActive(false);
+        spellButton.setActive(false);
+        itemButton.setActive(false);
+        if (buyButton.isActive()) {
+            changeCurrentList(allHeroList);
+            selectedCard = "";
+        }
+        if (sellButton.isActive()) {
+            changeCurrentList(playerHeroList);
+            selectedCard = "";
+        }
+    }
+
     @Override
     public void render(SpriteBatch batch) {
         batch.setProjectionMatrix(camera.combined);
@@ -188,6 +267,8 @@ public class TestScreen extends Screen {
         sellButton.draw(batch);
         buyButton.draw(batch);
         backButton.draw(batch);
+        doneButton.draw(batch);
+        daricPicture.draw(batch);
 
         currentList.draw(batch);
 
@@ -234,7 +315,18 @@ public class TestScreen extends Screen {
         buyButton = new Button("button/shop sb.png", "button/shop sb active.png", 1250, 450, "Buy", font);
         buyButton.setActive(true);
         backButton = new Button("button/back.png", "button/back.png", 0, 850, 50,50);
+        font = new BitmapFont(AssetHandler.getData().get("fonts/Arial 36.fnt", BitmapFont.class).getData(), AssetHandler.getData().get("fonts/Arial 36.fnt", BitmapFont.class).getRegions(), true);
+        font.setColor(Main.toColor(new Color(0xBBCDFF)));
+        doneButton = new Button("button/shop done.png", 50, 50, "Done", font);
+        updateDaricShow();
 
+
+    }
+
+    private void updateDaricShow() {
+        BitmapFont font = new BitmapFont(AssetHandler.getData().get("fonts/Arial 36.fnt", BitmapFont.class).getData(), AssetHandler.getData().get("fonts/Arial 36.fnt", BitmapFont.class).getRegions(), true);
+        font.setColor(Main.toColor(new Color(0xFF6100)));
+        daricPicture = new Button("button/daric slot.png", 1000, 50, String.valueOf(Account.getCurrentAccount().getDaric()), font);
     }
 
     private void changeCurrentList(CardListTexture temp) {

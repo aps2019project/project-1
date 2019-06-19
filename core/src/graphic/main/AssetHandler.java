@@ -76,8 +76,10 @@ public class AssetHandler {
         assetManager.load("button/shop right active.png", Texture.class);
         assetManager.load("button/shop sb.png", Texture.class);
         assetManager.load("button/shop sb active.png", Texture.class);
+        assetManager.load("button/shop done.png", Texture.class);
         assetManager.load("button/back.png", Texture.class);
         assetManager.load("backGround/brand.png", Texture.class);
+        assetManager.load("button/daric slot.png", Texture.class);
         /*for (int i = 1; i < 10; ++i) {
             assetManager.load("fonts/" + i + ".ttf", TrueTypeFont.class);
         }*/
