@@ -37,6 +37,7 @@ public class TestScreen extends Screen {
     private CardListTexture spellList;
     private CardListTexture itemList;
     private CardListTexture currentList;
+    private String selectedCard;
 
     private ArrayList<MoveAnimation> snowAnimation;
 
@@ -49,7 +50,7 @@ public class TestScreen extends Screen {
         forGround = AssetHandler.getData().get("backGround/shop3.png");
         mousePos = new Vector2();
         playBackGroundMusic("music/shop.mp3");
-
+        selectedCard = "";
         createSnowAnimation();
         createButtons();
 
@@ -80,6 +81,7 @@ public class TestScreen extends Screen {
 
         currentList = heroList;
 
+        playBackGroundMusic("music/shop.mp3");
 
     }
 
@@ -126,19 +128,22 @@ public class TestScreen extends Screen {
                     spellButton.setActive(spellButton.contains(mousePos));
                     itemButton.setActive(itemButton.contains(mousePos));
                     if (heroButton.isActive())
-                        currentList = heroList;
+                        changeCurrentList(heroList);
                     else if (minionButton.isActive())
-                        currentList = minionList;
+                        changeCurrentList(minionList);
                     else if (itemButton.isActive())
-                        currentList = itemList;
+                        changeCurrentList(itemList);
                     else
-                        currentList = spellList;
+                        changeCurrentList(spellList);
                 }
                 else if (buyButton.contains(mousePos) || sellButton.contains(mousePos)) {
                     buyButton.setActive(buyButton.contains(mousePos));
                     sellButton.setActive(sellButton.contains(mousePos));
                 }
 
+                if (currentList.contains(mousePos)) {
+                    selectedCard = currentList.getSelectedCardName(mousePos);
+                }
 
 
                 if (backButton.isActive())
@@ -186,6 +191,11 @@ public class TestScreen extends Screen {
 
         currentList.draw(batch);
 
+        batch.begin();
+        BitmapFont font =AssetHandler.getData().get("fonts/Arial 36.fnt", BitmapFont.class);
+        font.draw(batch, selectedCard, 700, 800);
+        batch.end();
+
 
     }
 
@@ -203,9 +213,9 @@ public class TestScreen extends Screen {
             int xEnd = (int) (xStart - 150 + 300 * Math.random());
             int random = (int) (Math.random() * 5);
             if (random > 3)
-                snowAnimation.add(new MoveAnimation("animation/snow2.png", xStart, 900, xEnd, 0, MoveType.SIMPLE, true));
+                snowAnimation.add(new MoveAnimation("animation/snow2.png", xStart, 900, xEnd, 250, MoveType.SIMPLE, true));
             else
-                snowAnimation.add(new MoveAnimation("animation/snow.png", xStart, 900, xEnd, 0, MoveType.SIMPLE, true));
+                snowAnimation.add(new MoveAnimation("animation/snow.png", xStart, 900, xEnd, 250, MoveType.SIMPLE, true));
             snowAnimation.get(i).setSpeed((float) (0.2f + Math.random()));
         }
     }
@@ -225,6 +235,11 @@ public class TestScreen extends Screen {
         buyButton.setActive(true);
         backButton = new Button("button/back.png", "button/back.png", 0, 850, 50,50);
 
+    }
+
+    private void changeCurrentList(CardListTexture temp) {
+        currentList.deActiveAllCards();
+        currentList = temp;
     }
 
     private void drawBackGround(SpriteBatch batch) {

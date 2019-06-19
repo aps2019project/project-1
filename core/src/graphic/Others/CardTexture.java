@@ -6,32 +6,38 @@ import graphic.main.AssetHandler;
 import graphic.main.Gif;
 import graphic.main.Main;
 
-import javax.xml.soap.Text;
 import java.awt.*;
 
 public class CardTexture {
+    private static BitmapFont arial16;
+    private static BitmapFont arial24;
+    private static GlyphLayout glyphLayout;
 
-    private Texture activePic;
-    private Texture deActivePic;
-    private BitmapFont arial16;
-    private BitmapFont arial24;
-    private String name;
-    private String info;
-    private int attackPoint;
-    private int healthPoint;
-    private GlyphLayout glyphLayout;
-    private Gif gif;
-
-    public CardTexture(String name, String info, int attackPoint, int healthPoint, String gifPath) {
-        Animation animation = new Animation<TextureRegion>(1 / 20f, new TextureAtlas(gifPath).findRegions("breathing"), Animation.PlayMode.LOOP);
-        gif = new Gif(animation);
-        glyphLayout = new GlyphLayout();
-        activePic = AssetHandler.getData().get("Card/backGround/active.png");
-        deActivePic = AssetHandler.getData().get("Card/backGround/deActive.png");
+    static {
         arial16 = new BitmapFont(AssetHandler.getData().get("fonts/Arial 16.fnt", BitmapFont.class).getData() ,AssetHandler.getData().get("fonts/Arial 16.fnt", BitmapFont.class).getRegions(), true);
         arial24 = new BitmapFont(AssetHandler.getData().get("fonts/Arial 24.fnt", BitmapFont.class).getData() ,AssetHandler.getData().get("fonts/Arial 24.fnt", BitmapFont.class).getRegions(), true);
         arial24.setColor(Main.toColor(new Color(764765576)));
         arial16.setColor(Main.toColor(new Color(0x949592)));
+        glyphLayout = new GlyphLayout();
+    }
+
+    private Texture activePic;
+    private Texture deActivePic;
+    private String name;
+    private String info;
+    private int attackPoint;
+    private int healthPoint;
+    private Gif gif;
+    private Gif activeGif;
+    private boolean isActive = false;
+
+    public CardTexture(String name, String info, int attackPoint, int healthPoint, String gifPath) {
+        Animation animation = new Animation<TextureRegion>(1 / 20f, new TextureAtlas(gifPath).findRegions("breathing"), Animation.PlayMode.LOOP);
+        gif = new Gif(animation);
+        animation = new Animation<TextureRegion>(1 / 20f, new TextureAtlas(gifPath).findRegions("attack"), Animation.PlayMode.LOOP);
+        activeGif = new Gif(animation);
+        activePic = AssetHandler.getData().get("Card/backGround/active.png");
+        deActivePic = AssetHandler.getData().get("Card/backGround/deActive.png");
         this.name = name;
         this.info = info;
         this.attackPoint = attackPoint;
@@ -40,7 +46,10 @@ public class CardTexture {
 
     public void draw(SpriteBatch batch, float x, float y) {
         batch.begin();
-        batch.draw(deActivePic, x, y);
+        if (isActive)
+            batch.draw(activePic, x, y);
+        else
+            batch.draw(deActivePic, x, y);
         glyphLayout.setText(arial24, name);
         arial24.draw(batch, name, x + (250 - glyphLayout.width) / 2, y + 100 - (25 - glyphLayout.height) / 2);
         arial16.draw(batch, info, x + 25, y + 70, 200, 40, true);
@@ -52,10 +61,19 @@ public class CardTexture {
         arial24.draw(batch, String.valueOf(healthPoint), 170 + x + (40 - glyphLayout.width) / 2, y + 150 - (40 - glyphLayout.height) / 2);
         arial24.setColor(Main.toColor(new Color(764765576)));
         batch.end();
-        gif.draw(batch, x + 50, y + 150, 150, 150);
+        if (isActive && !activeGif.isFinished())
+            activeGif.draw(batch, x + 50, y + 150, 150, 150);
+        else
+            gif.draw(batch, x + 50, y + 150, 150, 150);
     }
 
     public String getName() {
         return name;
+    }
+
+    public void setActive(boolean isActive) {
+        this.isActive = isActive;
+        if (!isActive)
+            activeGif.setTime();
     }
 }

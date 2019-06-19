@@ -24,6 +24,7 @@ public class CardListTexture {
         this.cardTextures = new ArrayList<CardTexture>();
         this.xSize = xSize;
         this.ySize = ySize;
+        createRectangles();
         totalPage = cardTextures.size() / (xSize * ySize);
         currentPage = 0;
     }
@@ -73,10 +74,13 @@ public class CardListTexture {
             if (rectangles.get(i).contains(pos)) {
                 if (cardTextures.size() > i + currentPage * xSize * ySize) {
                     int index = i + xSize * ySize * currentPage;
+                    deActiveAllCards();
+                    cardTextures.get(index).setActive(true);
                     return cardTextures.get(index).getName();
                 }
             }
         }
+        deActiveAllCards();
         return "";
     }
 
@@ -101,7 +105,10 @@ public class CardListTexture {
         }
     }
 
-
+    public void deActiveAllCards() {
+        for (CardTexture cardTexture: cardTextures)
+            cardTexture.setActive(false);
+    }
 
 
 }
