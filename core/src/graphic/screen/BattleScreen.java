@@ -182,11 +182,16 @@ public class BattleScreen extends Screen {
                         Cell cell = getMouseCell();
                         Army target = cell.getInsideArmy();
                         if(target == null){
-//                            setCommand("move to" + );
                             if (Cell.getDistance(selectedCell, cell) > 2) return false;
                             game.getWhoIsHisTurn().moveArmy(selectedCell, cell);
                             hero1.run(cellCords.get(cell).x, cellCords.get(cell).y);
                         } else {
+                            if(game.getWhoIsHisTurn().isInRange(selectedCell, cell)){
+                                hero1.attack();
+                            }
+                            if(game.getWhoIsHisTurn().isInRange(cell, selectedCell)){
+                                hero2.attack();
+                            }
                             game.getWhoIsHisTurn().attack(selectedCell, cell);
                         }
                         selectedCell = null;
