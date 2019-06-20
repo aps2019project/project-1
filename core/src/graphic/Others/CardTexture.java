@@ -58,18 +58,18 @@ public class CardTexture {
     }
 
     private void createSpellAndItemCard(String gifPath) {
-        Animation animation = new Animation<TextureRegion>(1 / 20f, new TextureAtlas("Card/Item/1.atlas").findRegions("gif"), Animation.PlayMode.LOOP);
+        Animation animation = new Animation<TextureRegion>(1 / 20f, AssetHandler.getData().get("Card/Item/1.atlas", TextureAtlas.class).findRegions("gif"), Animation.PlayMode.LOOP);
         gif = new Gif(animation);
-        animation = new Animation<TextureRegion>(1 / 20f, new TextureAtlas("Card/Item/1.atlas").findRegions("gif"), Animation.PlayMode.LOOP);
+        animation = new Animation<TextureRegion>(1 / 20f,  AssetHandler.getData().get("Card/Item/1.atlas", TextureAtlas.class).findRegions("gif"), Animation.PlayMode.LOOP);
         activeGif = new Gif(animation);
         activePic = AssetHandler.getData().get("Card/backGround/spell active.png");
         deActivePic = AssetHandler.getData().get("Card/backGround/spell deActive.png");
     }
 
     private void createHeroAndMinionCard(int attackPoint, int healthPoint, String gifPath) {
-        Animation animation = new Animation<TextureRegion>(1 / 20f, new TextureAtlas(gifPath).findRegions("breathing"), Animation.PlayMode.LOOP);
+        Animation animation = new Animation<TextureRegion>(1 / 20f,AssetHandler.getData().get(gifPath, TextureAtlas.class).findRegions("breathing"), Animation.PlayMode.LOOP);
         gif = new Gif(animation);
-        animation = new Animation<TextureRegion>(1 / 20f, new TextureAtlas(gifPath).findRegions("attack"), Animation.PlayMode.LOOP);
+        animation = new Animation<TextureRegion>(1 / 20f, AssetHandler.getData().get(gifPath, TextureAtlas.class).findRegions("attack"), Animation.PlayMode.LOOP);
         activeGif = new Gif(animation);
         activePic = AssetHandler.getData().get("Card/backGround/hero active.png");
         deActivePic = AssetHandler.getData().get("Card/backGround/hero deActive.png");
