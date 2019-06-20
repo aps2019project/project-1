@@ -10,6 +10,8 @@ import graphic.main.Gif;
 import graphic.main.Main;
 import graphic.screen.gameMenuScreens.ChooseNumberOfPlayersMenuScreen;
 
+import java.awt.*;
+
 
 public class LoadingScreen extends Screen {
 
