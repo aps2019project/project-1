@@ -28,9 +28,10 @@ public class Minion extends Army {
         super(number, name, price, description, hp, ap, ar, attackType, MINION, mana);
         this.mana = mana;
         this.spTime = spTime;
+        gifPath = "Card/Minion/" +number+".atlas";
+        lastNumber = number;
         minions.add(this);
         cards.add(this);
-        lastNumber = number;
 //        this.animation = new ArmyAnimation("Card/Hero/2.atlas");
     }
 

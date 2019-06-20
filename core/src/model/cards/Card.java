@@ -26,6 +26,7 @@ public class Card implements Cloneable {
     protected int neededManaToPut;//
     protected String description;
     protected CardType type;
+    protected String gifPath;
 
     public void setName(String name) {
         this.name = name;
@@ -185,4 +186,11 @@ public class Card implements Cloneable {
         return null;
     }
 
+    public String getUserName() {
+        return userName;
+    }
+
+    public String getGifPath() {
+        return gifPath;
+    }
 }
