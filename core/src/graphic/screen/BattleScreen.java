@@ -15,15 +15,12 @@ import graphic.Others.ArmyAnimation;
 import graphic.main.AssetHandler;
 import graphic.main.Main;
 import model.cards.Army;
-import model.cards.Hero;
 import model.game.Game;
 import model.game.GameType;
-import model.game.IntelligentPlayer;
 import model.game.Player;
 import model.other.Account;
 import graphic.main.Button;
 
-import javax.xml.soap.Text;
 import java.awt.*;
 
 public class BattleScreen extends Screen {
@@ -53,6 +50,7 @@ public class BattleScreen extends Screen {
     private float cellSizeY;
     private float cellDistance;
 
+    private Button endTurnButton;
     private Button endGameButton;
 
     private ArmyAnimation hero1;
@@ -66,7 +64,6 @@ public class BattleScreen extends Screen {
             @Override
             public void run() {
                 game.startMatch();
-
             }
         });
         playGame.start();
@@ -86,7 +83,8 @@ public class BattleScreen extends Screen {
         music.setVolume(0.5f);
         music.play();
 
-        endGameButton = new Button("button/yellow.png", "button/yellow glow.png", 1300, 100, "End Turn", "fonts/Arial 24.fnt");
+        endTurnButton = new Button("button/yellow.png", "button/yellow glow.png", 1300, 100, "End Turn", "fonts/Arial 24.fnt");
+        endGameButton = new Button("button/red.png", "button/red glow.png", 1340, 40, 170, 69, "End Game", "fonts/Arial 16.fnt");
         manaStart1 = new Vector2(270, 730);
         manaStart2 = new Vector2(1330 - mana.getWidth(), 730);
 
@@ -105,6 +103,8 @@ public class BattleScreen extends Screen {
         cellSizeX = (tableCord2.x - tableCord1.x - 8*cellDistance) / 9;
         cellSizeY = (tableCord1.y - tableCord3.y - 4*cellDistance) / 5;
 
+        hero1 = new ArmyAnimation("Card/Hero/1.atlas");
+
     }
 
     @Override
@@ -118,6 +118,7 @@ public class BattleScreen extends Screen {
         mousePos.set(Gdx.input.getX(), Gdx.input.getY());
         mousePos = viewport.unproject(mousePos);
 
+        endTurnButton.setActive(endTurnButton.contains(mousePos));
         endGameButton.setActive(endGameButton.contains(mousePos));
 
         Gdx.input.setInputProcessor(new InputProcessor() {
@@ -145,8 +146,10 @@ public class BattleScreen extends Screen {
 
             @Override
             public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-                if(endGameButton.isActive()){
+                if(endTurnButton.isActive()){
                     setCommand("end turn");
+                } else if(endGameButton.isActive()){
+                    ScreenManager.setScreen(new MenuScreen());
                 }
                 return false;
             }
@@ -186,12 +189,11 @@ public class BattleScreen extends Screen {
         drawPlayersName(batch);
         drawHeroesHp(batch);
 
-//        batch.draw(backGround, 2000, 2000);
         drawTable(batch);
         batch.end();
 
+        endTurnButton.draw(batch);
         endGameButton.draw(batch);
-
     }
 
     @Override
