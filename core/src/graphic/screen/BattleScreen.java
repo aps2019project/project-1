@@ -54,6 +54,7 @@ public class BattleScreen extends Screen {
     private Button endGameButton;
 
     private ArmyAnimation hero1;
+    private ArmyAnimation hero2;
 
     @Override
     public void create() {
@@ -104,6 +105,7 @@ public class BattleScreen extends Screen {
         cellSizeY = (tableCord1.y - tableCord3.y - 4*cellDistance) / 5;
 
         hero1 = new ArmyAnimation("Card/Hero/1.atlas");
+        hero2 = new ArmyAnimation("Card/Hero/10.atlas");
 
     }
 
@@ -191,7 +193,6 @@ public class BattleScreen extends Screen {
 
         drawTable(batch);
         batch.end();
-
         endTurnButton.draw(batch);
         endGameButton.draw(batch);
     }
@@ -267,10 +268,16 @@ public class BattleScreen extends Screen {
                         batch.setColor(Main.toColor(new Color(0x750000E3, true)));
                         batch.draw(tile, x, y, cellSizeX, cellSizeY);
                         batch.setColor(com.badlogic.gdx.graphics.Color.WHITE);
+                        batch.end();
+                        hero1.draw(batch, x - 20, y);
+                        batch.begin();
                     } else {
                         batch.setColor(Main.toColor(new Color(0x83C80000, true)));
                         batch.draw(tile, x, y, cellSizeX, cellSizeY);
                         batch.setColor(com.badlogic.gdx.graphics.Color.WHITE);
+                        batch.end();
+                        hero2.draw(batch, x - 20, y);
+                        batch.begin();
                     }
                 }
             }

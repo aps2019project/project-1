@@ -326,6 +326,24 @@ public class Player {
         BattleScreen.setCommand(null);
         if(command.matches("end turn")){
             this.endTurn = true;
+        } else if(command.contains("select")){
+            this.select();
+        }
+    }
+
+    public void select() {
+        Game game = Game.getCurrentGame();
+        if(!this.setSelectedCard(game.findInTable(command.split(" ")[1]))) {
+            if (game.getWhoIsHisTurn().getCollectibleItem().find(command.split(" ")[1]) != null) {
+                try {
+                    Item item = (Item) game.getWhoIsHisTurn().getCollectibleItem().find(command.split(" ")[1]);
+                    game.getWhoIsHisTurn().setSelectedItem(item);
+                } catch (NullPointerException e) {
+                    System.out.println(e);
+                } catch (Exception e) {
+                    System.err.println(e);
+                }
+            }
         }
     }
 
