@@ -7,10 +7,12 @@ import graphic.main.Main;
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-		config.width = 450;
-		config.height = 450;
-		config.fullscreen = true;
+		config.x = 0;
+		config.y = 0;
 		config.resizable = false;
+		config.fullscreen = false;
+		config.width = 1600;
+		config.height = 900;
 		config.forceExit = true;
 		new LwjglApplication(new Main(), config);
 	}
