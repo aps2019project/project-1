@@ -64,25 +64,25 @@ public class TestScreen extends Screen {
         allHeroList = new CardListTexture(3, 2, 70, 140);
         for (int i = 0; i < Card.getCards().getAllHeroes().size(); ++i) {
             Hero temp = Card.getCards().getAllHeroes().get(i);
-            allHeroList.addCardTexture(new CardTexture(temp.getName(), temp.getDescription(), temp.getAp(), temp.getHp(), "Card/Hero/" + (i%11+1) +".atlas"));
+            allHeroList.addCardTexture(new CardTexture(temp.getName(), temp.getDescription(), temp.getPrice(), temp.getAp(), temp.getHp(), "Card/Hero/" + (i%11+1) +".atlas"));
         }
 
         allMinionList = new CardListTexture(3, 2, 70, 140);
         for (int i = 0; i < Card.getCards().getAllMinions().size(); ++i) {
             Minion temp = Card.getCards().getAllMinions().get(i);
-            allMinionList.addCardTexture(new CardTexture(temp.getName(), temp.getDescription(), temp.getAp(), temp.getHp(), "Card/Hero/" + 3 +".atlas"));
+            allMinionList.addCardTexture(new CardTexture(temp.getName(), temp.getDescription(), temp.getPrice(),temp.getAp(), temp.getHp(), "Card/Hero/" + 3 +".atlas"));
         }
 
         allSpellList = new CardListTexture(3, 2, 70, 140);
         for (int i = 0; i < Card.getCards().getSellableItems().size(); ++i) {
             Spell temp = Card.getCards().getAllSpells().get(i);
-            allSpellList.addCardTexture(new CardTexture(temp.getName(), temp.getDescription(), 5, 5, "Card/Hero/" + 7+".atlas"));
+            allSpellList.addCardTexture(new CardTexture(temp.getName(), temp.getDescription(), temp.getPrice(),"Card/Hero/" + 7+".atlas"));
         }
 
         allItemList = new CardListTexture(3, 2, 70, 140);
         for (int i = 0; i < Card.getCards().getAllItems().size(); ++i) {
             Item temp = Card.getCards().getAllItems().get(i);
-            allItemList.addCardTexture(new CardTexture(temp.getName(), temp.getDescription(), 10, 10, "Card/Hero/" + (5) +".atlas"));
+            allItemList.addCardTexture(new CardTexture(temp.getName(), temp.getDescription(), temp.getPrice(),"Card/Hero/" + (5) +".atlas"));
         }
 
         getPlayerCards();
@@ -97,22 +97,22 @@ public class TestScreen extends Screen {
     private void getPlayerCards() {
         playerHeroList = new CardListTexture(3, 2, 70, 140);
         for (Hero temp: Account.getCurrentAccount().getCollection().getAllHeroes()) {
-            playerHeroList.addCardTexture(new CardTexture(temp.getName(), temp.getDescription(), temp.getAp(), temp.getHp(), "Card/Hero/" + 7 + ".atlas"));
+            playerHeroList.addCardTexture(new CardTexture(temp.getName(), temp.getDescription(), temp.getPrice(), temp.getAp(), temp.getHp(), "Card/Hero/" + 7 + ".atlas"));
         }
 
         playerMinionList = new CardListTexture(3, 2, 70, 140);
         for (Minion temp: Account.getCurrentAccount().getCollection().getAllMinions()) {
-            playerMinionList.addCardTexture(new CardTexture(temp.getName(), temp.getDescription(), temp.getAp(), temp.getHp(), "Card/Hero/" + 9 + ".atlas"));
+            playerMinionList.addCardTexture(new CardTexture( temp.getName(), temp.getDescription(), temp.getPrice(), temp.getAp(), temp.getHp(), "Card/Hero/" + 9 + ".atlas"));
         }
 
         playerSpellList = new CardListTexture(3, 2, 70, 140);
         for (Spell temp: Account.getCurrentAccount().getCollection().getAllSpells()) {
-            playerSpellList.addCardTexture(new CardTexture(temp.getName(), temp.getDescription(), 5, 5, "Card/Hero/" + 2 + ".atlas"));
+            playerSpellList.addCardTexture(new CardTexture(temp.getName(), temp.getDescription(), temp.getPrice(),"Card/Hero/" + 2 + ".atlas"));
         }
 
         playerItemList = new CardListTexture(3, 2, 70, 140);
         for (Item temp: Account.getCurrentAccount().getCollection().getSellableItems()) {
-            playerItemList.addCardTexture(new CardTexture(temp.getName(), temp.getDescription(), 10, 10, "Card/Hero/" + 3 + ".atlas"));
+            playerItemList.addCardTexture(new CardTexture(temp.getName(), temp.getDescription(), temp.getPrice(), "Card/Hero/" + 3 + ".atlas"));
         }
     }
 
