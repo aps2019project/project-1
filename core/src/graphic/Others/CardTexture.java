@@ -58,9 +58,9 @@ public class CardTexture {
     }
 
     private void createSpellAndItemCard(String gifPath) {
-        Animation animation = new Animation<TextureRegion>(1 / 20f, AssetHandler.getData().get("Card/Item/1.atlas", TextureAtlas.class).findRegions("gif"), Animation.PlayMode.LOOP);
+        Animation animation = new Animation<TextureRegion>(1 / 20f, AssetHandler.getData().get(gifPath, TextureAtlas.class).findRegions("gif"), Animation.PlayMode.LOOP);
         gif = new Gif(animation);
-        animation = new Animation<TextureRegion>(1 / 20f,  AssetHandler.getData().get("Card/Item/1.atlas", TextureAtlas.class).findRegions("gif"), Animation.PlayMode.LOOP);
+        animation = new Animation<TextureRegion>(1 / 20f,  AssetHandler.getData().get(gifPath, TextureAtlas.class).findRegions("gif"), Animation.PlayMode.LOOP);
         activeGif = new Gif(animation);
         activePic = AssetHandler.getData().get("Card/backGround/spell active.png");
         deActivePic = AssetHandler.getData().get("Card/backGround/spell deActive.png");
