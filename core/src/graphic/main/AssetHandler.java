@@ -100,6 +100,10 @@ public class AssetHandler {
         assetManager.load("sfx/playerChangeButton2.mp3", Sound.class);
         assetManager.load("sfx/playerChangeButton3.mp3", Sound.class);
         assetManager.load("battle/tile action.png", Texture.class);
+        assetManager.load("backGround/stone1.png", Texture.class);
+        assetManager.load("backGround/stone2.png", Texture.class);
+        assetManager.load("backGround/stone3.png", Texture.class);
+        assetManager.load("backGround/storyMenu.jpg", Texture.class);
         /*for (int i = 1; i < 10; ++i) {
             assetManager.load("fonts/" + i + ".ttf", TrueTypeFont.class);
         }*/

@@ -42,8 +42,8 @@ public class ChooseNumberOfPlayersMenuScreen extends Screen {
         storyButton =  new Button("button/choosePlayerButton2.psd", "button/choosePlayerButton2-1.psd","sfx/playerChangeButton2.mp3",755, 135, "Story", font);
         customButton =  new Button("button/choosePlayerButton3.psd","button/choosePlayerButton3-1.psd","sfx/playerChangeButton3.mp3", 1150, 351, "Custom", font);
         exitButton = new Button("button/exit.png", Main.WIDTH - 200, Main.HEIGHT - 200);
-        mousePos = new Vector2();
-        createBackGroundMusic();
+        createBackGroundMusic();        mousePos = new Vector2();
+
     }
 
     @Override
