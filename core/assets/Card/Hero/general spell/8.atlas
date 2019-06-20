@@ -1,0 +1,229 @@
+generalspell_f2_twilightsurge.png
+size: 256,256
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+twilightsurge
+  rotate: false
+  xy: 35, 140
+  size: 34, 34
+  orig: 34, 34
+  offset: 0, 0
+  index: 0
+twilightsurge
+  rotate: false
+  xy: 105, 35
+  size: 34, 34
+  orig: 34, 34
+  offset: 0, 0
+  index: 1
+twilightsurge
+  rotate: false
+  xy: 105, 0
+  size: 34, 34
+  orig: 34, 34
+  offset: 0, 0
+  index: 2
+twilightsurge
+  rotate: false
+  xy: 70, 210
+  size: 34, 34
+  orig: 34, 34
+  offset: 0, 0
+  index: 3
+twilightsurge
+  rotate: false
+  xy: 70, 175
+  size: 34, 34
+  orig: 34, 34
+  offset: 0, 0
+  index: 4
+twilightsurge
+  rotate: false
+  xy: 70, 140
+  size: 34, 34
+  orig: 34, 34
+  offset: 0, 0
+  index: 5
+twilightsurge
+  rotate: false
+  xy: 70, 105
+  size: 34, 34
+  orig: 34, 34
+  offset: 0, 0
+  index: 6
+twilightsurge
+  rotate: false
+  xy: 70, 70
+  size: 34, 34
+  orig: 34, 34
+  offset: 0, 0
+  index: 7
+twilightsurge
+  rotate: false
+  xy: 35, 140
+  size: 34, 34
+  orig: 34, 34
+  offset: 0, 0
+  index: 8
+twilightsurge
+  rotate: false
+  xy: 105, 35
+  size: 34, 34
+  orig: 34, 34
+  offset: 0, 0
+  index: 9
+twilightsurge
+  rotate: false
+  xy: 105, 0
+  size: 34, 34
+  orig: 34, 34
+  offset: 0, 0
+  index: 10
+twilightsurge
+  rotate: false
+  xy: 70, 210
+  size: 34, 34
+  orig: 34, 34
+  offset: 0, 0
+  index: 11
+twilightsurge
+  rotate: false
+  xy: 70, 175
+  size: 34, 34
+  orig: 34, 34
+  offset: 0, 0
+  index: 12
+twilightsurge
+  rotate: false
+  xy: 70, 140
+  size: 34, 34
+  orig: 34, 34
+  offset: 0, 0
+  index: 13
+twilightsurge
+  rotate: false
+  xy: 70, 105
+  size: 34, 34
+  orig: 34, 34
+  offset: 0, 0
+  index: 14
+twilightsurge
+  rotate: false
+  xy: 70, 70
+  size: 34, 34
+  orig: 34, 34
+  offset: 0, 0
+  index: 15
+twilightsurge
+  rotate: false
+  xy: 70, 35
+  size: 34, 34
+  orig: 34, 34
+  offset: 0, 0
+  index: 0
+twilightsurge
+  rotate: false
+  xy: 70, 0
+  size: 34, 34
+  orig: 34, 34
+  offset: 0, 0
+  index: 1
+twilightsurge
+  rotate: false
+  xy: 35, 210
+  size: 34, 34
+  orig: 34, 34
+  offset: 0, 0
+  index: 2
+twilightsurge
+  rotate: false
+  xy: 35, 175
+  size: 34, 34
+  orig: 34, 34
+  offset: 0, 0
+  index: 3
+twilightsurge
+  rotate: false
+  xy: 105, 70
+  size: 34, 34
+  orig: 34, 34
+  offset: 0, 0
+  index: 4
+twilightsurge
+  rotate: false
+  xy: 35, 105
+  size: 34, 34
+  orig: 34, 34
+  offset: 0, 0
+  index: 5
+twilightsurge
+  rotate: false
+  xy: 35, 70
+  size: 34, 34
+  orig: 34, 34
+  offset: 0, 0
+  index: 6
+twilightsurge
+  rotate: false
+  xy: 35, 35
+  size: 34, 34
+  orig: 34, 34
+  offset: 0, 0
+  index: 7
+twilightsurge
+  rotate: false
+  xy: 35, 0
+  size: 34, 34
+  orig: 34, 34
+  offset: 0, 0
+  index: 8
+twilightsurge
+  rotate: false
+  xy: 0, 210
+  size: 34, 34
+  orig: 34, 34
+  offset: 0, 0
+  index: 9
+twilightsurge
+  rotate: false
+  xy: 0, 175
+  size: 34, 34
+  orig: 34, 34
+  offset: 0, 0
+  index: 10
+twilightsurge
+  rotate: false
+  xy: 0, 140
+  size: 34, 34
+  orig: 34, 34
+  offset: 0, 0
+  index: 11
+twilightsurge
+  rotate: false
+  xy: 0, 105
+  size: 34, 34
+  orig: 34, 34
+  offset: 0, 0
+  index: 12
+twilightsurge
+  rotate: false
+  xy: 0, 70
+  size: 34, 34
+  orig: 34, 34
+  offset: 0, 0
+  index: 13
+twilightsurge
+  rotate: false
+  xy: 0, 35
+  size: 34, 34
+  orig: 34, 34
+  offset: 0, 0
+  index: 14
+twilightsurge
+  rotate: false
+  xy: 0, 0
+  size: 34, 34
+  orig: 34, 34
+  offset: 0, 0
+  index: 15
