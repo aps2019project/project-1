@@ -168,6 +168,8 @@ public class BattleScreen extends Screen {
                     setCommand("end turn");
                 } else if(endGameButton.isActive()){
                     ScreenManager.setScreen(new MenuScreen());
+                } else if(getMouseCell() != null){
+                    Cell cell = getMouseCell();
                 }
                 return false;
             }
@@ -192,6 +194,19 @@ public class BattleScreen extends Screen {
                 return false;
             }
         });
+    }
+
+    public Cell getMouseCell() {
+        for(Cell[] row : game.getTable()){
+            for(Cell cell : row){
+                float x = cellCords.get(cell).x;
+                float y = cellCords.get(cell).y;
+                if(mousePos.x > x && mousePos.x < x + cellSizeX && mousePos.y > y && mousePos.y < y + cellSizeY){
+                    return cell;
+                }
+            }
+        }
+        return null;
     }
 
     @Override
