@@ -35,9 +35,9 @@ public class StoryMenuScreen extends Screen {
     public void create() {
         setCameraAndViewport();
         backGroundPic = AssetHandler.getData().get("backGround/storyMenu.jpg");
-        stone1 = new Sprite(AssetHandler.getData().get("backGround/stone1.png", Texture.class));
-        stone2 = new Sprite(AssetHandler.getData().get("backGround/stone2.png", Texture.class));
-        stone3 = new Sprite(AssetHandler.getData().get("backGround/stone3.png", Texture.class));
+        stone1 = new Sprite(AssetHandler.getData().get("simpleIcons/stone1.png", Texture.class));
+        stone2 = new Sprite(AssetHandler.getData().get("simpleIcons/stone2.png", Texture.class));
+        stone3 = new Sprite(AssetHandler.getData().get("simpleIcons/stone3.png", Texture.class));
 
         stone1.setOrigin(20,0);
         stone2.setOrigin(0,0);
