@@ -311,7 +311,9 @@ public class Player {
         increaseTurnNumber();
         setMana();
         deck.transferCardTo(hand);
-        new BattleHandler().getOrder();
+        while(!endTurn) {
+
+        }
     }
 
     public void checkPassive() {
