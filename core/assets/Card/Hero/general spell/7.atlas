@@ -1,0 +1,124 @@
+7.png
+size: 256,256
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+spellsword
+  rotate: false
+  xy: 49, 147
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: 0
+spellsword
+  rotate: false
+  xy: 147, 0
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: 1
+spellsword
+  rotate: false
+  xy: 98, 196
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: 2
+spellsword
+  rotate: false
+  xy: 98, 147
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: 3
+spellsword
+  rotate: false
+  xy: 98, 98
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: 0
+spellsword
+  rotate: false
+  xy: 98, 49
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: 1
+spellsword
+  rotate: false
+  xy: 98, 0
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: 2
+spellsword
+  rotate: false
+  xy: 49, 196
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: 3
+spellsword
+  rotate: false
+  xy: 147, 49
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: 4
+spellsword
+  rotate: false
+  xy: 49, 98
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: 5
+spellsword
+  rotate: false
+  xy: 49, 49
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: 6
+spellsword
+  rotate: false
+  xy: 49, 0
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: 7
+spellsword
+  rotate: false
+  xy: 0, 196
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: 8
+spellsword
+  rotate: false
+  xy: 0, 147
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: 9
+spellsword
+  rotate: false
+  xy: 0, 98
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: 10
+spellsword
+  rotate: false
+  xy: 0, 49
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: 11
+spellsword
+  rotate: false
+  xy: 0, 0
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: 12

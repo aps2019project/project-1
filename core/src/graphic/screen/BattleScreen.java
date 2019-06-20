@@ -10,7 +10,6 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
-import control.BattleHandler;
 import graphic.Others.ArmyAnimation;
 import graphic.main.AssetHandler;
 import graphic.main.Main;
@@ -26,6 +25,7 @@ import javax.xml.soap.Text;
 import java.awt.*;
 
 public class BattleScreen extends Screen {
+
     private static String command;
 
     private ShapeRenderer shapeRenderer;
@@ -98,9 +98,9 @@ public class BattleScreen extends Screen {
     public void update() {
         camera.update();
         shapeRenderer.setProjectionMatrix(camera.combined);
-//        game = Game.getCurrentGame();
-//        player1 = game.getFirstPlayer();
-//        player2 = game.getSecondPlayer();
+        game = Game.getCurrentGame();
+        player1 = game.getFirstPlayer();
+        player2 = game.getSecondPlayer();
 
         mousePos.set(Gdx.input.getX(), Gdx.input.getY());
         mousePos = viewport.unproject(mousePos);
@@ -174,6 +174,7 @@ public class BattleScreen extends Screen {
         drawPlayersName(batch);
         drawHeroesHp(batch);
 
+//        batch.draw(backGround, 2000, 2000);
         drawTable(batch);
         batch.end();
 
@@ -268,6 +269,5 @@ public class BattleScreen extends Screen {
 
     public static void setCommand(String string) {
        command = string;
-       new BattleHandler().getOrder();
     }
 }

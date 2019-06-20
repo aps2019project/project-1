@@ -114,6 +114,35 @@ public class Button {
         this.font = AssetHandler.getData().get(fontPath);
     }
 
+    public Button(String pic, float x, float y, String text, BitmapFont font) {
+        this(pic, x, y, text);
+        this.font = font;
+    }
+
+    public Button(String pic, float x, float y, float width, float height, String text, BitmapFont font) {
+        this(pic, x, y, width, height, text);
+        this.font = font;
+    }
+
+    public Button(String deActivePic, String activePic, float x, float y, String text, BitmapFont font) {
+        this(deActivePic, activePic, x, y, text);
+        this.font = font;
+    }
+
+    public Button(String deActivePic, String activePic, float x, float y, float width, float height, String text, BitmapFont font) {
+        this(deActivePic, activePic, x, y, width, height, text);
+        this.font = font;
+    }
+
+    public Button(String deActivePic, String activePic, String soundEffect, float x, float y, String text, BitmapFont font) {
+        this(deActivePic, activePic, soundEffect, x, y, text);
+        this.font = font;
+    }
+
+    public Button(String deActivePic, String activePic, String soundEffect, float x, float y, float width, float height, String text, BitmapFont font) {
+        this(deActivePic, activePic, soundEffect, x, y, width, height, text);
+        this.font = font;
+    }
 
     public boolean isActive() {
         return this.isActive;
