@@ -190,7 +190,7 @@ public class BattleScreen extends Screen {
                         Cell cell = getMouseCell();
                         Army target = cell.getInsideArmy();
                         if(target == null){
-                            if (Cell.getDistance(selectedCell, cell) > 2) return false;
+                            if(!game.getWhoIsHisTurn().canMove(selectedCell, cell)) return false;
                             game.getWhoIsHisTurn().moveArmy(selectedCell, cell);
                             animations.get(selectedArmy).run(cellCords.get(cell).x, cellCords.get(cell).y);
                         } else {
