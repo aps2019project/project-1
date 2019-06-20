@@ -184,6 +184,8 @@ public class BattleScreen extends Screen {
                         if(target == null){
 //                            setCommand("move to" + );
                             game.getWhoIsHisTurn().moveArmy(selectedCell, cell);
+                        } else {
+                            game.getWhoIsHisTurn().attack(selectedCell, cell);
                         }
                         selectedCell = null;
                     }
