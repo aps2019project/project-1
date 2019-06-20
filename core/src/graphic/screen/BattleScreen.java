@@ -111,8 +111,8 @@ public class BattleScreen extends Screen {
         cellSizeX = (tableCord2.x - tableCord1.x - 8*cellDistance) / 9;
         cellSizeY = (tableCord1.y - tableCord3.y - 4*cellDistance) / 5;
 
-        hero1 = new ArmyAnimation("Card/Hero/1.atlas");
-        hero2 = new ArmyAnimation("Card/Hero/10.atlas");
+        hero1 = new ArmyAnimation(player1.getHero().getGifPath());
+        hero2 = new ArmyAnimation(player2.getHero().getGifPath());
 
         cellCords = new HashMap<Cell, Vector2>();
         setCellCords();
@@ -146,6 +146,7 @@ public class BattleScreen extends Screen {
             @Override
             public boolean keyDown(int keycode) {
                 if(keycode == Input.Keys.A){
+                    System.out.println(player1.getSelectedCardPlace());
                     hero1.attack();
                 } else if(keycode == Input.Keys.D) {
                     hero1.death();
@@ -173,8 +174,19 @@ public class BattleScreen extends Screen {
                 } else if(endGameButton.isActive()){
                     ScreenManager.setScreen(new MenuScreen());
                 } else if(getMouseCell() != null){
-                    selectedCell = getMouseCell();
-//                    game.getWhoIsHisTurn().select();
+                    if(getMouseCell().getInsideArmy() != null && game.getWhoIsHisTurn().isFriend(getMouseCell().getInsideArmy())) {
+                        selectedCell = getMouseCell();
+                        Army army = selectedCell.getInsideArmy();
+                        setCommand("select " + army.getID().getValue());
+                    } else {
+                        Cell cell = getMouseCell();
+                        Army target = cell.getInsideArmy();
+                        if(target == null){
+//                            setCommand("move to" + );
+                            game.getWhoIsHisTurn().moveArmy(selectedCell, cell);
+                        }
+                        selectedCell = null;
+                    }
                 }
                 return false;
             }
@@ -297,7 +309,7 @@ public class BattleScreen extends Screen {
                 float y = cellCords.get(cell).y;
                 Army army = game.getTable()[row][col].getInsideArmy();
                 if(selectedCell == cell) {
-                    batch.setColor(Main.toColor(new Color(0x85E7EAF9, true)));
+                    batch.setColor(Main.toColor(new Color(0x55E7EAF9, true)));
                     batch.draw(tileSelected, x, y, cellSizeX, cellSizeY);
                     batch.setColor(com.badlogic.gdx.graphics.Color.WHITE);
                 }
