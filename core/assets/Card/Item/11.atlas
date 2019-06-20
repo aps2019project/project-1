@@ -3,147 +3,147 @@ size: 256,256
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-circleoflife
+gif
   rotate: false
   xy: 98, 0
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: 0
-circleoflife
+gif
   rotate: false
   xy: 147, 196
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: 1
-circleoflife
+gif
   rotate: false
   xy: 147, 147
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: 2
-circleoflife
+gif
   rotate: false
   xy: 147, 98
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: 3
-circleoflife
+gif
   rotate: false
   xy: 147, 49
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: 4
-circleoflife
+gif
   rotate: false
   xy: 147, 0
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: 5
-circleoflife
+gif
   rotate: false
   xy: 98, 196
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: 0
-circleoflife
+gif
   rotate: false
   xy: 98, 147
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: 1
-circleoflife
+gif
   rotate: false
   xy: 98, 98
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: 2
-circleoflife
+gif
   rotate: false
   xy: 98, 49
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: 3
-circleoflife
+gif
   rotate: false
   xy: 196, 0
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: 4
-circleoflife
+gif
   rotate: false
   xy: 49, 196
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: 5
-circleoflife
+gif
   rotate: false
   xy: 49, 147
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: 6
-circleoflife
+gif
   rotate: false
   xy: 49, 98
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: 7
-circleoflife
+gif
   rotate: false
   xy: 49, 49
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: 8
-circleoflife
+gif
   rotate: false
   xy: 49, 0
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: 9
-circleoflife
+gif
   rotate: false
   xy: 0, 196
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: 10
-circleoflife
+gif
   rotate: false
   xy: 0, 147
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: 11
-circleoflife
+gif
   rotate: false
   xy: 0, 98
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: 12
-circleoflife
+gif
   rotate: false
   xy: 0, 49
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: 13
-circleoflife
+gif
   rotate: false
   xy: 0, 0
   size: 48, 48
