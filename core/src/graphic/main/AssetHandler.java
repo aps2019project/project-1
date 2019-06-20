@@ -68,6 +68,10 @@ public class AssetHandler {
         assetManager.load("battle/Tile.png", Texture.class);
         assetManager.load("button/yellow.png", Texture.class);
         assetManager.load("button/yellow glow.png", Texture.class);
+        assetManager.load("button/red.png", Texture.class);
+        assetManager.load("button/red glow.png", Texture.class);
+        assetManager.load("button/green.png", Texture.class);
+        assetManager.load("button/green glow.png", Texture.class);
         assetManager.load("button/shop left.png", Texture.class);
         assetManager.load("button/shop left active.png", Texture.class);
         assetManager.load("button/shop middle.png", Texture.class);

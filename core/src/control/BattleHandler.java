@@ -39,20 +39,7 @@ public class BattleHandler extends Handler{
             } else if (command.matches("show card info [^ ]+")) {
                 BattleScreen.showCard(game.findInTable(command.split(" ")[3]).getInsideArmy());
             }else if (command.matches("select [^ ]+")) {
-                if(!game.getWhoIsHisTurn().setSelectedCard(game.findInTable(command.split(" ")[1]))) {
-                    if (game.getWhoIsHisTurn().getCollectibleItem().find(command.split(" ")[1]) != null) {
-                        try {
-                            Item item = (Item) game.getWhoIsHisTurn().getCollectibleItem().find(command.split(" ")[1]);
-                            game.getWhoIsHisTurn().setSelectedItem(item);
-                        } catch (NullPointerException e) {
-                            System.out.println(e);
-                        } catch (Exception e) {
-                            System.err.println(e);
-                        }
-                    } else {
-                        BattleScreen.showInvalidCardIdError();
-                    }
-                }
+                select();
             }else if (command.matches("move to[(]\\d+,\\d+[)]")) {
                 if(!game.getWhoIsHisTurn().moveArmy(game.getWhoIsHisTurn().getSelectedCardPlace()
                         ,getCell(command.split(" ")[1]))) {
@@ -156,6 +143,23 @@ public class BattleHandler extends Handler{
             return game.getTable()[x][y];
         }
         return null;
+    }
+
+    public void select() {
+        if(!game.getWhoIsHisTurn().setSelectedCard(game.findInTable(command.split(" ")[1]))) {
+            if (game.getWhoIsHisTurn().getCollectibleItem().find(command.split(" ")[1]) != null) {
+                try {
+                    Item item = (Item) game.getWhoIsHisTurn().getCollectibleItem().find(command.split(" ")[1]);
+                    game.getWhoIsHisTurn().setSelectedItem(item);
+                } catch (NullPointerException e) {
+                    System.out.println(e);
+                } catch (Exception e) {
+                    System.err.println(e);
+                }
+            } else {
+                BattleScreen.showInvalidCardIdError();
+            }
+        }
     }
 
 

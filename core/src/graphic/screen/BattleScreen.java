@@ -10,18 +10,17 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
+import control.BattleMenuHandler;
 import graphic.Others.ArmyAnimation;
 import graphic.main.AssetHandler;
 import graphic.main.Main;
 import model.cards.Army;
-import model.cards.Hero;
 import model.game.Game;
 import model.game.GameType;
 import model.game.Player;
 import model.other.Account;
 import graphic.main.Button;
 
-import javax.xml.soap.Text;
 import java.awt.*;
 
 public class BattleScreen extends Screen {
@@ -51,12 +50,24 @@ public class BattleScreen extends Screen {
     private float cellSizeY;
     private float cellDistance;
 
+    private Button endTurnButton;
     private Button endGameButton;
 
     private ArmyAnimation hero1;
+    private ArmyAnimation hero2;
 
     @Override
     public void create() {
+        BattleMenuHandler battleMenuHandler = new BattleMenuHandler();
+        battleMenuHandler.setPlayersSteps();
+        game = new Game(Account.getCurrentAccount(), battleMenuHandler.getFirstLevelPlayer(), GameType.KILL_HERO, 0);
+        Thread playGame = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                game.startMatch();
+            }
+        });
+        playGame.start();
         setCameraAndViewport();
         shapeRenderer = new ShapeRenderer();
 
@@ -73,7 +84,8 @@ public class BattleScreen extends Screen {
         music.setVolume(0.5f);
         music.play();
 
-        endGameButton = new Button("button/yellow.png", "button/yellow glow.png", 1300, 100, "End Turn", "fonts/Arial 24.fnt");
+        endTurnButton = new Button("button/yellow.png", "button/yellow glow.png", 1300, 100, "End Turn", "fonts/Arial 24.fnt");
+        endGameButton = new Button("button/red.png", "button/red glow.png", 1340, 40, 170, 69, "End Game", "fonts/Arial 16.fnt");
         manaStart1 = new Vector2(270, 730);
         manaStart2 = new Vector2(1330 - mana.getWidth(), 730);
 
@@ -92,19 +104,23 @@ public class BattleScreen extends Screen {
         cellSizeX = (tableCord2.x - tableCord1.x - 8*cellDistance) / 9;
         cellSizeY = (tableCord1.y - tableCord3.y - 4*cellDistance) / 5;
 
+        hero1 = new ArmyAnimation("Card/Hero/1.atlas");
+        hero2 = new ArmyAnimation("Card/Hero/10.atlas");
+
     }
 
     @Override
     public void update() {
         camera.update();
         shapeRenderer.setProjectionMatrix(camera.combined);
-//        game = Game.getCurrentGame();
-//        player1 = game.getFirstPlayer();
-//        player2 = game.getSecondPlayer();
+        game = Game.getCurrentGame();
+        player1 = game.getFirstPlayer();
+        player2 = game.getSecondPlayer();
 
         mousePos.set(Gdx.input.getX(), Gdx.input.getY());
         mousePos = viewport.unproject(mousePos);
 
+        endTurnButton.setActive(endTurnButton.contains(mousePos));
         endGameButton.setActive(endGameButton.contains(mousePos));
 
         Gdx.input.setInputProcessor(new InputProcessor() {
@@ -132,9 +148,10 @@ public class BattleScreen extends Screen {
 
             @Override
             public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-                if(endGameButton.isActive()){
-                    System.out.println("he he he");
-                    command = "end turn";
+                if(endTurnButton.isActive()){
+                    setCommand("end turn");
+                } else if(endGameButton.isActive()){
+                    ScreenManager.setScreen(new MenuScreen());
                 }
                 return false;
             }
@@ -176,9 +193,8 @@ public class BattleScreen extends Screen {
 
         drawTable(batch);
         batch.end();
-
+        endTurnButton.draw(batch);
         endGameButton.draw(batch);
-
     }
 
     @Override
@@ -252,10 +268,16 @@ public class BattleScreen extends Screen {
                         batch.setColor(Main.toColor(new Color(0x750000E3, true)));
                         batch.draw(tile, x, y, cellSizeX, cellSizeY);
                         batch.setColor(com.badlogic.gdx.graphics.Color.WHITE);
+                        batch.end();
+                        hero1.draw(batch, x - 20, y);
+                        batch.begin();
                     } else {
                         batch.setColor(Main.toColor(new Color(0x83C80000, true)));
                         batch.draw(tile, x, y, cellSizeX, cellSizeY);
                         batch.setColor(com.badlogic.gdx.graphics.Color.WHITE);
+                        batch.end();
+                        hero2.draw(batch, x - 20, y);
+                        batch.begin();
                     }
                 }
             }

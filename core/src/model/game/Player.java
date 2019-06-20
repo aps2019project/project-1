@@ -1,6 +1,7 @@
 package model.game;
 
 import control.BattleHandler;
+import graphic.screen.BattleScreen;
 import model.cards.*;
 import model.other.Account;
 import model.variables.CardsArray;
@@ -35,6 +36,7 @@ public class Player {
     private boolean usedManaPotion;
     private int usedSpecialPowerTurn = 0;
     protected Item selectedItem;
+    private String command;
 
     public Player(Account account){
         this(account,account.getMainDeck());
@@ -311,7 +313,38 @@ public class Player {
         increaseTurnNumber();
         setMana();
         deck.transferCardTo(hand);
-        new BattleHandler().getOrder();
+        while(!endTurn) {
+            handleCommands();
+        }
+    }
+
+    public void handleCommands() {
+        command = null;
+        while(command == null){
+            command = BattleScreen.getCommand();
+        }
+        BattleScreen.setCommand(null);
+        if(command.matches("end turn")){
+            this.endTurn = true;
+        } else if(command.contains("select")){
+            this.select();
+        }
+    }
+
+    public void select() {
+        Game game = Game.getCurrentGame();
+        if(!this.setSelectedCard(game.findInTable(command.split(" ")[1]))) {
+            if (game.getWhoIsHisTurn().getCollectibleItem().find(command.split(" ")[1]) != null) {
+                try {
+                    Item item = (Item) game.getWhoIsHisTurn().getCollectibleItem().find(command.split(" ")[1]);
+                    game.getWhoIsHisTurn().setSelectedItem(item);
+                } catch (NullPointerException e) {
+                    System.out.println(e);
+                } catch (Exception e) {
+                    System.err.println(e);
+                }
+            }
+        }
     }
 
     public void checkPassive() {
