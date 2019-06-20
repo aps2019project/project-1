@@ -12,6 +12,7 @@ import com.badlogic.gdx.math.Vector2;
 import graphic.Others.MoveAnimation;
 import graphic.main.AssetHandler;
 import graphic.main.Button;
+import graphic.main.Main;
 import graphic.screen.Screen;
 import graphic.screen.ScreenManager;
 
@@ -22,18 +23,21 @@ public class StoryMenuScreen extends Screen {
     private ShapeRenderer shapeRenderer;
     private Music music;
     private Texture backGroundPic;
-    private Button multiPlayerButton;
-    private Button storyButton;
-    private Button customButton;
+    private Button story1Button;
+    private Button story2Button;
+    private Button story3Button;
     private Button exitButton;
     private Vector2 mousePos;
     private ArrayList<MoveAnimation> lanternAnimation;
     private Sprite stone1;
     private Sprite stone2;
     private Sprite stone3;
+    private boolean stone1Active = false,stone2Active = false,stone3Active = false;
     @Override
     public void create() {
         setCameraAndViewport();
+        shapeRenderer = new ShapeRenderer();
+
         backGroundPic = AssetHandler.getData().get("backGround/storyMenu.jpg");
         stone1 = new Sprite(AssetHandler.getData().get("simpleIcons/stone1.png", Texture.class));
         stone2 = new Sprite(AssetHandler.getData().get("simpleIcons/stone2.png", Texture.class));
@@ -46,6 +50,12 @@ public class StoryMenuScreen extends Screen {
         stone2.setPosition(762,403);
         stone3.setPosition(569,389);
 
+        String font = "fonts/Arial 36.fnt";
+        story1Button = new Button("button/storyButton1.psd", "button/storyButton1-1.psd","sfx/playerChangeButton1.mp3", 945, 377, "1", font);
+        story2Button =  new Button("button/storyButton2.psd", "button/storyButton2-1.psd","sfx/playerChangeButton2.mp3",743, 366, "2", font);
+        story3Button =  new Button("button/storyButton3.psd","button/storyButton3-1.psd","sfx/playerChangeButton3.mp3", 503, 379, "3", font);
+        exitButton = new Button("button/exit.png", Main.WIDTH - 200, Main.HEIGHT - 200);
+        createBackGroundMusic();        mousePos = new Vector2();
         mousePos = new Vector2();
 
     }
@@ -55,8 +65,18 @@ public class StoryMenuScreen extends Screen {
         camera.update();
         mousePos.set(Gdx.input.getX(), Gdx.input.getY());
         mousePos = viewport.unproject(mousePos);
-        if (stone1.getBoundingRectangle().contains(mousePos))
-            stoneAnimation(stone1);
+
+        story3Button.setActive(story3Button.contains(mousePos));
+        story2Button.setActive(story2Button.contains(mousePos));
+        story1Button.setActive(story1Button.contains(mousePos));
+
+        stone3Active = story3Button.contains(mousePos);
+        stone2Active = story2Button.contains(mousePos);
+        stone1Active = story1Button.contains(mousePos);
+
+        exitButton.setActive(exitButton.contains(mousePos));
+
+        stone1Animation(stone1);
         stone2Animation(stone2);
         stone3Animation(stone3);
         Gdx.input.setInputProcessor(new InputProcessor() {
@@ -79,11 +99,11 @@ public class StoryMenuScreen extends Screen {
             public boolean touchDown(int screenX, int screenY, int pointer, int button) {
                 if (button != Input.Buttons.LEFT)
                     return false;
-                if (multiPlayerButton.isActive())
+                if (story1Button.isActive())
                     ScreenManager.setScreen(new MultiPlayerMenuScreen());
-                if (storyButton.isActive())
+                if (story2Button.isActive())
                     ScreenManager.setScreen(new MultiPlayerMenuScreen());
-                if (customButton.isActive())
+                if (story3Button.isActive())
                     ScreenManager.setScreen(new MultiPlayerMenuScreen());
 
                 return false;
@@ -114,10 +134,16 @@ public class StoryMenuScreen extends Screen {
     @Override
     public void render(SpriteBatch batch) {
         batch.setProjectionMatrix(camera.combined);
+        shapeRenderer.setProjectionMatrix(camera.combined);
+
         drawBackGround(batch);
+        story1Button.draw(batch);
+        story2Button.draw(batch);
+        story3Button.draw(batch);
+        exitButton.draw(batch);
         batch.begin();
-        stone1.draw(batch);
         stone2.draw(batch);
+        stone1.draw(batch);
         stone3.draw(batch);
         batch.end();
     }
@@ -125,6 +151,13 @@ public class StoryMenuScreen extends Screen {
 
     @Override
     public void dispose() {
+        music.dispose();
+    }
+    private void createBackGroundMusic() {
+        music = AssetHandler.getData().get("music/login.mp3");
+        music.setLooping(true);
+        music.setVolume(0.05f);
+        music.play();
     }
 
 
@@ -134,22 +167,29 @@ public class StoryMenuScreen extends Screen {
         batch.end();
     }
 
-    private void stoneAnimation(Sprite sprite) {
-        if(sprite.getRotation() < 60) {
+    private void stone1Animation(Sprite sprite) {
+        if(stone1Active && sprite.getRotation() < 60) {
             sprite.rotate(1);
-
+        }
+        else if(sprite.getRotation() > 0) {
+            sprite.rotate(-1);
         }
     }
     private void stone2Animation(Sprite sprite) {
         System.out.println(sprite.getScaleY());
-        if(sprite.getScaleY() > .3) {
+        if(stone2Active && sprite.getScaleY() > .3) {
             sprite.setScale(1, sprite.getScaleY() - 0.01f);
+        }
+        else if(sprite.getScaleY() < 1) {
+            sprite.setScale(1, sprite.getScaleY() + 0.01f);
         }
     }
     private void stone3Animation(Sprite sprite) {
-        if(sprite.getRotation() > -60) {
+        if(stone3Active && sprite.getRotation() > -60) {
             sprite.rotate(-1);
-
+        }
+        else if(sprite.getRotation() < 0 ) {
+            sprite.rotate(1);
         }
     }
 }
