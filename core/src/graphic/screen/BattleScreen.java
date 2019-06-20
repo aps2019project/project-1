@@ -61,6 +61,9 @@ public class BattleScreen extends Screen {
 
     private HashMap<Cell, Vector2> cellCords;
     private Cell selectedCell;
+    private Army selectedArmy;
+
+    private HashMap<Army, ArmyAnimation> animations;
 
     @Override
     public void create() {
@@ -116,6 +119,11 @@ public class BattleScreen extends Screen {
 
         cellCords = new HashMap<Cell, Vector2>();
         setCellCords();
+
+        animations = new HashMap<Army, ArmyAnimation>();
+
+        animations.put(player1.getHero(), hero1);
+        animations.put(player2.getHero(), hero2);
     }
 
     public void setCellCords() {
@@ -176,19 +184,26 @@ public class BattleScreen extends Screen {
                 } else if(getMouseCell() != null){
                     if(getMouseCell().getInsideArmy() != null && game.getWhoIsHisTurn().isFriend(getMouseCell().getInsideArmy())) {
                         selectedCell = getMouseCell();
-                        Army army = selectedCell.getInsideArmy();
-                        setCommand("select " + army.getID().getValue());
+                        selectedArmy = selectedCell.getInsideArmy();
+                        setCommand("select " + selectedArmy.getID().getValue());
                     } else {
                         Cell cell = getMouseCell();
                         Army target = cell.getInsideArmy();
                         if(target == null){
-//                            setCommand("move to" + );
+                            if(!game.getWhoIsHisTurn().canMove(selectedCell, cell)) return false;
                             game.getWhoIsHisTurn().moveArmy(selectedCell, cell);
-                            hero1.run(cellCords.get(cell).x, cellCords.get(cell).y);
+                            animations.get(selectedArmy).run(cellCords.get(cell).x, cellCords.get(cell).y);
                         } else {
+                            if(game.getWhoIsHisTurn().isInRange(selectedCell, cell)){
+                                animations.get(selectedArmy).attack();
+                            }
+                            if(game.getWhoIsHisTurn().isInRange(cell, selectedCell)){
+                                animations.get(target).attack();
+                            }
                             game.getWhoIsHisTurn().attack(selectedCell, cell);
                         }
                         selectedCell = null;
+                        selectedArmy = null;
                     }
                 }
                 return false;
@@ -327,14 +342,14 @@ public class BattleScreen extends Screen {
                         batch.draw(tile, x, y, cellSizeX, cellSizeY);
                         batch.setColor(com.badlogic.gdx.graphics.Color.WHITE);
                         batch.end();
-                        hero1.draw(batch, x - 20, y);
+                        animations.get(army).draw(batch, x - 20, y);
                         batch.begin();
                     } else {
                         batch.setColor(Main.toColor(new Color(0x83C80000, true)));
                         batch.draw(tile, x, y, cellSizeX, cellSizeY);
                         batch.setColor(com.badlogic.gdx.graphics.Color.WHITE);
                         batch.end();
-                        hero2.draw(batch, x - 20, y);
+                        animations.get(army).draw(batch, x - 20, y);
                         batch.begin();
                     }
                 }
