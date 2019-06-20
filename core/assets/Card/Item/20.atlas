@@ -1,0 +1,117 @@
+icon_f1_increasingdominance.png
+size: 256,256
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+increasingdominance
+  rotate: false
+  xy: 49, 98
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: 0
+increasingdominance
+  rotate: false
+  xy: 98, 196
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: 1
+increasingdominance
+  rotate: false
+  xy: 98, 147
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: 2
+increasingdominance
+  rotate: false
+  xy: 98, 98
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: 0
+increasingdominance
+  rotate: false
+  xy: 98, 49
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: 1
+increasingdominance
+  rotate: false
+  xy: 98, 0
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: 2
+increasingdominance
+  rotate: false
+  xy: 49, 196
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: 3
+increasingdominance
+  rotate: false
+  xy: 49, 147
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: 4
+increasingdominance
+  rotate: false
+  xy: 147, 0
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: 5
+increasingdominance
+  rotate: false
+  xy: 49, 49
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: 6
+increasingdominance
+  rotate: false
+  xy: 49, 0
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: 7
+increasingdominance
+  rotate: false
+  xy: 0, 196
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: 8
+increasingdominance
+  rotate: false
+  xy: 0, 147
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: 9
+increasingdominance
+  rotate: false
+  xy: 0, 98
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: 10
+increasingdominance
+  rotate: false
+  xy: 0, 49
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: 11
+increasingdominance
+  rotate: false
+  xy: 0, 0
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: 12
