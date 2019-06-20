@@ -10,19 +10,20 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
+import control.BattleMenuHandler;
 import graphic.Others.ArmyAnimation;
 import graphic.main.AssetHandler;
 import graphic.main.Main;
 import model.cards.Army;
-import model.cards.Hero;
+import model.game.Cell;
 import model.game.Game;
 import model.game.GameType;
 import model.game.Player;
 import model.other.Account;
 import graphic.main.Button;
 
-import javax.xml.soap.Text;
 import java.awt.*;
+import java.util.HashMap;
 
 public class BattleScreen extends Screen {
 
@@ -36,6 +37,7 @@ public class BattleScreen extends Screen {
     private Player player2;
     private Texture mana;
     private Texture tile;
+    private Texture tileSelected;
     private Vector2 manaStart1;
     private Vector2 manaStart2;
     private Texture hero1Icon1;
@@ -51,12 +53,27 @@ public class BattleScreen extends Screen {
     private float cellSizeY;
     private float cellDistance;
 
+    private Button endTurnButton;
     private Button endGameButton;
 
     private ArmyAnimation hero1;
+    private ArmyAnimation hero2;
+
+    private HashMap<Cell, Vector2> cellCords;
+    private Cell selectedCell;
 
     @Override
     public void create() {
+        BattleMenuHandler battleMenuHandler = new BattleMenuHandler();
+        battleMenuHandler.setPlayersSteps();
+        game = new Game(Account.getCurrentAccount(), battleMenuHandler.getFirstLevelPlayer(), GameType.KILL_HERO, 0);
+        Thread playGame = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                game.startMatch();
+            }
+        });
+        playGame.start();
         setCameraAndViewport();
         shapeRenderer = new ShapeRenderer();
 
@@ -68,12 +85,14 @@ public class BattleScreen extends Screen {
         music = AssetHandler.getData().get("music/battle.mp3");
         mana = AssetHandler.getData().get("battle/mana.png");
         tile = AssetHandler.getData().get("battle/Tile.png");
+        tileSelected = AssetHandler.getData().get("battle/tile action.png");
         heroHpIcon = AssetHandler.getData().get("battle/icon general hp.png");
         music.setLooping(true);
         music.setVolume(0.5f);
         music.play();
 
-        endGameButton = new Button("button/yellow.png", "button/yellow glow.png", 1300, 100, "End Turn", "fonts/Arial 24.fnt");
+        endTurnButton = new Button("button/yellow.png", "button/yellow glow.png", 1300, 100, "End Turn", "fonts/Arial 24.fnt");
+        endGameButton = new Button("button/red.png", "button/red glow.png", 1340, 40, 170, 69, "End Game", "fonts/Arial 16.fnt");
         manaStart1 = new Vector2(270, 730);
         manaStart2 = new Vector2(1330 - mana.getWidth(), 730);
 
@@ -92,19 +111,35 @@ public class BattleScreen extends Screen {
         cellSizeX = (tableCord2.x - tableCord1.x - 8*cellDistance) / 9;
         cellSizeY = (tableCord1.y - tableCord3.y - 4*cellDistance) / 5;
 
+        hero1 = new ArmyAnimation("Card/Hero/1.atlas");
+        hero2 = new ArmyAnimation("Card/Hero/10.atlas");
+
+        cellCords = new HashMap<Cell, Vector2>();
+        setCellCords();
+    }
+
+    public void setCellCords() {
+        for (int row = 0; row < 5; row++) {
+            for (int col = 0; col < 9; col++) {
+                float x = tableCord1.x + col * (cellSizeX + cellDistance);
+                float y = tableCord1.y - row * (cellSizeY + cellDistance);
+                cellCords.put(game.getTable()[row][col], new Vector2(x, y));
+            }
+        }
     }
 
     @Override
     public void update() {
         camera.update();
         shapeRenderer.setProjectionMatrix(camera.combined);
-//        game = Game.getCurrentGame();
-//        player1 = game.getFirstPlayer();
-//        player2 = game.getSecondPlayer();
+        game = Game.getCurrentGame();
+        player1 = game.getFirstPlayer();
+        player2 = game.getSecondPlayer();
 
         mousePos.set(Gdx.input.getX(), Gdx.input.getY());
         mousePos = viewport.unproject(mousePos);
 
+        endTurnButton.setActive(endTurnButton.contains(mousePos));
         endGameButton.setActive(endGameButton.contains(mousePos));
 
         Gdx.input.setInputProcessor(new InputProcessor() {
@@ -132,9 +167,14 @@ public class BattleScreen extends Screen {
 
             @Override
             public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-                if(endGameButton.isActive()){
-                    System.out.println("he he he");
-                    command = "end turn";
+                if(endTurnButton.isActive()){
+                    selectedCell = null;
+                    setCommand("end turn");
+                } else if(endGameButton.isActive()){
+                    ScreenManager.setScreen(new MenuScreen());
+                } else if(getMouseCell() != null){
+                    selectedCell = getMouseCell();
+//                    game.getWhoIsHisTurn().select();
                 }
                 return false;
             }
@@ -161,6 +201,19 @@ public class BattleScreen extends Screen {
         });
     }
 
+    public Cell getMouseCell() {
+        for(Cell[] row : game.getTable()){
+            for(Cell cell : row){
+                float x = cellCords.get(cell).x;
+                float y = cellCords.get(cell).y;
+                if(mousePos.x > x && mousePos.x < x + cellSizeX && mousePos.y > y && mousePos.y < y + cellSizeY){
+                    return cell;
+                }
+            }
+        }
+        return null;
+    }
+
     @Override
     public void render(SpriteBatch batch) {
         batch.setProjectionMatrix(camera.combined);
@@ -176,9 +229,8 @@ public class BattleScreen extends Screen {
 
         drawTable(batch);
         batch.end();
-
+        endTurnButton.draw(batch);
         endGameButton.draw(batch);
-
     }
 
     @Override
@@ -240,25 +292,45 @@ public class BattleScreen extends Screen {
     public void drawTable( SpriteBatch batch) {
         for (int row = 0; row < 5; row++) {
             for (int col = 0; col < 9; col++) {
-                float x = tableCord1.x + col * (cellSizeX + cellDistance);
-                float y = tableCord1.y - row * (cellSizeY + cellDistance);
+                Cell cell = game.getTable()[row][col];
+                float x = cellCords.get(cell).x;
+                float y = cellCords.get(cell).y;
                 Army army = game.getTable()[row][col].getInsideArmy();
+                if(selectedCell == cell) {
+                    batch.setColor(Main.toColor(new Color(0x85E7EAF9, true)));
+                    batch.draw(tileSelected, x, y, cellSizeX, cellSizeY);
+                    batch.setColor(com.badlogic.gdx.graphics.Color.WHITE);
+                }
                 if(army == null){
                     batch.setColor(Main.toColor(new Color(0x3DB0C0F9, true)));
                     batch.draw(tile, x, y, cellSizeX, cellSizeY);
                     batch.setColor(com.badlogic.gdx.graphics.Color.WHITE);
+
                 } else {
                     if(player1.isFriend(army)){
                         batch.setColor(Main.toColor(new Color(0x750000E3, true)));
                         batch.draw(tile, x, y, cellSizeX, cellSizeY);
                         batch.setColor(com.badlogic.gdx.graphics.Color.WHITE);
+                        batch.end();
+                        hero1.draw(batch, x - 20, y);
+                        batch.begin();
                     } else {
                         batch.setColor(Main.toColor(new Color(0x83C80000, true)));
                         batch.draw(tile, x, y, cellSizeX, cellSizeY);
                         batch.setColor(com.badlogic.gdx.graphics.Color.WHITE);
+                        batch.end();
+                        hero2.draw(batch, x - 20, y);
+                        batch.begin();
                     }
                 }
+
             }
+        }
+    }
+
+    public void drawSelectedCell(Cell cell, SpriteBatch batch, float x, float y) {
+        if(selectedCell == cell) {
+            batch.draw(tileSelected, x, y, cellSizeX, cellSizeY);
         }
     }
 

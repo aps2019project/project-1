@@ -42,7 +42,7 @@ public class CardListTexture {
     }
 
     public void addCardTexture(String name) {
-        addCardTexture(new CardTexture(name, "default information:\nthis is just for test", 0, 0, "Card/Hero/8.atlas"));
+        addCardTexture(new CardTexture(name, "default information:\nthis is just for test", 0, 0, 0, "Card/Hero/8.atlas"));
         totalPage = cardTextures.size() / (xSize * ySize);
     }
 

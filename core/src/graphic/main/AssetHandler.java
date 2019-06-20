@@ -49,8 +49,11 @@ public class AssetHandler {
         assetManager.load("fonts/Arial 16.fnt", BitmapFont.class);
         assetManager.load("fonts/Arial 24.fnt", BitmapFont.class);
         assetManager.load("fonts/Arial 36.fnt", BitmapFont.class);
-        assetManager.load("Card/backGround/deActive.png", Texture.class);
-        assetManager.load("Card/backGround/active.png", Texture.class);
+        assetManager.load("Card/backGround/hero deActive.png", Texture.class);
+        assetManager.load("Card/backGround/hero active.png", Texture.class);
+        assetManager.load("Card/backGround/spell deActive.png", Texture.class);
+        assetManager.load("Card/backGround/spell active.png", Texture.class);
+        assetManager.load("Card/backGround/price tag.png", Texture.class);
         assetManager.load("animation/snow.png", Texture.class);
         assetManager.load("animation/snow2.png", Texture.class);
         assetManager.load("Card/Hero/Icon/1.png", Texture.class);
@@ -67,6 +70,10 @@ public class AssetHandler {
         assetManager.load("battle/Tile.png", Texture.class);
         assetManager.load("button/yellow.png", Texture.class);
         assetManager.load("button/yellow glow.png", Texture.class);
+        assetManager.load("button/red.png", Texture.class);
+        assetManager.load("button/red glow.png", Texture.class);
+        assetManager.load("button/green.png", Texture.class);
+        assetManager.load("button/green glow.png", Texture.class);
         assetManager.load("button/shop left.png", Texture.class);
         assetManager.load("button/shop left active.png", Texture.class);
         assetManager.load("button/shop middle.png", Texture.class);
@@ -95,7 +102,7 @@ public class AssetHandler {
         assetManager.load("sfx/playerChangeButton1.mp3", Sound.class);
         assetManager.load("sfx/playerChangeButton2.mp3", Sound.class);
         assetManager.load("sfx/playerChangeButton3.mp3", Sound.class);
-
+        assetManager.load("battle/tile action.png", Texture.class);
         /*for (int i = 1; i < 10; ++i) {
             assetManager.load("fonts/" + i + ".ttf", TrueTypeFont.class);
         }*/

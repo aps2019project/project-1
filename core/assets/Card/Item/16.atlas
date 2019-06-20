@@ -3,196 +3,196 @@ size: 512,256
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-enthrall
+gif
   rotate: false
   xy: 98, 147
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: 0
-enthrall
+gif
   rotate: false
   xy: 245, 0
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: 1
-enthrall
+gif
   rotate: false
   xy: 196, 196
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: 2
-enthrall
+gif
   rotate: false
   xy: 196, 147
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: 3
-enthrall
+gif
   rotate: false
   xy: 196, 98
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: 4
-enthrall
+gif
   rotate: false
   xy: 196, 49
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: 5
-enthrall
+gif
   rotate: false
   xy: 196, 0
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: 0
-enthrall
+gif
   rotate: false
   xy: 147, 196
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: 1
-enthrall
+gif
   rotate: false
   xy: 147, 147
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: 2
-enthrall
+gif
   rotate: false
   xy: 147, 98
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: 3
-enthrall
+gif
   rotate: false
   xy: 147, 49
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: 4
-enthrall
+gif
   rotate: false
   xy: 147, 0
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: 5
-enthrall
+gif
   rotate: false
   xy: 98, 196
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: 6
-enthrall
+gif
   rotate: false
   xy: 245, 49
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: 7
-enthrall
+gif
   rotate: false
   xy: 98, 98
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: 8
-enthrall
+gif
   rotate: false
   xy: 98, 49
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: 9
-enthrall
+gif
   rotate: false
   xy: 98, 0
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: 10
-enthrall
+gif
   rotate: false
   xy: 49, 196
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: 11
-enthrall
+gif
   rotate: false
   xy: 49, 147
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: 12
-enthrall
+gif
   rotate: false
   xy: 49, 98
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: 13
-enthrall
+gif
   rotate: false
   xy: 49, 49
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: 14
-enthrall
+gif
   rotate: false
   xy: 49, 0
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: 15
-enthrall
+gif
   rotate: false
   xy: 98, 147
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: 16
-enthrall
+gif
   rotate: false
   xy: 0, 196
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: 17
-enthrall
+gif
   rotate: false
   xy: 0, 147
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: 18
-enthrall
+gif
   rotate: false
   xy: 0, 98
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: 19
-enthrall
+gif
   rotate: false
   xy: 0, 49
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: 20
-enthrall
+gif
   rotate: false
   xy: 0, 0
   size: 48, 48

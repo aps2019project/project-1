@@ -23,10 +23,11 @@ public class Item extends Card {
     public Item(int number, String name, int price, ItemType itemType, String description) {
         super(number, name, price, description, ITEM, 0);
         this.itemType = itemType;
+        lastNumebr = number;
+        gifPath = "Card/Item/" +number+".atlas";
         items.add(this);
         cards.add(this);
         if(itemType == ItemType.COLLECTIBLE) collectableItems.add(this);
-        lastNumebr = number;
     }
 
     public static int getLastNumebr() {
