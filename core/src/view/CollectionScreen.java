@@ -114,7 +114,7 @@ public class CollectionScreen extends Screen {
             return;
         }
 
-        ArrayList<Hero> heroes = cards.getAllHeros();
+        ArrayList<Hero> heroes = cards.getAllHeroes();
         ArrayList<Item> items = cards.getAllItems();
         ArrayList<Spell> spells = cards.getAllSpells();
         ArrayList<Minion> minions = cards.getAllMinions();

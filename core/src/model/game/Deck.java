@@ -3,10 +3,6 @@ package model.game;
 import model.cards.*;
 import model.variables.CardsArray;
 
-import java.util.ArrayList;
-import java.util.Objects;
-import java.util.Random;
-
 public class Deck {
     private String name;
     private CardsArray cards;
@@ -21,9 +17,14 @@ public class Deck {
         this.name = name;
         cards = new CardsArray();
     }
-    private Deck(String name,CardsArray cards) {
+    public Deck(String name,CardsArray cards) {
         this.name = name;
         this.cards = cards;
+        if(cards.getAllHeroes().size() > 0)
+            this.hero = cards.getAllHeroes().get(0);
+        if(cards.getAllItems().size() > 0)
+            this.item = cards.getAllItems().get(0);
+
     }
 
     public void deleteCard(Card card) {
@@ -49,8 +50,8 @@ public class Deck {
     }
 
     public Hero getHero() {
-        if(cards.getAllHeros().size() == 0) return null;
-        hero = cards.getAllHeros().get(0);
+        if(cards.getAllHeroes().size() == 0) return null;
+        hero = cards.getAllHeroes().get(0);
         return hero;
     }
 

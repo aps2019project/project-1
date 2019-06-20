@@ -1,17 +1,29 @@
 package model.variables;
 
 import model.cards.*;
-import sun.awt.geom.AreaOp;
 import view.BattleScreen;
 
-import java.awt.datatransfer.MimeTypeParseException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-import static model.cards.CardType.*;
-
 public class CardsArray {
+
+    public CardsArray() {
+    }
+
+    public CardsArray(ArrayList<String> cardNames, String userName) {
+        for (String cardName: cardNames) {
+            Card card = Card.getCards().findByName(cardName);
+            try {
+                card = card.clone();
+            } catch (CloneNotSupportedException e) {
+                e.printStackTrace();
+            }
+            card.setUserName(userName);
+            add(card);
+        }
+    }
 
     private ArrayList<Hero> allHeroes = new ArrayList<Hero>();
     private ArrayList<Minion> allMinions = new ArrayList<Minion>();
@@ -28,7 +40,7 @@ public class CardsArray {
         return allCards;
     }
 
-    public ArrayList<Hero> getAllHeros() {
+    public ArrayList<Hero> getAllHeroes() {
         return this.allHeroes;
     }
 
@@ -55,7 +67,7 @@ public class CardsArray {
 
     public ArrayList<Army> getArmy() {
         ArrayList<Army> armies = new ArrayList<Army>();
-        armies.addAll(getAllHeros());
+        armies.addAll(getAllHeroes());
         armies.addAll(getAllMinions());
         return armies;
     }
@@ -83,8 +95,15 @@ public class CardsArray {
     }
 
     public boolean add(Card card) {
+        if (card == null)
+            return false;
         if (this.find(card) != null) {
             return false;
+        }
+        try {
+            card = card.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
         }
         try {
             switch (card.getType()) {
@@ -110,6 +129,8 @@ public class CardsArray {
     }
 
     public void remove(Card card) {
+        if (card == null)
+            return;
         if (this.find(card) == null) {
             return;
         }

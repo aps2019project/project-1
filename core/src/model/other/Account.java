@@ -4,9 +4,14 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import model.cards.Card;
+import model.cards.CardType;
+import model.cards.Item;
+import model.cards.ItemType;
 import model.game.Deck;
 import model.game.MatchResult;
 import model.variables.CardsArray;
+import view.ShopScreen;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -69,6 +74,14 @@ public class Account {
                 return deck;
         }
         return null;
+    }
+
+    void setDaric(int daric) {
+        this.daric = daric;
+    }
+
+    void setStoryProgress(StoryProgress storyProgress) {
+        this.storyProgress = storyProgress;
     }
 
     public Deck getMainDeck() {
@@ -183,9 +196,13 @@ public class Account {
 
     public static void saveAccountDetails() {
         Gson gson = new GsonBuilder().create();
+        ArrayList<SavingObject> savingObjects = new ArrayList<SavingObject>();
+        for (Account account: accounts) {
+            savingObjects.add(new SavingObject(account));
+        }
         try {
             Writer writer = new FileWriter("Files/Data/Accounts.json");
-            writer.write(gson.toJson(Account.getAccounts()));
+            writer.write(gson.toJson(savingObjects));
             writer.close();
         }
         catch (Exception e) {
@@ -194,11 +211,11 @@ public class Account {
     }
 
     public static void readAccountDetails() {
-        Type type = new TypeToken<List<Account>>() {}.getType();
+        Type type = new TypeToken<ArrayList<SavingObject>>() {}.getType();
         Gson gson = new GsonBuilder().create();
         Scanner reader;
         String str = "";
-
+        ArrayList<SavingObject> data = new ArrayList<SavingObject>();
         try {
             reader = new Scanner(new File("Files/Data/Accounts.json"));
         }
@@ -210,18 +227,19 @@ public class Account {
             str = reader.nextLine();
         }
         try {
-            List<Account> data = gson.fromJson(str, type);
-            if (data != null)
-                accounts.addAll(data);
+            data = gson.fromJson(str, type);
         }
         catch (Exception e) {
             e.printStackTrace();
         }
         reader.close();
 
-        for (Account account: accounts) {
-            account.setMainDeck(account.findDeck(account.getMainDeck().getName()));
+        accounts.clear();
+        for (SavingObject temp: data) {
+            temp.getAccount();
         }
+
+        Account.setCurrentAccount(accounts.get(0));
 
     }
 
@@ -241,6 +259,50 @@ public class Account {
         if (username.length() < 5)
             return false;
         return username.matches("[a-zA-Z].*");
+    }
+
+    public void buyCard(String name) {
+        Card card = Card.getCards().findByName(name);
+        if (card == null)
+            return;
+        else if (getCollection().findByName(card.getName()) != null)
+            return;
+        else if (getDaric() < card.getPrice())
+            return;
+
+
+        if (card.getType().equals(CardType.ITEM)) {
+            Item item = (Item) card;
+            if (item.getItemType().equals(ItemType.COLLECTIBLE)) {
+                return;
+            } else if (getCollection().getAllItems().size() >= 3) {
+                return;
+            }
+        }
+        try {
+            card = card.clone();
+            card.setUserName(getUsername());
+        } catch (CloneNotSupportedException ignored) {
+        }
+        card.setUserName(getUsername());
+        decreaseDaric(card.getPrice());
+        addCardToCollection(card);
+    }
+
+    public void sellCard(String name) {
+        Card card = getCollection().findByName(name);
+        if (card == null)
+            return;
+
+        if (card.getType().equals(CardType.ITEM)) {
+            Item item = (Item) card;
+            if (item.getItemType().equals(ItemType.COLLECTIBLE))
+                return;
+        }
+        increaseDaric(card.getPrice());
+        deleteCardFromAllDecks(card.getName());
+        removeCardFromCollection(card);
+        getCollection().remove(card);
     }
 
     @Override

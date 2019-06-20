@@ -16,7 +16,7 @@ public class MoveAnimation {
     private Vector2 endLoc;
     private Vector2 currentLoc;
     private MoveType moveType;
-    private float speed;
+    private float speed = 5;
 
     public MoveAnimation(String path, float xStart, float yStart, float xEnd, float yEnd, MoveType moveType, boolean loop) {
         if (path.split("\\.")[1].equals("gif")) {
@@ -91,16 +91,15 @@ public class MoveAnimation {
     }
 
     public void draw(SpriteBatch batch, float speed, float width, float height) {
-        this.speed = speed;
         updateLocation(speed);
         if (isTexture) {
             batch.begin();
             batch.draw(texture, currentLoc.x, currentLoc.y, width, height);
             batch.end();
         }
-        else {
+        else
             gif.draw(batch, currentLoc.x, currentLoc.y, width, height);
-        }
+
     }
 
     public void draw(SpriteBatch batch, float speed) {
@@ -114,24 +113,17 @@ public class MoveAnimation {
         draw(batch, speed);
     }
 
-    public MoveAnimation setSpeed(float speed) {
+    public void setSpeed(float speed) {
         this.speed = speed;
-        return this;
     }
 
     private void updateLocation(float speed) {
-        float xAdditional = speed * Integer.signum((int)endLoc.x - (int)startLoc.x);
-        float x = currentLoc.x + xAdditional;
-        float y = 0;
-        if (this.moveType == MoveType.SIMPLE)
-            y = currentLoc.y + xAdditional * (endLoc.y - startLoc.y) / (endLoc.x - startLoc.x);
-        else if (this.moveType == MoveType.RANDOM)
-            y = currentLoc.y + xAdditional * (endLoc.y - startLoc.y) / (endLoc.x - startLoc.x) + (float)((Math.random() * ((10) + 1)) - 5);
-
+        Vector2 path = new Vector2(endLoc.x - currentLoc.x, endLoc.y - currentLoc.y);
+        float xAdditional = speed * path.x / path.len();
+        float yAdditional = speed * path.y / path.len();
+        currentLoc.add(xAdditional, yAdditional);
         if (loop && isFinished())
-            currentLoc.set(startLoc.x, startLoc.y);
-        else
-            currentLoc.set(x, y);
+            currentLoc.set(startLoc);
     }
 
     public boolean isFinished() {

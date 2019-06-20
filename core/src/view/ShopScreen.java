@@ -27,7 +27,7 @@ public class ShopScreen extends Screen {
     }
 
     public static void showCardArray(CardsArray collection, String sell) {
-        ArrayList<Hero> heroes = collection.getAllHeros();
+        ArrayList<Hero> heroes = collection.getAllHeroes();
         ArrayList<Item> items = collection.getSellableItems();
         ArrayList<Spell> spells = collection.getAllSpells();
         ArrayList<Minion> minions = collection.getAllMinions();
