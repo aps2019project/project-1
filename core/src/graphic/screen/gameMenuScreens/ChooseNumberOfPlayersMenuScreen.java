@@ -32,15 +32,15 @@ public class ChooseNumberOfPlayersMenuScreen extends Screen {
 
     @Override
     public void create() {
-        setCameraAndVeiwport();
-        //createLanternsAnimation();
+        setCameraAndViewport();
+        createFireAnimation();
         shapeRenderer = new ShapeRenderer();
         backGroundPic = AssetHandler.getData().get("backGround/background_ChooseNumberOfPlayersMenu.jpg");
 
         String font = "fonts/Arial 36.fnt";
-        multiPlayerButton = new Button("button/big_circle.png", "button/big_circle_action.png", 500, 320, "Multi Player", font);
-        storyButton =  new Button("button/big_circle.png", "button/big_circle_action.png",800, 320, "Story", font);
-        customButton =  new Button("button/big_circle.png","button/big_circle_action.png", 1100, 320, "Custom", font);
+        multiPlayerButton = new Button("button/choosePlayerButton1.psd", "button/choosePlayerButton1-1.psd","sfx/playerChangeButton1.mp3", 303, 278, "Multi Player", font);
+        storyButton =  new Button("button/choosePlayerButton2.psd", "button/choosePlayerButton2-1.psd","sfx/playerChangeButton2.mp3",756, 122, "Story", font);
+        customButton =  new Button("button/choosePlayerButton3.psd","button/choosePlayerButton3-1.psd","sfx/playerChangeButton3.mp3", 1150, 351, "Custom", font);
         exitButton = new Button("button/exit.png", Main.WIDTH - 200, Main.HEIGHT - 200);
         mousePos = new Vector2();
         createBackGroundMusic();
@@ -116,14 +116,14 @@ public class ChooseNumberOfPlayersMenuScreen extends Screen {
 
 
         drawBackGround(batch);
-        //showLanternAnimation(batch);
         multiPlayerButton.draw(batch);
         storyButton.draw(batch);
         customButton.draw(batch);
         exitButton.draw(batch);
+        showFireAnimation(batch);
     }
 
-    private void showLanternAnimation(SpriteBatch batch) {
+    private void showFireAnimation(SpriteBatch batch) {
         for (MoveAnimation animation: lanternAnimation) {
             animation.draw(batch);
         }
@@ -134,27 +134,42 @@ public class ChooseNumberOfPlayersMenuScreen extends Screen {
         music.dispose();
     }
 
-    private void createLanternsAnimation() {
+    private void createFireAnimation() {
         lanternAnimation = new ArrayList<MoveAnimation>();
-        for (int i = 0; i < 40; ++i) {
-            float xStart = 400 + (int) (500 * Math.random());
-            float yStart =(int) (100 * Math.random());
-            float xEnd = 800 , yEnd = 900;
-            int fireType = (int) (5 * Math.random() + 1);
-            if (fireType < 3)
+        for (int i = 0; i < 120; ++i) {
+            int fireType = (int) (7 * Math.random() + 1);
+            float xStart;
+            float yStart;
+            float xEnd;
+            float yEnd;
+            if (fireType > 6) {
                 fireType = 1;
-            else if (fireType < 5)
+                xStart = (int) (700 + (Math.random() * 200));
+                yStart = (int) (30 + 70 * Math.random());
+                xEnd = (int) (650 + 300 * Math.random());;
+                yEnd = (int) (100 + Math.random()*200);
+
+            } else if (fireType > 3) {
                 fireType = 2;
-            else
+                xStart = (int) (650 + (Math.random() * 300));
+                yStart = (int) (100 * Math.random());
+                xEnd = (int) (770 + 60 * Math.random());
+                yEnd = 300;
+
+            } else {
                 fireType = 3;
-            fireType = 1;///////////////////////
+                xStart = (int) (700 + (Math.random() * 200));
+                yStart = (int) (100 * Math.random());
+                xEnd = (int) (730 + 140 * Math.random());
+                yEnd = 150;
+            }
             lanternAnimation.add(new MoveAnimation("simpleIcons/fire" + fireType + ".png", xStart, yStart, xEnd, yEnd, MoveType.SIMPLE, true));
-            lanternAnimation.get(i).setSpeed((float)( 1 + (Math.random() + 0.5f) - fireType / 2));
+            lanternAnimation.get(i).setSpeed((float) (1 + (Math.random() + 0.5f) - fireType / 2));
         }
     }
 
     private void createBackGroundMusic() {
-        music = AssetHandler.getData().get("music/menu.mp3");
+        music = AssetHandler.getData().get("music/login.mp3");
         music.setLooping(true);
         music.setVolume(0.05f);
         music.play();

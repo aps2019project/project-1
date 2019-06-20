@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import graphic.main.AssetHandler;
 import graphic.main.Main;
-import model.other.Account;
+import graphic.screen.gameMenuScreens.ChooseNumberOfPlayersMenuScreen;
 
 
 public class LoadingScreen extends Screen {
@@ -23,7 +23,7 @@ public class LoadingScreen extends Screen {
     public void update() {
         camera.update();
         if (AssetHandler.getData().update())
-            ScreenManager.setScreen(new MenuScreen());
+            ScreenManager.setScreen(new ChooseNumberOfPlayersMenuScreen());
 
 
     }

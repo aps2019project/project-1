@@ -32,7 +32,7 @@ public class MultiPlayerMenuScreen extends graphic.screen.Screen {
 
     @Override
     public void create() {
-        setCameraAndVeiwport();
+        setCameraAndViewport();
         createLanternsAnimation();
         shapeRenderer = new ShapeRenderer();
         backGroundPic = AssetHandler.getData().get("backGround/background_ChooseNumberOfPlayersMenu.jpg");
