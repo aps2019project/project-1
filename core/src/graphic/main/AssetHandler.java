@@ -86,13 +86,10 @@ public class AssetHandler {
         assetManager.load("button/back.png", Texture.class);
         assetManager.load("backGround/brand.png", Texture.class);
         assetManager.load("button/daric slot.png", Texture.class);
-        assetManager.load("button/big_circle.png", Texture.class);
-        assetManager.load("button/big_circle_action.png", Texture.class);
-        assetManager.load("backGround/background_ChooseNumberOfPlayersMenu.jpg", Texture.class);
+        assetManager.load("backGround/background_ChooseNumberOfPlayersMenu.psd", Texture.class);
         assetManager.load("simpleIcons/fire2.png", Texture.class);
         assetManager.load("simpleIcons/fire1.png", Texture.class);
         assetManager.load("simpleIcons/fire3.png", Texture.class);
-        assetManager.load("button/Button3cnp.psd", Texture.class);
         assetManager.load("button/choosePlayerButton3.psd", Texture.class);
         assetManager.load("button/choosePlayerButton3-1.psd", Texture.class);
         assetManager.load("button/choosePlayerButton1.psd", Texture.class);
