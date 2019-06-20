@@ -50,8 +50,11 @@ public class AssetHandler {
         assetManager.load("fonts/Arial 16.fnt", BitmapFont.class);
         assetManager.load("fonts/Arial 24.fnt", BitmapFont.class);
         assetManager.load("fonts/Arial 36.fnt", BitmapFont.class);
-        assetManager.load("Card/backGround/deActive.png", Texture.class);
-        assetManager.load("Card/backGround/active.png", Texture.class);
+        assetManager.load("Card/backGround/hero deActive.png", Texture.class);
+        assetManager.load("Card/backGround/hero active.png", Texture.class);
+        assetManager.load("Card/backGround/spell deActive.png", Texture.class);
+        assetManager.load("Card/backGround/spell active.png", Texture.class);
+        assetManager.load("Card/backGround/price tag.png", Texture.class);
         assetManager.load("animation/snow.png", Texture.class);
         assetManager.load("animation/snow2.png", Texture.class);
         assetManager.load("Card/Hero/Icon/1.png", Texture.class);
