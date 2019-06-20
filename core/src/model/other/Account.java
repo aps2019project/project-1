@@ -10,14 +10,16 @@ import model.cards.ItemType;
 import model.game.Deck;
 import model.game.MatchResult;
 import model.variables.CardsArray;
-import view.ShopScreen;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 import java.lang.reflect.Type;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Scanner;
 
 public class Account {
 

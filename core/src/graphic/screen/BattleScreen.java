@@ -15,6 +15,7 @@ import graphic.Others.ArmyAnimation;
 import graphic.main.AssetHandler;
 import graphic.main.Main;
 import model.cards.Army;
+import model.game.Cell;
 import model.game.Game;
 import model.game.GameType;
 import model.game.Player;
@@ -22,6 +23,7 @@ import model.other.Account;
 import graphic.main.Button;
 
 import java.awt.*;
+import java.util.HashMap;
 
 public class BattleScreen extends Screen {
 
@@ -35,6 +37,7 @@ public class BattleScreen extends Screen {
     private Player player2;
     private Texture mana;
     private Texture tile;
+    private Texture tileSelected;
     private Vector2 manaStart1;
     private Vector2 manaStart2;
     private Texture hero1Icon1;
@@ -55,6 +58,9 @@ public class BattleScreen extends Screen {
 
     private ArmyAnimation hero1;
     private ArmyAnimation hero2;
+
+    private HashMap<Cell, Vector2> cellCords;
+    private Cell selectedCell;
 
     @Override
     public void create() {
@@ -79,6 +85,7 @@ public class BattleScreen extends Screen {
         music = AssetHandler.getData().get("music/battle.mp3");
         mana = AssetHandler.getData().get("battle/mana.png");
         tile = AssetHandler.getData().get("battle/Tile.png");
+        tileSelected = AssetHandler.getData().get("battle/tile action.png");
         heroHpIcon = AssetHandler.getData().get("battle/icon general hp.png");
         music.setLooping(true);
         music.setVolume(0.5f);
@@ -107,6 +114,18 @@ public class BattleScreen extends Screen {
         hero1 = new ArmyAnimation("Card/Hero/1.atlas");
         hero2 = new ArmyAnimation("Card/Hero/10.atlas");
 
+        cellCords = new HashMap<Cell, Vector2>();
+        setCellCords();
+    }
+
+    public void setCellCords() {
+        for (int row = 0; row < 5; row++) {
+            for (int col = 0; col < 9; col++) {
+                float x = tableCord1.x + col * (cellSizeX + cellDistance);
+                float y = tableCord1.y - row * (cellSizeY + cellDistance);
+                cellCords.put(game.getTable()[row][col], new Vector2(x, y));
+            }
+        }
     }
 
     @Override
@@ -149,9 +168,13 @@ public class BattleScreen extends Screen {
             @Override
             public boolean touchDown(int screenX, int screenY, int pointer, int button) {
                 if(endTurnButton.isActive()){
+                    selectedCell = null;
                     setCommand("end turn");
                 } else if(endGameButton.isActive()){
                     ScreenManager.setScreen(new MenuScreen());
+                } else if(getMouseCell() != null){
+                    selectedCell = getMouseCell();
+//                    game.getWhoIsHisTurn().select();
                 }
                 return false;
             }
@@ -176,6 +199,19 @@ public class BattleScreen extends Screen {
                 return false;
             }
         });
+    }
+
+    public Cell getMouseCell() {
+        for(Cell[] row : game.getTable()){
+            for(Cell cell : row){
+                float x = cellCords.get(cell).x;
+                float y = cellCords.get(cell).y;
+                if(mousePos.x > x && mousePos.x < x + cellSizeX && mousePos.y > y && mousePos.y < y + cellSizeY){
+                    return cell;
+                }
+            }
+        }
+        return null;
     }
 
     @Override
@@ -256,13 +292,20 @@ public class BattleScreen extends Screen {
     public void drawTable( SpriteBatch batch) {
         for (int row = 0; row < 5; row++) {
             for (int col = 0; col < 9; col++) {
-                float x = tableCord1.x + col * (cellSizeX + cellDistance);
-                float y = tableCord1.y - row * (cellSizeY + cellDistance);
+                Cell cell = game.getTable()[row][col];
+                float x = cellCords.get(cell).x;
+                float y = cellCords.get(cell).y;
                 Army army = game.getTable()[row][col].getInsideArmy();
+                if(selectedCell == cell) {
+                    batch.setColor(Main.toColor(new Color(0x85E7EAF9, true)));
+                    batch.draw(tileSelected, x, y, cellSizeX, cellSizeY);
+                    batch.setColor(com.badlogic.gdx.graphics.Color.WHITE);
+                }
                 if(army == null){
                     batch.setColor(Main.toColor(new Color(0x3DB0C0F9, true)));
                     batch.draw(tile, x, y, cellSizeX, cellSizeY);
                     batch.setColor(com.badlogic.gdx.graphics.Color.WHITE);
+
                 } else {
                     if(player1.isFriend(army)){
                         batch.setColor(Main.toColor(new Color(0x750000E3, true)));
@@ -280,7 +323,14 @@ public class BattleScreen extends Screen {
                         batch.begin();
                     }
                 }
+
             }
+        }
+    }
+
+    public void drawSelectedCell(Cell cell, SpriteBatch batch, float x, float y) {
+        if(selectedCell == cell) {
+            batch.draw(tileSelected, x, y, cellSizeX, cellSizeY);
         }
     }
 

@@ -8,8 +8,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import graphic.main.AssetHandler;
 import graphic.main.Gif;
 import graphic.main.Main;
-
-import java.awt.*;
+import graphic.screen.gameMenuScreens.ChooseNumberOfPlayersMenuScreen;
 
 
 public class LoadingScreen extends Screen {
@@ -33,8 +32,9 @@ public class LoadingScreen extends Screen {
     public void update() {
         camera.update();
         if (AssetHandler.getData().update())
-            ScreenManager.setScreen(new MenuScreen());
+        ScreenManager.setScreen(new MenuScreen());
         progress = AssetHandler.getData().getProgress() * 100;
+          
     }
 
     @Override

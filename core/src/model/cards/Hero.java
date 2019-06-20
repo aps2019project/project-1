@@ -29,6 +29,7 @@ public class Hero extends Army {
         this.coolDown = coolDown;
         lastNumber = number;
         iconId = "Card/Hero/Icon/" + number +".png";
+        gifPath = "Card/Hero/" +number+".atlas";
         if(number > 11) {
             iconId = "Card/Hero/Icon/11.png";
         }

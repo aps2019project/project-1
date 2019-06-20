@@ -27,10 +27,11 @@ public class Spell extends Card {
     Spell(int number, String name, int price, int mana, String description, String target) {
         super(number, name, price, description, SPELL, mana);
         this.mana = mana;
+        gifPath = "Card/Spell/" +number+".atlas";
         spells.add(this);
         cards.add(this);
-        this.targetDescription = target;
         lastNumber = number;
+        this.targetDescription = target;
     }
 
     public static ArrayList<Spell> getSpells() {

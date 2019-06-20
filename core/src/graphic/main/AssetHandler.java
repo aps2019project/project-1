@@ -6,7 +6,6 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import sun.font.TrueTypeFont;
 
 public class AssetHandler {
 
@@ -92,6 +91,25 @@ public class AssetHandler {
             assetManager.load("Card/Hero/" + i + ".atlas", TextureAtlas.class);
         }
         assetManager.load("Card/Item/1.atlas", TextureAtlas.class);
+        assetManager.load("button/big_circle.png", Texture.class);
+        assetManager.load("button/big_circle_action.png", Texture.class);
+        assetManager.load("backGround/background_ChooseNumberOfPlayersMenu.jpg", Texture.class);
+        assetManager.load("simpleIcons/fire2.png", Texture.class);
+        assetManager.load("simpleIcons/fire1.png", Texture.class);
+        assetManager.load("simpleIcons/fire3.png", Texture.class);
+        assetManager.load("button/Button3cnp.psd", Texture.class);
+        assetManager.load("button/choosePlayerButton3.psd", Texture.class);
+        assetManager.load("button/choosePlayerButton3-1.psd", Texture.class);
+        assetManager.load("button/choosePlayerButton1.psd", Texture.class);
+        assetManager.load("button/choosePlayerButton1-1.psd", Texture.class);
+        assetManager.load("button/choosePlayerButton2.psd", Texture.class);
+        assetManager.load("button/choosePlayerButton2-1.psd", Texture.class);
+        assetManager.load("sfx/playerChangeButton1.mp3", Sound.class);
+        assetManager.load("sfx/playerChangeButton2.mp3", Sound.class);
+        assetManager.load("sfx/playerChangeButton3.mp3", Sound.class);
+        assetManager.load("battle/tile action.png", Texture.class);
+        
+
 
     }
 
