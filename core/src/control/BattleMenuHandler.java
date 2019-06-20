@@ -323,6 +323,9 @@ public class BattleMenuHandler extends Handler{
         }
     }
 
+    public IntelligentPlayer getFirstLevelPlayer() {
+        return firstLevelPlayer;
+    }
 }
 enum PageState {
     CHOOSE_NUMBER_OF_PLAYERS,

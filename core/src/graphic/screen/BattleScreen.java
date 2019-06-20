@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
+import control.BattleMenuHandler;
 import graphic.Others.ArmyAnimation;
 import graphic.main.AssetHandler;
 import graphic.main.Main;
@@ -17,6 +18,7 @@ import model.cards.Army;
 import model.cards.Hero;
 import model.game.Game;
 import model.game.GameType;
+import model.game.IntelligentPlayer;
 import model.game.Player;
 import model.other.Account;
 import graphic.main.Button;
@@ -57,6 +59,17 @@ public class BattleScreen extends Screen {
 
     @Override
     public void create() {
+        BattleMenuHandler battleMenuHandler = new BattleMenuHandler();
+        battleMenuHandler.setPlayersSteps();
+        game = new Game(Account.getCurrentAccount(), battleMenuHandler.getFirstLevelPlayer(), GameType.KILL_HERO, 0);
+        Thread playGame = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                game.startMatch();
+
+            }
+        });
+        playGame.start();
         setCameraAndViewport();
         shapeRenderer = new ShapeRenderer();
 
@@ -133,7 +146,6 @@ public class BattleScreen extends Screen {
             @Override
             public boolean touchDown(int screenX, int screenY, int pointer, int button) {
                 if(endGameButton.isActive()){
-                    System.out.println("he he he");
                     setCommand("end turn");
                 }
                 return false;

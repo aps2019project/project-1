@@ -1,6 +1,7 @@
 package model.game;
 
 import control.BattleHandler;
+import graphic.screen.BattleScreen;
 import model.cards.*;
 import model.other.Account;
 import model.variables.CardsArray;
@@ -35,6 +36,7 @@ public class Player {
     private boolean usedManaPotion;
     private int usedSpecialPowerTurn = 0;
     protected Item selectedItem;
+    private String command;
 
     public Player(Account account){
         this(account,account.getMainDeck());
@@ -312,7 +314,18 @@ public class Player {
         setMana();
         deck.transferCardTo(hand);
         while(!endTurn) {
+            handleCommands();
+        }
+    }
 
+    public void handleCommands() {
+        command = null;
+        while(command == null){
+            command = BattleScreen.getCommand();
+        }
+        BattleScreen.setCommand(null);
+        if(command.matches("end turn")){
+            this.endTurn = true;
         }
     }
 
