@@ -15,6 +15,7 @@ import graphic.Others.ArmyAnimation;
 import graphic.main.AssetHandler;
 import graphic.main.Main;
 import model.cards.Army;
+import model.game.Cell;
 import model.game.Game;
 import model.game.GameType;
 import model.game.Player;
@@ -22,6 +23,7 @@ import model.other.Account;
 import graphic.main.Button;
 
 import java.awt.*;
+import java.util.HashMap;
 
 public class BattleScreen extends Screen {
 
@@ -55,6 +57,8 @@ public class BattleScreen extends Screen {
 
     private ArmyAnimation hero1;
     private ArmyAnimation hero2;
+
+    private HashMap<Cell, Vector2> cellCords;
 
     @Override
     public void create() {
@@ -107,6 +111,18 @@ public class BattleScreen extends Screen {
         hero1 = new ArmyAnimation("Card/Hero/1.atlas");
         hero2 = new ArmyAnimation("Card/Hero/10.atlas");
 
+        cellCords = new HashMap<Cell, Vector2>();
+        setCellCords();
+    }
+
+    public void setCellCords() {
+        for (int row = 0; row < 5; row++) {
+            for (int col = 0; col < 9; col++) {
+                float x = tableCord1.x + col * (cellSizeX + cellDistance);
+                float y = tableCord1.y - row * (cellSizeY + cellDistance);
+                cellCords.put(game.getTable()[row][col], new Vector2(x, y));
+            }
+        }
     }
 
     @Override
@@ -256,8 +272,8 @@ public class BattleScreen extends Screen {
     public void drawTable( SpriteBatch batch) {
         for (int row = 0; row < 5; row++) {
             for (int col = 0; col < 9; col++) {
-                float x = tableCord1.x + col * (cellSizeX + cellDistance);
-                float y = tableCord1.y - row * (cellSizeY + cellDistance);
+                float x = cellCords.get(game.getTable()[row][col]).x;
+                float y = cellCords.get(game.getTable()[row][col]).y;
                 Army army = game.getTable()[row][col].getInsideArmy();
                 if(army == null){
                     batch.setColor(Main.toColor(new Color(0x3DB0C0F9, true)));
