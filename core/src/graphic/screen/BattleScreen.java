@@ -423,7 +423,7 @@ public class BattleScreen extends Screen {
             batch.end();
             if(handCards.get(cell) == null) continue;
             if(handCards.get(cell).getType() == CardType.SPELL) continue;
-            animations.get(handCards.get(cell)).draw(batch, cell.getX() - 20, cell.getY() + 10, 240, 240);
+            animations.get(handCards.get(cell)).draw(batch, cell.getX() - 40, cell.getY() + 10, 240, 240);
             batch.begin();
         }
     }
