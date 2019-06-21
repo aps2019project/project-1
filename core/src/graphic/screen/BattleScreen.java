@@ -39,6 +39,7 @@ public class BattleScreen extends Screen {
     private Texture mana;
     private Texture tile;
     private Texture tileSelected;
+    private Texture tileHand;
     private Vector2 manaStart1;
     private Vector2 manaStart2;
     private Texture hero1Icon1;
@@ -94,6 +95,7 @@ public class BattleScreen extends Screen {
         mana = AssetHandler.getData().get("battle/mana.png");
         tile = AssetHandler.getData().get("battle/Tile.png");
         tileSelected = AssetHandler.getData().get("battle/tile action.png");
+        tileHand = AssetHandler.getData().get("battle/tile hand.png");
         heroHpIcon = AssetHandler.getData().get("battle/icon general hp.png");
         music.setLooping(true);
         music.setVolume(0.5f);
