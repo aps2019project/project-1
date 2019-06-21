@@ -35,15 +35,15 @@ public class ChooseNumberOfPlayersMenuScreen extends Screen {
         setCameraAndViewport();
         createFireAnimation();
         shapeRenderer = new ShapeRenderer();
-        backGroundPic = AssetHandler.getData().get("backGround/background_ChooseNumberOfPlayersMenu.jpg");
+        backGroundPic = AssetHandler.getData().get("backGround/background_ChooseNumberOfPlayersMenu.psd");
 
         String font = "fonts/Arial 36.fnt";
         multiPlayerButton = new Button("button/choosePlayerButton1.psd", "button/choosePlayerButton1-1.psd","sfx/playerChangeButton1.mp3", 303, 278, "Multi Player", font);
-        storyButton =  new Button("button/choosePlayerButton2.psd", "button/choosePlayerButton2-1.psd","sfx/playerChangeButton2.mp3",756, 122, "Story", font);
+        storyButton =  new Button("button/choosePlayerButton2.psd", "button/choosePlayerButton2-1.psd","sfx/playerChangeButton2.mp3",755, 135, "Story", font);
         customButton =  new Button("button/choosePlayerButton3.psd","button/choosePlayerButton3-1.psd","sfx/playerChangeButton3.mp3", 1150, 351, "Custom", font);
         exitButton = new Button("button/exit.png", Main.WIDTH - 200, Main.HEIGHT - 200);
-        mousePos = new Vector2();
-        createBackGroundMusic();
+        createBackGroundMusic();        mousePos = new Vector2();
+
     }
 
     @Override
