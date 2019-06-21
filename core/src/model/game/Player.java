@@ -326,7 +326,7 @@ public class Player {
         increaseTurnNumber();
         setMana();
         deck.transferCardTo(hand);
-        while(!endTurn) {
+        while(!endTurn && !Game.getCurrentGame().isExitFromGame()) {
             handleCommands();
         }
     }
