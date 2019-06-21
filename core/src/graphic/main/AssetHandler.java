@@ -5,6 +5,7 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
 public class AssetHandler {
 
@@ -14,7 +15,7 @@ public class AssetHandler {
         return assetManager;
     }
 
-    public static void load() {
+    public static synchronized void load() {
         assetManager.load("backGround/login_backGround.png", Texture.class);
         assetManager.load("backGround/shop1.png", Texture.class);
         assetManager.load("backGround/shop2.png", Texture.class);
@@ -110,10 +111,39 @@ public class AssetHandler {
         assetManager.load("button/storyButton2-1.psd", Texture.class);
         assetManager.load("button/storyButton3.psd", Texture.class);
         assetManager.load("button/storyButton3-1.psd", Texture.class);
-        /*for (int i = 1; i < 10; ++i) {
-            assetManager.load("fonts/" + i + ".ttf", TrueTypeFont.class);
-        }*/
-
-    }
+        for (int i = 1; i <= 11; ++i) {
+            assetManager.load("Card/Hero/" + i + ".atlas", TextureAtlas.class);
+            assetManager.load("Card/Hero/" + i + ".png", Texture.class);
+        }
+        for (int i = 1; i <= 21; ++i) {
+            assetManager.load("Card/Item/" + i + ".atlas", TextureAtlas.class);
+            assetManager.load("Card/Item/" + i + ".png", Texture.class);
+        }
+        for (int i = 1; i <= 21; ++i) {
+            assetManager.load("Card/Spell/" + i + ".atlas", TextureAtlas.class);
+            assetManager.load("Card/Spell/" + i + ".png", Texture.class);
+        }
+        for (int i = 1; i <= 41; ++i) {
+            assetManager.load("Card/Minion/" + i + ".atlas", TextureAtlas.class);
+            assetManager.load("Card/Minion/" + i + ".png", Texture.class);
+        }
+//        assetManager.load("button/big_circle.png", Texture.class);
+//        assetManager.load("button/big_circle_action.png", Texture.class);
+//        assetManager.load("backGround/background_ChooseNumberOfPlayersMenu.jpg", Texture.class);
+//        assetManager.load("simpleIcons/fire2.png", Texture.class);
+//        assetManager.load("simpleIcons/fire1.png", Texture.class);
+//        assetManager.load("simpleIcons/fire3.png", Texture.class);
+//        assetManager.load("button/Button3cnp.psd", Texture.class);
+//        assetManager.load("button/choosePlayerButton3.psd", Texture.class);
+//        assetManager.load("button/choosePlayerButton3-1.psd", Texture.class);
+//        assetManager.load("button/choosePlayerButton1.psd", Texture.class);
+//        assetManager.load("button/choosePlayerButton1-1.psd", Texture.class);
+//        assetManager.load("button/choosePlayerButton2.psd", Texture.class);
+//        assetManager.load("button/choosePlayerButton2-1.psd", Texture.class);
+//        assetManager.load("sfx/playerChangeButton1.mp3", Sound.class);
+//        assetManager.load("sfx/playerChangeButton2.mp3", Sound.class);
+//        assetManager.load("sfx/playerChangeButton3.mp3", Sound.class);
+//        assetManager.load("battle/tile action.png", Texture.class);
+            }
 
 }

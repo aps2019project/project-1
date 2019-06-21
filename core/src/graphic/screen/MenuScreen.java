@@ -94,6 +94,8 @@ public class MenuScreen extends Screen {
                 if (gameMakerButton.isActive())
                     ScreenManager.setScreen(new BattleScreen());
                 if (shopButton.isActive())
+                    ScreenManager.setScreen(new ShopScreen());
+                if (collectionButton.isActive())
                     ScreenManager.setScreen(new TestScreen());
 
                 return false;
@@ -171,7 +173,6 @@ public class MenuScreen extends Screen {
         batch.draw(backGroundPic1, 0, 0);
         batch.draw(backGroundPic2, Main.WIDTH - backGroundPic2.getWidth(), 0);
         batch.end();
-
         showLanternAnimation(batch);
         batch.begin();
         batch.draw(brand,(Main.WIDTH - brand.getWidth()) / 2, (Main.HEIGHT - brand.getHeight()) / 2);

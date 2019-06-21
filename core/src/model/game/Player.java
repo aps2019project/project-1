@@ -162,13 +162,18 @@ public class Player {
     }
 
     public boolean moveArmy(Cell presentCell, Cell destinationCell) {
+        if(!this.canMove(presentCell, destinationCell)) return false;
+        Army army = presentCell.pick();
+        movedCardsInThisTurn.add(army);
+        return destinationCell.put(army, turnNumber);
+    }
+
+    public boolean canMove(Cell presentCell, Cell destinationCell){
         if (presentCell == null || destinationCell == null) return false;
         if (!destinationCell.isEmpty() || movedCardsInThisTurn.find(presentCell.getInsideArmy()) != null
                 || attackerCardsInThisTurn.find(presentCell.getInsideArmy()) != null) return false;
         if (Cell.getDistance(presentCell, destinationCell) > 2) return false;
-        Army army = presentCell.pick();
-        movedCardsInThisTurn.add(army);
-        return destinationCell.put(army, turnNumber);
+        return true;
     }
 
     public void putHeroIn(Cell cell) {
@@ -327,16 +332,16 @@ public class Player {
         if(command.matches("end turn")){
             this.endTurn = true;
         } else if(command.contains("select")){
-            this.select();
+            this.select(command.split(" ")[1]);
         }
     }
 
-    public void select() {
+    public void select(String id) {
         Game game = Game.getCurrentGame();
-        if(!this.setSelectedCard(game.findInTable(command.split(" ")[1]))) {
-            if (game.getWhoIsHisTurn().getCollectibleItem().find(command.split(" ")[1]) != null) {
+        if(!this.setSelectedCard(game.findInTable(id))) {
+            if (game.getWhoIsHisTurn().getCollectibleItem().find(id) != null) {
                 try {
-                    Item item = (Item) game.getWhoIsHisTurn().getCollectibleItem().find(command.split(" ")[1]);
+                    Item item = (Item) game.getWhoIsHisTurn().getCollectibleItem().find(id);
                     game.getWhoIsHisTurn().setSelectedItem(item);
                 } catch (NullPointerException e) {
                     System.out.println(e);
@@ -508,5 +513,21 @@ public class Player {
     public boolean isFriend(Army army) {
         return army.getAccount() == this.getAccount();
 //        return inGameCards.find(army) != null;
+    }
+
+    public Cell getSelectedCellToPutFromHand() {
+        return selectedCellToPutFromHand;
+    }
+
+    public boolean isUsedManaPotion() {
+        return usedManaPotion;
+    }
+
+    public int getUsedSpecialPowerTurn() {
+        return usedSpecialPowerTurn;
+    }
+
+    public String getCommand() {
+        return command;
     }
 }

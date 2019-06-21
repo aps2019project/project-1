@@ -61,6 +61,9 @@ public class BattleScreen extends Screen {
 
     private HashMap<Cell, Vector2> cellCords;
     private Cell selectedCell;
+    private Army selectedArmy;
+
+    private HashMap<Army, ArmyAnimation> animations;
 
     @Override
     public void create() {
@@ -111,11 +114,16 @@ public class BattleScreen extends Screen {
         cellSizeX = (tableCord2.x - tableCord1.x - 8*cellDistance) / 9;
         cellSizeY = (tableCord1.y - tableCord3.y - 4*cellDistance) / 5;
 
-        hero1 = new ArmyAnimation("Card/Hero/1.atlas");
-        hero2 = new ArmyAnimation("Card/Hero/10.atlas");
+        hero1 = new ArmyAnimation(player1.getHero().getGifPath());
+        hero2 = new ArmyAnimation(player2.getHero().getGifPath());
 
         cellCords = new HashMap<Cell, Vector2>();
         setCellCords();
+
+        animations = new HashMap<Army, ArmyAnimation>();
+
+        animations.put(player1.getHero(), hero1);
+        animations.put(player2.getHero(), hero2);
     }
 
     public void setCellCords() {
@@ -146,6 +154,7 @@ public class BattleScreen extends Screen {
             @Override
             public boolean keyDown(int keycode) {
                 if(keycode == Input.Keys.A){
+                    System.out.println(player1.getSelectedCardPlace());
                     hero1.attack();
                 } else if(keycode == Input.Keys.D) {
                     hero1.death();
@@ -173,8 +182,29 @@ public class BattleScreen extends Screen {
                 } else if(endGameButton.isActive()){
                     ScreenManager.setScreen(new MenuScreen());
                 } else if(getMouseCell() != null){
-                    selectedCell = getMouseCell();
-//                    game.getWhoIsHisTurn().select();
+                    if(getMouseCell().getInsideArmy() != null && game.getWhoIsHisTurn().isFriend(getMouseCell().getInsideArmy())) {
+                        selectedCell = getMouseCell();
+                        selectedArmy = selectedCell.getInsideArmy();
+                        setCommand("select " + selectedArmy.getID().getValue());
+                    } else {
+                        Cell cell = getMouseCell();
+                        Army target = cell.getInsideArmy();
+                        if(target == null){
+                            if(!game.getWhoIsHisTurn().canMove(selectedCell, cell)) return false;
+                            game.getWhoIsHisTurn().moveArmy(selectedCell, cell);
+                            animations.get(selectedArmy).run(cellCords.get(cell).x, cellCords.get(cell).y);
+                        } else {
+                            if(game.getWhoIsHisTurn().isInRange(selectedCell, cell)){
+                                animations.get(selectedArmy).attack();
+                            }
+                            if(game.getWhoIsHisTurn().isInRange(cell, selectedCell)){
+                                animations.get(target).attack();
+                            }
+                            game.getWhoIsHisTurn().attack(selectedCell, cell);
+                        }
+                        selectedCell = null;
+                        selectedArmy = null;
+                    }
                 }
                 return false;
             }
@@ -297,7 +327,7 @@ public class BattleScreen extends Screen {
                 float y = cellCords.get(cell).y;
                 Army army = game.getTable()[row][col].getInsideArmy();
                 if(selectedCell == cell) {
-                    batch.setColor(Main.toColor(new Color(0x85E7EAF9, true)));
+                    batch.setColor(Main.toColor(new Color(0x55E7EAF9, true)));
                     batch.draw(tileSelected, x, y, cellSizeX, cellSizeY);
                     batch.setColor(com.badlogic.gdx.graphics.Color.WHITE);
                 }
@@ -312,14 +342,14 @@ public class BattleScreen extends Screen {
                         batch.draw(tile, x, y, cellSizeX, cellSizeY);
                         batch.setColor(com.badlogic.gdx.graphics.Color.WHITE);
                         batch.end();
-                        hero1.draw(batch, x - 20, y);
+                        animations.get(army).draw(batch, x - 20, y);
                         batch.begin();
                     } else {
                         batch.setColor(Main.toColor(new Color(0x83C80000, true)));
                         batch.draw(tile, x, y, cellSizeX, cellSizeY);
                         batch.setColor(com.badlogic.gdx.graphics.Color.WHITE);
                         batch.end();
-                        hero2.draw(batch, x - 20, y);
+                        animations.get(army).draw(batch, x - 20, y);
                         batch.begin();
                     }
                 }
