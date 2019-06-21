@@ -523,9 +523,10 @@ public class Player {
 //        return inGameCards.find(army) != null;
     }
 
-    public void setMainDeckAnimations(HashMap<Army, ArmyAnimation> animations) {
-        for(Card card : deck.getCards().getAllCards()){
+    public void setHandAnimations(HashMap<Army, ArmyAnimation> animations) {
+        for(Card card : hand.getAllCards()){
             if(card.getType() == CardType.ITEM || card.getType() == CardType.SPELL) continue;
+            if(animations.containsKey((Army)card)) continue;
             ArmyAnimation animation = new ArmyAnimation(card.getGifPath());
             animations.put((Army) card, animation);
         }
