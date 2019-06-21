@@ -23,10 +23,15 @@ public class AssetHandler {
         assetManager.load("backGround/battle_background.png", Texture.class);
         assetManager.load("backGround/menu1.png", Texture.class);
         assetManager.load("backGround/menu2.png", Texture.class);
+        assetManager.load("backGround/collection1.png", Texture.class);
+        assetManager.load("backGround/collection2.png", Texture.class);
+        assetManager.load("backGround/collection3.png", Texture.class);
+        assetManager.load("animation/waterFall.png", Texture.class);
         assetManager.load("music/login.mp3", Music.class);
         assetManager.load("music/menu.mp3", Music.class);
         assetManager.load("music/shop.mp3", Music.class);
         assetManager.load("music/battle.mp3", Music.class);
+        assetManager.load("music/collection.mp3", Music.class);
         assetManager.load("sfx/click.mp3", Sound.class);
         assetManager.load("button/login1.png", Texture.class);
         assetManager.load("button/login2.png", Texture.class);
@@ -129,6 +134,12 @@ public class AssetHandler {
             assetManager.load("Card/Minion/" + i + ".atlas", TextureAtlas.class);
             assetManager.load("Card/Minion/" + i + ".png", Texture.class);
         }
+
+
+
+
+
+
 //        assetManager.load("button/big_circle.png", Texture.class);
 //        assetManager.load("button/big_circle_action.png", Texture.class);
 //        assetManager.load("backGround/background_ChooseNumberOfPlayersMenu.jpg", Texture.class);
