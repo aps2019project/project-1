@@ -16,6 +16,7 @@ import graphic.main.AssetHandler;
 import graphic.main.Main;
 import model.cards.Army;
 import model.cards.Card;
+import model.cards.CardType;
 import model.game.Cell;
 import model.game.Game;
 import model.game.GameType;
@@ -24,6 +25,7 @@ import model.other.Account;
 import graphic.main.Button;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class BattleScreen extends Screen {
@@ -39,6 +41,7 @@ public class BattleScreen extends Screen {
     private Texture mana;
     private Texture tile;
     private Texture tileSelected;
+    private Texture tileHand;
     private Vector2 manaStart1;
     private Vector2 manaStart2;
     private Texture hero1Icon1;
@@ -68,10 +71,14 @@ public class BattleScreen extends Screen {
 
     private Vector2 handStartCord;
 
+    private ArrayList<Cell> handCells;
+    private HashMap<Cell, Card> handCards;
+
+    private Cell selectedCellHand;
+
     @Override
     public void create() {
         animations = new HashMap<Army, ArmyAnimation>();
-
         BattleMenuHandler battleMenuHandler = new BattleMenuHandler();
         battleMenuHandler.setPlayersSteps();
         game = new Game(Account.getCurrentAccount(), battleMenuHandler.getFirstLevelPlayer(), GameType.KILL_HERO, 0);
@@ -94,6 +101,7 @@ public class BattleScreen extends Screen {
         mana = AssetHandler.getData().get("battle/mana.png");
         tile = AssetHandler.getData().get("battle/Tile.png");
         tileSelected = AssetHandler.getData().get("battle/tile action.png");
+        tileHand = AssetHandler.getData().get("battle/tile hand.png");
         heroHpIcon = AssetHandler.getData().get("battle/icon general hp.png");
         music.setLooping(true);
         music.setVolume(0.5f);
@@ -125,7 +133,9 @@ public class BattleScreen extends Screen {
         animations.put(player1.getHero(), new ArmyAnimation(player1.getHero().getGifPath()));
         animations.put(player2.getHero(), new ArmyAnimation(player2.getHero().getGifPath()));
 
-        handStartCord = new Vector2(350, 50);
+        handStartCord = new Vector2(400, 20);
+
+        setHandCells();
     }
 
     public void setAnimations() {
@@ -143,6 +153,19 @@ public class BattleScreen extends Screen {
         }
     }
 
+    public void setHandCells() {
+        handCells = new ArrayList<Cell>();
+        for(int i = 0; i<5; i++){
+            handCells.add(new Cell((int)handStartCord.x + i*160, (int)handStartCord.y));
+        }
+        handCards = new HashMap<Cell, Card>();
+    }
+
+    public void updateHandCells() {
+        for(int i =0; i<5; i++){
+            handCards.put(handCells.get(i), player1.getHand().getAllCards().get(i));
+        }
+    }
     @Override
     public void update() {
         camera.update();
@@ -150,6 +173,8 @@ public class BattleScreen extends Screen {
         game = Game.getCurrentGame();
         player1 = game.getFirstPlayer();
         player2 = game.getSecondPlayer();
+
+        updateHandCells();
 
         setAnimations();
 
@@ -194,14 +219,19 @@ public class BattleScreen extends Screen {
                 } else if(getMouseCell() != null){
                     if(getMouseCell().getInsideArmy() != null && game.getWhoIsHisTurn().isFriend(getMouseCell().getInsideArmy())) {
                         selectedCell = getMouseCell();
+                        selectedCellHand = null;
                         selectedArmy = selectedCell.getInsideArmy();
                         setCommand("select " + selectedArmy.getID().getValue());
                     } else {
                         Cell cell = getMouseCell();
                         Army target = cell.getInsideArmy();
                         if(target == null){
-                            if(!game.getWhoIsHisTurn().canMove(selectedCell, cell)) return false;
-                            game.getWhoIsHisTurn().moveArmy(selectedCell, cell);
+                            if(selectedCell != null) {
+                                if (!game.getWhoIsHisTurn().canMove(selectedCell, cell)) return false;
+                                game.getWhoIsHisTurn().moveArmy(selectedCell, cell);
+                            } else if(selectedCellHand != null){
+//                                game.getWhoIsHisTurn().moveFromHandToCell(selectedCellHand., selectedCell)
+                            }
                         } else {
                             if(game.getWhoIsHisTurn().isInRange(selectedCell, cell)){
                                 animations.get(selectedArmy).attack();
@@ -214,6 +244,9 @@ public class BattleScreen extends Screen {
                         selectedCell = null;
                         selectedArmy = null;
                     }
+                } else if(getMouseHandCell() != null){
+                    selectedCellHand = getMouseHandCell();
+                    selectedCell = null;
                 }
                 return false;
             }
@@ -253,6 +286,17 @@ public class BattleScreen extends Screen {
         return null;
     }
 
+    public Cell getMouseHandCell() {
+        for(Cell cell : handCells) {
+            float x = cell.getX();
+            float y = cell.getY();
+            if(mousePos.x > x && mousePos.x < x + 160 && mousePos.y > y && mousePos.y < y + 160){
+                return cell;
+            }
+        }
+        return null;
+    }
+
     @Override
     public void render(SpriteBatch batch) {
         batch.setProjectionMatrix(camera.combined);
@@ -267,8 +311,8 @@ public class BattleScreen extends Screen {
         drawHeroesHp(batch);
 
         drawTable(batch);
-        batch.end();
         drawHand(batch);
+        batch.end();
         endTurnButton.draw(batch);
         endGameButton.draw(batch);
     }
@@ -369,11 +413,18 @@ public class BattleScreen extends Screen {
     }
 
     public void drawHand(SpriteBatch batch) {
-        int i = 0;
-        for(Army army : player1.getHand().getAllMinions()){
-            ArmyAnimation animation = animations.get(army);
-            animation.draw(batch, handStartCord.x +i*160, handStartCord.y, 250, 250);
-            i++;
+        for(Cell cell : handCells){
+            if(selectedCellHand == cell)
+                batch.setColor(Main.toColor(new Color(0xFFDCDCDC, true)));
+            else
+                batch.setColor(Main.toColor(new Color(0xFF232323, true)));
+            batch.draw(tileHand, cell.getX(), cell.getY(), 160, 160);
+            batch.setColor(com.badlogic.gdx.graphics.Color.WHITE);
+            batch.end();
+            if(handCards.get(cell) == null) continue;
+            if(handCards.get(cell).getType() == CardType.SPELL) continue;
+            animations.get(handCards.get(cell)).draw(batch, cell.getX() - 40, cell.getY() + 10, 240, 240);
+            batch.begin();
         }
     }
 

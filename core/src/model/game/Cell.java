@@ -111,4 +111,7 @@ public class Cell {
         insideArmy.decreaseHp(2);
     }
 
+    public void setInsideArmy(Army insideArmy) {
+        this.insideArmy = insideArmy;
+    }
 }

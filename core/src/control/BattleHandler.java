@@ -70,10 +70,10 @@ public class BattleHandler extends Handler{
             }else if (command.matches("show hand")) {
                 BattleScreen.showCardArray(game.getWhoIsHisTurn().getHand());
             }else if (command.matches("insert \\w+ in[(]\\d+,\\d+[)]")) {
-                if(!game.getWhoIsHisTurn().moveFromHandToCell(command.split(" ")[1]
-                        ,getCell(command.split(" ")[2]))) {
-                    BattleScreen.showInvalidCardNameError();
-                }
+//                if(!game.getWhoIsHisTurn().moveFromHandToCell(command.split(" ")[1]
+//                        ,getCell(command.split(" ")[2]))) {
+//                    BattleScreen.showInvalidCardNameError();
+//                }
             }else if (command.matches("end turn")) {
                 game.getWhoIsHisTurn().setEndTurn(true);
             }else if (command.matches("show collectables")) {
