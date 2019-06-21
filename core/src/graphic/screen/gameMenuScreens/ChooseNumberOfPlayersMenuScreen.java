@@ -81,7 +81,7 @@ public class ChooseNumberOfPlayersMenuScreen extends Screen {
                 if (multiPlayerButton.isActive())
                     ScreenManager.setScreen(new MultiPlayerMenuScreen());
                 if (storyButton.isActive())
-                    ScreenManager.setScreen(new MultiPlayerMenuScreen());
+                    ScreenManager.setScreen(new StoryMenuScreen());
                 if (customButton.isActive())
                     ScreenManager.setScreen(new MultiPlayerMenuScreen());
                 return false;
