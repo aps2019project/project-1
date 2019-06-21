@@ -63,7 +63,7 @@ public class ShopScreen extends Screen {
         createButtons();
         getPlayerCards();
         playBackGroundMusic("music/shop.mp3");
-        currentList = allHeroList;
+        currentList = new CardListTexture(3, 2, 70, 140);
     }
 
 
@@ -149,6 +149,13 @@ public class ShopScreen extends Screen {
                     buyButton.setActive(buyButton.contains(mousePos));
                     sellButton.setActive(sellButton.contains(mousePos));
                     refreshAllLists();
+                }
+                if (!heroButton.contains(mousePos) && !minionButton.contains(mousePos) && !spellButton.contains(mousePos) && !itemButton.contains(mousePos) && !currentList.contains(mousePos)) {
+                    currentList = new CardListTexture(3, 2, 70, 140);
+                    heroButton.setActive(false);
+                    minionButton.setActive(false);
+                    spellButton.setActive(false);
+                    itemButton.setActive(false);
                 }
             }
 
@@ -322,7 +329,6 @@ public class ShopScreen extends Screen {
         minionButton = new Button("button/shop middle.png", "button/shop middle active.png", 300, 830, "Minion", font);
         spellButton = new Button("button/shop middle.png", "button/shop middle active.png", 500, 830, "Spell", font);
         itemButton = new Button("button/shop right.png", "button/shop right active.png", 700, 830, "Item", font);
-        heroButton.setActive(true);
         font = AssetHandler.getData().get("fonts/Arial 36.fnt");
         font.setColor(Main.toColor(new Color(0xFFFDFD)));
         sellButton = new Button("button/shop sb.png", "button/shop sb active.png", 1250, 350, "Sell", font);

@@ -176,7 +176,6 @@ public class StoryMenuScreen extends Screen {
         }
     }
     private void stone2Animation(Sprite sprite) {
-        System.out.println(sprite.getScaleY());
         if(stone2Active && sprite.getScaleY() > .3) {
             sprite.setScale(1, sprite.getScaleY() - 0.01f);
         }
