@@ -69,6 +69,7 @@ public class AssetHandler {
         assetManager.load("Card/Hero/Icon/10.png", Texture.class);
         assetManager.load("Card/Hero/Icon/11.png", Texture.class);
         assetManager.load("battle/Tile.png", Texture.class);
+        assetManager.load("battle/tile action.png", Texture.class);
         assetManager.load("button/yellow.png", Texture.class);
         assetManager.load("button/yellow glow.png", Texture.class);
         assetManager.load("button/red.png", Texture.class);
@@ -115,7 +116,7 @@ public class AssetHandler {
             assetManager.load("Card/Hero/" + i + ".atlas", TextureAtlas.class);
             assetManager.load("Card/Hero/" + i + ".png", Texture.class);
         }
-        for (int i = 1; i <= 21; ++i) {
+        for (int i = 1; i <= 20; ++i) {
             assetManager.load("Card/Item/" + i + ".atlas", TextureAtlas.class);
             assetManager.load("Card/Item/" + i + ".png", Texture.class);
         }

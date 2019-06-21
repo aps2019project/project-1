@@ -59,17 +59,20 @@ public class BattleScreen extends Screen {
     private ArmyAnimation hero1;
     private ArmyAnimation hero2;
 
-    private HashMap<Cell, Vector2> cellCords;
+    private static HashMap<Cell, Vector2> cellCords;
     private Cell selectedCell;
     private Army selectedArmy;
 
-    private HashMap<Army, ArmyAnimation> animations;
+    private static HashMap<Army, ArmyAnimation> animations;
 
     @Override
     public void create() {
+        animations = new HashMap<Army, ArmyAnimation>();
+
         BattleMenuHandler battleMenuHandler = new BattleMenuHandler();
         battleMenuHandler.setPlayersSteps();
         game = new Game(Account.getCurrentAccount(), battleMenuHandler.getFirstLevelPlayer(), GameType.KILL_HERO, 0);
+        setAnimations();
         Thread playGame = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -114,16 +117,22 @@ public class BattleScreen extends Screen {
         cellSizeX = (tableCord2.x - tableCord1.x - 8*cellDistance) / 9;
         cellSizeY = (tableCord1.y - tableCord3.y - 4*cellDistance) / 5;
 
-        hero1 = new ArmyAnimation(player1.getHero().getGifPath());
-        hero2 = new ArmyAnimation(player2.getHero().getGifPath());
 
         cellCords = new HashMap<Cell, Vector2>();
         setCellCords();
 
-        animations = new HashMap<Army, ArmyAnimation>();
+    }
 
-        animations.put(player1.getHero(), hero1);
-        animations.put(player2.getHero(), hero2);
+    public void setAnimations() {
+//        hero1 = new ArmyAnimation(player1.getHero().getGifPath());
+//        hero2 = new ArmyAnimation(player2.getHero().getGifPath());
+//
+//        animations.put(player1.getHero(), hero1);
+//        animations.put(player2.getHero(), hero2);
+//
+        game.getFirstPlayer().setMainDeckAnimations(animations);
+        game.getSecondPlayer().setMainDeckAnimations(animations);
+
     }
 
     public void setCellCords() {
@@ -192,7 +201,7 @@ public class BattleScreen extends Screen {
                         if(target == null){
                             if(!game.getWhoIsHisTurn().canMove(selectedCell, cell)) return false;
                             game.getWhoIsHisTurn().moveArmy(selectedCell, cell);
-                            animations.get(selectedArmy).run(cellCords.get(cell).x, cellCords.get(cell).y);
+//                            animations.get(selectedArmy).run(cellCords.get(cell).x, cellCords.get(cell).y);
                         } else {
                             if(game.getWhoIsHisTurn().isInRange(selectedCell, cell)){
                                 animations.get(selectedArmy).attack();
@@ -349,6 +358,7 @@ public class BattleScreen extends Screen {
                         batch.draw(tile, x, y, cellSizeX, cellSizeY);
                         batch.setColor(com.badlogic.gdx.graphics.Color.WHITE);
                         batch.end();
+                        System.out.println(army.getName());
                         animations.get(army).draw(batch, x - 20, y);
                         batch.begin();
                     }
@@ -370,5 +380,13 @@ public class BattleScreen extends Screen {
 
     public static void setCommand(String string) {
        command = string;
+    }
+
+    public static HashMap<Army, ArmyAnimation> getAnimations() {
+        return animations;
+    }
+
+    public static HashMap<Cell, Vector2> getCellCords() {
+        return cellCords;
     }
 }
