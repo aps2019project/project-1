@@ -59,11 +59,11 @@ public class BattleScreen extends Screen {
     private ArmyAnimation hero1;
     private ArmyAnimation hero2;
 
-    private HashMap<Cell, Vector2> cellCords;
+    private static HashMap<Cell, Vector2> cellCords;
     private Cell selectedCell;
     private Army selectedArmy;
 
-    private HashMap<Army, ArmyAnimation> animations;
+    private static HashMap<Army, ArmyAnimation> animations;
 
     @Override
     public void create() {
@@ -192,7 +192,7 @@ public class BattleScreen extends Screen {
                         if(target == null){
                             if(!game.getWhoIsHisTurn().canMove(selectedCell, cell)) return false;
                             game.getWhoIsHisTurn().moveArmy(selectedCell, cell);
-                            animations.get(selectedArmy).run(cellCords.get(cell).x, cellCords.get(cell).y);
+//                            animations.get(selectedArmy).run(cellCords.get(cell).x, cellCords.get(cell).y);
                         } else {
                             if(game.getWhoIsHisTurn().isInRange(selectedCell, cell)){
                                 animations.get(selectedArmy).attack();
@@ -370,5 +370,13 @@ public class BattleScreen extends Screen {
 
     public static void setCommand(String string) {
        command = string;
+    }
+
+    public static HashMap<Army, ArmyAnimation> getAnimations() {
+        return animations;
+    }
+
+    public static HashMap<Cell, Vector2> getCellCords() {
+        return cellCords;
     }
 }

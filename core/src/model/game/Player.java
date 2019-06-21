@@ -1,6 +1,7 @@
 package model.game;
 
 import control.BattleHandler;
+import graphic.Others.ArmyAnimation;
 import graphic.screen.BattleScreen;
 import model.cards.*;
 import model.other.Account;
@@ -10,6 +11,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
 import java.util.Collections;
+import java.util.HashMap;
 
 import static model.cards.SPTime.*;
 import static model.variables.GlobalVariables.TABLE_HEIGHT;
@@ -164,6 +166,7 @@ public class Player {
     public boolean moveArmy(Cell presentCell, Cell destinationCell) {
         if(!this.canMove(presentCell, destinationCell)) return false;
         Army army = presentCell.pick();
+        BattleScreen.getAnimations().get(army).run(BattleScreen.getCellCords().get(destinationCell).x, BattleScreen.getCellCords().get(destinationCell).y);
         movedCardsInThisTurn.add(army);
         return destinationCell.put(army, turnNumber);
     }
