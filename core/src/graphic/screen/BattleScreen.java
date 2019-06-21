@@ -72,7 +72,6 @@ public class BattleScreen extends Screen {
         BattleMenuHandler battleMenuHandler = new BattleMenuHandler();
         battleMenuHandler.setPlayersSteps();
         game = new Game(Account.getCurrentAccount(), battleMenuHandler.getFirstLevelPlayer(), GameType.KILL_HERO, 0);
-        setAnimations();
         Thread playGame = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -117,22 +116,17 @@ public class BattleScreen extends Screen {
         cellSizeX = (tableCord2.x - tableCord1.x - 8*cellDistance) / 9;
         cellSizeY = (tableCord1.y - tableCord3.y - 4*cellDistance) / 5;
 
-
         cellCords = new HashMap<Cell, Vector2>();
         setCellCords();
+
+        animations.put(player1.getHero(), new ArmyAnimation(player1.getHero().getGifPath()));
+        animations.put(player2.getHero(), new ArmyAnimation(player2.getHero().getGifPath()));
 
     }
 
     public void setAnimations() {
-//        hero1 = new ArmyAnimation(player1.getHero().getGifPath());
-//        hero2 = new ArmyAnimation(player2.getHero().getGifPath());
-//
-//        animations.put(player1.getHero(), hero1);
-//        animations.put(player2.getHero(), hero2);
-//
-        game.getFirstPlayer().setMainDeckAnimations(animations);
-        game.getSecondPlayer().setMainDeckAnimations(animations);
-
+        game.getFirstPlayer().setHandAnimations(animations);
+        game.getSecondPlayer().setHandAnimations(animations);
     }
 
     public void setCellCords() {
@@ -152,6 +146,8 @@ public class BattleScreen extends Screen {
         game = Game.getCurrentGame();
         player1 = game.getFirstPlayer();
         player2 = game.getSecondPlayer();
+
+        setAnimations();
 
         mousePos.set(Gdx.input.getX(), Gdx.input.getY());
         mousePos = viewport.unproject(mousePos);
@@ -201,7 +197,6 @@ public class BattleScreen extends Screen {
                         if(target == null){
                             if(!game.getWhoIsHisTurn().canMove(selectedCell, cell)) return false;
                             game.getWhoIsHisTurn().moveArmy(selectedCell, cell);
-//                            animations.get(selectedArmy).run(cellCords.get(cell).x, cellCords.get(cell).y);
                         } else {
                             if(game.getWhoIsHisTurn().isInRange(selectedCell, cell)){
                                 animations.get(selectedArmy).attack();
@@ -358,7 +353,6 @@ public class BattleScreen extends Screen {
                         batch.draw(tile, x, y, cellSizeX, cellSizeY);
                         batch.setColor(com.badlogic.gdx.graphics.Color.WHITE);
                         batch.end();
-                        System.out.println(army.getName());
                         animations.get(army).draw(batch, x - 20, y);
                         batch.begin();
                     }

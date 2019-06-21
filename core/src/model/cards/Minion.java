@@ -205,7 +205,7 @@ public class Minion extends Army {
         }
     }
 
-    public void GrandWitchPassive(Player player, Cell cell) {
+    public void GrandWitchOnSpawn(Player player, Cell cell) {
         ArrayList<Army> array = player.getFriendsAround(cell).getArmy();
         array.add(this);
         for (Army army : array) {
