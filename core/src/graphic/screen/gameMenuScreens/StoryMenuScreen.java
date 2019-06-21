@@ -51,9 +51,9 @@ public class StoryMenuScreen extends Screen {
         stone3.setPosition(569,389);
 
         String font = "fonts/Arial 36.fnt";
-        story1Button = new Button("button/storyButton1.psd", "button/storyButton1-1.psd","sfx/playerChangeButton1.mp3", 945, 377, "1", font);
-        story2Button =  new Button("button/storyButton2.psd", "button/storyButton2-1.psd","sfx/playerChangeButton2.mp3",743, 366, "2", font);
-        story3Button =  new Button("button/storyButton3.psd","button/storyButton3-1.psd","sfx/playerChangeButton3.mp3", 503, 379, "3", font);
+        story1Button = new Button("button/storyButton1.psd", "button/storyButton1-1.psd","sfx/playerChangeButton1.mp3", 945, 377);
+        story2Button =  new Button("button/storyButton2.psd", "button/storyButton2-1.psd","sfx/playerChangeButton2.mp3",743, 366);
+        story3Button =  new Button("button/storyButton3.psd","button/storyButton3-1.psd","sfx/playerChangeButton3.mp3", 503, 379);
         exitButton = new Button("button/exit.png", Main.WIDTH - 200, Main.HEIGHT - 200);
         createBackGroundMusic();        mousePos = new Vector2();
         mousePos = new Vector2();
@@ -171,7 +171,7 @@ public class StoryMenuScreen extends Screen {
         if(stone1Active && sprite.getRotation() < 60) {
             sprite.rotate(1);
         }
-        else if(sprite.getRotation() > 0) {
+        else if(!stone1Active && sprite.getRotation() > 0) {
             sprite.rotate(-1);
         }
     }
@@ -180,7 +180,7 @@ public class StoryMenuScreen extends Screen {
         if(stone2Active && sprite.getScaleY() > .3) {
             sprite.setScale(1, sprite.getScaleY() - 0.01f);
         }
-        else if(sprite.getScaleY() < 1) {
+        else if(!stone2Active && sprite.getScaleY() < 1) {
             sprite.setScale(1, sprite.getScaleY() + 0.01f);
         }
     }
@@ -188,7 +188,7 @@ public class StoryMenuScreen extends Screen {
         if(stone3Active && sprite.getRotation() > -60) {
             sprite.rotate(-1);
         }
-        else if(sprite.getRotation() < 0 ) {
+        else if(!stone3Active && sprite.getRotation() < 0 ) {
             sprite.rotate(1);
         }
     }
