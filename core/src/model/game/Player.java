@@ -1,6 +1,8 @@
 package model.game;
 
+import com.badlogic.gdx.math.Vector2;
 import control.BattleHandler;
+import graphic.Others.ArmyAnimation;
 import graphic.screen.BattleScreen;
 import model.cards.*;
 import model.other.Account;
@@ -10,6 +12,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Vector;
 
 import static model.cards.SPTime.*;
 import static model.variables.GlobalVariables.TABLE_HEIGHT;
@@ -162,13 +166,21 @@ public class Player {
     }
 
     public boolean moveArmy(Cell presentCell, Cell destinationCell) {
+        if(!this.canMove(presentCell, destinationCell)) return false;
+        Army army = presentCell.pick();
+        movedCardsInThisTurn.add(army);
+        HashMap<Army, ArmyAnimation> animations = BattleScreen.getAnimations();
+        HashMap<Cell, Vector2> cellCords = BattleScreen.getCellCords();
+        animations.get(army).run(cellCords.get(destinationCell).x, cellCords.get(destinationCell).y);
+        return destinationCell.put(army, turnNumber);
+    }
+
+    public boolean canMove(Cell presentCell, Cell destinationCell) {
         if (presentCell == null || destinationCell == null) return false;
         if (!destinationCell.isEmpty() || movedCardsInThisTurn.find(presentCell.getInsideArmy()) != null
                 || attackerCardsInThisTurn.find(presentCell.getInsideArmy()) != null) return false;
         if (Cell.getDistance(presentCell, destinationCell) > 2) return false;
-        Army army = presentCell.pick();
-        movedCardsInThisTurn.add(army);
-        return destinationCell.put(army, turnNumber);
+        return true;
     }
 
     public void putHeroIn(Cell cell) {
@@ -263,7 +275,6 @@ public class Player {
                     minion.checkPassive(this, cell);
                 }
 //                BattleScreen.getAnimations().put((Army)card, new ArmyAnimation(card.getGifPath()));
-                System.out.println(BattleScreen.getAnimations().keySet());
                 return true;
             }
         }
