@@ -3,10 +3,8 @@ package model.other;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-import model.cards.Card;
-import model.cards.CardType;
-import model.cards.Item;
-import model.cards.ItemType;
+import graphic.Others.ArmyAnimation;
+import model.cards.*;
 import model.game.Deck;
 import model.game.MatchResult;
 import model.variables.CardsArray;
@@ -16,10 +14,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Scanner;
+import java.util.*;
 
 public class Account {
 
@@ -331,4 +326,5 @@ public class Account {
                 getMainDeck().equals(account.mainDeck) &&
                 getStoryProgress() == account.getStoryProgress();
     }
+
 }

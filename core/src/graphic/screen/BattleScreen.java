@@ -67,9 +67,12 @@ public class BattleScreen extends Screen {
 
     @Override
     public void create() {
+        animations = new HashMap<Army, ArmyAnimation>();
+
         BattleMenuHandler battleMenuHandler = new BattleMenuHandler();
         battleMenuHandler.setPlayersSteps();
         game = new Game(Account.getCurrentAccount(), battleMenuHandler.getFirstLevelPlayer(), GameType.KILL_HERO, 0);
+        setAnimations();
         Thread playGame = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -114,16 +117,22 @@ public class BattleScreen extends Screen {
         cellSizeX = (tableCord2.x - tableCord1.x - 8*cellDistance) / 9;
         cellSizeY = (tableCord1.y - tableCord3.y - 4*cellDistance) / 5;
 
-        hero1 = new ArmyAnimation(player1.getHero().getGifPath());
-        hero2 = new ArmyAnimation(player2.getHero().getGifPath());
 
         cellCords = new HashMap<Cell, Vector2>();
         setCellCords();
 
-        animations = new HashMap<Army, ArmyAnimation>();
+    }
 
-        animations.put(player1.getHero(), hero1);
-        animations.put(player2.getHero(), hero2);
+    public void setAnimations() {
+//        hero1 = new ArmyAnimation(player1.getHero().getGifPath());
+//        hero2 = new ArmyAnimation(player2.getHero().getGifPath());
+//
+//        animations.put(player1.getHero(), hero1);
+//        animations.put(player2.getHero(), hero2);
+//
+        game.getFirstPlayer().setMainDeckAnimations(animations);
+        game.getSecondPlayer().setMainDeckAnimations(animations);
+
     }
 
     public void setCellCords() {
@@ -349,6 +358,7 @@ public class BattleScreen extends Screen {
                         batch.draw(tile, x, y, cellSizeX, cellSizeY);
                         batch.setColor(com.badlogic.gdx.graphics.Color.WHITE);
                         batch.end();
+                        System.out.println(army.getName());
                         animations.get(army).draw(batch, x - 20, y);
                         batch.begin();
                     }

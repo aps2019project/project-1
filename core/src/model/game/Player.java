@@ -191,7 +191,7 @@ public class Player {
         this.inGameCards.add(hero);
     }
     public boolean isInRange(Cell attackersCell,Cell defenderCell) {
-        if(attackersCell.isEmpty()) return false;
+        if(attackersCell.isEmpty() || defenderCell.isEmpty()) return false;
         return     (attackersCell.getInsideArmy().getAttackType() == AttackType.MELEE && Cell.isNear(attackersCell,defenderCell))
                 || (attackersCell.getInsideArmy().getAttackType() == AttackType.RANGED && !Cell.isNear(attackersCell,defenderCell))
                 || (attackersCell.getInsideArmy().getAttackType() == AttackType.HYBRID);
@@ -521,5 +521,13 @@ public class Player {
     public boolean isFriend(Army army) {
         return army.getAccount() == this.getAccount();
 //        return inGameCards.find(army) != null;
+    }
+
+    public void setMainDeckAnimations(HashMap<Army, ArmyAnimation> animations) {
+        for(Card card : deck.getCards().getAllCards()){
+            if(card.getType() == CardType.ITEM || card.getType() == CardType.SPELL) continue;
+            ArmyAnimation animation = new ArmyAnimation(card.getGifPath());
+            animations.put((Army) card, animation);
+        }
     }
 }
