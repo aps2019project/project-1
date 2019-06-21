@@ -15,6 +15,7 @@ import graphic.Others.ArmyAnimation;
 import graphic.main.AssetHandler;
 import graphic.main.Main;
 import model.cards.Army;
+import model.cards.Card;
 import model.game.Cell;
 import model.game.Game;
 import model.game.GameType;
@@ -64,6 +65,8 @@ public class BattleScreen extends Screen {
     private Army selectedArmy;
 
     private static HashMap<Army, ArmyAnimation> animations;
+
+    private Vector2 handStartCord;
 
     @Override
     public void create() {
@@ -122,6 +125,7 @@ public class BattleScreen extends Screen {
         animations.put(player1.getHero(), new ArmyAnimation(player1.getHero().getGifPath()));
         animations.put(player2.getHero(), new ArmyAnimation(player2.getHero().getGifPath()));
 
+        handStartCord = new Vector2(350, 50);
     }
 
     public void setAnimations() {
@@ -185,6 +189,7 @@ public class BattleScreen extends Screen {
                     selectedCell = null;
                     setCommand("end turn");
                 } else if(endGameButton.isActive()){
+                    game.exitFromGame();
                     ScreenManager.setScreen(new MenuScreen());
                 } else if(getMouseCell() != null){
                     if(getMouseCell().getInsideArmy() != null && game.getWhoIsHisTurn().isFriend(getMouseCell().getInsideArmy())) {
@@ -263,6 +268,7 @@ public class BattleScreen extends Screen {
 
         drawTable(batch);
         batch.end();
+        drawHand(batch);
         endTurnButton.draw(batch);
         endGameButton.draw(batch);
     }
@@ -362,9 +368,12 @@ public class BattleScreen extends Screen {
         }
     }
 
-    public void drawSelectedCell(Cell cell, SpriteBatch batch, float x, float y) {
-        if(selectedCell == cell) {
-            batch.draw(tileSelected, x, y, cellSizeX, cellSizeY);
+    public void drawHand(SpriteBatch batch) {
+        int i = 0;
+        for(Army army : player1.getHand().getAllMinions()){
+            ArmyAnimation animation = animations.get(army);
+            animation.draw(batch, handStartCord.x +i*160, handStartCord.y, 250, 250);
+            i++;
         }
     }
 
