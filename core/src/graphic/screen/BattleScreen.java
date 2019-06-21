@@ -197,7 +197,6 @@ public class BattleScreen extends Screen {
                         if(target == null){
                             if(!game.getWhoIsHisTurn().canMove(selectedCell, cell)) return false;
                             game.getWhoIsHisTurn().moveArmy(selectedCell, cell);
-//                            animations.get(selectedArmy).run(cellCords.get(cell).x, cellCords.get(cell).y);
                         } else {
                             if(game.getWhoIsHisTurn().isInRange(selectedCell, cell)){
                                 animations.get(selectedArmy).attack();
