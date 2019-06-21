@@ -233,14 +233,14 @@ public class ShopScreen extends Screen {
         }
 
         synchronized (allSpellList) {
-            for (int i = 0; i < Card.getCards().getSellableItems().size(); ++i) {
+            for (int i = 0; i < Card.getCards().getAllSpells().size(); ++i) {
                 Spell temp = Card.getCards().getAllSpells().get(i);
                 allSpellList.addCardTexture(new CardTexture(temp.getName(), temp.getDescription(), temp.getPrice(), temp.getGifPath()));
             }
         }
 
         synchronized (allItemList) {
-            for (int i = 0; i < Card.getCards().getAllItems().size(); ++i) {
+            for (int i = 0; i < Card.getCards().getSellableItems().size(); ++i) {
                 Item temp = Card.getCards().getAllItems().get(i);
                 allItemList.addCardTexture(new CardTexture(temp.getName(), temp.getDescription(), temp.getPrice(), temp.getGifPath()));
             }
