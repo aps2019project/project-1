@@ -1,7 +1,6 @@
 package model.game;
 
 import control.BattleHandler;
-import graphic.Others.ArmyAnimation;
 import graphic.screen.BattleScreen;
 import model.cards.*;
 import model.other.Account;
@@ -11,7 +10,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
 import java.util.Collections;
-import java.util.HashMap;
 
 import static model.cards.SPTime.*;
 import static model.variables.GlobalVariables.TABLE_HEIGHT;
@@ -164,19 +162,13 @@ public class Player {
     }
 
     public boolean moveArmy(Cell presentCell, Cell destinationCell) {
-        if(!this.canMove(presentCell, destinationCell)) return false;
-        Army army = presentCell.pick();
-        BattleScreen.getAnimations().get(army).run(BattleScreen.getCellCords().get(destinationCell).x, BattleScreen.getCellCords().get(destinationCell).y);
-        movedCardsInThisTurn.add(army);
-        return destinationCell.put(army, turnNumber);
-    }
-
-    public boolean canMove(Cell presentCell, Cell destinationCell){
         if (presentCell == null || destinationCell == null) return false;
         if (!destinationCell.isEmpty() || movedCardsInThisTurn.find(presentCell.getInsideArmy()) != null
                 || attackerCardsInThisTurn.find(presentCell.getInsideArmy()) != null) return false;
         if (Cell.getDistance(presentCell, destinationCell) > 2) return false;
-        return true;
+        Army army = presentCell.pick();
+        movedCardsInThisTurn.add(army);
+        return destinationCell.put(army, turnNumber);
     }
 
     public void putHeroIn(Cell cell) {
@@ -270,6 +262,8 @@ public class Player {
                     minion.checkOnSpawn(this, cell);
                     minion.checkPassive(this, cell);
                 }
+//                BattleScreen.getAnimations().put((Army)card, new ArmyAnimation(card.getGifPath()));
+                System.out.println(BattleScreen.getAnimations().keySet());
                 return true;
             }
         }
@@ -335,16 +329,16 @@ public class Player {
         if(command.matches("end turn")){
             this.endTurn = true;
         } else if(command.contains("select")){
-            this.select(command.split(" ")[1]);
+            this.select();
         }
     }
 
-    public void select(String id) {
+    public void select() {
         Game game = Game.getCurrentGame();
-        if(!this.setSelectedCard(game.findInTable(id))) {
-            if (game.getWhoIsHisTurn().getCollectibleItem().find(id) != null) {
+        if(!this.setSelectedCard(game.findInTable(command.split(" ")[1]))) {
+            if (game.getWhoIsHisTurn().getCollectibleItem().find(command.split(" ")[1]) != null) {
                 try {
-                    Item item = (Item) game.getWhoIsHisTurn().getCollectibleItem().find(id);
+                    Item item = (Item) game.getWhoIsHisTurn().getCollectibleItem().find(command.split(" ")[1]);
                     game.getWhoIsHisTurn().setSelectedItem(item);
                 } catch (NullPointerException e) {
                     System.out.println(e);
@@ -516,21 +510,5 @@ public class Player {
     public boolean isFriend(Army army) {
         return army.getAccount() == this.getAccount();
 //        return inGameCards.find(army) != null;
-    }
-
-    public Cell getSelectedCellToPutFromHand() {
-        return selectedCellToPutFromHand;
-    }
-
-    public boolean isUsedManaPotion() {
-        return usedManaPotion;
-    }
-
-    public int getUsedSpecialPowerTurn() {
-        return usedSpecialPowerTurn;
-    }
-
-    public String getCommand() {
-        return command;
     }
 }
