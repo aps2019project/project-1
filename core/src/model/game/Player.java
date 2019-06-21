@@ -252,11 +252,10 @@ public class Player {
         return true;
     }
 
-    public boolean moveFromHandToCell(String name,Cell cell) {
+    public boolean moveFromHandToCell(Card card,Cell cell) {
         if( cell.isEmpty() &&
             Game.getCurrentGame().getAllCellsNearAccountArmies(account).indexOf(cell) != -1 &&
-            mana >= hand.getNeededManaToMove(name)) {
-            Card card = hand.pick(name);
+            mana >= card.getNeededManaToPut()) {
             if(card instanceof Spell) {
                 selectedCellToPutFromHand = cell;
                 try {
