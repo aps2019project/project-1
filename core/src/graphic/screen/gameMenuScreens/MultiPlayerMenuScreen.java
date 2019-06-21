@@ -1,10 +1,10 @@
-package graphic.screen;
+package graphic.screen.gameMenuScreens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
@@ -13,21 +13,19 @@ import graphic.Others.MoveType;
 import graphic.main.AssetHandler;
 import graphic.main.Button;
 import graphic.main.Main;
+import graphic.screen.BattleScreen;
+import graphic.screen.ScreenManager;
 
-import java.awt.*;
 import java.util.ArrayList;
 
-public class MenuScreen extends Screen {
+public class MultiPlayerMenuScreen extends graphic.screen.Screen {
 
     private ShapeRenderer shapeRenderer;
-    private Texture backGroundPic1;
-    private Texture backGroundPic2;
-    private Texture brand;
-    private Button gameMakerButton;
-    private Button shopButton;
-    private Button collectionButton;
-    private Button customCardButton;
-    private Button profileButton;
+    private Music music;
+    private Texture backGroundPic;
+    private Button multiPlayerButton;
+    private Button storyButton;
+    private Button customButton;
     private Button exitButton;
     private Vector2 mousePos;
     private ArrayList<MoveAnimation> lanternAnimation;
@@ -37,20 +35,15 @@ public class MenuScreen extends Screen {
         setCameraAndViewport();
         createLanternsAnimation();
         shapeRenderer = new ShapeRenderer();
-        backGroundPic1 = AssetHandler.getData().get("backGround/menu1.png");
-        backGroundPic2 = AssetHandler.getData().get("backGround/menu2.png");
+        backGroundPic = AssetHandler.getData().get("backGround/background_ChooseNumberOfPlayersMenu.jpg");
 
-        BitmapFont font = AssetHandler.getData().get("fonts/Arial 24.fnt");
-        font.setColor(Main.toColor(new Color(0xFFF6FE)));
-        customCardButton =  new Button("button/menuButton.png","button/menuButtonActive.png", 250, 100, 300, 50, "Create Card", font);
-        gameMakerButton = new Button("button/menuButton.png", "button/menuButtonActive.png", 200, 200, 300, 50, "Play Game", font);
-        shopButton =  new Button("button/menuButton.png", "button/menuButtonActive.png",150, 300, 300, 50, "Enter Shop", font);
-        collectionButton =  new Button("button/menuButton.png","button/menuButtonActive.png", 100, 400, 300, 50, "Enter Collection", font);
+        String font = "fonts/Arial 24.fnt";
+        multiPlayerButton = new Button("button/big_circle.png", "button/big_circle_action.png", 500, 320, "Multi Player", font);
+        storyButton =  new Button("button/big_circle.png", "button/big_circle_action.png",900, 320, "Story", font);
+        customButton =  new Button("button/big_circle.png","button/big_circle_action.png", 1300, 320, "Custom", font);
         exitButton = new Button("button/exit.png", Main.WIDTH - 200, Main.HEIGHT - 200);
-        profileButton = new Button("button/profile.png", Main.WIDTH - 200, Main.HEIGHT - 400);
         mousePos = new Vector2();
-        playBackGroundMusic("music/menu.mp3");
-        brand = AssetHandler.getData().get("backGround/brand.png");
+        createBackGroundMusic();
     }
 
     @Override
@@ -59,21 +52,15 @@ public class MenuScreen extends Screen {
         mousePos.set(Gdx.input.getX(), Gdx.input.getY());
         mousePos = viewport.unproject(mousePos);
 
-        collectionButton.setActive(collectionButton.contains(mousePos));
-        shopButton.setActive(shopButton.contains(mousePos));
-        gameMakerButton.setActive(gameMakerButton.contains(mousePos));
-        customCardButton.setActive(customCardButton.contains(mousePos));
-        profileButton.setActive(profileButton.contains(mousePos));
+        customButton.setActive(customButton.contains(mousePos));
+        storyButton.setActive(storyButton.contains(mousePos));
+        multiPlayerButton.setActive(multiPlayerButton.contains(mousePos));
         exitButton.setActive(exitButton.contains(mousePos));
 
 
         Gdx.input.setInputProcessor(new InputProcessor() {
             @Override
             public boolean keyDown(int keycode) {
-                if (keycode == Input.Keys.PAGE_UP)
-                    setMusicVolume(true);
-                if (keycode == Input.Keys.PAGE_DOWN)
-                    setMusicVolume(false);
                 return false;
             }
 
@@ -91,13 +78,8 @@ public class MenuScreen extends Screen {
             public boolean touchDown(int screenX, int screenY, int pointer, int button) {
                 if (button != Input.Buttons.LEFT)
                     return false;
-                if (gameMakerButton.isActive())
+                if (multiPlayerButton.isActive())
                     ScreenManager.setScreen(new BattleScreen());
-                if (shopButton.isActive())
-                    ScreenManager.setScreen(new ShopScreen());
-                if (collectionButton.isActive())
-                    ScreenManager.setScreen(new TestScreen());
-
                 return false;
             }
 
@@ -130,11 +112,10 @@ public class MenuScreen extends Screen {
 
 
         drawBackGround(batch);
-        gameMakerButton.draw(batch);
-        shopButton.draw(batch);
-        collectionButton.draw(batch);
-        customCardButton.draw(batch);
-        profileButton.draw(batch);
+        showLanternAnimation(batch);
+        multiPlayerButton.draw(batch);
+        storyButton.draw(batch);
+        customButton.draw(batch);
         exitButton.draw(batch);
     }
 
@@ -146,7 +127,6 @@ public class MenuScreen extends Screen {
 
     @Override
     public void dispose() {
-        music.stop();
         music.dispose();
     }
 
@@ -156,26 +136,29 @@ public class MenuScreen extends Screen {
             float xStart = 100 + (int) (900 * Math.random());
             float yStart = (750 - xStart/6f) + (int) (100 * Math.random());
             float xEnd = 900 + (float)(Math.random() * 700), yEnd = 900;
-            int lanternType = (int) (5 * Math.random() + 1);
-            if (lanternType < 3)
-                lanternType = 1;
-            else if (lanternType < 5)
-                lanternType = 2;
+            int fireType = (int) (5 * Math.random() + 1);
+            if (fireType < 3)
+                fireType = 1;
+            else if (fireType < 5)
+                fireType = 2;
             else
-                lanternType = 3;
-            lanternAnimation.add(new MoveAnimation("lantern_large_" + lanternType + ".png", xStart, yStart, xEnd, yEnd, MoveType.SIMPLE, true));
-            lanternAnimation.get(i).setSpeed((float)( 1 + (Math.random() + 0.5f) - lanternType / 2));
+                fireType = 3;
+            fireType = 1;///////////////////////
+            lanternAnimation.add(new MoveAnimation("simpleIcons/fire" + fireType + ".png", xStart, yStart, xEnd, yEnd, MoveType.SIMPLE, true));
+            lanternAnimation.get(i).setSpeed((float)( 1 + (Math.random() + 0.5f) - fireType / 2));
         }
+    }
+
+    private void createBackGroundMusic() {
+        music = AssetHandler.getData().get("music/menu.mp3");
+        music.setLooping(true);
+        music.setVolume(0.05f);
+        music.play();
     }
 
     private void drawBackGround(SpriteBatch batch) {
         batch.begin();
-        batch.draw(backGroundPic1, 0, 0);
-        batch.draw(backGroundPic2, Main.WIDTH - backGroundPic2.getWidth(), 0);
-        batch.end();
-        showLanternAnimation(batch);
-        batch.begin();
-        batch.draw(brand,(Main.WIDTH - brand.getWidth()) / 2, (Main.HEIGHT - brand.getHeight()) / 2);
+        batch.draw(backGroundPic, 0, 0);
         batch.end();
     }
 }
