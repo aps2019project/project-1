@@ -111,22 +111,17 @@ public class AssetHandler {
         assetManager.load("button/storyButton2-1.psd", Texture.class);
         assetManager.load("button/storyButton3.psd", Texture.class);
         assetManager.load("button/storyButton3-1.psd", Texture.class);
-        for (int i = 1; i <= 11; ++i) {
+        assetManager.load("button/storySelectScreen.atlas", TextureAtlas.class);
+
+        for (int i = 1; i <= 11; ++i)
             assetManager.load("Card/Hero/" + i + ".atlas", TextureAtlas.class);
-            assetManager.load("Card/Hero/" + i + ".png", Texture.class);
-        }
-        for (int i = 1; i <= 21; ++i) {
+        for (int i = 1; i <= 21; ++i)
             assetManager.load("Card/Item/" + i + ".atlas", TextureAtlas.class);
-            assetManager.load("Card/Item/" + i + ".png", Texture.class);
-        }
-        for (int i = 1; i <= 21; ++i) {
+        for (int i = 1; i <= 21; ++i)
             assetManager.load("Card/Spell/" + i + ".atlas", TextureAtlas.class);
-            assetManager.load("Card/Spell/" + i + ".png", Texture.class);
-        }
-        for (int i = 1; i <= 41; ++i) {
+        for (int i = 1; i <= 41; ++i)
             assetManager.load("Card/Minion/" + i + ".atlas", TextureAtlas.class);
-            assetManager.load("Card/Minion/" + i + ".png", Texture.class);
-        }
+
 //        assetManager.load("button/big_circle.png", Texture.class);
 //        assetManager.load("button/big_circle_action.png", Texture.class);
 //        assetManager.load("backGround/background_ChooseNumberOfPlayersMenu.jpg", Texture.class);
