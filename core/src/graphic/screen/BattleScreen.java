@@ -213,6 +213,9 @@ public class BattleScreen extends Screen {
                 if(endTurnButton.isActive()){
                     selectedCell = null;
                     setCommand("end turn");
+                    synchronized (game){
+                        game.notify();
+                    }
                 } else if(endGameButton.isActive()){
                     game.exitFromGame();
                     ScreenManager.setScreen(new MenuScreen());
@@ -222,6 +225,9 @@ public class BattleScreen extends Screen {
                         selectedCellHand = null;
                         selectedArmy = selectedCell.getInsideArmy();
                         setCommand("select " + selectedArmy.getID().getValue());
+                        synchronized (game){
+                            game.notify();
+                        }
                     } else {
                         Cell cell = getMouseCell();
                         Army target = cell.getInsideArmy();
@@ -434,6 +440,7 @@ public class BattleScreen extends Screen {
 
     public static void setCommand(String string) {
        command = string;
+
     }
 
     public static HashMap<Army, ArmyAnimation> getAnimations() {
