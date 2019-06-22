@@ -123,7 +123,8 @@ public class LoginScreen extends Screen {
                             Account.setCurrentAccount(Account.findAccount(userName));
                             ScreenManager.setScreen(new MenuScreen());
                         }
-
+                        else
+                            password = "";
                     }
                 }
 
@@ -283,7 +284,7 @@ public class LoginScreen extends Screen {
             batch.draw(passwordSlot, (800 - passwordSlot.getWidth()) / 2, 300);
         else
             batch.draw(emptySlot, (800 - emptySlot.getWidth()) / 2, 300);
-        font.draw(batch, password, 50 + (800 - emptySlot.getWidth()) / 2, 450 + glyphLayout.height + (emptySlot.getHeight() - glyphLayout.height) / 2);
+        font.draw(batch, password, 50 + (800 - emptySlot.getWidth()) / 2, 300 + glyphLayout.height + (emptySlot.getHeight() - glyphLayout.height) / 2);
         batch.end();
     }
 
