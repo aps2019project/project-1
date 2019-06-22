@@ -44,7 +44,7 @@ public class PopUp {
             return;
         batch.begin();
         font.setColor(1, 0.604f, 0, 1 - time / 5);
-        font.draw(batch, text, (Main.WIDTH - glyphLayout.width) / 2, 850 - (50 - glyphLayout.height) / 2);
+        font.draw(batch, text, (Main.WIDTH - glyphLayout.width) / 2, 850);
         batch.end();
         time += Gdx.graphics.getDeltaTime();
         if (time > 5) text = "";
