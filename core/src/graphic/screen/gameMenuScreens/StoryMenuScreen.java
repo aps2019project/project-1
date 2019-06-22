@@ -56,7 +56,7 @@ public class StoryMenuScreen extends Screen {
 
         String font = "fonts/Arial 36.fnt";
         story1Button = new Button(storySelect.createSprite("storyButton1",-1), storySelect.createSprite("storyButton1-1",-1) ,"sfx/playerChangeButton1.mp3", 945, 377);
-        story2Button =  new Button(storySelect.createSprite("storyButton2",-1), storySelect.createSprite("storyButton2-1",-1),"sfx/playerChangeButton2.mp3",743, 366);
+        story2Button =  new Button(storySelect.createSprite("storyButton2",-1), storySelect.createSprite("storyButton2-1",-1),"sfx/playerChangeButton2.mp3",744, 424);
         story3Button =  new Button(storySelect.createSprite("storyButton3",-1), storySelect.createSprite("storyButton3-1",-1),"sfx/playerChangeButton3.mp3", 503, 379);
         exitButton = new Button("button/exit.png", Main.WIDTH - 200, Main.HEIGHT - 200);
         createBackGroundMusic();        mousePos = new Vector2();

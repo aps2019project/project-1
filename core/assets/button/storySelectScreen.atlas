@@ -6,63 +6,63 @@ filter: Nearest,Nearest
 repeat: none
 stone1
   rotate: false
-  xy: 842, 96
+  xy: 842, 84
   size: 75, 240
   orig: 75, 240
   offset: 0, 0
   index: -1
 stone2
   rotate: false
-  xy: 694, 78
+  xy: 694, 66
   size: 72, 258
   orig: 72, 258
   offset: 0, 0
   index: -1
 stone3
   rotate: false
-  xy: 768, 80
+  xy: 768, 68
   size: 72, 256
   orig: 72, 256
   offset: 0, 0
   index: -1
 storyButton1
   rotate: false
-  xy: 2, 16
+  xy: 2, 4
   size: 128, 320
   orig: 128, 320
   offset: 0, 0
   index: -1
 storyButton1-1
   rotate: false
-  xy: 132, 16
+  xy: 132, 4
   size: 128, 320
   orig: 128, 320
   offset: 0, 0
   index: -1
 storyButton2
   rotate: false
-  xy: 510, 2
-  size: 90, 334
-  orig: 90, 334
+  xy: 510, 51
+  size: 90, 273
+  orig: 90, 273
   offset: 0, 0
   index: -1
 storyButton2-1
   rotate: false
-  xy: 602, 2
-  size: 90, 334
-  orig: 90, 334
+  xy: 602, 51
+  size: 90, 273
+  orig: 90, 273
   offset: 0, 0
   index: -1
 storyButton3
   rotate: false
-  xy: 262, 14
+  xy: 262, 2
   size: 122, 322
   orig: 122, 322
   offset: 0, 0
   index: -1
 storyButton3-1
   rotate: false
-  xy: 386, 14
+  xy: 386, 2
   size: 122, 322
   orig: 122, 322
   offset: 0, 0

@@ -105,12 +105,6 @@ public class AssetHandler {
         assetManager.load("simpleIcons/stone2.png", Texture.class);
         assetManager.load("simpleIcons/stone3.png", Texture.class);
         assetManager.load("backGround/storyMenu.jpg", Texture.class);
-        assetManager.load("button/storyButton1.psd", Texture.class);
-        assetManager.load("button/storyButton1-1.psd", Texture.class);
-        assetManager.load("button/storyButton2.psd", Texture.class);
-        assetManager.load("button/storyButton2-1.psd", Texture.class);
-        assetManager.load("button/storyButton3.psd", Texture.class);
-        assetManager.load("button/storyButton3-1.psd", Texture.class);
         assetManager.load("button/storySelectScreen.atlas", TextureAtlas.class);
 
         for (int i = 1; i <= 11; ++i)
