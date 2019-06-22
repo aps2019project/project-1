@@ -326,15 +326,20 @@ public class Player {
         setMana();
         deck.transferCardTo(hand);
         while(!endTurn && !Game.getCurrentGame().isExitFromGame()) {
+            synchronized (Game.getCurrentGame()){
+                try{
+                    Game.getCurrentGame().wait();
+                } catch (InterruptedException i){
+                    i.printStackTrace();
+                }
+            }
             handleCommands();
         }
     }
 
     public void handleCommands() {
         command = null;
-        while(command == null){
-            command = BattleScreen.getCommand();
-        }
+        command = BattleScreen.getCommand();
         BattleScreen.setCommand(null);
         if(command.matches("end turn")){
             this.endTurn = true;

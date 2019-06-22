@@ -11,7 +11,7 @@ public class DesktopLauncher {
 		config.x = 0;
 		config.y = 0;
 		config.resizable = true;
-		config.fullscreen = false;
+		config.fullscreen = true;
 		config.title = "Dulyst";
 		config.width = 1600;
 		config.height = 901;
