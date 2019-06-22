@@ -1,14 +1,10 @@
-package graphic.main;
+package graphic.Others;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-
-import java.awt.*;
-import java.util.Map;
+import graphic.main.Main;
 
 public class PopUp {
     private static PopUp instance = new PopUp();
@@ -24,10 +20,9 @@ public class PopUp {
         return instance;
     }
 
-    private ShapeRenderer shapeRenderer = new ShapeRenderer();
     private GlyphLayout glyphLayout = new GlyphLayout();
     private String text = "";
-    private BitmapFont font = new BitmapFont(Gdx.files.internal("fonts/Arial 48B.fnt"));
+    private BitmapFont font = new BitmapFont(Gdx.files.internal("fonts/Arial 36.fnt"));
     private float time = 6;
 
     /**
@@ -47,7 +42,6 @@ public class PopUp {
     public void draw(SpriteBatch batch) {
         if (time > 5 || text.equals(""))
             return;
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         batch.begin();
         font.setColor(1, 0.604f, 0, 1 - time / 5);
         font.draw(batch, text, (Main.WIDTH - glyphLayout.width) / 2, 850 - (50 - glyphLayout.height) / 2);

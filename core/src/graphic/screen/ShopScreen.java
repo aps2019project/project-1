@@ -10,14 +10,15 @@ import com.badlogic.gdx.math.Vector2;
 import graphic.Others.CardTexture;
 import graphic.Others.MoveAnimation;
 import graphic.Others.MoveType;
+import graphic.Others.PopUp;
 import graphic.main.AssetHandler;
 import graphic.main.Button;
 import graphic.main.Main;
 import model.cards.*;
 import model.other.Account;
+import model.other.exeptions.shop.*;
 
 import java.awt.*;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
 public class ShopScreen extends Screen {
@@ -175,13 +176,22 @@ public class ShopScreen extends Screen {
 
             private void doneShopping(String methodName) {
                 try {
-                    Account.getCurrentAccount().getClass().getMethod(methodName, String.class).invoke(Account.getCurrentAccount(), selectedCard);
-                } catch (NoSuchMethodException e) {
-                    e.printStackTrace();
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                } catch (InvocationTargetException e) {
-                    e.printStackTrace();
+                    if (methodName.equals("sellCard"))
+                        Account.getCurrentAccount().sellCard(selectedCard);
+                    else if (methodName.equals("buyCard"))
+                        Account.getCurrentAccount().buyCard(selectedCard);
+                } catch (MoreThanTwoItemException e) {
+                    PopUp.getInstance().setText("Can't Have More Than 2 Item At The Time.");
+                } catch (CardNotFoundException e) {
+                    PopUp.getInstance().setText("Cant Find Selected Card.");
+                } catch (CardAlreadyExistsException e) {
+                    PopUp.getInstance().setText("You Already Have This Card.");
+                } catch (NotEnoughDaricException e) {
+                    PopUp.getInstance().setText("You Don't Have Enough Money To Buy This Card.");
+                } catch (CantSellCardException e) {
+                    PopUp.getInstance().setText("You Can't Sell/Buy This Card");
+                } catch (ShopExeption shopExeption) {
+                    PopUp.getInstance().setText("Something Went Wrong. Try Contact With Creators.");
                 }
                 getPlayerCards();
                 refreshAllLists();

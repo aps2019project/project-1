@@ -13,7 +13,7 @@ import graphic.Others.MoveType;
 import graphic.main.AssetHandler;
 import graphic.main.Button;
 import graphic.main.Main;
-import graphic.main.PopUp;
+import graphic.Others.PopUp;
 
 import java.awt.*;
 import java.util.ArrayList;
