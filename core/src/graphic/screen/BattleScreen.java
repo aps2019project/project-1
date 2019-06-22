@@ -72,6 +72,7 @@ public class BattleScreen extends Screen {
     private Vector2 handStartCord;
 
     private ArrayList<Cell> handCells;
+
     private static HashMap<Cell, Card> handCards;
 
     private Cell selectedCellHand;
@@ -213,6 +214,9 @@ public class BattleScreen extends Screen {
                 if(endTurnButton.isActive()){
                     selectedCell = null;
                     setCommand("end turn");
+                    synchronized (game){
+                        game.notify();
+                    }
                 } else if(endGameButton.isActive()){
                     game.exitFromGame();
                     ScreenManager.setScreen(new MenuScreen());
@@ -222,6 +226,24 @@ public class BattleScreen extends Screen {
                         selectedCellHand = null;
                         selectedArmy = selectedCell.getInsideArmy();
                         setCommand("select " + selectedArmy.getID().getValue());
+                        synchronized (game){
+                            game.notify();
+                        }
+                    } else {
+                        Cell cell = getMouseCell();
+                        Army target = cell.getInsideArmy();
+                        if(target == null){
+                            if(selectedCell != null) {
+                                if (!game.getWhoIsHisTurn().canMove(selectedCell, cell)) return false;
+                                game.getWhoIsHisTurn().moveArmy(selectedCell, cell);
+                            } else if(selectedCellHand != null){
+//                                game.getWhoIsHisTurn().moveFromHandToCell(selectedCellHand., selectedCell)
+                            }
+                        } else {
+                            if(game.getWhoIsHisTurn().isInRange(selectedCell, cell)){
+                                animations.get(selectedArmy).attack();
+                            }
+                            if(game.getWhoIsHisTurn().isInRange(cell, selectedCell)){
                     } else if(selectedArmy != null && getMouseCell().getInsideArmy() == null) {
                         Cell cell = getMouseCell();
                         if (!game.getWhoIsHisTurn().canMove(selectedCell, cell)) return false;
@@ -434,6 +456,7 @@ public class BattleScreen extends Screen {
 
     public static void setCommand(String string) {
        command = string;
+
     }
 
     public static HashMap<Army, ArmyAnimation> getAnimations() {
