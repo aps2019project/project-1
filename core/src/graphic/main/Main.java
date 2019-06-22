@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import graphic.Others.PopUp;
 import graphic.screen.LoadingScreen;
 import graphic.screen.ScreenManager;
 import model.cards.Card;
@@ -15,7 +16,6 @@ public class Main extends ApplicationAdapter {
 
 	public static final int WIDTH = 1600;
 	public static final int HEIGHT = 900;
-	public static final String FONT_CHARACTERS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789][_!$%#@|\\/?-+=()*&.;,{}\"´`'<>";
 
 	@Override
 	public void create () {
@@ -30,10 +30,15 @@ public class Main extends ApplicationAdapter {
 
 	@Override
 	public void render () {
-		Gdx.gl.glClearColor(0, 0, 0, 1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		ScreenManager.getScreen().update();
-		ScreenManager.getScreen().render(batch);
+		try {
+			Gdx.gl.glClearColor(0, 0, 0, 1);
+			Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+			ScreenManager.getScreen().update();
+			ScreenManager.getScreen().render(batch);
+			PopUp.getInstance().draw(batch);
+		} catch (Exception e) {
+			PopUp.getInstance().setText("Exception in render:" + e.getMessage());
+		}
 	}
 	
 	@Override

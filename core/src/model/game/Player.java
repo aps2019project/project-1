@@ -8,7 +8,6 @@ import model.cards.*;
 import model.other.Account;
 import model.variables.CardsArray;
 
-import javax.swing.plaf.synth.SynthOptionPaneUI;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 

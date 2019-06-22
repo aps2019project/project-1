@@ -3,10 +3,10 @@ package model.other;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-import graphic.Others.ArmyAnimation;
 import model.cards.*;
 import model.game.Deck;
 import model.game.MatchResult;
+import model.other.exeptions.shop.*;
 import model.variables.CardsArray;
 
 import java.io.File;
@@ -258,43 +258,41 @@ public class Account {
         return username.matches("[a-zA-Z].*");
     }
 
-    public void buyCard(String name) {
+    public void buyCard(String name) throws ShopExeption{
         Card card = Card.getCards().findByName(name);
         if (card == null)
-            return;
+            throw new CardNotFoundException();
         else if (getCollection().findByName(card.getName()) != null)
-            return;
+            throw new CardAlreadyExistsException();
         else if (getDaric() < card.getPrice())
-            return;
+            throw new NotEnoughDaricException();
 
 
         if (card.getType().equals(CardType.ITEM)) {
             Item item = (Item) card;
-            if (item.getItemType().equals(ItemType.COLLECTIBLE)) {
-                return;
-            } else if (getCollection().getAllItems().size() >= 3) {
-                return;
-            }
+            if (item.getItemType().equals(ItemType.COLLECTIBLE))
+                throw new CantSellCardException();
+            else if (getCollection().getAllItems().size() >= 3)
+                throw new MoreThanTwoItemException();
         }
         try {
             card = card.clone();
             card.setUserName(getUsername());
-        } catch (CloneNotSupportedException ignored) {
-        }
+        } catch (CloneNotSupportedException ignored) {}
         card.setUserName(getUsername());
         decreaseDaric(card.getPrice());
         addCardToCollection(card);
     }
 
-    public void sellCard(String name) {
+    public void sellCard(String name) throws ShopExeption {
         Card card = getCollection().findByName(name);
         if (card == null)
-            return;
+            throw new CardNotFoundException();
 
         if (card.getType().equals(CardType.ITEM)) {
             Item item = (Item) card;
             if (item.getItemType().equals(ItemType.COLLECTIBLE))
-                return;
+                throw new CantSellCardException();
         }
         increaseDaric(card.getPrice());
         deleteCardFromAllDecks(card.getName());
