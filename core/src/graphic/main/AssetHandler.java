@@ -106,7 +106,12 @@ public class AssetHandler {
         assetManager.load("simpleIcons/stone3.png", Texture.class);
         assetManager.load("backGround/storyMenu.jpg", Texture.class);
         assetManager.load("button/storySelectScreen.atlas", TextureAtlas.class);
+        assetManager.load("backGround/customFirstMenu.png", Texture.class);
 
+
+        for(int i = 1; i <= 11; i++) {
+            assetManager.load("Card/Hero/generals/" + Integer.toString(i) + ".png", Texture.class);
+        }
         for (int i = 1; i <= 11; ++i)
             assetManager.load("Card/Hero/" + i + ".atlas", TextureAtlas.class);
         for (int i = 1; i <= 21; ++i)
