@@ -328,13 +328,13 @@ public class Player {
         deck.transferCardTo(hand);
         while(!endTurn && !Game.getCurrentGame().isExitFromGame()) {
             synchronized (Game.getCurrentGame()){
-                try {
+                try{
                     Game.getCurrentGame().wait();
                 } catch (InterruptedException i){
                     i.printStackTrace();
                 }
-                handleCommands();
             }
+            handleCommands();
         }
     }
 

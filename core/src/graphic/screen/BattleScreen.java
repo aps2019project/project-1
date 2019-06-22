@@ -229,21 +229,6 @@ public class BattleScreen extends Screen {
                         synchronized (game){
                             game.notify();
                         }
-                    } else {
-                        Cell cell = getMouseCell();
-                        Army target = cell.getInsideArmy();
-                        if(target == null){
-                            if(selectedCell != null) {
-                                if (!game.getWhoIsHisTurn().canMove(selectedCell, cell)) return false;
-                                game.getWhoIsHisTurn().moveArmy(selectedCell, cell);
-                            } else if(selectedCellHand != null){
-//                                game.getWhoIsHisTurn().moveFromHandToCell(selectedCellHand., selectedCell)
-                            }
-                        } else {
-                            if(game.getWhoIsHisTurn().isInRange(selectedCell, cell)){
-                                animations.get(selectedArmy).attack();
-                            }
-                            if(game.getWhoIsHisTurn().isInRange(cell, selectedCell)){
                     } else if(selectedArmy != null && getMouseCell().getInsideArmy() == null) {
                         Cell cell = getMouseCell();
                         if (!game.getWhoIsHisTurn().canMove(selectedCell, cell)) return false;
