@@ -72,6 +72,7 @@ public class BattleScreen extends Screen {
     private Vector2 handStartCord;
 
     private ArrayList<Cell> handCells;
+
     private static HashMap<Cell, Card> handCards;
 
     private Cell selectedCellHand;
@@ -440,6 +441,7 @@ public class BattleScreen extends Screen {
 
     public static void setCommand(String string) {
        command = string;
+
     }
 
     public static HashMap<Army, ArmyAnimation> getAnimations() {

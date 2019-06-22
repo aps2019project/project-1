@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import graphic.screen.LoadingScreen;
 import graphic.screen.ScreenManager;
+import model.cards.Card;
 import model.other.Account;
 
 public class Main extends ApplicationAdapter {
@@ -18,8 +19,10 @@ public class Main extends ApplicationAdapter {
 
 	@Override
 	public void create () {
-		control.Main main = new control.Main();
-		main.start();
+//		control.Main main = new control.Main();
+//		main.start();
+		Card.scanAllCards();
+		Account.readAccountDetails();
 		AssetHandler.load();
 		ScreenManager.setScreen(new LoadingScreen());
 		batch = new SpriteBatch();

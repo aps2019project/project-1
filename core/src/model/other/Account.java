@@ -236,7 +236,7 @@ public class Account {
             temp.getAccount();
         }
 
-        Account.setCurrentAccount(accounts.get(0));
+//        Account.setCurrentAccount(accounts.get(0));
 
     }
 
