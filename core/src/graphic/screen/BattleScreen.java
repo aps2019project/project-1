@@ -72,7 +72,8 @@ public class BattleScreen extends Screen {
     private Vector2 handStartCord;
 
     private ArrayList<Cell> handCells;
-    private HashMap<Cell, Card> handCards;
+
+    private static HashMap<Cell, Card> handCards;
 
     private Cell selectedCellHand;
 
@@ -243,16 +244,31 @@ public class BattleScreen extends Screen {
                                 animations.get(selectedArmy).attack();
                             }
                             if(game.getWhoIsHisTurn().isInRange(cell, selectedCell)){
+                    } else if(selectedArmy != null && getMouseCell().getInsideArmy() == null) {
+                        Cell cell = getMouseCell();
+                        if (!game.getWhoIsHisTurn().canMove(selectedCell, cell)) return false;
+                        game.getWhoIsHisTurn().moveArmy(selectedCell, cell);
+                        selectedCell = null;
+                        selectedArmy = null;
+                    } else if(selectedCellHand != null && getMouseCell().getInsideArmy() == null) {
+                        Cell cell = getMouseCell();
+                        game.getWhoIsHisTurn().moveFromHandToCell(handCards.get(selectedCellHand), cell);
+                    } else if(selectedArmy != null && getMouseCell().getInsideArmy() != null) {
+                        Cell cell = getMouseCell();
+                        Army target = cell.getInsideArmy();
+                        if(game.getWhoIsHisTurn().isInRange(selectedCell, cell)) {
+                            animations.get(selectedArmy).attack();
+                            if (game.getWhoIsHisTurn().isInRange(cell, selectedCell))
                                 animations.get(target).attack();
-                            }
-                            game.getWhoIsHisTurn().attack(selectedCell, cell);
                         }
+                        game.getWhoIsHisTurn().attack(selectedCell, cell);
                         selectedCell = null;
                         selectedArmy = null;
                     }
                 } else if(getMouseHandCell() != null){
                     selectedCellHand = getMouseHandCell();
                     selectedCell = null;
+                    selectedArmy = null;
                 }
                 return false;
             }
@@ -449,5 +465,9 @@ public class BattleScreen extends Screen {
 
     public static HashMap<Cell, Vector2> getCellCords() {
         return cellCords;
+    }
+
+    public static HashMap<Cell, Card> getHandCards() {
+        return handCards;
     }
 }

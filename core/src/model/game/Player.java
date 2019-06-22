@@ -266,6 +266,7 @@ public class Player {
             }
             else if(card instanceof Army && cell.put((Army) card,turnNumber)) {
                 mana -= cell.getInsideArmy().getNeededManaToPut();
+                this.hand.getAllCards().set(this.hand.getAllCards().indexOf(card), null);
                 movedCardsInThisTurn.add(card);
                 attackerCardsInThisTurn.add(card);
                 this.inGameCards.add(card);
@@ -274,7 +275,6 @@ public class Player {
                     minion.checkOnSpawn(this, cell);
                     minion.checkPassive(this, cell);
                 }
-//                BattleScreen.getAnimations().put((Army)card, new ArmyAnimation(card.getGifPath()));
                 return true;
             }
         }
