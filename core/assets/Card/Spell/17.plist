@@ -4,536 +4,494 @@
 	<dict>
 		<key>frames</key>
 		<dict>
-			<key>f6_flashfreeze_appear_000.png</key>
+			<key>fx_bouldersphere_000.png</key>
 			<dict>
 				<key>frame</key>
-				<string>{{101,808},{100,100}}</string>
+				<string>{{301,1768},{300,220}}</string>
 				<key>offset</key>
 				<string>{0,0}</string>
 				<key>rotated</key>
 				<false/>
 				<key>sourceColorRect</key>
-				<string>{{0,0},{100,100}}</string>
+				<string>{{0,0},{300,220}}</string>
 				<key>sourceSize</key>
-				<string>{100,100}</string>
+				<string>{300,220}</string>
 			</dict>
 
-			<key>f6_flashfreeze_appear_001.png</key>
+			<key>fx_bouldersphere_001.png</key>
 			<dict>
 				<key>frame</key>
-				<string>{{303,505},{100,100}}</string>
+				<string>{{903,1326},{300,220}}</string>
 				<key>offset</key>
 				<string>{0,0}</string>
 				<key>rotated</key>
 				<false/>
 				<key>sourceColorRect</key>
-				<string>{{0,0},{100,100}}</string>
+				<string>{{0,0},{300,220}}</string>
 				<key>sourceSize</key>
-				<string>{100,100}</string>
+				<string>{300,220}</string>
 			</dict>
 
-			<key>f6_flashfreeze_appear_002.png</key>
+			<key>fx_bouldersphere_002.png</key>
 			<dict>
 				<key>frame</key>
-				<string>{{303,404},{100,100}}</string>
+				<string>{{903,1105},{300,220}}</string>
 				<key>offset</key>
 				<string>{0,0}</string>
 				<key>rotated</key>
 				<false/>
 				<key>sourceColorRect</key>
-				<string>{{0,0},{100,100}}</string>
+				<string>{{0,0},{300,220}}</string>
 				<key>sourceSize</key>
-				<string>{100,100}</string>
+				<string>{300,220}</string>
 			</dict>
 
-			<key>f6_flashfreeze_appear_003.png</key>
+			<key>fx_bouldersphere_003.png</key>
 			<dict>
 				<key>frame</key>
-				<string>{{303,303},{100,100}}</string>
+				<string>{{903,884},{300,220}}</string>
 				<key>offset</key>
 				<string>{0,0}</string>
 				<key>rotated</key>
 				<false/>
 				<key>sourceColorRect</key>
-				<string>{{0,0},{100,100}}</string>
+				<string>{{0,0},{300,220}}</string>
 				<key>sourceSize</key>
-				<string>{100,100}</string>
+				<string>{300,220}</string>
 			</dict>
 
-			<key>f6_flashfreeze_appear_004.png</key>
+			<key>fx_bouldersphere_004.png</key>
 			<dict>
 				<key>frame</key>
-				<string>{{303,202},{100,100}}</string>
+				<string>{{903,663},{300,220}}</string>
 				<key>offset</key>
 				<string>{0,0}</string>
 				<key>rotated</key>
 				<false/>
 				<key>sourceColorRect</key>
-				<string>{{0,0},{100,100}}</string>
+				<string>{{0,0},{300,220}}</string>
 				<key>sourceSize</key>
-				<string>{100,100}</string>
+				<string>{300,220}</string>
 			</dict>
 
-			<key>f6_flashfreeze_appear_005.png</key>
+			<key>fx_bouldersphere_005.png</key>
 			<dict>
 				<key>frame</key>
-				<string>{{303,101},{100,100}}</string>
+				<string>{{903,442},{300,220}}</string>
 				<key>offset</key>
 				<string>{0,0}</string>
 				<key>rotated</key>
 				<false/>
 				<key>sourceColorRect</key>
-				<string>{{0,0},{100,100}}</string>
+				<string>{{0,0},{300,220}}</string>
 				<key>sourceSize</key>
-				<string>{100,100}</string>
+				<string>{300,220}</string>
 			</dict>
 
-			<key>f6_flashfreeze_appear_006.png</key>
+			<key>fx_bouldersphere_006.png</key>
 			<dict>
 				<key>frame</key>
-				<string>{{303,0},{100,100}}</string>
+				<string>{{903,221},{300,220}}</string>
 				<key>offset</key>
 				<string>{0,0}</string>
 				<key>rotated</key>
 				<false/>
 				<key>sourceColorRect</key>
-				<string>{{0,0},{100,100}}</string>
+				<string>{{0,0},{300,220}}</string>
 				<key>sourceSize</key>
-				<string>{100,100}</string>
+				<string>{300,220}</string>
 			</dict>
 
-			<key>f6_flashfreeze_appear_007.png</key>
+			<key>fx_bouldersphere_007.png</key>
 			<dict>
 				<key>frame</key>
-				<string>{{202,909},{100,100}}</string>
+				<string>{{903,0},{300,220}}</string>
 				<key>offset</key>
 				<string>{0,0}</string>
 				<key>rotated</key>
 				<false/>
 				<key>sourceColorRect</key>
-				<string>{{0,0},{100,100}}</string>
+				<string>{{0,0},{300,220}}</string>
 				<key>sourceSize</key>
-				<string>{100,100}</string>
+				<string>{300,220}</string>
 			</dict>
 
-			<key>f6_flashfreeze_appear_008.png</key>
+			<key>fx_bouldersphere_008.png</key>
 			<dict>
 				<key>frame</key>
-				<string>{{202,808},{100,100}}</string>
+				<string>{{602,1768},{300,220}}</string>
 				<key>offset</key>
 				<string>{0,0}</string>
 				<key>rotated</key>
 				<false/>
 				<key>sourceColorRect</key>
-				<string>{{0,0},{100,100}}</string>
+				<string>{{0,0},{300,220}}</string>
 				<key>sourceSize</key>
-				<string>{100,100}</string>
+				<string>{300,220}</string>
 			</dict>
 
-			<key>f6_flashfreeze_appear_009.png</key>
+			<key>fx_bouldersphere_009.png</key>
 			<dict>
 				<key>frame</key>
-				<string>{{202,707},{100,100}}</string>
+				<string>{{602,1547},{300,220}}</string>
 				<key>offset</key>
 				<string>{0,0}</string>
 				<key>rotated</key>
 				<false/>
 				<key>sourceColorRect</key>
-				<string>{{0,0},{100,100}}</string>
+				<string>{{0,0},{300,220}}</string>
 				<key>sourceSize</key>
-				<string>{100,100}</string>
+				<string>{300,220}</string>
 			</dict>
 
-			<key>f6_flashfreeze_appear_010.png</key>
+			<key>fx_bouldersphere_010.png</key>
 			<dict>
 				<key>frame</key>
-				<string>{{202,606},{100,100}}</string>
+				<string>{{602,1326},{300,220}}</string>
 				<key>offset</key>
 				<string>{0,0}</string>
 				<key>rotated</key>
 				<false/>
 				<key>sourceColorRect</key>
-				<string>{{0,0},{100,100}}</string>
+				<string>{{0,0},{300,220}}</string>
 				<key>sourceSize</key>
-				<string>{100,100}</string>
+				<string>{300,220}</string>
 			</dict>
 
-			<key>f6_flashfreeze_appear_011.png</key>
+			<key>fx_bouldersphere_011.png</key>
 			<dict>
 				<key>frame</key>
-				<string>{{202,505},{100,100}}</string>
+				<string>{{602,1105},{300,220}}</string>
 				<key>offset</key>
 				<string>{0,0}</string>
 				<key>rotated</key>
 				<false/>
 				<key>sourceColorRect</key>
-				<string>{{0,0},{100,100}}</string>
+				<string>{{0,0},{300,220}}</string>
 				<key>sourceSize</key>
-				<string>{100,100}</string>
+				<string>{300,220}</string>
 			</dict>
 
-			<key>f6_flashfreeze_appear_012.png</key>
+			<key>fx_bouldersphere_012.png</key>
 			<dict>
 				<key>frame</key>
-				<string>{{202,404},{100,100}}</string>
+				<string>{{602,884},{300,220}}</string>
 				<key>offset</key>
 				<string>{0,0}</string>
 				<key>rotated</key>
 				<false/>
 				<key>sourceColorRect</key>
-				<string>{{0,0},{100,100}}</string>
+				<string>{{0,0},{300,220}}</string>
 				<key>sourceSize</key>
-				<string>{100,100}</string>
+				<string>{300,220}</string>
 			</dict>
 
-			<key>f6_flashfreeze_disappear_000.png</key>
+			<key>fx_bouldersphere_013.png</key>
 			<dict>
 				<key>frame</key>
-				<string>{{202,303},{100,100}}</string>
+				<string>{{602,663},{300,220}}</string>
 				<key>offset</key>
 				<string>{0,0}</string>
 				<key>rotated</key>
 				<false/>
 				<key>sourceColorRect</key>
-				<string>{{0,0},{100,100}}</string>
+				<string>{{0,0},{300,220}}</string>
 				<key>sourceSize</key>
-				<string>{100,100}</string>
+				<string>{300,220}</string>
 			</dict>
 
-			<key>f6_flashfreeze_disappear_001.png</key>
+			<key>fx_bouldersphere_014.png</key>
 			<dict>
 				<key>frame</key>
-				<string>{{202,202},{100,100}}</string>
+				<string>{{602,442},{300,220}}</string>
 				<key>offset</key>
 				<string>{0,0}</string>
 				<key>rotated</key>
 				<false/>
 				<key>sourceColorRect</key>
-				<string>{{0,0},{100,100}}</string>
+				<string>{{0,0},{300,220}}</string>
 				<key>sourceSize</key>
-				<string>{100,100}</string>
+				<string>{300,220}</string>
 			</dict>
 
-			<key>f6_flashfreeze_disappear_002.png</key>
+			<key>fx_bouldersphere_015.png</key>
 			<dict>
 				<key>frame</key>
-				<string>{{202,101},{100,100}}</string>
+				<string>{{602,221},{300,220}}</string>
 				<key>offset</key>
 				<string>{0,0}</string>
 				<key>rotated</key>
 				<false/>
 				<key>sourceColorRect</key>
-				<string>{{0,0},{100,100}}</string>
+				<string>{{0,0},{300,220}}</string>
 				<key>sourceSize</key>
-				<string>{100,100}</string>
+				<string>{300,220}</string>
 			</dict>
 
-			<key>f6_flashfreeze_disappear_003.png</key>
+			<key>fx_bouldersphere_016.png</key>
 			<dict>
 				<key>frame</key>
-				<string>{{202,0},{100,100}}</string>
+				<string>{{602,0},{300,220}}</string>
 				<key>offset</key>
 				<string>{0,0}</string>
 				<key>rotated</key>
 				<false/>
 				<key>sourceColorRect</key>
-				<string>{{0,0},{100,100}}</string>
+				<string>{{0,0},{300,220}}</string>
 				<key>sourceSize</key>
-				<string>{100,100}</string>
+				<string>{300,220}</string>
 			</dict>
 
-			<key>f6_flashfreeze_disappear_004.png</key>
+			<key>fx_bouldersphere_017.png</key>
 			<dict>
 				<key>frame</key>
-				<string>{{101,909},{100,100}}</string>
+				<string>{{903,1547},{300,220}}</string>
 				<key>offset</key>
 				<string>{0,0}</string>
 				<key>rotated</key>
 				<false/>
 				<key>sourceColorRect</key>
-				<string>{{0,0},{100,100}}</string>
+				<string>{{0,0},{300,220}}</string>
 				<key>sourceSize</key>
-				<string>{100,100}</string>
+				<string>{300,220}</string>
 			</dict>
 
-			<key>f6_flashfreeze_disappear_005.png</key>
+			<key>fx_bouldersphere_018.png</key>
 			<dict>
 				<key>frame</key>
-				<string>{{303,606},{100,100}}</string>
+				<string>{{301,1547},{300,220}}</string>
 				<key>offset</key>
 				<string>{0,0}</string>
 				<key>rotated</key>
 				<false/>
 				<key>sourceColorRect</key>
-				<string>{{0,0},{100,100}}</string>
+				<string>{{0,0},{300,220}}</string>
 				<key>sourceSize</key>
-				<string>{100,100}</string>
+				<string>{300,220}</string>
 			</dict>
 
-			<key>f6_flashfreeze_disappear_006.png</key>
+			<key>fx_bouldersphere_019.png</key>
 			<dict>
 				<key>frame</key>
-				<string>{{101,707},{100,100}}</string>
+				<string>{{301,1326},{300,220}}</string>
 				<key>offset</key>
 				<string>{0,0}</string>
 				<key>rotated</key>
 				<false/>
 				<key>sourceColorRect</key>
-				<string>{{0,0},{100,100}}</string>
+				<string>{{0,0},{300,220}}</string>
 				<key>sourceSize</key>
-				<string>{100,100}</string>
+				<string>{300,220}</string>
 			</dict>
 
-			<key>f6_flashfreeze_disappear_007.png</key>
+			<key>fx_bouldersphere_020.png</key>
 			<dict>
 				<key>frame</key>
-				<string>{{101,606},{100,100}}</string>
+				<string>{{301,1105},{300,220}}</string>
 				<key>offset</key>
 				<string>{0,0}</string>
 				<key>rotated</key>
 				<false/>
 				<key>sourceColorRect</key>
-				<string>{{0,0},{100,100}}</string>
+				<string>{{0,0},{300,220}}</string>
 				<key>sourceSize</key>
-				<string>{100,100}</string>
+				<string>{300,220}</string>
 			</dict>
 
-			<key>f6_flashfreeze_disappear_008.png</key>
+			<key>fx_bouldersphere_021.png</key>
 			<dict>
 				<key>frame</key>
-				<string>{{101,505},{100,100}}</string>
+				<string>{{301,884},{300,220}}</string>
 				<key>offset</key>
 				<string>{0,0}</string>
 				<key>rotated</key>
 				<false/>
 				<key>sourceColorRect</key>
-				<string>{{0,0},{100,100}}</string>
+				<string>{{0,0},{300,220}}</string>
 				<key>sourceSize</key>
-				<string>{100,100}</string>
+				<string>{300,220}</string>
 			</dict>
 
-			<key>f6_flashfreeze_disappear_009.png</key>
+			<key>fx_bouldersphere_022.png</key>
 			<dict>
 				<key>frame</key>
-				<string>{{101,404},{100,100}}</string>
+				<string>{{301,663},{300,220}}</string>
 				<key>offset</key>
 				<string>{0,0}</string>
 				<key>rotated</key>
 				<false/>
 				<key>sourceColorRect</key>
-				<string>{{0,0},{100,100}}</string>
+				<string>{{0,0},{300,220}}</string>
 				<key>sourceSize</key>
-				<string>{100,100}</string>
+				<string>{300,220}</string>
 			</dict>
 
-			<key>f6_flashfreeze_disappear_010.png</key>
+			<key>fx_bouldersphere_023.png</key>
 			<dict>
 				<key>frame</key>
-				<string>{{101,303},{100,100}}</string>
+				<string>{{301,442},{300,220}}</string>
 				<key>offset</key>
 				<string>{0,0}</string>
 				<key>rotated</key>
 				<false/>
 				<key>sourceColorRect</key>
-				<string>{{0,0},{100,100}}</string>
+				<string>{{0,0},{300,220}}</string>
 				<key>sourceSize</key>
-				<string>{100,100}</string>
+				<string>{300,220}</string>
 			</dict>
 
-			<key>f6_flashfreeze_disappear_011.png</key>
+			<key>fx_bouldersphere_024.png</key>
 			<dict>
 				<key>frame</key>
-				<string>{{101,202},{100,100}}</string>
+				<string>{{301,221},{300,220}}</string>
 				<key>offset</key>
 				<string>{0,0}</string>
 				<key>rotated</key>
 				<false/>
 				<key>sourceColorRect</key>
-				<string>{{0,0},{100,100}}</string>
+				<string>{{0,0},{300,220}}</string>
 				<key>sourceSize</key>
-				<string>{100,100}</string>
+				<string>{300,220}</string>
 			</dict>
 
-			<key>f6_flashfreeze_idle_000.png</key>
+			<key>fx_bouldersphere_025.png</key>
 			<dict>
 				<key>frame</key>
-				<string>{{101,101},{100,100}}</string>
+				<string>{{301,0},{300,220}}</string>
 				<key>offset</key>
 				<string>{0,0}</string>
 				<key>rotated</key>
 				<false/>
 				<key>sourceColorRect</key>
-				<string>{{0,0},{100,100}}</string>
+				<string>{{0,0},{300,220}}</string>
 				<key>sourceSize</key>
-				<string>{100,100}</string>
+				<string>{300,220}</string>
 			</dict>
 
-			<key>f6_flashfreeze_idle_001.png</key>
+			<key>fx_bouldersphere_026.png</key>
 			<dict>
 				<key>frame</key>
-				<string>{{101,0},{100,100}}</string>
+				<string>{{0,1768},{300,220}}</string>
 				<key>offset</key>
 				<string>{0,0}</string>
 				<key>rotated</key>
 				<false/>
 				<key>sourceColorRect</key>
-				<string>{{0,0},{100,100}}</string>
+				<string>{{0,0},{300,220}}</string>
 				<key>sourceSize</key>
-				<string>{100,100}</string>
+				<string>{300,220}</string>
 			</dict>
 
-			<key>f6_flashfreeze_idle_002.png</key>
+			<key>fx_bouldersphere_027.png</key>
 			<dict>
 				<key>frame</key>
-				<string>{{0,909},{100,100}}</string>
+				<string>{{0,1547},{300,220}}</string>
 				<key>offset</key>
 				<string>{0,0}</string>
 				<key>rotated</key>
 				<false/>
 				<key>sourceColorRect</key>
-				<string>{{0,0},{100,100}}</string>
+				<string>{{0,0},{300,220}}</string>
 				<key>sourceSize</key>
-				<string>{100,100}</string>
+				<string>{300,220}</string>
 			</dict>
 
-			<key>f6_flashfreeze_idle_003.png</key>
+			<key>fx_bouldersphere_028.png</key>
 			<dict>
 				<key>frame</key>
-				<string>{{0,808},{100,100}}</string>
+				<string>{{0,1326},{300,220}}</string>
 				<key>offset</key>
 				<string>{0,0}</string>
 				<key>rotated</key>
 				<false/>
 				<key>sourceColorRect</key>
-				<string>{{0,0},{100,100}}</string>
+				<string>{{0,0},{300,220}}</string>
 				<key>sourceSize</key>
-				<string>{100,100}</string>
+				<string>{300,220}</string>
 			</dict>
 
-			<key>f6_flashfreeze_idle_004.png</key>
+			<key>fx_bouldersphere_029.png</key>
 			<dict>
 				<key>frame</key>
-				<string>{{0,707},{100,100}}</string>
+				<string>{{0,1105},{300,220}}</string>
 				<key>offset</key>
 				<string>{0,0}</string>
 				<key>rotated</key>
 				<false/>
 				<key>sourceColorRect</key>
-				<string>{{0,0},{100,100}}</string>
+				<string>{{0,0},{300,220}}</string>
 				<key>sourceSize</key>
-				<string>{100,100}</string>
+				<string>{300,220}</string>
 			</dict>
 
-			<key>f6_flashfreeze_idle_005.png</key>
+			<key>fx_bouldersphere_030.png</key>
 			<dict>
 				<key>frame</key>
-				<string>{{0,606},{100,100}}</string>
+				<string>{{0,884},{300,220}}</string>
 				<key>offset</key>
 				<string>{0,0}</string>
 				<key>rotated</key>
 				<false/>
 				<key>sourceColorRect</key>
-				<string>{{0,0},{100,100}}</string>
+				<string>{{0,0},{300,220}}</string>
 				<key>sourceSize</key>
-				<string>{100,100}</string>
+				<string>{300,220}</string>
 			</dict>
 
-			<key>f6_flashfreeze_idle_006.png</key>
+			<key>fx_bouldersphere_031.png</key>
 			<dict>
 				<key>frame</key>
-				<string>{{0,505},{100,100}}</string>
+				<string>{{0,663},{300,220}}</string>
 				<key>offset</key>
 				<string>{0,0}</string>
 				<key>rotated</key>
 				<false/>
 				<key>sourceColorRect</key>
-				<string>{{0,0},{100,100}}</string>
+				<string>{{0,0},{300,220}}</string>
 				<key>sourceSize</key>
-				<string>{100,100}</string>
+				<string>{300,220}</string>
 			</dict>
 
-			<key>f6_flashfreeze_idle_007.png</key>
+			<key>fx_bouldersphere_032.png</key>
 			<dict>
 				<key>frame</key>
-				<string>{{0,404},{100,100}}</string>
+				<string>{{0,442},{300,220}}</string>
 				<key>offset</key>
 				<string>{0,0}</string>
 				<key>rotated</key>
 				<false/>
 				<key>sourceColorRect</key>
-				<string>{{0,0},{100,100}}</string>
+				<string>{{0,0},{300,220}}</string>
 				<key>sourceSize</key>
-				<string>{100,100}</string>
+				<string>{300,220}</string>
 			</dict>
 
-			<key>f6_flashfreeze_idle_008.png</key>
+			<key>fx_bouldersphere_033.png</key>
 			<dict>
 				<key>frame</key>
-				<string>{{0,303},{100,100}}</string>
+				<string>{{0,221},{300,220}}</string>
 				<key>offset</key>
 				<string>{0,0}</string>
 				<key>rotated</key>
 				<false/>
 				<key>sourceColorRect</key>
-				<string>{{0,0},{100,100}}</string>
+				<string>{{0,0},{300,220}}</string>
 				<key>sourceSize</key>
-				<string>{100,100}</string>
+				<string>{300,220}</string>
 			</dict>
 
-			<key>f6_flashfreeze_idle_009.png</key>
+			<key>fx_bouldersphere_034.png</key>
 			<dict>
 				<key>frame</key>
-				<string>{{0,202},{100,100}}</string>
+				<string>{{0,0},{300,220}}</string>
 				<key>offset</key>
 				<string>{0,0}</string>
 				<key>rotated</key>
 				<false/>
 				<key>sourceColorRect</key>
-				<string>{{0,0},{100,100}}</string>
+				<string>{{0,0},{300,220}}</string>
 				<key>sourceSize</key>
-				<string>{100,100}</string>
-			</dict>
-
-			<key>f6_flashfreeze_idle_010.png</key>
-			<dict>
-				<key>frame</key>
-				<string>{{0,101},{100,100}}</string>
-				<key>offset</key>
-				<string>{0,0}</string>
-				<key>rotated</key>
-				<false/>
-				<key>sourceColorRect</key>
-				<string>{{0,0},{100,100}}</string>
-				<key>sourceSize</key>
-				<string>{100,100}</string>
-			</dict>
-
-			<key>f6_flashfreeze_idle_011.png</key>
-			<dict>
-				<key>frame</key>
-				<string>{{0,0},{100,100}}</string>
-				<key>offset</key>
-				<string>{0,0}</string>
-				<key>rotated</key>
-				<false/>
-				<key>sourceColorRect</key>
-				<string>{{0,0},{100,100}}</string>
-				<key>sourceSize</key>
-				<string>{100,100}</string>
-			</dict>
-
-			<key>f6_flashfreeze_idle_012.png</key>
-			<dict>
-				<key>frame</key>
-				<string>{{202,404},{100,100}}</string>
-				<key>offset</key>
-				<string>{0,0}</string>
-				<key>rotated</key>
-				<false/>
-				<key>sourceColorRect</key>
-				<string>{{0,0},{100,100}}</string>
-				<key>sourceSize</key>
-				<string>{100,100}</string>
+				<string>{300,220}</string>
 			</dict>
 
 		</dict>
@@ -543,9 +501,9 @@
 			<key>format</key>
 			<integer>2</integer>
 			<key>size</key>
-			<string>{512,1024}</string>
+			<string>{2048,2048}</string>
 			<key>textureFileName</key>
-			<string>f6_flashfreeze.png</string>
+			<string>fx_bouldersphere.png</string>
 			</dict>
 		</dict>
 </plist>
