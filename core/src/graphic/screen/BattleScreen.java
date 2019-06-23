@@ -71,7 +71,7 @@ public class BattleScreen extends Screen {
 
     private Vector2 handStartCord;
 
-    private ArrayList<Cell> handCells;
+//    private ArrayList<Cell> handCells;
 
     private static HashMap<Cell, Card> handCards;
 
@@ -83,13 +83,14 @@ public class BattleScreen extends Screen {
         BattleMenuHandler battleMenuHandler = new BattleMenuHandler();
         battleMenuHandler.setPlayersSteps();
         game = new Game(Account.getCurrentAccount(), battleMenuHandler.getFirstLevelPlayer(), GameType.KILL_HERO, 0);
-        Thread playGame = new Thread(new Runnable() {
+
+        new Thread(new Runnable() {
             @Override
             public void run() {
                 game.startMatch();
             }
-        });
-        playGame.start();
+        }).start();
+
         setCameraAndViewport();
         shapeRenderer = new ShapeRenderer();
 
@@ -155,18 +156,19 @@ public class BattleScreen extends Screen {
     }
 
     public void setHandCells() {
-        handCells = new ArrayList<Cell>();
-        for(int i = 0; i<5; i++){
-            handCells.add(new Cell((int)handStartCord.x + i*160, (int)handStartCord.y));
-        }
         handCards = new HashMap<Cell, Card>();
+        for(int i = 0; i<5; i++){
+            handCards.put(new Cell((int)handStartCord.x + i*160, (int)handStartCord.y), null);
+        }
     }
 
     public void updateHandCells() {
-        for(int i =0; i<5; i++){
+        ArrayList<Cell> handCells = new ArrayList<Cell>(handCards.keySet());
+        for(int i =0; i<player1.getHand().getAllCards().size(); i++){
             handCards.put(handCells.get(i), player1.getHand().getAllCards().get(i));
         }
     }
+
     @Override
     public void update() {
         camera.update();
@@ -238,6 +240,8 @@ public class BattleScreen extends Screen {
                     } else if(selectedCellHand != null && getMouseCell().getInsideArmy() == null) {
                         Cell cell = getMouseCell();
                         game.getWhoIsHisTurn().moveFromHandToCell(handCards.get(selectedCellHand), cell);
+                        handCards.put(selectedCellHand, null);
+                        selectedCellHand = null;
                     } else if(selectedArmy != null && getMouseCell().getInsideArmy() != null) {
                         Cell cell = getMouseCell();
                         Army target = cell.getInsideArmy();
@@ -294,7 +298,7 @@ public class BattleScreen extends Screen {
     }
 
     public Cell getMouseHandCell() {
-        for(Cell cell : handCells) {
+        for(Cell cell : handCards.keySet()) {
             float x = cell.getX();
             float y = cell.getY();
             if(mousePos.x > x && mousePos.x < x + 160 && mousePos.y > y && mousePos.y < y + 160){
@@ -393,7 +397,12 @@ public class BattleScreen extends Screen {
                     batch.setColor(com.badlogic.gdx.graphics.Color.WHITE);
                 }
                 if(army == null){
-                    batch.setColor(Main.toColor(new Color(0x3DB0C0F9, true)));
+                    if(selectedCellHand != null && player1.isAroundArmies(cell))
+                        batch.setColor(Main.toColor(new Color(0xBEBFF7F9, true)));
+                    else if(selectedArmy != null && selectedArmy.canMoveTo(cell))
+                        batch.setColor(Main.toColor(new Color(0xBEBFF7F9, true)));
+                    else
+                        batch.setColor(Main.toColor(new Color(0x3DB0C0F9, true)));
                     batch.draw(tile, x, y, cellSizeX, cellSizeY);
                     batch.setColor(com.badlogic.gdx.graphics.Color.WHITE);
 
@@ -420,7 +429,7 @@ public class BattleScreen extends Screen {
     }
 
     public void drawHand(SpriteBatch batch) {
-        for(Cell cell : handCells){
+        for(Cell cell : handCards.keySet()){
             if(selectedCellHand == cell)
                 batch.setColor(Main.toColor(new Color(0xFFDCDCDC, true)));
             else
@@ -430,7 +439,7 @@ public class BattleScreen extends Screen {
             batch.end();
             if(handCards.get(cell) == null) continue;
             if(handCards.get(cell).getType() == CardType.SPELL) continue;
-            animations.get(handCards.get(cell)).draw(batch, cell.getX() - 40, cell.getY() + 10, 240, 240);
+            animations.get(handCards.get(cell)).draw(batch, cell.getX() - 30, cell.getY() + 10, 180, 180);
             batch.begin();
         }
     }

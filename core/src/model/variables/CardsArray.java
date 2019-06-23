@@ -169,6 +169,10 @@ public class CardsArray {
         return card;
     }
 
+    public void setNull(Card card) {
+        this.getAllCards().set(this.getAllCards().indexOf(card), null);
+    }
+
     public Card getRandomCard() {
         return getAllCards().get((int)Math.floor(Math.random()*getAllCards().size()));
     }

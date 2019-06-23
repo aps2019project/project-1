@@ -2,6 +2,7 @@ package model.cards;
 
 import graphic.Others.ArmyAnimation;
 import model.Buff.*;
+import model.game.Cell;
 import model.game.Game;
 import model.game.Player;
 import model.variables.CardsArray;
@@ -300,5 +301,14 @@ public class Army extends Card {
         }
         this.attack(target);
         target.counterAttack(this);
+    }
+
+    public boolean canMoveTo(Cell cell) {
+        ArrayList<Cell> cells = Game.getCurrentGame().getAllCellsWithUniqueDistance(this.getWhereItIs(), 2);
+        for(Cell cell1 : cells){
+            if(cell1 == cell && cell1.isEmpty())
+                return true;
+        }
+        return false;
     }
 }

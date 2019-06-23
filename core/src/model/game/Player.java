@@ -9,11 +9,7 @@ import model.other.Account;
 import model.variables.CardsArray;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Vector;
+import java.util.*;
 
 import static model.cards.SPTime.*;
 import static model.variables.GlobalVariables.TABLE_HEIGHT;
@@ -256,6 +252,7 @@ public class Player {
         if( cell.isEmpty() &&
             Game.getCurrentGame().getAllCellsNearAccountArmies(account).indexOf(cell) != -1 &&
             mana >= card.getNeededManaToPut()) {
+            this.hand.remove(card);
             if(card instanceof Spell) {
                 selectedCellToPutFromHand = cell;
                 try {
@@ -534,4 +531,13 @@ public class Player {
             animations.put((Army) card, animation);
         }
     }
+
+    public boolean isAroundArmies(Cell cell) {
+        ArrayList<Cell> cells = Game.getCurrentGame().getAllCellsNearAccountArmies(account);
+        for(Cell cell1 : cells){
+            if(cell == cell1) return true;
+        }
+        return false;
+    }
+
 }
