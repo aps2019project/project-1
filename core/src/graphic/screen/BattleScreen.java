@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import control.BattleMenuHandler;
 import graphic.Others.ArmyAnimation;
+import graphic.Others.PopUp;
 import graphic.main.AssetHandler;
 import graphic.main.Main;
 import model.cards.Army;
@@ -233,7 +234,10 @@ public class BattleScreen extends Screen {
                         }
                     } else if(selectedArmy != null && getMouseCell().getInsideArmy() == null) {
                         Cell cell = getMouseCell();
-                        if (!game.getWhoIsHisTurn().canMove(selectedCell, cell)) return false;
+                        if (!game.getWhoIsHisTurn().canMove(selectedCell, cell)){
+                            setPopup("Invalid Cell");
+                            return false;
+                        }
                         game.getWhoIsHisTurn().moveArmy(selectedCell, cell);
                         selectedCell = null;
                         selectedArmy = null;
@@ -463,5 +467,10 @@ public class BattleScreen extends Screen {
 
     public static HashMap<Cell, Card> getHandCards() {
         return handCards;
+    }
+
+    public static void setPopup(String text) {
+        PopUp.getInstance().setText(text);
+        PopUp.getInstance().draw(Main.getBatch());
     }
 }

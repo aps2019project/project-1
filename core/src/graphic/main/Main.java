@@ -12,7 +12,7 @@ import model.cards.Card;
 import model.other.Account;
 
 public class Main extends ApplicationAdapter {
-	private SpriteBatch batch;
+	private static SpriteBatch batch;
 
 	public static final int WIDTH = 1600;
 	public static final int HEIGHT = 900;
@@ -54,6 +54,10 @@ public class Main extends ApplicationAdapter {
 		float b = color.getBlue() / 256f;
 		float a = color.getAlpha() / 256f;
 		return new Color(r, g, b, a);
+	}
+
+	public static SpriteBatch getBatch() {
+		return batch;
 	}
 
 }
