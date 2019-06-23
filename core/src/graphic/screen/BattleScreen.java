@@ -243,8 +243,8 @@ public class BattleScreen extends Screen {
                         selectedArmy = null;
                     } else if(selectedCellHand != null && getMouseCell().getInsideArmy() == null) {
                         Cell cell = getMouseCell();
-                        game.getWhoIsHisTurn().moveFromHandToCell(handCards.get(selectedCellHand), cell);
-                        handCards.put(selectedCellHand, null);
+                        if(game.getWhoIsHisTurn().moveFromHandToCell(handCards.get(selectedCellHand), cell));
+                            handCards.put(selectedCellHand, null);
                         selectedCellHand = null;
                     } else if(selectedArmy != null && getMouseCell().getInsideArmy() != null) {
                         Cell cell = getMouseCell();
@@ -434,15 +434,21 @@ public class BattleScreen extends Screen {
 
     public void drawHand(SpriteBatch batch) {
         for(Cell cell : handCards.keySet()){
-            if(selectedCellHand == cell)
+            if(selectedCellHand == cell) {
                 batch.setColor(Main.toColor(new Color(0xFFDCDCDC, true)));
-            else
+            }
+            else {
                 batch.setColor(Main.toColor(new Color(0xFF232323, true)));
+            }
             batch.draw(tileHand, cell.getX(), cell.getY(), 160, 160);
             batch.setColor(com.badlogic.gdx.graphics.Color.WHITE);
+            if(handCards.get(cell) == null){
+                continue;
+            }
+            if(handCards.get(cell).getType() == CardType.SPELL){
+                continue;
+            }
             batch.end();
-            if(handCards.get(cell) == null) continue;
-            if(handCards.get(cell).getType() == CardType.SPELL) continue;
             animations.get(handCards.get(cell)).draw(batch, cell.getX() - 30, cell.getY() + 10, 180, 180);
             batch.begin();
         }
@@ -471,6 +477,5 @@ public class BattleScreen extends Screen {
 
     public static void setPopup(String text) {
         PopUp.getInstance().setText(text);
-        PopUp.getInstance().draw(Main.getBatch());
     }
 }
