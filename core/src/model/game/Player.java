@@ -256,6 +256,7 @@ public class Player {
         if( cell.isEmpty() &&
             Game.getCurrentGame().getAllCellsNearAccountArmies(account).indexOf(cell) != -1 &&
             mana >= card.getNeededManaToPut()) {
+            this.hand.remove(card);
             if(card instanceof Spell) {
                 selectedCellToPutFromHand = cell;
                 try {
