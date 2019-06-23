@@ -1,5 +1,6 @@
 package model.game;
 
+import com.badlogic.gdx.maps.tiled.BaseTmxMapLoader;
 import com.badlogic.gdx.math.Vector2;
 import control.BattleHandler;
 import graphic.Others.ArmyAnimation;
@@ -204,8 +205,14 @@ public class Player {
         return true;
     }
     public boolean attack(Cell attackersCell,Cell defenderCell) {
-        if(attackersCell == null) return false;
-        if(!isInRange(attackersCell,defenderCell)) return false;
+        if(attackersCell == null){
+            BattleScreen.setPopup("Target Cell Is Empty");
+            return false;
+        }
+        if(!isInRange(attackersCell,defenderCell)){
+            BattleScreen.setPopup("Target Not in range");
+            return false;
+        }
         attackersCell.getInsideArmy().attack(defenderCell.getInsideArmy());
         this.counterAttack(defenderCell, attackersCell);
         return true;
@@ -250,8 +257,11 @@ public class Player {
 
     public boolean moveFromHandToCell(Card card,Cell cell) {
         if( cell.isEmpty() &&
-            Game.getCurrentGame().getAllCellsNearAccountArmies(account).indexOf(cell) != -1 &&
-            mana >= card.getNeededManaToPut()) {
+            Game.getCurrentGame().getAllCellsNearAccountArmies(account).indexOf(cell) != -1) {
+            if(mana < card.getNeededManaToPut()){
+                BattleScreen.setPopup("Not Enough Mana");
+                return false;
+            }
             this.hand.remove(card);
             if(card instanceof Spell) {
                 selectedCellToPutFromHand = cell;
@@ -273,6 +283,7 @@ public class Player {
                 return true;
             }
         }
+        BattleScreen.setPopup("Invalid Cell");
         return false;
     }
 
