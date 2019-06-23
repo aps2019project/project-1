@@ -397,7 +397,12 @@ public class BattleScreen extends Screen {
                     batch.setColor(com.badlogic.gdx.graphics.Color.WHITE);
                 }
                 if(army == null){
-                    batch.setColor(Main.toColor(new Color(0x3DB0C0F9, true)));
+                    if(selectedCellHand != null && player1.isAroundArmies(cell))
+                        batch.setColor(Main.toColor(new Color(0xBEBFF7F9, true)));
+                    else if(selectedArmy != null && selectedArmy.canMoveTo(cell))
+                        batch.setColor(Main.toColor(new Color(0xBEBFF7F9, true)));
+                    else
+                        batch.setColor(Main.toColor(new Color(0x3DB0C0F9, true)));
                     batch.draw(tile, x, y, cellSizeX, cellSizeY);
                     batch.setColor(com.badlogic.gdx.graphics.Color.WHITE);
 
