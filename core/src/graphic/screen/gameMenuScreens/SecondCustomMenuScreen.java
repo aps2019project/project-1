@@ -131,7 +131,7 @@ public class SecondCustomMenuScreen extends Screen {
     }
     private void createDecks() {
         for(int i = 0; i < numberOFDecks; i++) {
-            float x = i*100;
+            float x = i*400;
             float y = 250;
             decksButtons[i] = new Button("button/decks/deActiveDeck.png","button/decks/activeDeck.png" , x, y, decks.get(i).getName());
             decksButtons[i].setActive(decksButtons[i].contains(mousePos));
