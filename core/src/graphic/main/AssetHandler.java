@@ -91,6 +91,8 @@ public class AssetHandler {
         assetManager.load("button/shop sb active.png", Texture.class);
         assetManager.load("button/shop done.png", Texture.class);
         assetManager.load("button/back.png", Texture.class);
+        assetManager.load("button/deckSlot.png", Texture.class);
+        assetManager.load("button/deckSlotGlow.png", Texture.class);
         assetManager.load("backGround/brand.png", Texture.class);
         assetManager.load("button/daric slot.png", Texture.class);
         assetManager.load("backGround/background_ChooseNumberOfPlayersMenu.psd", Texture.class);
@@ -114,13 +116,14 @@ public class AssetHandler {
         assetManager.load("button/storySelectScreen.atlas", TextureAtlas.class);
         assetManager.load("backGround/customFirstMenu.png", Texture.class);
         assetManager.load("battle/tile hand.png", Texture.class);
+
         assetManager.load("battle/ap icon.png", Texture.class);
         assetManager.load("battle/hp icon.png", Texture.class);
         assetManager.load("battle/Graveyard bg.png", Texture.class);
 
-        for(int i = 1; i <= 11; i++) {
+        for(int i = 1; i <= 11; i++)
             assetManager.load("Card/Hero/generals/" + Integer.toString(i) + ".png", Texture.class);
-        }for (int i = 1; i <= 11; ++i)
+        for (int i = 1; i <= 11; ++i)
             assetManager.load("Card/Hero/" + i + ".atlas", TextureAtlas.class);
         for (int i = 1; i <= 20; ++i)
             assetManager.load("Card/Item/" + i + ".atlas", TextureAtlas.class);
@@ -128,27 +131,6 @@ public class AssetHandler {
             assetManager.load("Card/Spell/" + i + ".atlas", TextureAtlas.class);
         for (int i = 1; i <= 41; ++i)
             assetManager.load("Card/Minion/" + i + ".atlas", TextureAtlas.class);
-
-
-
-
-//        assetManager.load("button/big_circle.png", Texture.class);
-//        assetManager.load("button/big_circle_action.png", Texture.class);
-//        assetManager.load("backGround/background_ChooseNumberOfPlayersMenu.jpg", Texture.class);
-//        assetManager.load("simpleIcons/fire2.png", Texture.class);
-//        assetManager.load("simpleIcons/fire1.png", Texture.class);
-//        assetManager.load("simpleIcons/fire3.png", Texture.class);
-//        assetManager.load("button/Button3cnp.psd", Texture.class);
-//        assetManager.load("button/choosePlayerButton3.psd", Texture.class);
-//        assetManager.load("button/choosePlayerButton3-1.psd", Texture.class);
-//        assetManager.load("button/choosePlayerButton1.psd", Texture.class);
-//        assetManager.load("button/choosePlayerButton1-1.psd", Texture.class);
-//        assetManager.load("button/choosePlayerButton2.psd", Texture.class);
-//        assetManager.load("button/choosePlayerButton2-1.psd", Texture.class);
-//        assetManager.load("sfx/playerChangeButton1.mp3", Sound.class);
-//        assetManager.load("sfx/playerChangeButton2.mp3", Sound.class);
-//        assetManager.load("sfx/playerChangeButton3.mp3", Sound.class);
-//        assetManager.load("battle/tile action.png", Texture.class);
-            }
+    }
 
 }
