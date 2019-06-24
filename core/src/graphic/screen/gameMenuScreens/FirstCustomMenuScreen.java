@@ -13,8 +13,9 @@ import graphic.main.Button;
 import graphic.main.Main;
 import graphic.screen.Screen;
 import graphic.screen.ScreenManager;
+        import model.cards.Hero;
 
-import java.io.FileInputStream;
+        import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.Scanner;
@@ -77,8 +78,15 @@ public class FirstCustomMenuScreen extends Screen {
                     return false;
                 for(int i = 0; i < numberOFGenerals; i++) {
                     if (generals[i + 1].isActive()) {
-                        System.out.println("bale");
-                        ScreenManager.setScreen(new SecondCustomMenuScreen());
+                        try {
+                            Hero hero = (Hero) Hero.getHeroes().get(i).clone();
+                            hero.setUserName(Datas.getDatas().getAccountUsername());
+                            Datas.getDatas().setHero(hero);
+
+                            ScreenManager.setScreen(new SecondCustomMenuScreen());
+                        } catch (CloneNotSupportedException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
                 return false;

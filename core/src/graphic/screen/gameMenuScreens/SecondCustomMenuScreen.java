@@ -12,10 +12,10 @@ import com.badlogic.gdx.math.Vector2;
 import graphic.main.AssetHandler;
 import graphic.main.Button;
 import graphic.main.Main;
+import graphic.screen.BattleScreen;
 import graphic.screen.Screen;
-import model.cards.Card;
+import graphic.screen.ScreenManager;
 import model.game.Deck;
-import model.other.Account;
 
 import java.util.ArrayList;
 
@@ -76,6 +76,13 @@ public class SecondCustomMenuScreen extends Screen {
             public boolean touchDown(int screenX, int screenY, int pointer, int button) {
                 if (button != Input.Buttons.LEFT)
                     return false;
+                for(int i = 0; i < numberOFDecks; i++) {
+                    if (decksButtons[i].isActive()) {
+                        Datas.getDatas().makeKillHeroCustom(i);
+                        ScreenManager.setScreen(new BattleScreen());
+
+                    }
+                }
                 return false;
             }
 
@@ -148,27 +155,8 @@ public class SecondCustomMenuScreen extends Screen {
         }
     }
     private void addDecks() {
-        try {
-            Account account = new Account("tmp1","1234");
-            Card.makeStroyDeck(1, account);
-            decks.add(account.getAllDecks().get(0));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        try {
-            Account account = new Account("tmp2","1234");
-            Card.makeStroyDeck(2, account);
-            decks.add(account.getAllDecks().get(0));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }try {
-            Account account = new Account("tmp3","1234");
-            Card.makeStroyDeck(3, account);
-            decks.add(account.getAllDecks().get(0));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
+        Datas.getDatas().setCustomDecks();
+        decks.addAll(Datas.getDatas().getCustomDecks());
     }
 }
 
