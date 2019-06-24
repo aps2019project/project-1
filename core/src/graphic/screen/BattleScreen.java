@@ -449,8 +449,16 @@ public class BattleScreen extends Screen {
                 continue;
             }
             batch.end();
-            animations.get(handCards.get(cell)).draw(batch, cell.getX() - 30, cell.getY() + 10, 180, 180);
+            animations.get(handCards.get(cell)).draw(batch, cell.getX() - 15, cell.getY() + 10, 180, 180);
             batch.begin();
+
+            batch.draw(mana, cell.getX()+70, cell.getY());
+
+            BitmapFont font = AssetHandler.getData().get("fonts/Arial 16.fnt");
+            font.setColor(Main.toColor(new Color(0xFF000000, true)));
+            font.draw(batch,Integer.toString(handCards.get(cell).getNeededManaToPut()), cell.getX() +85, cell.getY() + 25);
+            font.setColor(Main.toColor(new Color(0xFFFFFFFF, true)));
+
         }
     }
 
