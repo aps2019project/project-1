@@ -27,17 +27,11 @@ public class SecondCustomMenuScreen extends Screen {
     private Button exitButton;
     private Vector2 mousePos;
     private Button[] decksButtons;
-    private ArrayList<Deck> decks;
-    private int numberOFDecks = 11;
+    private ArrayList<Deck> decks = new ArrayList<Deck>();
+    private int numberOFDecks = 3;
     @Override
     public void create() {
-        Account account = new Account("tmpscm","1234");
-        try {
-            Card.makeStroyDeck(2, account);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        decks.add(account.getAllDecks().get(0));
+        addDecks();
         setCameraAndViewport();
         shapeRenderer = new ShapeRenderer();
         decksButtons = new Button[numberOFDecks + 1];
@@ -152,6 +146,29 @@ public class SecondCustomMenuScreen extends Screen {
         for(int i = 0; i < numberOFDecks; i++) {
             decksButtons[i].setActive(decksButtons[i].contains(mousePos));
         }
+    }
+    private void addDecks() {
+        try {
+            Account account = new Account("tmp1","1234");
+            Card.makeStroyDeck(1, account);
+            decks.add(account.getAllDecks().get(0));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            Account account = new Account("tmp2","1234");
+            Card.makeStroyDeck(2, account);
+            decks.add(account.getAllDecks().get(0));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }try {
+            Account account = new Account("tmp3","1234");
+            Card.makeStroyDeck(3, account);
+            decks.add(account.getAllDecks().get(0));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 }
 
