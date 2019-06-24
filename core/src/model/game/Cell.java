@@ -12,6 +12,8 @@ public class Cell {
     private Flag flag;
     private int x;
     private int y;
+    private float screenX;
+    private float screenY;
     private Cell EnemyAttackersCell;
 
     public Cell(int x,int y) {
@@ -113,5 +115,21 @@ public class Cell {
 
     public void setInsideArmy(Army insideArmy) {
         this.insideArmy = insideArmy;
+    }
+
+    public float getScreenX() {
+        return screenX;
+    }
+
+    public void setScreenX(float screenX) {
+        this.screenX = screenX;
+    }
+
+    public float getScreenY() {
+        return screenY;
+    }
+
+    public void setScreenY(float screenY) {
+        this.screenY = screenY;
     }
 }
