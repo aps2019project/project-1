@@ -120,6 +120,7 @@ public class AssetHandler {
         assetManager.load("battle/tile hand.png", Texture.class);
         assetManager.load("battle/ap icon.png", Texture.class);
         assetManager.load("battle/hp icon.png", Texture.class);
+        assetManager.load("battle/Graveyard bg.png", Texture.class);
 
         for (int i = 1; i <= 11; ++i) {
             assetManager.load("Card/Hero/" + i + ".atlas", TextureAtlas.class);

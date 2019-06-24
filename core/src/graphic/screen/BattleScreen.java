@@ -64,6 +64,7 @@ public class BattleScreen extends Screen {
 
     private Button endTurnButton;
     private Button endGameButton;
+    private Button graveyardButton;
 
     private ArmyAnimation hero1;
     private ArmyAnimation hero2;
@@ -82,6 +83,10 @@ public class BattleScreen extends Screen {
     private Cell selectedCellHand;
 
     private static ArrayList<BattlePopUp> popUps;
+
+    private Texture graveyardBg;
+    private Vector2 graveyardCord;
+    private boolean showingGraveyard;
 
     @Override
     public void create() {
@@ -115,7 +120,7 @@ public class BattleScreen extends Screen {
         heroHpIcon = AssetHandler.getData().get("battle/icon general hp.png");
         apIcon = AssetHandler.getData().get("battle/ap icon.png");
         hpIcon = AssetHandler.getData().get("battle/hp icon.png");
-
+        graveyardBg = AssetHandler.getData().get("battle/Graveyard bg.png");
 
         music.setLooping(true);
         music.setVolume(0.5f);
@@ -123,6 +128,8 @@ public class BattleScreen extends Screen {
 
         endTurnButton = new Button("button/yellow.png", "button/yellow glow.png", 1300, 100, "End Turn", "fonts/Arial 24.fnt");
         endGameButton = new Button("button/red.png", "button/red glow.png", 1340, 40, 170, 69, "End Game", "fonts/Arial 16.fnt");
+        graveyardButton = new Button("button/yellow.png", "button/yellow glow.png", 100, 50, 200, 80, "Graveyard", "fonts/Arial 24.fnt");
+
         manaStart1 = new Vector2(270, 730);
         manaStart2 = new Vector2(1330 - mana.getWidth(), 730);
 
@@ -149,6 +156,8 @@ public class BattleScreen extends Screen {
         handStartCord = new Vector2(400, 20);
 
         setHandCells();
+
+        graveyardCord = new Vector2(-graveyardBg.getWidth(), 180);
     }
 
     public void setAnimations() {
@@ -198,6 +207,9 @@ public class BattleScreen extends Screen {
 
         endTurnButton.setActive(endTurnButton.contains(mousePos));
         endGameButton.setActive(endGameButton.contains(mousePos));
+        graveyardButton.setActive(graveyardButton.contains(mousePos));
+
+        moveGraveYard();
 
         Gdx.input.setInputProcessor(new InputProcessor() {
             @Override
@@ -234,6 +246,8 @@ public class BattleScreen extends Screen {
                 } else if(endGameButton.isActive()){
                     game.exitFromGame();
                     ScreenManager.setScreen(new MenuScreen());
+                } else if(graveyardButton.isActive()){
+                    showingGraveyard = !showingGraveyard;
                 } else if(getMouseCell() != null){
                     if(getMouseCell().getInsideArmy() != null && game.getWhoIsHisTurn().isFriend(getMouseCell().getInsideArmy())) {
                         selectedCell = getMouseCell();
@@ -299,6 +313,17 @@ public class BattleScreen extends Screen {
         });
     }
 
+    public void moveGraveYard() {
+        int speed = 10;
+        if(showingGraveyard){
+            if(graveyardCord.x < -10)
+                graveyardCord.x += speed;
+        } else{
+            if(graveyardCord.x > -graveyardBg.getWidth())
+                graveyardCord.x -= speed;
+        }
+    }
+
     public Cell getMouseCell() {
         for(Cell[] row : game.getTable()){
             for(Cell cell : row){
@@ -341,9 +366,11 @@ public class BattleScreen extends Screen {
 
         drawPopUps(batch);
 
+        batch.draw(graveyardBg, graveyardCord.x, graveyardCord.y);
         batch.end();
         endTurnButton.draw(batch);
         endGameButton.draw(batch);
+        graveyardButton.draw(batch);
     }
 
     @Override
