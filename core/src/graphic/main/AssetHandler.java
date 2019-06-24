@@ -113,33 +113,20 @@ public class AssetHandler {
         assetManager.load("backGround/storyMenu.jpg", Texture.class);
         assetManager.load("button/storySelectScreen.atlas", TextureAtlas.class);
         assetManager.load("backGround/customFirstMenu.png", Texture.class);
-
-
-        for(int i = 1; i <= 11; i++) {
-            assetManager.load("Card/Hero/generals/" + Integer.toString(i) + ".png", Texture.class);
-        }
-        for (int i = 1; i <= 11; ++i)
-            assetManager.load("Card/Hero/" + i + ".atlas", TextureAtlas.class);
-        for (int i = 1; i <= 21; ++i)
         assetManager.load("battle/tile hand.png", Texture.class);
         assetManager.load("battle/ap icon.png", Texture.class);
         assetManager.load("battle/hp icon.png", Texture.class);
 
-        for (int i = 1; i <= 11; ++i) {
+        for(int i = 1; i <= 11; i++) {
+            assetManager.load("Card/Hero/generals/" + Integer.toString(i) + ".png", Texture.class);
+        }for (int i = 1; i <= 11; ++i)
             assetManager.load("Card/Hero/" + i + ".atlas", TextureAtlas.class);
-            assetManager.load("Card/Hero/" + i + ".png", Texture.class);
-        }
-        for (int i = 1; i <= 20; ++i) {
-
+        for (int i = 1; i <= 20; ++i)
             assetManager.load("Card/Item/" + i + ".atlas", TextureAtlas.class);
         for (int i = 1; i <= 21; ++i)
             assetManager.load("Card/Spell/" + i + ".atlas", TextureAtlas.class);
         for (int i = 1; i <= 41; ++i)
             assetManager.load("Card/Minion/" + i + ".atlas", TextureAtlas.class);
-            assetManager.load("Card/Minion/" + i + ".png", Texture.class);
-        }
-
-
 
 
 

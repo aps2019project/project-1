@@ -9,8 +9,6 @@ import graphic.main.AssetHandler;
 import graphic.main.Gif;
 import graphic.main.Main;
 import graphic.screen.gameMenuScreens.FirstCustomMenuScreen;
-import graphic.screen.gameMenuScreens.ChooseNumberOfPlayersMenuScreen;
-import graphic.screen.gameMenuScreens.StoryMenuScreen;
 
 import java.awt.*;
 
@@ -36,7 +34,7 @@ public class LoadingScreen extends Screen {
     public void update() {
         camera.update();
         if (AssetHandler.getData().update())
-        ScreenManager.setScreen(new LoginScreen());
+        ScreenManager.setScreen(new FirstCustomMenuScreen());
         progress = AssetHandler.getData().getProgress() * 100;
     }
 
