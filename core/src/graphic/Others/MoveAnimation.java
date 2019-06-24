@@ -130,5 +130,7 @@ public class MoveAnimation {
         return currentLoc.dst(endLoc) <= speed;
     }
 
-
+    public Vector2 getCurrentLoc() {
+        return currentLoc;
+    }
 }

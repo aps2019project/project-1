@@ -77,4 +77,17 @@ public class ArmyAnimation {
         attackGif.setTime();
     }
 
+    public float getX() {
+        if(runAnimation != null){
+            return runAnimation.getCurrentLoc().x;
+        }
+        return x;
+    }
+
+    public float getY() {
+        if(runAnimation != null){
+            return runAnimation.getCurrentLoc().y;
+        }
+        return y;
+    }
 }

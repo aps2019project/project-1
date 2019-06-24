@@ -48,6 +48,8 @@ public class BattleScreen extends Screen {
     private Texture hero1Icon1;
     private Texture hero1Icon2;
     private Texture heroHpIcon;
+    private Texture apIcon;
+    private Texture hpIcon;
 
     private Vector2 tableCord1;
     private Vector2 tableCord2;
@@ -106,6 +108,10 @@ public class BattleScreen extends Screen {
         tileSelected = AssetHandler.getData().get("battle/tile action.png");
         tileHand = AssetHandler.getData().get("battle/tile hand.png");
         heroHpIcon = AssetHandler.getData().get("battle/icon general hp.png");
+        apIcon = AssetHandler.getData().get("battle/ap icon.png");
+        hpIcon = AssetHandler.getData().get("battle/hp icon.png");
+
+
         music.setLooping(true);
         music.setVolume(0.5f);
         music.play();
@@ -423,9 +429,30 @@ public class BattleScreen extends Screen {
                         batch.draw(tile, x, y, cellSizeX, cellSizeY);
                         batch.setColor(com.badlogic.gdx.graphics.Color.WHITE);
                         batch.end();
-                        animations.get(army).draw(batch, x - 20, y);
+                        animations.get(army).draw(batch, x - 10, y, 160, 160);
                         batch.begin();
                     }
+
+                    batch.draw(apIcon, animations.get(army).getX() + 15, animations.get(army).getY());
+                    batch.draw(hpIcon, animations.get(army).getX() + 75, animations.get(army).getY());
+
+                    BitmapFont font = AssetHandler.getData().get("fonts/Arial 24.fnt");
+                    GlyphLayout ap = new GlyphLayout();
+                    GlyphLayout hp = new GlyphLayout();
+
+                    font.setColor(Main.toColor(new Color(0xFFDEA900, true)));
+                    ap.setText(font, Integer.toString(army.getAp()));
+//                    font.draw(batch,Integer.toString(army.getAp()), animations.get(army).getX() + 35 , animations.get(army).getY() + 25);
+                    font.draw(batch,Integer.toString(army.getAp()), (animations.get(army).getX() +15+ apIcon.getWidth()/2) - ap.width/2, animations.get(army).getY() + 25);
+
+                    font.setColor(Main.toColor(new Color(0xFFBD1900, true)));
+                    hp.setText(font, Integer.toString(army.getHp()));
+//                    font.draw(batch,Integer.toString(army.getHp()), animations.get(army).getX() + 95, animations.get(army).getY() + 25);
+                    font.draw(batch,Integer.toString(army.getHp()), (animations.get(army).getX() +75+ hpIcon.getWidth()/2) - hp.width/2, animations.get(army).getY() + 25);
+
+                    font.setColor(Main.toColor(new Color(0xFFFFFFFF, true)));
+
+
                 }
 
             }
