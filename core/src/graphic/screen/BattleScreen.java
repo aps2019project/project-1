@@ -13,12 +13,14 @@ import com.badlogic.gdx.math.Vector2;
 import control.BattleMenuHandler;
 import graphic.Others.ArmyAnimation;
 import graphic.Others.BattlePopUp;
+import graphic.Others.CardTexture;
 import graphic.Others.PopUp;
 import graphic.main.AssetHandler;
 import graphic.main.Main;
 import model.cards.Army;
 import model.cards.Card;
 import model.cards.CardType;
+import model.cards.Minion;
 import model.game.Cell;
 import model.game.Game;
 import model.game.GameType;
@@ -209,7 +211,7 @@ public class BattleScreen extends Screen {
         endGameButton.setActive(endGameButton.contains(mousePos));
         graveyardButton.setActive(graveyardButton.contains(mousePos));
 
-        moveGraveYard();
+        updateGraveyard();
 
         Gdx.input.setInputProcessor(new InputProcessor() {
             @Override
@@ -313,7 +315,7 @@ public class BattleScreen extends Screen {
         });
     }
 
-    public void moveGraveYard() {
+    public void updateGraveyard() {
         int speed = 10;
         if(showingGraveyard){
             if(graveyardCord.x < -10)
@@ -366,7 +368,7 @@ public class BattleScreen extends Screen {
 
         drawPopUps(batch);
 
-        batch.draw(graveyardBg, graveyardCord.x, graveyardCord.y);
+        drawGraveYard(batch);
         batch.end();
         endTurnButton.draw(batch);
         endGameButton.draw(batch);
@@ -428,6 +430,20 @@ public class BattleScreen extends Screen {
         font.draw(batch, player2.getAccount().getUsername(), 1310 - glyphLayout2.width, 830);
 
     }
+
+    public void drawGraveYard(SpriteBatch batch) {
+        batch.draw(graveyardBg, graveyardCord.x, graveyardCord.y);
+        ArrayList<Minion> minions = player1.getGraveYard().getAllMinions();
+        CardListTexture graveyardList = new CardListTexture(4, 3, graveyardCord.x, graveyardCord.y - 400);
+        for(Minion minion : minions){
+            CardTexture cardTexture = new CardTexture(minion.getName(), minion.getDescription(), minion.getPrice(), minion.getAp(), minion.getHp(), minion.getGifPath());
+            graveyardList.addCardTexture(cardTexture);
+        }
+        batch.end();
+        graveyardList.draw(batch);
+        batch.begin();
+    }
+
 
     public void drawTable( SpriteBatch batch) {
         for (int row = 0; row < 5; row++) {
