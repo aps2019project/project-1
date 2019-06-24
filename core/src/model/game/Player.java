@@ -1,15 +1,16 @@
 package model.game;
 
+import com.badlogic.gdx.maps.tiled.BaseTmxMapLoader;
+import com.badlogic.gdx.math.Vector2;
 import control.BattleHandler;
+import graphic.Others.ArmyAnimation;
 import graphic.screen.BattleScreen;
 import model.cards.*;
 import model.other.Account;
 import model.variables.CardsArray;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-
-import java.util.Collections;
+import java.util.*;
 
 import static model.cards.SPTime.*;
 import static model.variables.GlobalVariables.TABLE_HEIGHT;
@@ -165,10 +166,12 @@ public class Player {
         if(!this.canMove(presentCell, destinationCell)) return false;
         Army army = presentCell.pick();
         movedCardsInThisTurn.add(army);
+        HashMap<Army, ArmyAnimation> animations = BattleScreen.getAnimations();
+        animations.get(army).run(destinationCell.getScreenX(), destinationCell.getScreenY());
         return destinationCell.put(army, turnNumber);
     }
 
-    public boolean canMove(Cell presentCell, Cell destinationCell){
+    public boolean canMove(Cell presentCell, Cell destinationCell) {
         if (presentCell == null || destinationCell == null) return false;
         if (!destinationCell.isEmpty() || movedCardsInThisTurn.find(presentCell.getInsideArmy()) != null
                 || attackerCardsInThisTurn.find(presentCell.getInsideArmy()) != null) return false;
@@ -184,7 +187,7 @@ public class Player {
         this.inGameCards.add(hero);
     }
     public boolean isInRange(Cell attackersCell,Cell defenderCell) {
-        if(attackersCell.isEmpty()) return false;
+        if(attackersCell.isEmpty() || defenderCell.isEmpty()) return false;
         return     (attackersCell.getInsideArmy().getAttackType() == AttackType.MELEE && Cell.isNear(attackersCell,defenderCell))
                 || (attackersCell.getInsideArmy().getAttackType() == AttackType.RANGED && !Cell.isNear(attackersCell,defenderCell))
                 || (attackersCell.getInsideArmy().getAttackType() == AttackType.HYBRID);
@@ -201,8 +204,14 @@ public class Player {
         return true;
     }
     public boolean attack(Cell attackersCell,Cell defenderCell) {
-        if(attackersCell == null) return false;
-        if(!isInRange(attackersCell,defenderCell)) return false;
+        if(attackersCell == null){
+            BattleScreen.setPopUp("Target Cell Is Empty");
+            return false;
+        }
+        if(!isInRange(attackersCell,defenderCell)){
+            BattleScreen.setPopUp("Target Not in range");
+            return false;
+        }
         attackersCell.getInsideArmy().attack(defenderCell.getInsideArmy());
         this.counterAttack(defenderCell, attackersCell);
         return true;
@@ -245,11 +254,14 @@ public class Player {
         return true;
     }
 
-    public boolean moveFromHandToCell(String name,Cell cell) {
+    public boolean moveFromHandToCell(Card card,Cell cell) {
         if( cell.isEmpty() &&
-            Game.getCurrentGame().getAllCellsNearAccountArmies(account).indexOf(cell) != -1 &&
-            mana >= hand.getNeededManaToMove(name)) {
-            Card card = hand.pick(name);
+            Game.getCurrentGame().getAllCellsNearAccountArmies(account).indexOf(cell) != -1) {
+            if(mana < card.getNeededManaToPut()){
+                BattleScreen.setPopUp("Not Enough Mana");
+                return false;
+            }
+            this.hand.remove(card);
             if(card instanceof Spell) {
                 selectedCellToPutFromHand = cell;
                 try {
@@ -270,6 +282,7 @@ public class Player {
                 return true;
             }
         }
+        BattleScreen.setPopUp("Invalid Cell");
         return false;
     }
 
@@ -318,30 +331,35 @@ public class Player {
         increaseTurnNumber();
         setMana();
         deck.transferCardTo(hand);
-        while(!endTurn) {
+        while(!endTurn && !Game.getCurrentGame().isExitFromGame()) {
+            synchronized (Game.getCurrentGame()){
+                try{
+                    Game.getCurrentGame().wait();
+                } catch (InterruptedException i){
+                    i.printStackTrace();
+                }
+            }
             handleCommands();
         }
     }
 
     public void handleCommands() {
         command = null;
-        while(command == null){
-            command = BattleScreen.getCommand();
-        }
+        command = BattleScreen.getCommand();
         BattleScreen.setCommand(null);
         if(command.matches("end turn")){
             this.endTurn = true;
         } else if(command.contains("select")){
-            this.select(command.split(" ")[1]);
+            this.select();
         }
     }
 
-    public void select(String id) {
+    public void select() {
         Game game = Game.getCurrentGame();
-        if(!this.setSelectedCard(game.findInTable(id))) {
-            if (game.getWhoIsHisTurn().getCollectibleItem().find(id) != null) {
+        if(!this.setSelectedCard(game.findInTable(command.split(" ")[1]))) {
+            if (game.getWhoIsHisTurn().getCollectibleItem().find(command.split(" ")[1]) != null) {
                 try {
-                    Item item = (Item) game.getWhoIsHisTurn().getCollectibleItem().find(id);
+                    Item item = (Item) game.getWhoIsHisTurn().getCollectibleItem().find(command.split(" ")[1]);
                     game.getWhoIsHisTurn().setSelectedItem(item);
                 } catch (NullPointerException e) {
                     System.out.println(e);
@@ -515,19 +533,21 @@ public class Player {
 //        return inGameCards.find(army) != null;
     }
 
-    public Cell getSelectedCellToPutFromHand() {
-        return selectedCellToPutFromHand;
+    public void setHandAnimations(HashMap<Army, ArmyAnimation> animations) {
+        for(Card card : hand.getAllCards()){
+            if(card.getType() == CardType.ITEM || card.getType() == CardType.SPELL) continue;
+            if(animations.containsKey((Army)card)) continue;
+            ArmyAnimation animation = new ArmyAnimation(card.getGifPath());
+            animations.put((Army) card, animation);
+        }
     }
 
-    public boolean isUsedManaPotion() {
-        return usedManaPotion;
+    public boolean isAroundArmies(Cell cell) {
+        ArrayList<Cell> cells = Game.getCurrentGame().getAllCellsNearAccountArmies(account);
+        for(Cell cell1 : cells){
+            if(cell == cell1) return true;
+        }
+        return false;
     }
 
-    public int getUsedSpecialPowerTurn() {
-        return usedSpecialPowerTurn;
-    }
-
-    public String getCommand() {
-        return command;
-    }
 }

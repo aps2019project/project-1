@@ -10,14 +10,15 @@ import com.badlogic.gdx.math.Vector2;
 import graphic.Others.CardTexture;
 import graphic.Others.MoveAnimation;
 import graphic.Others.MoveType;
+import graphic.Others.PopUp;
 import graphic.main.AssetHandler;
 import graphic.main.Button;
 import graphic.main.Main;
 import model.cards.*;
 import model.other.Account;
+import model.other.exeptions.shop.*;
 
 import java.awt.*;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
 public class ShopScreen extends Screen {
@@ -63,7 +64,7 @@ public class ShopScreen extends Screen {
         createButtons();
         getPlayerCards();
         playBackGroundMusic("music/shop.mp3");
-        currentList = allHeroList;
+        currentList = new CardListTexture(3, 2, 70, 140);
     }
 
 
@@ -150,6 +151,13 @@ public class ShopScreen extends Screen {
                     sellButton.setActive(sellButton.contains(mousePos));
                     refreshAllLists();
                 }
+                if (!heroButton.contains(mousePos) && !minionButton.contains(mousePos) && !spellButton.contains(mousePos) && !itemButton.contains(mousePos) && !currentList.contains(mousePos)) {
+                    currentList = new CardListTexture(3, 2, 70, 140);
+                    heroButton.setActive(false);
+                    minionButton.setActive(false);
+                    spellButton.setActive(false);
+                    itemButton.setActive(false);
+                }
             }
 
             private boolean sellAndBuySelectedCard() {
@@ -168,13 +176,22 @@ public class ShopScreen extends Screen {
 
             private void doneShopping(String methodName) {
                 try {
-                    Account.getCurrentAccount().getClass().getMethod(methodName, String.class).invoke(Account.getCurrentAccount(), selectedCard);
-                } catch (NoSuchMethodException e) {
-                    e.printStackTrace();
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                } catch (InvocationTargetException e) {
-                    e.printStackTrace();
+                    if (methodName.equals("sellCard"))
+                        Account.getCurrentAccount().sellCard(selectedCard);
+                    else if (methodName.equals("buyCard"))
+                        Account.getCurrentAccount().buyCard(selectedCard);
+                } catch (MoreThanTwoItemException e) {
+                    PopUp.getInstance().setText("Can't Have More Than 2 Item At The Time.");
+                } catch (CardNotFoundException e) {
+                    PopUp.getInstance().setText("Cant Find Selected Card.");
+                } catch (CardAlreadyExistsException e) {
+                    PopUp.getInstance().setText("You Already Have This Card.");
+                } catch (NotEnoughDaricException e) {
+                    PopUp.getInstance().setText("You Don't Have Enough Money To Buy This Card.");
+                } catch (CantSellCardException e) {
+                    PopUp.getInstance().setText("You Can't Sell/Buy This Card");
+                } catch (ShopExeption shopExeption) {
+                    PopUp.getInstance().setText("Something Went Wrong. Try Contact With Creators.");
                 }
                 getPlayerCards();
                 refreshAllLists();
@@ -233,14 +250,14 @@ public class ShopScreen extends Screen {
         }
 
         synchronized (allSpellList) {
-            for (int i = 0; i < Card.getCards().getSellableItems().size(); ++i) {
+            for (int i = 0; i < Card.getCards().getAllSpells().size(); ++i) {
                 Spell temp = Card.getCards().getAllSpells().get(i);
                 allSpellList.addCardTexture(new CardTexture(temp.getName(), temp.getDescription(), temp.getPrice(), temp.getGifPath()));
             }
         }
 
         synchronized (allItemList) {
-            for (int i = 0; i < Card.getCards().getAllItems().size(); ++i) {
+            for (int i = 0; i < Card.getCards().getSellableItems().size(); ++i) {
                 Item temp = Card.getCards().getAllItems().get(i);
                 allItemList.addCardTexture(new CardTexture(temp.getName(), temp.getDescription(), temp.getPrice(), temp.getGifPath()));
             }
@@ -322,7 +339,6 @@ public class ShopScreen extends Screen {
         minionButton = new Button("button/shop middle.png", "button/shop middle active.png", 300, 830, "Minion", font);
         spellButton = new Button("button/shop middle.png", "button/shop middle active.png", 500, 830, "Spell", font);
         itemButton = new Button("button/shop right.png", "button/shop right active.png", 700, 830, "Item", font);
-        heroButton.setActive(true);
         font = AssetHandler.getData().get("fonts/Arial 36.fnt");
         font.setColor(Main.toColor(new Color(0xFFFDFD)));
         sellButton = new Button("button/shop sb.png", "button/shop sb active.png", 1250, 350, "Sell", font);

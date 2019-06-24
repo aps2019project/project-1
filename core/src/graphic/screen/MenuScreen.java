@@ -13,6 +13,7 @@ import graphic.Others.MoveType;
 import graphic.main.AssetHandler;
 import graphic.main.Button;
 import graphic.main.Main;
+import graphic.Others.PopUp;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -97,7 +98,8 @@ public class MenuScreen extends Screen {
                     ScreenManager.setScreen(new ShopScreen());
                 if (collectionButton.isActive())
                     ScreenManager.setScreen(new TestScreen());
-
+                if (profileButton.isActive())
+                    PopUp.getInstance().setText("Tet pop up sdfsdfasdfsa");
                 return false;
             }
 

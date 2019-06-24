@@ -23,10 +23,15 @@ public class AssetHandler {
         assetManager.load("backGround/battle_background.png", Texture.class);
         assetManager.load("backGround/menu1.png", Texture.class);
         assetManager.load("backGround/menu2.png", Texture.class);
+        assetManager.load("backGround/collection1.png", Texture.class);
+        assetManager.load("backGround/collection2.png", Texture.class);
+        assetManager.load("backGround/collection3.png", Texture.class);
+        assetManager.load("animation/waterFall.png", Texture.class);
         assetManager.load("music/login.mp3", Music.class);
         assetManager.load("music/menu.mp3", Music.class);
         assetManager.load("music/shop.mp3", Music.class);
         assetManager.load("music/battle.mp3", Music.class);
+        assetManager.load("music/collection.mp3", Music.class);
         assetManager.load("sfx/click.mp3", Sound.class);
         assetManager.load("button/login1.png", Texture.class);
         assetManager.load("button/login2.png", Texture.class);
@@ -69,6 +74,7 @@ public class AssetHandler {
         assetManager.load("Card/Hero/Icon/10.png", Texture.class);
         assetManager.load("Card/Hero/Icon/11.png", Texture.class);
         assetManager.load("battle/Tile.png", Texture.class);
+        assetManager.load("battle/tile action.png", Texture.class);
         assetManager.load("button/yellow.png", Texture.class);
         assetManager.load("button/yellow glow.png", Texture.class);
         assetManager.load("button/red.png", Texture.class);
@@ -115,11 +121,28 @@ public class AssetHandler {
         for (int i = 1; i <= 11; ++i)
             assetManager.load("Card/Hero/" + i + ".atlas", TextureAtlas.class);
         for (int i = 1; i <= 21; ++i)
+        assetManager.load("battle/tile hand.png", Texture.class);
+        assetManager.load("battle/ap icon.png", Texture.class);
+        assetManager.load("battle/hp icon.png", Texture.class);
+
+        for (int i = 1; i <= 11; ++i) {
+            assetManager.load("Card/Hero/" + i + ".atlas", TextureAtlas.class);
+            assetManager.load("Card/Hero/" + i + ".png", Texture.class);
+        }
+        for (int i = 1; i <= 20; ++i) {
+
             assetManager.load("Card/Item/" + i + ".atlas", TextureAtlas.class);
         for (int i = 1; i <= 21; ++i)
             assetManager.load("Card/Spell/" + i + ".atlas", TextureAtlas.class);
         for (int i = 1; i <= 41; ++i)
             assetManager.load("Card/Minion/" + i + ".atlas", TextureAtlas.class);
+            assetManager.load("Card/Minion/" + i + ".png", Texture.class);
+        }
+
+
+
+
+
 
 //        assetManager.load("button/big_circle.png", Texture.class);
 //        assetManager.load("button/big_circle_action.png", Texture.class);

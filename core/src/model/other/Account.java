@@ -3,12 +3,10 @@ package model.other;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-import model.cards.Card;
-import model.cards.CardType;
-import model.cards.Item;
-import model.cards.ItemType;
+import model.cards.*;
 import model.game.Deck;
 import model.game.MatchResult;
+import model.other.exeptions.shop.*;
 import model.variables.CardsArray;
 
 import java.io.File;
@@ -16,10 +14,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Scanner;
+import java.util.*;
 
 public class Account {
 
@@ -241,7 +236,7 @@ public class Account {
             temp.getAccount();
         }
 
-        Account.setCurrentAccount(accounts.get(0));
+//        Account.setCurrentAccount(accounts.get(0));
 
     }
 
@@ -263,43 +258,41 @@ public class Account {
         return username.matches("[a-zA-Z].*");
     }
 
-    public void buyCard(String name) {
+    public void buyCard(String name) throws ShopExeption{
         Card card = Card.getCards().findByName(name);
         if (card == null)
-            return;
+            throw new CardNotFoundException();
         else if (getCollection().findByName(card.getName()) != null)
-            return;
+            throw new CardAlreadyExistsException();
         else if (getDaric() < card.getPrice())
-            return;
+            throw new NotEnoughDaricException();
 
 
         if (card.getType().equals(CardType.ITEM)) {
             Item item = (Item) card;
-            if (item.getItemType().equals(ItemType.COLLECTIBLE)) {
-                return;
-            } else if (getCollection().getAllItems().size() >= 3) {
-                return;
-            }
+            if (item.getItemType().equals(ItemType.COLLECTIBLE))
+                throw new CantSellCardException();
+            else if (getCollection().getAllItems().size() >= 3)
+                throw new MoreThanTwoItemException();
         }
         try {
             card = card.clone();
             card.setUserName(getUsername());
-        } catch (CloneNotSupportedException ignored) {
-        }
+        } catch (CloneNotSupportedException ignored) {}
         card.setUserName(getUsername());
         decreaseDaric(card.getPrice());
         addCardToCollection(card);
     }
 
-    public void sellCard(String name) {
+    public void sellCard(String name) throws ShopExeption {
         Card card = getCollection().findByName(name);
         if (card == null)
-            return;
+            throw new CardNotFoundException();
 
         if (card.getType().equals(CardType.ITEM)) {
             Item item = (Item) card;
             if (item.getItemType().equals(ItemType.COLLECTIBLE))
-                return;
+                throw new CantSellCardException();
         }
         increaseDaric(card.getPrice());
         deleteCardFromAllDecks(card.getName());
@@ -331,4 +324,5 @@ public class Account {
                 getMainDeck().equals(account.mainDeck) &&
                 getStoryProgress() == account.getStoryProgress();
     }
+
 }

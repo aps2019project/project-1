@@ -1,7 +1,10 @@
 package model.cards;
 
 import graphic.Others.ArmyAnimation;
+import graphic.Others.BattlePopUp;
+import graphic.screen.BattleScreen;
 import model.Buff.*;
+import model.game.Cell;
 import model.game.Game;
 import model.game.Player;
 import model.variables.CardsArray;
@@ -101,6 +104,7 @@ public class Army extends Card {
         for (Army army : array) {
             for (Buff buff : army.getBuffs()) {
                 if (buff.getBuffTImeType() == BuffTImeType.CONTINUOUS) {
+                    BattleScreen.getPopUps().add( new BattlePopUp("CONTINUOUS", army.whereItIs.getScreenX(), army.whereItIs.getScreenY()));
                     buff.setTurns(1);
                 }
             }
@@ -247,6 +251,8 @@ public class Army extends Card {
         if (this instanceof Minion) {
             Minion minion = (Minion) this;
             if(minion.getSpTime() != ON_ATTACK) return;
+            BattleScreen.getPopUps().add( new BattlePopUp("ON ATTACK", this.whereItIs.getScreenX(), this.whereItIs.getScreenY()));
+
             if(minion.getSpecialBuff() != null){
                 army.addBuff(minion.getSpecialBuff());
                 return;
@@ -300,5 +306,14 @@ public class Army extends Card {
         }
         this.attack(target);
         target.counterAttack(this);
+    }
+
+    public boolean canMoveTo(Cell cell) {
+        ArrayList<Cell> cells = Game.getCurrentGame().getAllCellsWithUniqueDistance(this.getWhereItIs(), 2);
+        for(Cell cell1 : cells){
+            if(cell1 == cell && cell1.isEmpty())
+                return true;
+        }
+        return false;
     }
 }
