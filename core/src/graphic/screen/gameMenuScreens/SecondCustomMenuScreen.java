@@ -1,6 +1,7 @@
+
 package graphic.screen.gameMenuScreens;
 
-        import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.audio.Music;
@@ -11,38 +12,37 @@ import com.badlogic.gdx.math.Vector2;
 import graphic.main.AssetHandler;
 import graphic.main.Button;
 import graphic.main.Main;
+import graphic.screen.BattleScreen;
 import graphic.screen.Screen;
 import graphic.screen.ScreenManager;
-        import model.cards.Hero;
+import model.game.Deck;
 
-        import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-import java.util.Scanner;
+import java.util.ArrayList;
 
-public class FirstCustomMenuScreen extends Screen {
+public class SecondCustomMenuScreen extends Screen {
 
     private ShapeRenderer shapeRenderer;
     private Music music;
     private Texture backGroundPic;
     private Button exitButton;
     private Vector2 mousePos;
-    private Button[] generals;
-    private int numberOFGenerals = 11;
+    private Button[] decksButtons;
+    private ArrayList<Deck> decks = new ArrayList<Deck>();
+    private int numberOFDecks = 3;
     @Override
     public void create() {
+        addDecks();
         setCameraAndViewport();
         shapeRenderer = new ShapeRenderer();
-        generals = new Button[numberOFGenerals + 1];
-        backGroundPic = AssetHandler.getData().get("backGround/customFirstMenu.png");
-
+        decksButtons = new Button[numberOFDecks + 1];
+        backGroundPic = AssetHandler.getData().get("backGround/secondCustomMenu.jpg");
+        mousePos = new Vector2();
 
 
         String font = "fonts/Arial 36.fnt";
+        createDecks();
         exitButton = new Button("button/exit.png", Main.WIDTH - 200, Main.HEIGHT - 200);
         createBackGroundMusic();        mousePos = new Vector2();
-        mousePos = new Vector2();
-        createGeneral();
 
     }
 
@@ -55,7 +55,7 @@ public class FirstCustomMenuScreen extends Screen {
 
 
         exitButton.setActive(exitButton.contains(mousePos));
-        updateGenerals();
+        updateDecks();
         Gdx.input.setInputProcessor(new InputProcessor() {
             @Override
             public boolean keyDown(int keycode) {
@@ -76,17 +76,11 @@ public class FirstCustomMenuScreen extends Screen {
             public boolean touchDown(int screenX, int screenY, int pointer, int button) {
                 if (button != Input.Buttons.LEFT)
                     return false;
-                for(int i = 0; i < numberOFGenerals; i++) {
-                    if (generals[i + 1].isActive()) {
-                        try {
-                            Hero hero = (Hero) Hero.getHeroes().get(i).clone();
-                            hero.setUserName(Datas.getDatas().getAccountUsername());
-                            Datas.getDatas().setHero(hero);
+                for(int i = 0; i < numberOFDecks; i++) {
+                    if (decksButtons[i].isActive()) {
+                        Datas.getDatas().makeKillHeroCustom(i);
+                        ScreenManager.setScreen(new BattleScreen());
 
-                            ScreenManager.setScreen(new SecondCustomMenuScreen());
-                        } catch (CloneNotSupportedException e) {
-                            e.printStackTrace();
-                        }
                     }
                 }
                 return false;
@@ -121,7 +115,7 @@ public class FirstCustomMenuScreen extends Screen {
 
         drawBackGround(batch);
         exitButton.draw(batch);
-        drawGenerals(batch);
+        drawDecks(batch);
     }
 
 
@@ -142,45 +136,27 @@ public class FirstCustomMenuScreen extends Screen {
         batch.draw(backGroundPic, 0, 0);
         batch.end();
     }
-    private void createGeneral() {
-        InputStream input = null;
-        try {
-            input = new FileInputStream("Card/Hero/generals/generalsPlacesInCustomMenu.txt");
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        Scanner scanner = new Scanner(input);
-        for(int i = 0; i < numberOFGenerals; i++) {
-            String line = scanner.nextLine();
-            int number = Integer.parseInt(line);
-            line = scanner.nextLine().substring(2);
-            int x = Integer.parseInt(line);
-            line = scanner.nextLine().substring(3);
-            int y1 = 900 - Integer.parseInt(line);
-            line = scanner.nextLine().substring(3);
-            int height = 900 -y1 - Integer.parseInt(line);
-            float scale = (float) (height/1850.0);
-            int width = (int)(2560*scale);
-            if(number > numberOFGenerals) continue;
-            generals[number] = new Button("Card/Hero/generals/" + Integer.toString(number) + ".png", "Card/Hero/generals/" + Integer.toString(number) + ".png","sfx/playerChangeButton1.mp3", x, y1, width, height, -100, 0, 0.5f);
-            generals[number].setActive(generals[number].contains(mousePos));
+    private void createDecks() {
+        for(int i = 0; i < numberOFDecks; i++) {
+            float x = i*400;
+            float y = 250;
+            decksButtons[i] = new Button("button/decks/deActiveDeck.png","button/decks/activeDeck.png" , x, y, decks.get(i).getName());
+            decksButtons[i].setActive(decksButtons[i].contains(mousePos));
 
         }
     }
-    private void drawGenerals(SpriteBatch batch) {
-        for(int i =0;i < numberOFGenerals; i++) {
-            if(!generals[i + 1].isActive())
-                generals[i + 1].draw(batch);
-        }
-        for(int i =0;i < numberOFGenerals; i++) {
-            if(generals[i + 1].isActive())
-                generals[i + 1].draw(batch);
+    private void drawDecks(SpriteBatch batch) {
+        for(int i = 0; i < numberOFDecks; i++)
+            decksButtons[i].draw(batch);
+    }
+    private void updateDecks() {
+        for(int i = 0; i < numberOFDecks; i++) {
+            decksButtons[i].setActive(decksButtons[i].contains(mousePos));
         }
     }
-    private void updateGenerals() {
-        for(int i =0;i < numberOFGenerals; i++) {
-            generals[i+1].setActive(generals[i+1].contains(mousePos));
-        }
+    private void addDecks() {
+        Datas.getDatas().setCustomDecks();
+        decks.addAll(Datas.getDatas().getCustomDecks());
     }
 }
 

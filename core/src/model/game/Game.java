@@ -1,10 +1,7 @@
 package model.game;
 
-import graphic.screen.BattleScreen;
-import graphic.screen.ScreenManager;
 import model.cards.Army;
 import model.cards.Card;
-import model.cards.Item;
 import model.cards.Minion;
 import model.other.Account;
 import model.variables.CardsArray;
@@ -12,7 +9,8 @@ import model.variables.CardsArray;
 import java.util.ArrayList;
 
 import static model.game.GameType.*;
-import static model.variables.GlobalVariables.*;
+import static model.variables.GlobalVariables.TABLE_HEIGHT;
+import static model.variables.GlobalVariables.TABLE_WIDTH;
 
 public class Game {
     private static Game currentGame;
@@ -229,7 +227,12 @@ public class Game {
     public CardsArray getAllAccountArmiesInCellArray(ArrayList<Cell> cells , Account account) {
         CardsArray allArmiesInTable = new CardsArray();
         for(Cell cell : cells) {
-            if(!cell.isEmpty() && cell.getInsideArmy().getAccount().equals(account)) allArmiesInTable.add(cell.getInsideArmy());
+            try {
+                if(!cell.isEmpty() && cell.getInsideArmy().getAccount().equals(account)) allArmiesInTable.add(cell.getInsideArmy());
+            }
+            catch (NullPointerException e) {
+                System.out.println("naaa");
+            }
         }
         return allArmiesInTable;
     }

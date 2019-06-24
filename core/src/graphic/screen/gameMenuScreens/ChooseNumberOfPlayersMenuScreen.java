@@ -30,8 +30,9 @@ public class ChooseNumberOfPlayersMenuScreen extends Screen {
     private Vector2 mousePos;
     private ArrayList<MoveAnimation> lanternAnimation;
 
-    @Override
     public void create() {
+        Datas.getDatas().setPlayersSteps();
+        Datas.getDatas().setAccount();
         setCameraAndViewport();
         createFireAnimation();
         shapeRenderer = new ShapeRenderer();
@@ -83,7 +84,7 @@ public class ChooseNumberOfPlayersMenuScreen extends Screen {
                 if (storyButton.isActive())
                     ScreenManager.setScreen(new StoryMenuScreen());
                 if (customButton.isActive())
-                    ScreenManager.setScreen(new MultiPlayerMenuScreen());
+                    ScreenManager.setScreen(new FirstCustomMenuScreen());
                 return false;
             }
 

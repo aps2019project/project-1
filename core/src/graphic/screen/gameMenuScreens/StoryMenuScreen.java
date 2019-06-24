@@ -14,6 +14,7 @@ import graphic.Others.MoveAnimation;
 import graphic.main.AssetHandler;
 import graphic.main.Button;
 import graphic.main.Main;
+import graphic.screen.BattleScreen;
 import graphic.screen.Screen;
 import graphic.screen.ScreenManager;
 
@@ -103,12 +104,18 @@ public class StoryMenuScreen extends Screen {
             public boolean touchDown(int screenX, int screenY, int pointer, int button) {
                 if (button != Input.Buttons.LEFT)
                     return false;
-                if (story1Button.isActive())
-                    ScreenManager.setScreen(new MultiPlayerMenuScreen());
-                if (story2Button.isActive())
-                    ScreenManager.setScreen(new MultiPlayerMenuScreen());
-                if (story3Button.isActive())
-                    ScreenManager.setScreen(new MultiPlayerMenuScreen());
+                if (story1Button.isActive()) {
+                    Datas.getDatas().makeFirstStory();
+                    ScreenManager.setScreen(new BattleScreen());
+                }
+                if (story2Button.isActive()) {
+                    Datas.getDatas().makeSecondStory();
+                    ScreenManager.setScreen(new BattleScreen());
+                }
+                if (story3Button.isActive()) {
+                    Datas.getDatas().makeThirdStory();
+                    ScreenManager.setScreen(new BattleScreen());
+                }
 
                 return false;
             }

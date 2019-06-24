@@ -100,6 +100,7 @@ public class Cell {
     }
     public static Cell getRandomCell(ArrayList<Cell> cells) {
         int index = (int)Math.floor(Math.random()*cells.size());
+        if (index >= cells.size()) index = 0;
         return cells.get(index);
     }
     public void getEffect(){

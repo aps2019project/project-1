@@ -1,8 +1,5 @@
 package model.game;
 
-import com.badlogic.gdx.maps.tiled.BaseTmxMapLoader;
-import com.badlogic.gdx.math.Vector2;
-import control.BattleHandler;
 import graphic.Others.ArmyAnimation;
 import graphic.screen.BattleScreen;
 import model.cards.*;
@@ -10,9 +7,10 @@ import model.other.Account;
 import model.variables.CardsArray;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 
-import static model.cards.SPTime.*;
 import static model.variables.GlobalVariables.TABLE_HEIGHT;
 
 public class Player {
@@ -117,6 +115,8 @@ public class Player {
     }
 
     public Hero getHero() {
+        if (hero == null)
+            hero = deck.getHero();
         return hero;
     }
 
@@ -165,9 +165,16 @@ public class Player {
     public boolean moveArmy(Cell presentCell, Cell destinationCell) {
         if(!this.canMove(presentCell, destinationCell)) return false;
         Army army = presentCell.pick();
+
         movedCardsInThisTurn.add(army);
         HashMap<Army, ArmyAnimation> animations = BattleScreen.getAnimations();
-        animations.get(army).run(destinationCell.getScreenX(), destinationCell.getScreenY());
+        System.out.println(animations.get(army));
+        if(animations.get(army) != null) {
+            animations.get(army).run(destinationCell.getScreenX(), destinationCell.getScreenY());
+        }
+        else {
+            System.out.println("animation army is null");
+        }
         return destinationCell.put(army, turnNumber);
     }
 

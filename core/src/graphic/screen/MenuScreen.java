@@ -10,10 +10,11 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import graphic.Others.MoveAnimation;
 import graphic.Others.MoveType;
+import graphic.Others.PopUp;
 import graphic.main.AssetHandler;
 import graphic.main.Button;
 import graphic.main.Main;
-import graphic.Others.PopUp;
+import graphic.screen.gameMenuScreens.ChooseNumberOfPlayersMenuScreen;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -93,7 +94,7 @@ public class MenuScreen extends Screen {
                 if (button != Input.Buttons.LEFT)
                     return false;
                 if (gameMakerButton.isActive())
-                    ScreenManager.setScreen(new BattleScreen());
+                    ScreenManager.setScreen(new ChooseNumberOfPlayersMenuScreen());
                 if (shopButton.isActive())
                     ScreenManager.setScreen(new ShopScreen());
                 if (collectionButton.isActive())

@@ -16,6 +16,7 @@ import graphic.Others.BattlePopUp;
 import graphic.Others.CardTexture;
 import graphic.Others.PopUp;
 import graphic.main.AssetHandler;
+import graphic.main.Button;
 import graphic.main.Main;
 import model.cards.Army;
 import model.cards.Card;
@@ -23,10 +24,7 @@ import model.cards.CardType;
 import model.cards.Minion;
 import model.game.Cell;
 import model.game.Game;
-import model.game.GameType;
 import model.game.Player;
-import model.other.Account;
-import graphic.main.Button;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -97,14 +95,6 @@ public class BattleScreen extends Screen {
         popUps = new ArrayList<BattlePopUp>();
 
         battleMenuHandler.setPlayersSteps();
-        game = new Game(Account.getCurrentAccount(), battleMenuHandler.getFirstLevelPlayer(), GameType.KILL_HERO, 0);
-
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                game.startMatch();
-            }
-        }).start();
 
         setCameraAndViewport();
         shapeRenderer = new ShapeRenderer();
