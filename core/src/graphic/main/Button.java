@@ -15,7 +15,8 @@ public class Button {
     private String text;
     private BitmapFont font;
     private boolean isActive;
-    private Rectangle rectangle;
+    private Rectangle deActiveRectangle;
+    private Rectangle activeRectangle;
     private Sprite activePic;
     private Sprite deActivePic;
 
@@ -28,12 +29,13 @@ public class Button {
         this.text = "";
         this.font = new BitmapFont();
         this.isActive = false;
-        this.rectangle = new Rectangle(x, y, sprite.getWidth(), sprite.getHeight());
+        this.deActiveRectangle = new Rectangle(x, y, sprite.getWidth(), sprite.getHeight());
+        this.activeRectangle = this.deActiveRectangle;
     }
 
     public Button(String picPath, float x, float y, float width, float height) {
         this(picPath, x, y);
-        this.rectangle = new Rectangle(x, y, width, height);
+        this.deActiveRectangle = new Rectangle(x, y, width, height);
     }
 
     public Button(String deActivePic, String activePic, float x, float y) {
@@ -152,7 +154,19 @@ public class Button {
         this.font = new BitmapFont();
         this.isActive = false;
         this.soundEffect = AssetHandler.getData().get(soundEffect);
-        this.rectangle = new Rectangle(x, y, activePic.getWidth(), activePic.getHeight());
+        this.deActiveRectangle = new Rectangle(x, y, activePic.getWidth(), activePic.getHeight());
+        this.activeRectangle = this.deActiveRectangle;
+    }
+    public Button(String deActivePic, String activePic, String soundEffect, float deActiveX, float deActiveY, float deActiveWidth, float deActiveHeight, float activeX, float activeY, float activeScale) {
+
+        this.activePic = new Sprite(AssetHandler.getData().get(activePic, Texture.class));
+        this.deActivePic = new Sprite(AssetHandler.getData().get(deActivePic, Texture.class));
+        this.text = "";
+        this.font = new BitmapFont();
+        this.isActive = false;
+        this.soundEffect = AssetHandler.getData().get(soundEffect);
+        this.activeRectangle = new Rectangle(activeX, activeY, this.activePic.getWidth()*activeScale, this.activePic.getHeight()*activeScale);
+        this.deActiveRectangle = new Rectangle(deActiveX, deActiveY, deActiveWidth, deActiveHeight);
     }
     public boolean isActive() {
         return this.isActive;
@@ -168,22 +182,22 @@ public class Button {
         batch.begin();
 
         if (isActive)
-            batch.draw(activePic, rectangle.x, rectangle.y, rectangle.width, rectangle.height);
+            batch.draw(activePic, activeRectangle.x, activeRectangle.y, activeRectangle.width, activeRectangle.height);
         else
-            batch.draw(deActivePic, rectangle.x, rectangle.y, rectangle.width, rectangle.height);
+            batch.draw(deActivePic, deActiveRectangle.x, deActiveRectangle.y, deActiveRectangle.width, deActiveRectangle.height);
 
         if (!text.equals("")) {
             GlyphLayout glyphLayout = new GlyphLayout();
             glyphLayout.setText(font, text);
-            font.draw(batch, text, rectangle.x + (rectangle.width - glyphLayout.width) / 2,
-                    rectangle.y + rectangle.height - (rectangle.height - glyphLayout.height) / 2);
+            font.draw(batch, text, deActiveRectangle.x + (deActiveRectangle.width - glyphLayout.width) / 2,
+                    deActiveRectangle.y + deActiveRectangle.height - (deActiveRectangle.height - glyphLayout.height) / 2);
         }
         batch.end();
 
     }
 
     public boolean contains(Vector2 vec) {
-        return rectangle.contains(vec);
+        return deActiveRectangle.contains(vec);
     }
 
 }

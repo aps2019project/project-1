@@ -113,6 +113,10 @@ public class AssetHandler {
         assetManager.load("backGround/storyMenu.jpg", Texture.class);
         assetManager.load("button/storySelectScreen.atlas", TextureAtlas.class);
         assetManager.load("backGround/customFirstMenu.png", Texture.class);
+        assetManager.load("backGround/secondCustomMenu.jpg", Texture.class);
+        assetManager.load("button/decks/activeDeck.png", Texture.class);
+        assetManager.load("button/decks/deActiveDeck.png", Texture.class);
+
         assetManager.load("battle/tile hand.png", Texture.class);
         assetManager.load("battle/ap icon.png", Texture.class);
         assetManager.load("battle/hp icon.png", Texture.class);
