@@ -4,29 +4,31 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 public class Button {
-    private Texture deActivePic;
-    private Texture activePic;
+
     private Sound soundEffect;
     private String text;
     private BitmapFont font;
     private boolean isActive;
     private Rectangle rectangle;
+    private Sprite activePic;
+    private Sprite deActivePic;
 
 
     public Button(String picPath, float x, float y) {
-        Texture texture = AssetHandler.getData().get(picPath);
-        this.deActivePic = texture;
-        this.activePic = texture;
+        Sprite sprite = new Sprite(AssetHandler.getData().get(picPath, Texture.class));
+        this.deActivePic = sprite;
+        this.activePic = sprite;
         this.soundEffect = AssetHandler.getData().get("sfx/click.mp3");
         this.text = "";
         this.font = new BitmapFont();
         this.isActive = false;
-        this.rectangle = new Rectangle(x, y, texture.getWidth(), texture.getHeight());
+        this.rectangle = new Rectangle(x, y, sprite.getWidth(), sprite.getHeight());
     }
 
     public Button(String picPath, float x, float y, float width, float height) {
@@ -36,12 +38,12 @@ public class Button {
 
     public Button(String deActivePic, String activePic, float x, float y) {
         this(deActivePic, x, y);
-        this.activePic = AssetHandler.getData().get(activePic);
+        this.activePic = new Sprite(AssetHandler.getData().get(activePic, Texture.class));
     }
 
     public Button(String deActivePic, String activePic, float x, float y, float width, float height) {
         this(deActivePic, x, y, width, height);
-        this.activePic = AssetHandler.getData().get(activePic);
+        this.activePic = new Sprite(AssetHandler.getData().get(activePic, Texture.class));
     }
 
     public Button(String deActivePic, String activePic, String soundEffect, float x, float y) {
@@ -143,7 +145,15 @@ public class Button {
         this(deActivePic, activePic, soundEffect, x, y, width, height, text);
         this.font = font;
     }
-
+    public Button(Sprite deActivePic, Sprite activePic, String soundEffect, float x, float y){
+        this.activePic = activePic;
+        this.deActivePic = deActivePic;
+        this.text = "";
+        this.font = new BitmapFont();
+        this.isActive = false;
+        this.soundEffect = AssetHandler.getData().get(soundEffect);
+        this.rectangle = new Rectangle(x, y, activePic.getWidth(), activePic.getHeight());
+    }
     public boolean isActive() {
         return this.isActive;
     }

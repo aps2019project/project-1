@@ -7,6 +7,7 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import graphic.Others.MoveAnimation;
@@ -33,15 +34,18 @@ public class StoryMenuScreen extends Screen {
     private Sprite stone2;
     private Sprite stone3;
     private boolean stone1Active = false,stone2Active = false,stone3Active = false;
+    private TextureAtlas storySelect;
     @Override
     public void create() {
         setCameraAndViewport();
         shapeRenderer = new ShapeRenderer();
+        storySelect = AssetHandler.getData().get("button/storySelectScreen.atlas");
 
         backGroundPic = AssetHandler.getData().get("backGround/storyMenu.jpg");
-        stone1 = new Sprite(AssetHandler.getData().get("simpleIcons/stone1.png", Texture.class));
-        stone2 = new Sprite(AssetHandler.getData().get("simpleIcons/stone2.png", Texture.class));
-        stone3 = new Sprite(AssetHandler.getData().get("simpleIcons/stone3.png", Texture.class));
+        stone1 = storySelect.createSprite("stone1");
+        stone2 = storySelect.createSprite("stone2");
+        stone3 = storySelect.createSprite("stone3");
+
 
         stone1.setOrigin(20,0);
         stone2.setOrigin(0,0);
@@ -51,9 +55,9 @@ public class StoryMenuScreen extends Screen {
         stone3.setPosition(569,389);
 
         String font = "fonts/Arial 36.fnt";
-        story1Button = new Button("button/storyButton1.psd", "button/storyButton1-1.psd","sfx/playerChangeButton1.mp3", 945, 377);
-        story2Button =  new Button("button/storyButton2.psd", "button/storyButton2-1.psd","sfx/playerChangeButton2.mp3",743, 366);
-        story3Button =  new Button("button/storyButton3.psd","button/storyButton3-1.psd","sfx/playerChangeButton3.mp3", 503, 379);
+        story1Button = new Button(storySelect.createSprite("storyButton1",-1), storySelect.createSprite("storyButton1-1",-1) ,"sfx/playerChangeButton1.mp3", 945, 377);
+        story2Button =  new Button(storySelect.createSprite("storyButton2",-1), storySelect.createSprite("storyButton2-1",-1),"sfx/playerChangeButton2.mp3",744, 424);
+        story3Button =  new Button(storySelect.createSprite("storyButton3",-1), storySelect.createSprite("storyButton3-1",-1),"sfx/playerChangeButton3.mp3", 503, 379);
         exitButton = new Button("button/exit.png", Main.WIDTH - 200, Main.HEIGHT - 200);
         createBackGroundMusic();        mousePos = new Vector2();
         mousePos = new Vector2();

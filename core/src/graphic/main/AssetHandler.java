@@ -111,34 +111,22 @@ public class AssetHandler {
         assetManager.load("simpleIcons/stone2.png", Texture.class);
         assetManager.load("simpleIcons/stone3.png", Texture.class);
         assetManager.load("backGround/storyMenu.jpg", Texture.class);
-        assetManager.load("button/storyButton1.psd", Texture.class);
-        assetManager.load("button/storyButton1-1.psd", Texture.class);
-        assetManager.load("button/storyButton2.psd", Texture.class);
-        assetManager.load("button/storyButton2-1.psd", Texture.class);
-        assetManager.load("button/storyButton3.psd", Texture.class);
-        assetManager.load("button/storyButton3-1.psd", Texture.class);
+        assetManager.load("button/storySelectScreen.atlas", TextureAtlas.class);
+        assetManager.load("backGround/customFirstMenu.png", Texture.class);
         assetManager.load("battle/tile hand.png", Texture.class);
         assetManager.load("battle/ap icon.png", Texture.class);
         assetManager.load("battle/hp icon.png", Texture.class);
 
-        for (int i = 1; i <= 11; ++i) {
+        for(int i = 1; i <= 11; i++) {
+            assetManager.load("Card/Hero/generals/" + Integer.toString(i) + ".png", Texture.class);
+        }for (int i = 1; i <= 11; ++i)
             assetManager.load("Card/Hero/" + i + ".atlas", TextureAtlas.class);
-            assetManager.load("Card/Hero/" + i + ".png", Texture.class);
-        }
-        for (int i = 1; i <= 20; ++i) {
+        for (int i = 1; i <= 20; ++i)
             assetManager.load("Card/Item/" + i + ".atlas", TextureAtlas.class);
-            assetManager.load("Card/Item/" + i + ".png", Texture.class);
-        }
-        for (int i = 1; i <= 21; ++i) {
+        for (int i = 1; i <= 21; ++i)
             assetManager.load("Card/Spell/" + i + ".atlas", TextureAtlas.class);
-            assetManager.load("Card/Spell/" + i + ".png", Texture.class);
-        }
-        for (int i = 1; i <= 41; ++i) {
+        for (int i = 1; i <= 41; ++i)
             assetManager.load("Card/Minion/" + i + ".atlas", TextureAtlas.class);
-            assetManager.load("Card/Minion/" + i + ".png", Texture.class);
-        }
-
-
 
 
 
