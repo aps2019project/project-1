@@ -432,8 +432,27 @@ public class BattleScreen extends Screen {
                         animations.get(army).draw(batch, x - 10, y, 160, 160);
                         batch.begin();
                     }
-                    batch.draw(apIcon, x, y);
-                    batch.draw(hpIcon, x + 100, y);
+
+                    batch.draw(apIcon, animations.get(army).getX() + 15, animations.get(army).getY());
+                    batch.draw(hpIcon, animations.get(army).getX() + 75, animations.get(army).getY());
+
+                    BitmapFont font = AssetHandler.getData().get("fonts/Arial 24.fnt");
+                    GlyphLayout ap = new GlyphLayout();
+                    GlyphLayout hp = new GlyphLayout();
+
+                    font.setColor(Main.toColor(new Color(0xFFDEA900, true)));
+                    ap.setText(font, Integer.toString(army.getAp()));
+//                    font.draw(batch,Integer.toString(army.getAp()), animations.get(army).getX() + 35 , animations.get(army).getY() + 25);
+                    font.draw(batch,Integer.toString(army.getAp()), (animations.get(army).getX() +15+ apIcon.getWidth()/2) - ap.width/2, animations.get(army).getY() + 25);
+
+                    font.setColor(Main.toColor(new Color(0xFFBD1900, true)));
+                    hp.setText(font, Integer.toString(army.getHp()));
+//                    font.draw(batch,Integer.toString(army.getHp()), animations.get(army).getX() + 95, animations.get(army).getY() + 25);
+                    font.draw(batch,Integer.toString(army.getHp()), (animations.get(army).getX() +75+ hpIcon.getWidth()/2) - hp.width/2, animations.get(army).getY() + 25);
+
+                    font.setColor(Main.toColor(new Color(0xFFFFFFFF, true)));
+
+
                 }
 
             }
