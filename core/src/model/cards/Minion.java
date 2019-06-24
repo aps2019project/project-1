@@ -1,6 +1,8 @@
 package model.cards;
 
 import graphic.Others.ArmyAnimation;
+import graphic.Others.BattlePopUp;
+import graphic.screen.BattleScreen;
 import model.Buff.*;
 import model.game.Cell;
 import model.game.Player;
@@ -270,11 +272,15 @@ public class Minion extends Army {
     public void checkOnSpawn(Player player, Cell cell) {
         if(specialBuff != null && spTime == SPTime.ON_SPAWN){
             this.addBuff(specialBuff);
+            BattleScreen.getPopUps().add( new BattlePopUp("ON SPAWN", cell.getScreenX(), cell.getScreenY()));
             return;
         }
         try{
             Minion.class.getDeclaredMethod(this.getName() +"OnSpawn", Player.class, Cell.class).invoke(this, player, cell);
         } catch (Exception n){}
+
+//        BattleScreen.getPopUps().add( new BattlePopUp("ON SPAWN", cell.getScreenX(), cell.getScreenY()));
+
         if(this.getPlayer().getUsableItem() == null) return;
         String itemName = this.getPlayer().getUsableItem().getName();
         if ("AssassinationDagger".equals(itemName)) {
@@ -286,6 +292,7 @@ public class Minion extends Army {
 
     public void checkPassive(Player player, Cell cell) {
         if(spTime != SPTime.PASSIVE) return;
+//        BattleScreen.getPopUps().add( new BattlePopUp("PASSIVE", cell.getScreenX(), cell.getScreenY()));
         if(specialBuff != null){
             this.addBuff(specialBuff);
         }else {

@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import control.BattleMenuHandler;
 import graphic.Others.ArmyAnimation;
+import graphic.Others.BattlePopUp;
 import graphic.Others.PopUp;
 import graphic.main.AssetHandler;
 import graphic.main.Main;
@@ -28,6 +29,7 @@ import graphic.main.Button;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 
 public class BattleScreen extends Screen {
 
@@ -66,7 +68,6 @@ public class BattleScreen extends Screen {
     private ArmyAnimation hero1;
     private ArmyAnimation hero2;
 
-    private static HashMap<Cell, Vector2> cellCords;
     private Cell selectedCell;
     private Army selectedArmy;
 
@@ -80,10 +81,14 @@ public class BattleScreen extends Screen {
 
     private Cell selectedCellHand;
 
+    private static ArrayList<BattlePopUp> popUps;
+
     @Override
     public void create() {
         animations = new HashMap<Army, ArmyAnimation>();
         BattleMenuHandler battleMenuHandler = new BattleMenuHandler();
+        popUps = new ArrayList<BattlePopUp>();
+
         battleMenuHandler.setPlayersSteps();
         game = new Game(Account.getCurrentAccount(), battleMenuHandler.getFirstLevelPlayer(), GameType.KILL_HERO, 0);
 
@@ -136,7 +141,6 @@ public class BattleScreen extends Screen {
         cellSizeX = (tableCord2.x - tableCord1.x - 8*cellDistance) / 9;
         cellSizeY = (tableCord1.y - tableCord3.y - 4*cellDistance) / 5;
 
-        cellCords = new HashMap<Cell, Vector2>();
         setCellCords();
 
         animations.put(player1.getHero(), new ArmyAnimation(player1.getHero().getGifPath()));
@@ -157,7 +161,8 @@ public class BattleScreen extends Screen {
             for (int col = 0; col < 9; col++) {
                 float x = tableCord1.x + col * (cellSizeX + cellDistance);
                 float y = tableCord1.y - row * (cellSizeY + cellDistance);
-                cellCords.put(game.getTable()[row][col], new Vector2(x, y));
+                game.getTable()[row][col].setScreenX(x);
+                game.getTable()[row][col].setScreenY(y);
             }
         }
     }
@@ -241,7 +246,7 @@ public class BattleScreen extends Screen {
                     } else if(selectedArmy != null && getMouseCell().getInsideArmy() == null) {
                         Cell cell = getMouseCell();
                         if (!game.getWhoIsHisTurn().canMove(selectedCell, cell)){
-                            setPopup("Invalid Cell");
+                            setPopUp("Invalid Cell");
                             return false;
                         }
                         game.getWhoIsHisTurn().moveArmy(selectedCell, cell);
@@ -297,8 +302,8 @@ public class BattleScreen extends Screen {
     public Cell getMouseCell() {
         for(Cell[] row : game.getTable()){
             for(Cell cell : row){
-                float x = cellCords.get(cell).x;
-                float y = cellCords.get(cell).y;
+                float x = cell.getScreenX();
+                float y = cell.getScreenY();
                 if(mousePos.x > x && mousePos.x < x + cellSizeX && mousePos.y > y && mousePos.y < y + cellSizeY){
                     return cell;
                 }
@@ -333,6 +338,9 @@ public class BattleScreen extends Screen {
 
         drawTable(batch);
         drawHand(batch);
+
+        drawPopUps(batch);
+
         batch.end();
         endTurnButton.draw(batch);
         endGameButton.draw(batch);
@@ -398,8 +406,8 @@ public class BattleScreen extends Screen {
         for (int row = 0; row < 5; row++) {
             for (int col = 0; col < 9; col++) {
                 Cell cell = game.getTable()[row][col];
-                float x = cellCords.get(cell).x;
-                float y = cellCords.get(cell).y;
+                float x = cell.getScreenX();
+                float y = cell.getScreenY();
                 Army army = game.getTable()[row][col].getInsideArmy();
                 if(selectedCell == cell) {
                     batch.setColor(Main.toColor(new Color(0x55E7EAF9, true)));
@@ -489,6 +497,22 @@ public class BattleScreen extends Screen {
         }
     }
 
+    public static void drawPopUps(SpriteBatch batch) {
+        Iterator<BattlePopUp> iterator = popUps.iterator();
+        while (iterator.hasNext()) {
+            BattlePopUp popUp = iterator.next();
+            if(popUp.getTime() > 3) {
+                iterator.remove();
+                continue;
+            }
+            popUp.draw(batch);
+        }
+    }
+
+    public static ArrayList<BattlePopUp> getPopUps() {
+        return popUps;
+    }
+
     public static String getCommand() {
         return command;
     }
@@ -502,15 +526,11 @@ public class BattleScreen extends Screen {
         return animations;
     }
 
-    public static HashMap<Cell, Vector2> getCellCords() {
-        return cellCords;
-    }
-
     public static HashMap<Cell, Card> getHandCards() {
         return handCards;
     }
 
-    public static void setPopup(String text) {
+    public static void setPopUp(String text) {
         PopUp.getInstance().setText(text);
     }
 }

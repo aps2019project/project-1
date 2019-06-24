@@ -167,8 +167,7 @@ public class Player {
         Army army = presentCell.pick();
         movedCardsInThisTurn.add(army);
         HashMap<Army, ArmyAnimation> animations = BattleScreen.getAnimations();
-        HashMap<Cell, Vector2> cellCords = BattleScreen.getCellCords();
-        animations.get(army).run(cellCords.get(destinationCell).x, cellCords.get(destinationCell).y);
+        animations.get(army).run(destinationCell.getScreenX(), destinationCell.getScreenY());
         return destinationCell.put(army, turnNumber);
     }
 
@@ -206,11 +205,11 @@ public class Player {
     }
     public boolean attack(Cell attackersCell,Cell defenderCell) {
         if(attackersCell == null){
-            BattleScreen.setPopup("Target Cell Is Empty");
+            BattleScreen.setPopUp("Target Cell Is Empty");
             return false;
         }
         if(!isInRange(attackersCell,defenderCell)){
-            BattleScreen.setPopup("Target Not in range");
+            BattleScreen.setPopUp("Target Not in range");
             return false;
         }
         attackersCell.getInsideArmy().attack(defenderCell.getInsideArmy());
@@ -259,7 +258,7 @@ public class Player {
         if( cell.isEmpty() &&
             Game.getCurrentGame().getAllCellsNearAccountArmies(account).indexOf(cell) != -1) {
             if(mana < card.getNeededManaToPut()){
-                BattleScreen.setPopup("Not Enough Mana");
+                BattleScreen.setPopUp("Not Enough Mana");
                 return false;
             }
             this.hand.remove(card);
@@ -283,7 +282,7 @@ public class Player {
                 return true;
             }
         }
-        BattleScreen.setPopup("Invalid Cell");
+        BattleScreen.setPopUp("Invalid Cell");
         return false;
     }
 
