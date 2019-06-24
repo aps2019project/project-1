@@ -48,6 +48,8 @@ public class BattleScreen extends Screen {
     private Texture hero1Icon1;
     private Texture hero1Icon2;
     private Texture heroHpIcon;
+    private Texture apIcon;
+    private Texture hpIcon;
 
     private Vector2 tableCord1;
     private Vector2 tableCord2;
@@ -106,6 +108,10 @@ public class BattleScreen extends Screen {
         tileSelected = AssetHandler.getData().get("battle/tile action.png");
         tileHand = AssetHandler.getData().get("battle/tile hand.png");
         heroHpIcon = AssetHandler.getData().get("battle/icon general hp.png");
+        apIcon = AssetHandler.getData().get("battle/ap icon.png");
+        hpIcon = AssetHandler.getData().get("battle/hp icon.png");
+
+
         music.setLooping(true);
         music.setVolume(0.5f);
         music.play();
@@ -423,9 +429,11 @@ public class BattleScreen extends Screen {
                         batch.draw(tile, x, y, cellSizeX, cellSizeY);
                         batch.setColor(com.badlogic.gdx.graphics.Color.WHITE);
                         batch.end();
-                        animations.get(army).draw(batch, x - 20, y);
+                        animations.get(army).draw(batch, x - 10, y, 160, 160);
                         batch.begin();
                     }
+                    batch.draw(apIcon, x, y);
+                    batch.draw(hpIcon, x + 100, y);
                 }
 
             }

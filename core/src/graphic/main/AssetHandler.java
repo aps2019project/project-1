@@ -118,6 +118,9 @@ public class AssetHandler {
         assetManager.load("button/storyButton3.psd", Texture.class);
         assetManager.load("button/storyButton3-1.psd", Texture.class);
         assetManager.load("battle/tile hand.png", Texture.class);
+        assetManager.load("battle/ap icon.png", Texture.class);
+        assetManager.load("battle/hp icon.png", Texture.class);
+
         for (int i = 1; i <= 11; ++i) {
             assetManager.load("Card/Hero/" + i + ".atlas", TextureAtlas.class);
             assetManager.load("Card/Hero/" + i + ".png", Texture.class);
