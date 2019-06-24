@@ -321,9 +321,9 @@ public class BattleScreen extends Screen {
         drawPlayersName(batch);
         drawHeroesHp(batch);
 
+        batch.end();
         drawTable(batch);
         drawHand(batch);
-        batch.end();
         endTurnButton.draw(batch);
         endGameButton.draw(batch);
     }
@@ -385,6 +385,7 @@ public class BattleScreen extends Screen {
     }
 
     public void drawTable( SpriteBatch batch) {
+        batch.begin();
         for (int row = 0; row < 5; row++) {
             for (int col = 0; col < 9; col++) {
                 Cell cell = game.getTable()[row][col];
@@ -426,10 +427,12 @@ public class BattleScreen extends Screen {
 
             }
         }
+        batch.end();
     }
 
     public void drawHand(SpriteBatch batch) {
         for(Cell cell : handCards.keySet()){
+            batch.begin();
             if(selectedCellHand == cell)
                 batch.setColor(Main.toColor(new Color(0xFFDCDCDC, true)));
             else
@@ -440,7 +443,6 @@ public class BattleScreen extends Screen {
             if(handCards.get(cell) == null) continue;
             if(handCards.get(cell).getType() == CardType.SPELL) continue;
             animations.get(handCards.get(cell)).draw(batch, cell.getX() - 30, cell.getY() + 10, 180, 180);
-            batch.begin();
         }
     }
 

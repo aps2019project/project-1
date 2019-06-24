@@ -4,20 +4,40 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
+import graphic.Others.CardShowSlot;
+import graphic.Others.CardTexture;
 import graphic.Others.MoveAnimation;
 import graphic.Others.MoveType;
 import graphic.main.AssetHandler;
+import graphic.main.Button;
 import graphic.main.Main;
+import model.cards.Hero;
+import model.cards.Item;
+import model.cards.Minion;
+import model.cards.Spell;
+import model.other.Account;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 public class TestScreen extends Screen {
 
+    private Account account;
     private Texture backGroundPic;
     private Texture middleGroundPic;
     private Texture frontPic;
     private ArrayList<MoveAnimation> waterFallAnimation;
+    private ArrayList<Button> allDecksButtons;
+    private Button backButton;
+    private Button selectAsMainDeckButton;
+    private Button createDeckButton;
+    private Button addToDeckButton;
+    private CardShowSlot cardList;
+    private Vector2 mousePos;
+
 
     @Override
     public void create() {
@@ -27,14 +47,22 @@ public class TestScreen extends Screen {
         middleGroundPic = AssetHandler.getData().get("backGround/collection2.png");
         frontPic = AssetHandler.getData().get("backGround/collection3.png");
 
+        account = Account.getCurrentAccount();
+
+        float buttonHeight = AssetHandler.getData().get("button/deckSlot.png", Texture.class).getHeight();
+        allDecksButtons = new ArrayList<Button>();
+        for (int i = 0; i < account.getAllDecks().size(); ++i)
+            allDecksButtons.add(new Button("button/deckSlot.png", "button/deckSlotGlow.png", 0, Main.HEIGHT - 100 - (i + 1) * buttonHeight));
+        mousePos = new Vector2();
         createWaterFallAnimation();
 
-
+        cardList = new CardShowSlot(Account.getCurrentAccount().getCollection(), 670, 140, 3, 2);
     }
 
     @Override
     public void update() {
         camera.update();
+        mousePos = viewport.unproject(new Vector2(Gdx.input.getX(), Gdx.input.getY()));
 
         Gdx.input.setInputProcessor(new InputProcessor() {
             @Override
@@ -58,6 +86,9 @@ public class TestScreen extends Screen {
 
             @Override
             public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+                for (Button deckButton: allDecksButtons)
+                    deckButton.setActive(deckButton.contains(mousePos));
+                cardList.update(mousePos);
                 return false;
             }
 
@@ -88,7 +119,9 @@ public class TestScreen extends Screen {
     public void render(SpriteBatch batch) {
         batch.setProjectionMatrix(camera.combined);
         drawBackGround(batch);
-
+        for (Button deckButton: allDecksButtons)
+            deckButton.draw(batch);
+        cardList.draw(batch);
     }
 
     @Override
@@ -112,17 +145,17 @@ public class TestScreen extends Screen {
         waterFallAnimation = new ArrayList<MoveAnimation>();
         createWaterFallType6();
         createWaterFallType5();
-        createWatterFallType1(10, 390, 360, 475, 35, 2.5, 5, Math.random(), 200);
+        createWaterFallType1(10, 390, 360, 475, 35, 2.5, 5, Math.random(), 200);
         createWaterFallType3(20, 345, 345, 475 + Math.random() * 35, 780, 210);
-        createWatterFallType1(20, 390, 360, 580, 50, 5, 10, Math.random(), 230);
+        createWaterFallType1(20, 390, 360, 580, 50, 5, 10, Math.random(), 230);
         createWaterFallType4(10, 670, 10, 1, 250);
         createWaterFallType4(10, 700, 10, 1, 260);
         createWaterFallType4(20, 760, 40, 1, 270);
         createWaterFallType4(5, 860, 10, 5, 290);
         createWaterFallType4(5, 890, 10, 3, 295);
         createWaterFallType3(10, 355, 350, 915 - Math.random() * 40, 810, 300);
-        createWatterFallType2();
-        createWatterFallType1(10, 475, 455, 610, 25, 2.5, Math.random(), 5, 320);
+        createWaterFallType2();
+        createWaterFallType1(10, 475, 455, 610, 25, 2.5, Math.random(), 5, 320);
     }
 
     private void createWaterFallType6() {
@@ -166,7 +199,7 @@ public class TestScreen extends Screen {
         }
     }
 
-    private void createWatterFallType2() {
+    private void createWaterFallType2() {
         for (int i = 0; i < 10; ++i) {
             float yStart = 480;
             float yEnd = 440;
@@ -177,7 +210,7 @@ public class TestScreen extends Screen {
         }
     }
 
-    private void createWatterFallType1(int i2, int i3, int i4, int i5, int i6, double v, double random, double i7, int i8) {
+    private void createWaterFallType1(int i2, int i3, int i4, int i5, int i6, double v, double random, double i7, int i8) {
         for (int i = 0; i < i2; ++i) {
             float xStart = (float) (i5 + Math.random() * i6);
             float xEnd = (float) (xStart - v + random * i7);
