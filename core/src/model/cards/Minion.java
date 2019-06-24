@@ -147,6 +147,7 @@ public class Minion extends Army {
     }
 
     public void EagleOnSpawn(Player player, Cell cell) {
+        BattleScreen.getPopUps().add( new BattlePopUp("PASSIVE", cell.getScreenX(), cell.getScreenY()));
         Buff buff = new Buff(POWER, 10, 1, CONTINUOUS);
         buff.setPowerBuffType(HP);
         this.addBuff(buff);
@@ -279,7 +280,9 @@ public class Minion extends Army {
             Minion.class.getDeclaredMethod(this.getName() +"OnSpawn", Player.class, Cell.class).invoke(this, player, cell);
         } catch (Exception n){}
 
-//        BattleScreen.getPopUps().add( new BattlePopUp("ON SPAWN", cell.getScreenX(), cell.getScreenY()));
+        if(spTime == SPTime.ON_SPAWN)
+            BattleScreen.getPopUps().add( new BattlePopUp("ON SPAWN", cell.getScreenX(), cell.getScreenY()));
+
 
         if(this.getPlayer().getUsableItem() == null) return;
         String itemName = this.getPlayer().getUsableItem().getName();
@@ -292,7 +295,7 @@ public class Minion extends Army {
 
     public void checkPassive(Player player, Cell cell) {
         if(spTime != SPTime.PASSIVE) return;
-//        BattleScreen.getPopUps().add( new BattlePopUp("PASSIVE", cell.getScreenX(), cell.getScreenY()));
+        BattleScreen.getPopUps().add( new BattlePopUp("PASSIVE", cell.getScreenX(), cell.getScreenY()));
         if(specialBuff != null){
             this.addBuff(specialBuff);
         }else {
@@ -304,6 +307,7 @@ public class Minion extends Army {
 
     public void chekcOnDeath(Player player, Cell cell) {
         if (this.getSpTime() == SPTime.ON_DEATH){
+            BattleScreen.getPopUps().add( new BattlePopUp("ON DEATH", cell.getScreenX(), cell.getScreenY()));
             try{
                 Minion.class.getDeclaredMethod(this.getName() +"OnDeath", Player.class, Cell.class).invoke(this, player, cell);
             } catch (Exception n){}
