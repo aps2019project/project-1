@@ -200,14 +200,6 @@ public class BattleScreen extends Screen {
         Gdx.input.setInputProcessor(new InputProcessor() {
             @Override
             public boolean keyDown(int keycode) {
-                if(keycode == Input.Keys.A){
-                    System.out.println(player1.getSelectedCardPlace());
-                    hero1.attack();
-                } else if(keycode == Input.Keys.D) {
-                    hero1.death();
-                } else if(keycode == Input.Keys.R) {
-                    hero1.run(200, 200);
-                }
                 return false;
             }
 
