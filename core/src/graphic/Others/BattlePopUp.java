@@ -25,7 +25,20 @@ public class BattlePopUp {
 
     public void draw(SpriteBatch batch) {
         BitmapFont font = new BitmapFont(Gdx.files.internal("fonts/Arial 24.fnt"));
-        font.setColor(0, 190/255f, 1, 1 - time / 3);
+        if (text.equals("Disarm"))
+            font.setColor(24 / 255f, 34 / 255f, 139 / 255f, 1 - time / 3);
+        else if (text.equals("Stun"))
+            font.setColor(112 / 255f, 112 / 255f, 102 / 255f, 1 - time / 3);
+        else if (text.equals("Power"))
+            font.setColor(193 / 255f, 179 / 255f, 21 / 255f, 1 - time / 3);
+        else if (text.equals("Weakness"))
+            font.setColor(124 / 255f, 65 / 255f, 14 / 255f, 1 - time / 3);
+        else if (text.equals("Poison"))
+            font.setColor(48 / 255f, 111 / 255f, 32 / 255f, 1 - time / 3);
+        else if (text.equals("Bleeding"))
+            font.setColor(124 / 255f, 14 / 255f, 14 / 255f, 1 - time / 3);
+        else
+            font.setColor(0, 190 / 255f, 1, 1 - time / 3);
         font.draw(batch, text, x, y);
         time += Gdx.graphics.getDeltaTime();
     }

@@ -18,10 +18,7 @@ import graphic.Others.PopUp;
 import graphic.main.AssetHandler;
 import graphic.main.Button;
 import graphic.main.Main;
-import model.cards.Army;
-import model.cards.Card;
-import model.cards.CardType;
-import model.cards.Minion;
+import model.cards.*;
 import model.game.Cell;
 import model.game.Game;
 import model.game.Player;
@@ -91,10 +88,7 @@ public class BattleScreen extends Screen {
     @Override
     public void create() {
         animations = new HashMap<Army, ArmyAnimation>();
-        BattleMenuHandler battleMenuHandler = new BattleMenuHandler();
         popUps = new ArrayList<BattlePopUp>();
-
-        battleMenuHandler.setPlayersSteps();
 
         setCameraAndViewport();
         shapeRenderer = new ShapeRenderer();
@@ -206,14 +200,6 @@ public class BattleScreen extends Screen {
         Gdx.input.setInputProcessor(new InputProcessor() {
             @Override
             public boolean keyDown(int keycode) {
-                if(keycode == Input.Keys.A){
-                    System.out.println(player1.getSelectedCardPlace());
-                    hero1.attack();
-                } else if(keycode == Input.Keys.D) {
-                    hero1.death();
-                } else if(keycode == Input.Keys.R) {
-                    hero1.run(200, 200);
-                }
                 return false;
             }
 
@@ -231,6 +217,8 @@ public class BattleScreen extends Screen {
             public boolean touchDown(int screenX, int screenY, int pointer, int button) {
                 if(endTurnButton.isActive()){
                     selectedCell = null;
+                    selectedArmy = null;
+                    selectedCellHand = null;
                     setCommand("end turn");
                     synchronized (game){
                         game.notify();
@@ -272,6 +260,14 @@ public class BattleScreen extends Screen {
                                 animations.get(target).attack();
                         }
                         game.getWhoIsHisTurn().attack(selectedCell, cell);
+                        if(selectedCell.getInsideArmy().getHp() <= 0){
+                            animations.get(selectedArmy).death();
+                            game.setupCardDeaf(selectedCell);
+                        }
+                        if(cell.getInsideArmy().getHp() <= 0){
+                            animations.get(target).death();
+                            game.setupCardDeaf(cell);
+                        }
                         selectedCell = null;
                         selectedArmy = null;
                     }
@@ -347,6 +343,7 @@ public class BattleScreen extends Screen {
         shapeRenderer.setProjectionMatrix(camera.combined);
 
         batch.begin();
+
         batch.draw(backGround, 0, 0);
         drawMana(batch);
         drawHeroIcon(batch);
@@ -354,13 +351,15 @@ public class BattleScreen extends Screen {
         drawHeroesHp(batch);
 
         batch.end();
+
         drawTable(batch);
+
+        batch.begin();
+
         drawHand(batch);
-
-
         drawPopUps(batch);
-
         drawGraveYard(batch);
+
         batch.end();
 
         endTurnButton.draw(batch);
@@ -409,6 +408,10 @@ public class BattleScreen extends Screen {
 
         glyphLayout2.setText(font, Integer.toString(player2.getHero().getHp()));
         font.draw(batch,Integer.toString(player2.getHero().getHp()), 1405, 750);
+    }
+
+    public void drawHeroesSP(SpriteBatch batch) {
+
     }
 
     public void drawPlayersName(SpriteBatch batch){

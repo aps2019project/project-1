@@ -146,9 +146,8 @@ public class Minion extends Army {
         army.addBuff(poison);
     }
 
-    public void EagleOnSpawn(Player player, Cell cell) {
-        BattleScreen.getPopUps().add( new BattlePopUp("PASSIVE", cell.getScreenX(), cell.getScreenY()));
-        Buff buff = new Buff(POWER, 10, 1, CONTINUOUS);
+    public void EaglePassive(Player player, Cell cell) {
+        Buff buff = new Buff(POWER, 10, 1, NORMAL);
         buff.setPowerBuffType(HP);
         this.addBuff(buff);
     }
@@ -300,7 +299,7 @@ public class Minion extends Army {
             this.addBuff(specialBuff);
         }else {
             try{
-                Minion.class.getDeclaredMethod(this.getName() +"OnSpawn", Player.class, Cell.class).invoke(this, player, cell);
+                Minion.class.getDeclaredMethod(this.getName() +"Passive", Player.class, Cell.class).invoke(this, player, cell);
             } catch (Exception n){ n.printStackTrace();}
         }
     }
