@@ -91,10 +91,7 @@ public class BattleScreen extends Screen {
     @Override
     public void create() {
         animations = new HashMap<Army, ArmyAnimation>();
-        BattleMenuHandler battleMenuHandler = new BattleMenuHandler();
         popUps = new ArrayList<BattlePopUp>();
-
-        battleMenuHandler.setPlayersSteps();
 
         setCameraAndViewport();
         shapeRenderer = new ShapeRenderer();
@@ -231,6 +228,8 @@ public class BattleScreen extends Screen {
             public boolean touchDown(int screenX, int screenY, int pointer, int button) {
                 if(endTurnButton.isActive()){
                     selectedCell = null;
+                    selectedArmy = null;
+                    selectedCellHand = null;
                     setCommand("end turn");
                     synchronized (game){
                         game.notify();
@@ -272,6 +271,14 @@ public class BattleScreen extends Screen {
                                 animations.get(target).attack();
                         }
                         game.getWhoIsHisTurn().attack(selectedCell, cell);
+                        if(selectedCell.getInsideArmy().getHp() <= 0){
+                            animations.get(selectedArmy).death();
+                            game.setupCardDeaf(selectedCell);
+                        }
+                        if(cell.getInsideArmy().getHp() <= 0){
+                            animations.get(target).death();
+                            game.setupCardDeaf(cell);
+                        }
                         selectedCell = null;
                         selectedArmy = null;
                     }
@@ -347,6 +354,7 @@ public class BattleScreen extends Screen {
         shapeRenderer.setProjectionMatrix(camera.combined);
 
         batch.begin();
+
         batch.draw(backGround, 0, 0);
         drawMana(batch);
         drawHeroIcon(batch);
@@ -354,13 +362,15 @@ public class BattleScreen extends Screen {
         drawHeroesHp(batch);
 
         batch.end();
+
         drawTable(batch);
+
+        batch.begin();
+
         drawHand(batch);
-
-
         drawPopUps(batch);
-
         drawGraveYard(batch);
+
         batch.end();
 
         endTurnButton.draw(batch);

@@ -104,7 +104,7 @@ public class Army extends Card {
         for (Army army : array) {
             for (Buff buff : army.getBuffs()) {
                 if (buff.getBuffTImeType() == BuffTImeType.CONTINUOUS) {
-                    BattleScreen.getPopUps().add( new BattlePopUp("CONTINUOUS", army.whereItIs.getScreenX(), army.whereItIs.getScreenY()));
+                    BattleScreen.getPopUps().add( new BattlePopUp("Continuous", army.whereItIs.getScreenX(), army.whereItIs.getScreenY()));
                     buff.setTurns(1);
                 }
             }
@@ -113,9 +113,12 @@ public class Army extends Card {
 
     public static void checkPoisonAndBleeding(ArrayList<Army> array) {
         for (Army army : array) {
-            army.setHp(army.getHp() - army.haveBuff(BuffType.POISON));
             for (Buff buff : army.getBuffs()) {
-                if (buff.getBuffType() == BLEEDING) {
+                if (buff.getBuffType() == POISON){
+                    army.setHp(army.getHp() - army.haveBuff(BuffType.POISON));
+                    BattleScreen.getPopUps().add(new BattlePopUp("Poison", army.whereItIs.getScreenX(), army.whereItIs.getScreenY()));
+                }else if (buff.getBuffType() == BLEEDING) {
+                    BattleScreen.getPopUps().add(new BattlePopUp("Bleeding", army.whereItIs.getScreenX(), army.whereItIs.getScreenY()));
                     army.setHp(army.getHp() - buff.getFirstBleeding());
                 }
             }
@@ -166,12 +169,15 @@ public class Army extends Card {
         System.out.println(buff.getBuffType());
         switch (buff.getBuffType()){
             case DISARM:
+                BattleScreen.getPopUps().add(new BattlePopUp("Disarm", this.whereItIs.getScreenX(), this.whereItIs.getScreenY()));
                 this.isDisarmed = true;
                 break;
             case STUN:
+                BattleScreen.getPopUps().add(new BattlePopUp("Stun", this.whereItIs.getScreenX(), this.whereItIs.getScreenY()));
                 this.isStunned = true;
                 break;
             case POWER:
+                BattleScreen.getPopUps().add(new BattlePopUp("Power", this.whereItIs.getScreenX(), this.whereItIs.getScreenY()));
                 switch (buff.getPowerBuffType()) {
                     case AP:
                         this.ap += buff.getNumber();
@@ -182,6 +188,7 @@ public class Army extends Card {
                 }
                 break;
             case WEAKNESS:
+                BattleScreen.getPopUps().add(new BattlePopUp("Weakness", this.whereItIs.getScreenX(), this.whereItIs.getScreenY()));
                 switch (buff.getPowerBuffType()) {
                     case AP:
                         this.ap -= buff.getNumber();
@@ -189,8 +196,8 @@ public class Army extends Card {
                     case HP:
                         this.hp -= buff.getNumber();
                         break;
-                }                break;
-
+                }
+                break;
         }
     }
 
