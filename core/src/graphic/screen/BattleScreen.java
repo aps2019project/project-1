@@ -18,10 +18,7 @@ import graphic.Others.PopUp;
 import graphic.main.AssetHandler;
 import graphic.main.Button;
 import graphic.main.Main;
-import model.cards.Army;
-import model.cards.Card;
-import model.cards.CardType;
-import model.cards.Minion;
+import model.cards.*;
 import model.game.Cell;
 import model.game.Game;
 import model.game.Player;
@@ -419,6 +416,10 @@ public class BattleScreen extends Screen {
 
         glyphLayout2.setText(font, Integer.toString(player2.getHero().getHp()));
         font.draw(batch,Integer.toString(player2.getHero().getHp()), 1405, 750);
+    }
+
+    public void drawHeroesSP(SpriteBatch batch) {
+
     }
 
     public void drawPlayersName(SpriteBatch batch){

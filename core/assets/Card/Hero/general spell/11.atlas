@@ -3,140 +3,140 @@ size: 256,128
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-windshroud2
+gif
   rotate: false
   xy: 70, 70
   size: 34, 34
   orig: 34, 34
   offset: 0, 0
   index: 0
-windshroud2
+gif
   rotate: false
   xy: 175, 35
   size: 34, 34
   orig: 34, 34
   offset: 0, 0
   index: 1
-windshroud2
+gif
   rotate: false
   xy: 175, 0
   size: 34, 34
   orig: 34, 34
   offset: 0, 0
   index: 2
-windshroud2
+gif
   rotate: false
   xy: 140, 70
   size: 34, 34
   orig: 34, 34
   offset: 0, 0
   index: 3
-windshroud2
+gif
   rotate: false
   xy: 70, 70
   size: 34, 34
   orig: 34, 34
   offset: 0, 0
   index: 0
-windshroud2
+gif
   rotate: false
   xy: 175, 35
   size: 34, 34
   orig: 34, 34
   offset: 0, 0
   index: 1
-windshroud2
+gif
   rotate: false
   xy: 140, 35
   size: 34, 34
   orig: 34, 34
   offset: 0, 0
   index: 2
-windshroud2
+gif
   rotate: false
   xy: 140, 0
   size: 34, 34
   orig: 34, 34
   offset: 0, 0
   index: 3
-windshroud2
+gif
   rotate: false
   xy: 105, 70
   size: 34, 34
   orig: 34, 34
   offset: 0, 0
   index: 4
-windshroud2
+gif
   rotate: false
   xy: 105, 35
   size: 34, 34
   orig: 34, 34
   offset: 0, 0
   index: 5
-windshroud2
+gif
   rotate: false
   xy: 105, 0
   size: 34, 34
   orig: 34, 34
   offset: 0, 0
   index: 6
-windshroud2
+gif
   rotate: false
   xy: 175, 70
   size: 34, 34
   orig: 34, 34
   offset: 0, 0
   index: 7
-windshroud2
+gif
   rotate: false
   xy: 70, 35
   size: 34, 34
   orig: 34, 34
   offset: 0, 0
   index: 8
-windshroud2
+gif
   rotate: false
   xy: 70, 0
   size: 34, 34
   orig: 34, 34
   offset: 0, 0
   index: 9
-windshroud2
+gif
   rotate: false
   xy: 35, 70
   size: 34, 34
   orig: 34, 34
   offset: 0, 0
   index: 10
-windshroud2
+gif
   rotate: false
   xy: 35, 35
   size: 34, 34
   orig: 34, 34
   offset: 0, 0
   index: 11
-windshroud2
+gif
   rotate: false
   xy: 35, 0
   size: 34, 34
   orig: 34, 34
   offset: 0, 0
   index: 12
-windshroud2
+gif
   rotate: false
   xy: 0, 70
   size: 34, 34
   orig: 34, 34
   offset: 0, 0
   index: 13
-windshroud2
+gif
   rotate: false
   xy: 0, 35
   size: 34, 34
   orig: 34, 34
   offset: 0, 0
   index: 14
-windshroud2
+gif
   rotate: false
   xy: 0, 0
   size: 34, 34
