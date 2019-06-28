@@ -298,4 +298,5 @@ public class Game {
         array.addAll(secondPlayer.getInGameCards());
         return array;
     }
+
 }

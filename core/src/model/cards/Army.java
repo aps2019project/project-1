@@ -5,6 +5,7 @@ import graphic.Others.BattlePopUp;
 import graphic.screen.BattleScreen;
 import model.Buff.*;
 import model.game.Cell;
+import model.game.CellEffect;
 import model.game.Game;
 import model.game.Player;
 import model.variables.CardsArray;
@@ -86,7 +87,9 @@ public class Army extends Card {
             Iterator iterator = army.getBuffs().iterator();
             while (iterator.hasNext()) {
                 Buff buff = (Buff) iterator.next();
+//                System.out.println(buff.getTurns());
                 buff.decreaseTurns();
+//                System.out.println(buff.getTurns());
                 if(buff.getDelay() != 0){
                     buff.decreaseDelay();
                     if(buff.getDelay() == 0)
@@ -121,6 +124,9 @@ public class Army extends Card {
                     BattleScreen.getPopUps().add(new BattlePopUp("Bleeding", army.whereItIs.getScreenX(), army.whereItIs.getScreenY()));
                     army.setHp(army.getHp() - buff.getFirstBleeding());
                 }
+            }
+            if(army.getWhereItIs().getCellEffect() == CellEffect.POISON){
+                army.getWhereItIs().getEffect();
             }
         }
     }
@@ -166,7 +172,6 @@ public class Army extends Card {
 
     public void activateBuff(Buff buff) {
         if(buff.getDelay() != 0) return;
-        System.out.println(buff.getBuffType());
         switch (buff.getBuffType()){
             case DISARM:
                 BattleScreen.getPopUps().add(new BattlePopUp("Disarm", this.whereItIs.getScreenX(), this.whereItIs.getScreenY()));
@@ -283,6 +288,9 @@ public class Army extends Card {
     public void getDamaged(int number, Army army) {
         if(this.getName().equals("Giv")) return;
         int holyBuffs = this.haveBuff(HOLY);
+        if(holyBuffs > 0) {
+            BattleScreen.getPopUps().add(new BattlePopUp("Holy", this.whereItIs.getScreenX(), this.whereItIs.getScreenY()));
+        }
         int unholyBuffs = this.haveBuff(UNHOLY);
         try {
             if (army.getName().equals("PredatorLion")) holyBuffs = 0;
