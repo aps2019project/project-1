@@ -5,6 +5,7 @@ import graphic.Others.BattlePopUp;
 import graphic.screen.BattleScreen;
 import model.Buff.*;
 import model.game.Cell;
+import model.game.CellEffect;
 import model.game.Game;
 import model.game.Player;
 import model.variables.CardsArray;
@@ -122,6 +123,10 @@ public class Army extends Card {
                     army.setHp(army.getHp() - buff.getFirstBleeding());
                 }
             }
+            System.out.println(army.getWhereItIs().getX() +" "+ army.getWhereItIs().getY());
+            if(army.getWhereItIs().getCellEffect() == CellEffect.POISON){
+                army.getWhereItIs().getEffect();
+            }
         }
     }
 
@@ -166,7 +171,6 @@ public class Army extends Card {
 
     public void activateBuff(Buff buff) {
         if(buff.getDelay() != 0) return;
-        System.out.println(buff.getBuffType());
         switch (buff.getBuffType()){
             case DISARM:
                 BattleScreen.getPopUps().add(new BattlePopUp("Disarm", this.whereItIs.getScreenX(), this.whereItIs.getScreenY()));

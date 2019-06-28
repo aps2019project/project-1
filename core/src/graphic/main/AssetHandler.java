@@ -118,12 +118,11 @@ public class AssetHandler {
         assetManager.load("backGround/secondCustomMenu.jpg", Texture.class);
         assetManager.load("button/decks/activeDeck.png", Texture.class);
         assetManager.load("button/decks/deActiveDeck.png", Texture.class);
-
         assetManager.load("battle/tile hand.png", Texture.class);
-
         assetManager.load("battle/ap icon.png", Texture.class);
         assetManager.load("battle/hp icon.png", Texture.class);
         assetManager.load("battle/Graveyard bg.png", Texture.class);
+        assetManager.load("battle/lava.png", Texture.class);
 
         for(int i = 1; i <= 11; i++)
             assetManager.load("Card/Hero/generals/" + Integer.toString(i) + ".png", Texture.class);
