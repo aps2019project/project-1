@@ -1,0 +1,68 @@
+16.png
+size: 128,256
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+gif
+  rotate: false
+  xy: 0, 132
+  size: 44, 32
+  orig: 44, 32
+  offset: 0, 0
+  index: 0
+gif
+  rotate: false
+  xy: 45, 0
+  size: 44, 32
+  orig: 44, 32
+  offset: 0, 0
+  index: 1
+gif
+  rotate: false
+  xy: 0, 198
+  size: 44, 32
+  orig: 44, 32
+  offset: 0, 0
+  index: 2
+gif
+  rotate: false
+  xy: 0, 165
+  size: 44, 32
+  orig: 44, 32
+  offset: 0, 0
+  index: 3
+gif
+  rotate: false
+  xy: 45, 33
+  size: 44, 32
+  orig: 44, 32
+  offset: 0, 0
+  index: 4
+gif
+  rotate: false
+  xy: 0, 99
+  size: 44, 32
+  orig: 44, 32
+  offset: 0, 0
+  index: 5
+gif
+  rotate: false
+  xy: 0, 66
+  size: 44, 32
+  orig: 44, 32
+  offset: 0, 0
+  index: 6
+gif
+  rotate: false
+  xy: 0, 33
+  size: 44, 32
+  orig: 44, 32
+  offset: 0, 0
+  index: 7
+gif
+  rotate: false
+  xy: 0, 0
+  size: 44, 32
+  orig: 44, 32
+  offset: 0, 0
+  index: 8

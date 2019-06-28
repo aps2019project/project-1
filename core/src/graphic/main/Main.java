@@ -30,15 +30,11 @@ public class Main extends ApplicationAdapter {
 
 	@Override
 	public void render () {
-		try {
-			Gdx.gl.glClearColor(0, 0, 0, 1);
-			Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-			ScreenManager.getScreen().update();
-			ScreenManager.getScreen().render(batch);
-			PopUp.getInstance().draw(batch);
-		} catch (Exception e) {
-			PopUp.getInstance().setText("Exception in render:" + e.getMessage());
-		}
+		Gdx.gl.glClearColor(0, 0, 0, 1);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		ScreenManager.getScreen().update();
+		ScreenManager.getScreen().render(batch);
+		PopUp.getInstance().draw(batch);
 	}
 	
 	@Override
