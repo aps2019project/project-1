@@ -137,4 +137,8 @@ public class Cell {
     public CellEffect getCellEffect() {
         return effect;
     }
+
+    public Flag getFlag() {
+        return flag;
+    }
 }

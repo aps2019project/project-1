@@ -20,10 +20,7 @@ import graphic.main.Button;
 import graphic.main.Main;
 import graphic.screen.gameMenuScreens.StoryMenuScreen;
 import model.cards.*;
-import model.game.Cell;
-import model.game.CellEffect;
-import model.game.Game;
-import model.game.Player;
+import model.game.*;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -88,6 +85,7 @@ public class BattleScreen extends Screen {
     private boolean showingGraveyard;
 
     private Texture lava;
+    private Texture flag;
 
     @Override
     public void create() {
@@ -112,6 +110,7 @@ public class BattleScreen extends Screen {
         hpIcon = AssetHandler.getData().get("battle/hp icon.png");
         graveyardBg = AssetHandler.getData().get("battle/Graveyard bg.png");
         lava = AssetHandler.getData().get("battle/lava.png");
+        flag = AssetHandler.getData().get("battle/flag.png");
 
         music.setLooping(true);
         music.setVolume(0.5f);
@@ -458,6 +457,9 @@ public class BattleScreen extends Screen {
                 float y = cell.getScreenY();
                 Army army = game.getTable()[row][col].getInsideArmy();
                 drawTileEffect(batch, cell, x, y);
+                if(cell.getFlag() != null){
+                    batch.draw(flag, x, y);
+                }
                 if(selectedCell == cell) {
                     batch.setColor(Main.toColor(new Color(0x55E7EAF9, true)));
                     batch.draw(tileSelected, x, y, cellSizeX, cellSizeY);
