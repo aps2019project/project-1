@@ -228,7 +228,8 @@ public class Game {
         CardsArray allArmiesInTable = new CardsArray();
         for(Cell cell : cells) {
             try {
-                if(!cell.isEmpty() && cell.getInsideArmy().getAccount().equals(account)) allArmiesInTable.add(cell.getInsideArmy());
+                if(!cell.isEmpty() && cell.getInsideArmy().getAccount().equals(account))
+                    allArmiesInTable.add(cell.getInsideArmy());
             }
             catch (NullPointerException e) {
                 System.out.println("naaa");

@@ -80,7 +80,7 @@ public class FirstCustomMenuScreen extends Screen {
                     if (generals[i + 1].isActive()) {
                         try {
                             Hero hero = (Hero) Hero.getHeroes().get(i).clone();
-                            hero.setUserName(Datas.getDatas().getAccountUsername());
+                            hero.setUserName("customplayer");
                             Datas.getDatas().setHero(hero);
 
                             ScreenManager.setScreen(new SecondCustomMenuScreen());

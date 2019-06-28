@@ -30,9 +30,6 @@ public class Datas {
         this.hero = hero;
     }
 
-    public String getAccountUsername() {
-        return account.getUsername();
-    }
 
     public static Datas getDatas() {
         return datas;
@@ -48,19 +45,26 @@ public class Datas {
 
     public void setPlayersSteps() {
         //customPlayer = new IntelligentPlayer(new Account("customPlayer","1234"));
-        Account account = new Account("firstLevelPlayer","1234");
+        Account account = Account.findAccount("firstLevelPlayer");
+        if(account == null)
+            account = new Account("firstLevelPlayer","1234");
         try {
             Card.makeStroyDeck(1, account);
             customDecks.add(account.getAllDecks().get(0));
         } catch (Exception e){}
         firstLevelPlayer = new IntelligentPlayer(account);
-        account = new Account("secondLevelPlayer","1234");
+        account = Account.findAccount("secondLevelPlayer");
+        if(account == null)
+            account = new Account("secondLevelPlayer","1234");
+
         try {
             Card.makeStroyDeck(2, account);
             customDecks.add(account.getAllDecks().get(0));
         } catch (Exception e){}
         secondLevelPlayer = new IntelligentPlayer(account);
-        account = new Account("thirdLevelPlayer","1234");
+        account = Account.findAccount("thirdLevelPlayer");
+        if(account == null)
+            account = new Account("thirdLevelPlayer","1234");
         try {
             Card.makeStroyDeck(3, account);
             customDecks.add(account.getAllDecks().get(0));
@@ -148,11 +152,20 @@ public class Datas {
             MatchResult result = game.getResults();
         }
     }
-
+    public Deck setDeck(Deck deck) {
+        Deck copyDeck = deck.copyAll();
+        for(Card card : copyDeck.getCards().getAllCards()) {
+            card.setUserName("customplayer");
+        }
+        return copyDeck;
+    }
     public void makeKillHeroCustom(int deckNumber) {
         type = GameType.KILL_HERO;
-        Account account = new Account("customplayer","1234");
-        account.setMainDeck(customDecks.get(deckNumber));
+        Account account;
+        account = Account.findAccount("customplayer");
+        if(account == null)
+            account = new Account("customplayer","1234");
+        account.setMainDeck(setDeck(customDecks.get(deckNumber)));
         customPlayer = new IntelligentPlayer(account);
 
 
@@ -166,8 +179,11 @@ public class Datas {
 
     public void makeCaptureTheFlagCustom(int deckNumber) {
         type = GameType.CAPTURE_THE_FLAG;
-        Account account = new Account("customplayer","1234");
-        account.setMainDeck(customDecks.get(deckNumber));
+        Account account;
+        account = Account.findAccount("customplayer");
+        if(account == null)
+            account = new Account("customplayer","1234");
+        account.setMainDeck(setDeck(customDecks.get(deckNumber)));
         customPlayer = new IntelligentPlayer(account);
 
         new Thread(new Runnable() {
@@ -180,8 +196,11 @@ public class Datas {
 
     public void makeRollUpFlagCustom(int deckNumber, final int numberOfFlags) {
         type = GameType.ROLLUP_FLAGS;
-        Account account = new Account("customplayer","1234");
-        account.setMainDeck(customDecks.get(deckNumber));
+        Account account;
+        account = Account.findAccount("customplayer");
+        if(account == null)
+            account = new Account("customplayer","1234");
+        account.setMainDeck(setDeck(customDecks.get(deckNumber)));
         customPlayer = new IntelligentPlayer(account);
 
         new Thread(new Runnable() {

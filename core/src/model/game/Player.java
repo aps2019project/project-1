@@ -262,7 +262,7 @@ public class Player {
     }
 
     public boolean moveFromHandToCell(Card card,Cell cell) {
-        if( cell.isEmpty() &&
+        if( cell != null && cell.isEmpty() &&
             Game.getCurrentGame().getAllCellsNearAccountArmies(account).indexOf(cell) != -1) {
             if(mana < card.getNeededManaToPut()){
                 BattleScreen.setPopUp("Not Enough Mana");
