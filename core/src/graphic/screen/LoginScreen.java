@@ -248,12 +248,7 @@ public class LoginScreen extends Screen {
     }
 
     private void createFonts() {
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/9.ttf"));
-        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = 30;
-        parameter.color = Main.toColor(new Color(0xFFFFFF));
-        font = generator.generateFont(parameter);
-        generator.dispose();
+        font = AssetHandler.getData().get("fonts/Arial 16.fnt");
     }
 
     private void drawBackGround(SpriteBatch batch) {

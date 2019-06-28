@@ -37,6 +37,7 @@ public class TestScreen extends Screen {
     private Button addToDeckButton;
     private CardShowSlot cardList;
     private Vector2 mousePos;
+    private String selectedCard;
 
 
     @Override
@@ -57,6 +58,7 @@ public class TestScreen extends Screen {
         createWaterFallAnimation();
 
         cardList = new CardShowSlot(Account.getCurrentAccount().getCollection(), 670, 140, 3, 2);
+        selectedCard = "";
     }
 
     @Override
@@ -89,6 +91,7 @@ public class TestScreen extends Screen {
                 for (Button deckButton: allDecksButtons)
                     deckButton.setActive(deckButton.contains(mousePos));
                 cardList.update(mousePos);
+                selectedCard = cardList.getSelectedCard(mousePos);
                 return false;
             }
 
