@@ -1,7 +1,6 @@
 package graphic.screen;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
@@ -10,7 +9,6 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
-import control.BattleMenuHandler;
 import graphic.Others.ArmyAnimation;
 import graphic.Others.BattlePopUp;
 import graphic.Others.CardTexture;
@@ -18,11 +16,8 @@ import graphic.Others.PopUp;
 import graphic.main.AssetHandler;
 import graphic.main.Button;
 import graphic.main.Main;
-import graphic.screen.gameMenuScreens.ChooseNumberOfPlayersMenuScreen;
-import graphic.screen.gameMenuScreens.StoryMenuScreen;
 import model.cards.*;
 import model.game.*;
-import sun.java2d.pipe.NullPipe;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -46,8 +41,8 @@ public class BattleScreen extends Screen {
     private Texture tileHand;
     private Vector2 manaStart1;
     private Vector2 manaStart2;
-    private Texture hero1Icon1;
-    private Texture hero1Icon2;
+    private Texture hero1Icon;
+    private Texture hero2Icon;
     private Texture heroHpIcon;
     private Texture apIcon;
     private Texture hpIcon;
@@ -89,6 +84,8 @@ public class BattleScreen extends Screen {
 
     private Texture lava;
     private Texture flag;
+    private Texture endgameBg;
+    private Texture winnerNameSlot;
 
     @Override
     public void create() {
@@ -114,6 +111,8 @@ public class BattleScreen extends Screen {
         graveyardBg = AssetHandler.getData().get("battle/Graveyard bg.png");
         lava = AssetHandler.getData().get("battle/lava.png");
         flag = AssetHandler.getData().get("battle/flag.png");
+        endgameBg = AssetHandler.getData().get("battle/endgame bg.png");
+        endgameBg = AssetHandler.getData().get("button/daric slot.png");
 
         music.setLooping(true);
         music.setVolume(0.5f);
@@ -128,8 +127,8 @@ public class BattleScreen extends Screen {
 
         mousePos = new Vector2();
 
-        hero1Icon1 = AssetHandler.getData().get(player1.getHero().getIconId());
-        hero1Icon2 = AssetHandler.getData().get(player2.getHero().getIconId());
+        hero1Icon = AssetHandler.getData().get(player1.getHero().getIconId());
+        hero2Icon = AssetHandler.getData().get(player2.getHero().getIconId());
 
         tableCord1 = new Vector2(330, 525);
         tableCord2 = new Vector2(1270, 525);
@@ -318,10 +317,22 @@ public class BattleScreen extends Screen {
             Thread thread = iterator.next();
             if(thread.getName().equals("Thread-2")) {
                 thread.interrupt();
-                ScreenManager.setScreen(new ChooseNumberOfPlayersMenuScreen());
+//                ScreenManager.setScreen(new ChooseNumberOfPlayersMenuScreen());
                 return;
             }
         }
+    }
+
+    public void setEndGameScreen(SpriteBatch batch) {
+        Texture heroIcon;
+        if(game.getWinner().getUsername().equals(player1.getAccount().getUsername()))
+            heroIcon = hero1Icon;
+        else
+            heroIcon = hero2Icon;
+        batch.setColor(Main.toColor(new Color(0xCC92918C, true)));
+        batch.draw(endgameBg, 0, 0);
+        batch.setColor(com.badlogic.gdx.graphics.Color.WHITE);
+        batch.draw(heroIcon, 500, 400, 300, 300);
     }
 
     public void updateGraveyard() {
@@ -367,6 +378,9 @@ public class BattleScreen extends Screen {
 
         batch.begin();
 
+        if(game.isGameEnded())
+            setEndGameScreen(batch);
+
         batch.draw(backGround, 0, 0);
         drawMana(batch);
         drawHeroIcon(batch);
@@ -406,14 +420,14 @@ public class BattleScreen extends Screen {
 
     public void drawHeroIcon(SpriteBatch batch) {
         if(game.getWhoIsHisTurn().getAccount().getUsername().equals(player1.getAccount().getUsername())){
-            batch.draw(hero1Icon1, 70, 700);
+            batch.draw(hero1Icon, 70, 700);
             batch.setColor(Main.toColor(new Color(0xBE928F87, true)));
-            batch.draw(hero1Icon2, 1310, 700);
+            batch.draw(hero2Icon, 1310, 700);
             batch.setColor(com.badlogic.gdx.graphics.Color.WHITE);
         } else {
-            batch.draw(hero1Icon2, 1310, 700);
+            batch.draw(hero2Icon, 1310, 700);
             batch.setColor(Main.toColor(new Color(0xBE928F87, true)));
-            batch.draw(hero1Icon1, 70, 700);
+            batch.draw(hero1Icon, 70, 700);
             batch.setColor(com.badlogic.gdx.graphics.Color.WHITE);
         }
     }

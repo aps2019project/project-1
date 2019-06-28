@@ -124,6 +124,7 @@ public class AssetHandler {
         assetManager.load("battle/Graveyard bg.png", Texture.class);
         assetManager.load("battle/lava.png", Texture.class);
         assetManager.load("battle/flag.png", Texture.class);
+        assetManager.load("battle/endgame bg.png", Texture.class);
 
         for(int i = 1; i <= 11; i++)
             assetManager.load("Card/Hero/generals/" + Integer.toString(i) + ".png", Texture.class);
