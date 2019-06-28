@@ -341,7 +341,7 @@ public class Player {
                 try{
                     Game.getCurrentGame().wait();
                 } catch (InterruptedException i){
-                    i.printStackTrace();
+                    return;
                 }
             }
             handleCommands();
