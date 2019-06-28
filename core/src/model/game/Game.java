@@ -24,6 +24,7 @@ public class Game {
     private int turnNumber = 1;
     private GameType type;
     private boolean exitFromGame = false;
+    private boolean gameCreated = false;
     private ArrayList<Cell> allCellsInTable = new ArrayList<Cell>();
     public Game(Account firstAccount, Account secondAccount, GameType type) {
         firstPlayer = new Player(firstAccount);
@@ -38,6 +39,7 @@ public class Game {
         currentGame = this;
 //        table[2][2].setInsideItem(Item.getCollectableItems().getAllItems().get(0));
 //        table[2][6].setInsideItem(Item.getCollectableItems().getAllItems().get(3));
+        this.gameCreated = true;
     }
     public Game(Account firstAccount, Account secondAccount, GameType type, int numberOfFlags) {
         this(firstAccount,secondAccount,type);
@@ -56,17 +58,23 @@ public class Game {
             putFlagIn(table[TABLE_HEIGHT/2-2][TABLE_WIDTH/2-2]);
             putFlagIn(table[TABLE_HEIGHT/2-2][TABLE_WIDTH/2+2]);
         }
+        this.gameCreated = true;
     }
     public Game(Account firstAccount, IntelligentPlayer intelligentPlayer, GameType type, int numberOfFlags) {
         this(firstAccount,intelligentPlayer.getAccount(),type,numberOfFlags);
         intelligentPlayer.setGame(this);
         secondPlayer = intelligentPlayer;
+        this.gameCreated = true;
     }
     public void putFlagIn(Cell cell) {
         Flag flag = new Flag();
         flags.add(flag);
         flag.dropTo(cell);
         cell.setFlag(flag);
+    }
+
+    public boolean isGameCreated() {
+        return gameCreated;
     }
 
     public boolean isExitFromGame() {
