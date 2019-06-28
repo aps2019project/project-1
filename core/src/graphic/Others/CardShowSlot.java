@@ -71,6 +71,7 @@ public class CardShowSlot {
             spellButton.setActive(spellButton.contains(pos));
             itemButton.setActive(itemButton.contains(pos));
         }
+        getSelectedCard(pos);
     }
 
     public void updateLists(CardsArray newList) {
