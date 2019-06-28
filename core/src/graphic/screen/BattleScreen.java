@@ -16,6 +16,7 @@ import graphic.Others.PopUp;
 import graphic.main.AssetHandler;
 import graphic.main.Button;
 import graphic.main.Main;
+import graphic.screen.gameMenuScreens.ChooseNumberOfPlayersMenuScreen;
 import model.cards.*;
 import model.game.*;
 
@@ -112,7 +113,7 @@ public class BattleScreen extends Screen {
         lava = AssetHandler.getData().get("battle/lava.png");
         flag = AssetHandler.getData().get("battle/flag.png");
         endgameBg = AssetHandler.getData().get("battle/endgame bg.png");
-        endgameBg = AssetHandler.getData().get("button/daric slot.png");
+        winnerNameSlot = AssetHandler.getData().get("button/daric slot.png");
 
         music.setLooping(true);
         music.setVolume(0.5f);
@@ -225,6 +226,9 @@ public class BattleScreen extends Screen {
 
             @Override
             public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+                if(game.isGameEnded()){
+                    ScreenManager.setScreen(new ChooseNumberOfPlayersMenuScreen());
+                }
                 if(endTurnButton.isActive()){
                     selectedCell = null;
                     selectedArmy = null;
@@ -329,10 +333,20 @@ public class BattleScreen extends Screen {
             heroIcon = hero1Icon;
         else
             heroIcon = hero2Icon;
-        batch.setColor(Main.toColor(new Color(0xCC92918C, true)));
+        batch.setColor(Main.toColor(new Color(0xAB92918C, true)));
         batch.draw(endgameBg, 0, 0);
         batch.setColor(com.badlogic.gdx.graphics.Color.WHITE);
-        batch.draw(heroIcon, 500, 400, 300, 300);
+        batch.draw(heroIcon, 300, 350, heroIcon.getWidth()*2, heroIcon.getHeight()*2);
+        batch.draw(winnerNameSlot, 630, 400, winnerNameSlot.getWidth()*2, winnerNameSlot.getHeight()*2);
+
+        String text = game.getWinner().getUsername() + " Won";
+        BitmapFont font = AssetHandler.getData().get("fonts/Arial 36.fnt");
+        font.setColor(Main.toColor(new Color(0xFF060200, true)));
+        GlyphLayout glyphLayout = new GlyphLayout();
+        glyphLayout.setText(font, text);
+        font.draw(batch, text, 750 + (winnerNameSlot.getWidth() - glyphLayout.width)/2, 510);
+        font.setColor(Main.toColor(new Color(0xFFFFFFFF, true)));
+
     }
 
     public void updateGraveyard() {
@@ -378,9 +392,6 @@ public class BattleScreen extends Screen {
 
         batch.begin();
 
-        if(game.isGameEnded())
-            setEndGameScreen(batch);
-
         batch.draw(backGround, 0, 0);
         drawMana(batch);
         drawHeroIcon(batch);
@@ -402,6 +413,12 @@ public class BattleScreen extends Screen {
         endTurnButton.draw(batch);
         endGameButton.draw(batch);
         graveyardButton.draw(batch);
+
+        if(game.isGameEnded()) {
+            batch.begin();
+            setEndGameScreen(batch);
+            batch.end();
+        }
     }
 
     @Override
