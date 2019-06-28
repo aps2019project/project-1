@@ -336,7 +336,7 @@ public class BattleScreen extends Screen {
         batch.setColor(Main.toColor(new Color(0xAB92918C, true)));
         batch.draw(endgameBg, 0, 0);
         batch.setColor(com.badlogic.gdx.graphics.Color.WHITE);
-        batch.draw(heroIcon, 300, 350, heroIcon.getWidth()*2, heroIcon.getHeight()*2);
+        batch.draw(heroIcon, 300, 325, heroIcon.getWidth()*2, heroIcon.getHeight()*2);
         batch.draw(winnerNameSlot, 630, 400, winnerNameSlot.getWidth()*2, winnerNameSlot.getHeight()*2);
 
         String text = game.getWinner().getUsername() + " Won";
@@ -344,7 +344,7 @@ public class BattleScreen extends Screen {
         font.setColor(Main.toColor(new Color(0xFF060200, true)));
         GlyphLayout glyphLayout = new GlyphLayout();
         glyphLayout.setText(font, text);
-        font.draw(batch, text, 750 + (winnerNameSlot.getWidth() - glyphLayout.width)/2, 510);
+        font.draw(batch, text, 630 + (winnerNameSlot.getWidth()*2 - glyphLayout.width)/2, 510);
         font.setColor(Main.toColor(new Color(0xFFFFFFFF, true)));
 
     }
