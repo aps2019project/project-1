@@ -1,8 +1,6 @@
 package model.game;
 
-import model.cards.Army;
-import model.cards.Card;
-import model.cards.Minion;
+import model.cards.*;
 import model.other.Account;
 import model.variables.CardsArray;
 
@@ -211,8 +209,9 @@ public class Game {
     }
     public Player getPlayer(Account account) {
         if(firstPlayer.getAccount() == account) return firstPlayer;
-        else if(secondPlayer.getAccount() == account) return secondPlayer;
-        else   return null;
+        else return secondPlayer;
+//        else if(secondPlayer.getAccount() == account) return secondPlayer;
+//        else   return null;
     }
     public Cell findInTable(String ID){
         for(Cell[] row : table) {
@@ -228,7 +227,9 @@ public class Game {
         CardsArray allArmiesInTable = new CardsArray();
         for(Cell cell : cells) {
             try {
-                if(!cell.isEmpty() && cell.getInsideArmy().getAccount().equals(account)) allArmiesInTable.add(cell.getInsideArmy());
+                if(!cell.isEmpty() && cell.getInsideArmy().getAccount().getUsername().equals(account.getUsername())){
+                    allArmiesInTable.add(cell.getInsideArmy());
+                }
             }
             catch (NullPointerException e) {
                 System.out.println("naaa");

@@ -18,9 +18,11 @@ import graphic.Others.PopUp;
 import graphic.main.AssetHandler;
 import graphic.main.Button;
 import graphic.main.Main;
+import graphic.screen.gameMenuScreens.ChooseNumberOfPlayersMenuScreen;
 import graphic.screen.gameMenuScreens.StoryMenuScreen;
 import model.cards.*;
 import model.game.*;
+import sun.java2d.pipe.NullPipe;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -189,6 +191,10 @@ public class BattleScreen extends Screen {
         player1 = game.getFirstPlayer();
         player2 = game.getSecondPlayer();
 
+        if(game.isGameEnded()){
+            endGame();
+        }
+
         updateHandCells();
 
         setAnimations();
@@ -230,7 +236,7 @@ public class BattleScreen extends Screen {
                     }
                 } else if(endGameButton.isActive()){
                     game.exitFromGame();
-                    ScreenManager.setScreen(new StoryMenuScreen());
+                    endGame();
                 } else if(graveyardButton.isActive()){
                     showingGraveyard = !showingGraveyard;
                 } else if(getMouseCell() != null){
@@ -304,6 +310,18 @@ public class BattleScreen extends Screen {
                 return false;
             }
         });
+    }
+
+    public void endGame() {
+        Iterator<Thread> iterator = Thread.getAllStackTraces().keySet().iterator();
+        while(iterator.hasNext()){
+            Thread thread = iterator.next();
+            if(thread.getName().equals("Thread-2")) {
+                thread.interrupt();
+                ScreenManager.setScreen(new ChooseNumberOfPlayersMenuScreen());
+                return;
+            }
+        }
     }
 
     public void updateGraveyard() {
@@ -451,75 +469,77 @@ public class BattleScreen extends Screen {
         game.getTable()[3][4].setEffect(CellEffect.POISON);
         game.getTable()[3][5].setEffect(CellEffect.HOLY);
         batch.begin();
-        for (int row = 0; row < 5; row++) {
-            for (int col = 0; col < 9; col++) {
-                Cell cell = game.getTable()[row][col];
-                float x = cell.getScreenX();
-                float y = cell.getScreenY();
-                Army army = game.getTable()[row][col].getInsideArmy();
-                drawTileEffect(batch, cell, x, y);
-                if(cell.getFlag() != null){
-                    batch.draw(flag, x, y);
-                }
-                if(selectedCell == cell) {
-                    batch.setColor(Main.toColor(new Color(0x55E7EAF9, true)));
-                    batch.draw(tileSelected, x, y, cellSizeX, cellSizeY);
-                    batch.setColor(com.badlogic.gdx.graphics.Color.WHITE);
-                }
-                if(army == null){
-                    if(selectedCellHand != null && player1.isAroundArmies(cell))
-                        batch.setColor(Main.toColor(new Color(0xBEBFF7F9, true)));
-                    else if(selectedArmy != null && selectedArmy.canMoveTo(cell))
-                        batch.setColor(Main.toColor(new Color(0xBEBFF7F9, true)));
-                    else
-                        batch.setColor(Main.toColor(new Color(0x3DB0C0F9, true)));
-                    batch.draw(tile, x, y, cellSizeX, cellSizeY);
-                    batch.setColor(com.badlogic.gdx.graphics.Color.WHITE);
-
-                } else {
-                    if(player1.isFriend(army)){
-                        batch.setColor(Main.toColor(new Color(0x750000E3, true)));
+        try {
+            for (int row = 0; row < 5; row++) {
+                for (int col = 0; col < 9; col++) {
+                    Cell cell = game.getTable()[row][col];
+                    float x = cell.getScreenX();
+                    float y = cell.getScreenY();
+                    Army army = game.getTable()[row][col].getInsideArmy();
+                    drawTileEffect(batch, cell, x, y);
+                    if (cell.getFlag() != null) {
+                        batch.draw(flag, x, y);
+                    }
+                    if (selectedCell == cell) {
+                        batch.setColor(Main.toColor(new Color(0x55E7EAF9, true)));
+                        batch.draw(tileSelected, x, y, cellSizeX, cellSizeY);
+                        batch.setColor(com.badlogic.gdx.graphics.Color.WHITE);
+                    }
+                    if (army == null) {
+                        if (selectedCellHand != null && player1.isAroundArmies(cell))
+                            batch.setColor(Main.toColor(new Color(0xBEBFF7F9, true)));
+                        else if (selectedArmy != null && selectedArmy.canMoveTo(cell))
+                            batch.setColor(Main.toColor(new Color(0xBEBFF7F9, true)));
+                        else
+                            batch.setColor(Main.toColor(new Color(0x3DB0C0F9, true)));
                         batch.draw(tile, x, y, cellSizeX, cellSizeY);
                         batch.setColor(com.badlogic.gdx.graphics.Color.WHITE);
-                        batch.end();
-                        if(animations.get(army) != null)
-                            animations.get(army).draw(batch, x - 20, y);
-                        batch.begin();
+
                     } else {
-                        batch.setColor(Main.toColor(new Color(0x83C80000, true)));
-                        batch.draw(tile, x, y, cellSizeX, cellSizeY);
-                        batch.setColor(com.badlogic.gdx.graphics.Color.WHITE);
-                        batch.end();
-                        if(animations.get(army) != null)
-                            animations.get(army).draw(batch, x - 10, y, 160, 160);
-                        batch.begin();
-                    }
-                    if(animations.get(army) != null) {
-                        batch.draw(apIcon, animations.get(army).getX() + 15, animations.get(army).getY());
-                        batch.draw(hpIcon, animations.get(army).getX() + 75, animations.get(army).getY());
-                    }
+                        if (player1.isFriend(army)) {
+                            batch.setColor(Main.toColor(new Color(0x750000E3, true)));
+                            batch.draw(tile, x, y, cellSizeX, cellSizeY);
+                            batch.setColor(com.badlogic.gdx.graphics.Color.WHITE);
+                            batch.end();
+                            if (animations.get(army) != null)
+                                animations.get(army).draw(batch, x - 20, y);
+                            batch.begin();
+                        } else {
+                            batch.setColor(Main.toColor(new Color(0x83C80000, true)));
+                            batch.draw(tile, x, y, cellSizeX, cellSizeY);
+                            batch.setColor(com.badlogic.gdx.graphics.Color.WHITE);
+                            batch.end();
+                            if (animations.get(army) != null)
+                                animations.get(army).draw(batch, x - 10, y, 160, 160);
+                            batch.begin();
+                        }
+                        if (animations.get(army) != null) {
+                            batch.draw(apIcon, animations.get(army).getX() + 15, animations.get(army).getY());
+                            batch.draw(hpIcon, animations.get(army).getX() + 75, animations.get(army).getY());
+                        }
 
-                    BitmapFont font = AssetHandler.getData().get("fonts/Arial 24.fnt");
-                    GlyphLayout ap = new GlyphLayout();
-                    GlyphLayout hp = new GlyphLayout();
+                        BitmapFont font = AssetHandler.getData().get("fonts/Arial 24.fnt");
+                        GlyphLayout ap = new GlyphLayout();
+                        GlyphLayout hp = new GlyphLayout();
 
-                    font.setColor(Main.toColor(new Color(0xFFDEA900, true)));
-                    ap.setText(font, Integer.toString(army.getAp()));
+                        font.setColor(Main.toColor(new Color(0xFFDEA900, true)));
+                        ap.setText(font, Integer.toString(army.getAp()));
 //                    font.draw(batch,Integer.toString(army.getAp()), animations.get(army).getX() + 35 , animations.get(army).getY() + 25);
-                    font.draw(batch,Integer.toString(army.getAp()), (animations.get(army).getX() +15+ apIcon.getWidth()/2) - ap.width/2, animations.get(army).getY() + 25);
+                        font.draw(batch, Integer.toString(army.getAp()), (animations.get(army).getX() + 15 + apIcon.getWidth() / 2) - ap.width / 2, animations.get(army).getY() + 25);
 
-                    font.setColor(Main.toColor(new Color(0xFFBD1900, true)));
-                    hp.setText(font, Integer.toString(army.getHp()));
+                        font.setColor(Main.toColor(new Color(0xFFBD1900, true)));
+                        hp.setText(font, Integer.toString(army.getHp()));
 //                    font.draw(batch,Integer.toString(army.getHp()), animations.get(army).getX() + 95, animations.get(army).getY() + 25);
-                    font.draw(batch,Integer.toString(army.getHp()), (animations.get(army).getX() +75+ hpIcon.getWidth()/2) - hp.width/2, animations.get(army).getY() + 25);
+                        font.draw(batch, Integer.toString(army.getHp()), (animations.get(army).getX() + 75 + hpIcon.getWidth() / 2) - hp.width / 2, animations.get(army).getY() + 25);
 
-                    font.setColor(Main.toColor(new Color(0xFFFFFFFF, true)));
+                        font.setColor(Main.toColor(new Color(0xFFFFFFFF, true)));
 
+
+                    }
 
                 }
-
             }
-        }
+        } catch(NullPointerException n){ }
         batch.end();
     }
 

@@ -26,11 +26,12 @@ public class IntelligentPlayer extends Player {
         deck.transferCardTo(hand);
         CardsArray ourArmies = game.getAllAccountArmiesInCellArray(game.getAllCellsInTable(),account);
         if(ourArmies.getAllCards().size() != 0) {
+            System.out.println("in 1");
             Card card = ourArmies.getRandomCard();
             Cell destinationCell = Cell.getRandomCell(game.getAllCellsWithUniqueDistance(card.getWhereItIs(),2));
             super.moveArmy(card.getWhereItIs(),destinationCell);
+            super.moveFromHandToCell(hand.getRandomCard(),Cell.getRandomCell(game.getAllCellsNearArmies(ourArmies)));
         }
-        super.moveFromHandToCell(hand.getRandomCard(),Cell.getRandomCell(game.getAllCellsNearArmies(ourArmies)));
         endTurn = true;
     }
 }
