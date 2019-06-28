@@ -87,7 +87,9 @@ public class Army extends Card {
             Iterator iterator = army.getBuffs().iterator();
             while (iterator.hasNext()) {
                 Buff buff = (Buff) iterator.next();
+//                System.out.println(buff.getTurns());
                 buff.decreaseTurns();
+//                System.out.println(buff.getTurns());
                 if(buff.getDelay() != 0){
                     buff.decreaseDelay();
                     if(buff.getDelay() == 0)
@@ -123,7 +125,6 @@ public class Army extends Card {
                     army.setHp(army.getHp() - buff.getFirstBleeding());
                 }
             }
-            System.out.println(army.getWhereItIs().getX() +" "+ army.getWhereItIs().getY());
             if(army.getWhereItIs().getCellEffect() == CellEffect.POISON){
                 army.getWhereItIs().getEffect();
             }
@@ -287,6 +288,9 @@ public class Army extends Card {
     public void getDamaged(int number, Army army) {
         if(this.getName().equals("Giv")) return;
         int holyBuffs = this.haveBuff(HOLY);
+        if(holyBuffs > 0) {
+            BattleScreen.getPopUps().add(new BattlePopUp("Holy", this.whereItIs.getScreenX(), this.whereItIs.getScreenY()));
+        }
         int unholyBuffs = this.haveBuff(UNHOLY);
         try {
             if (army.getName().equals("PredatorLion")) holyBuffs = 0;

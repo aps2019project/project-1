@@ -331,12 +331,11 @@ public class Player {
 
     public void play() {
         endTurn = false;
-        this.checkPassive();
         this.setUpBuffs();
+        this.checkPassive();
         increaseTurnNumber();
         setMana();
         deck.transferCardTo(hand);
-        System.out.println(Game.getCurrentGame().getFirstPlayer().getHero().getWhereItIs().getX() +" " +Game.getCurrentGame().getFirstPlayer().getHero().getWhereItIs().getY());
         while(!endTurn && !Game.getCurrentGame().isExitFromGame()) {
             synchronized (Game.getCurrentGame()){
                 try{
@@ -347,7 +346,6 @@ public class Player {
             }
             handleCommands();
         }
-        System.out.println(Game.getCurrentGame().getFirstPlayer().getHero().getWhereItIs().getX() +" " +Game.getCurrentGame().getFirstPlayer().getHero().getWhereItIs().getY());
     }
 
     public void handleCommands() {

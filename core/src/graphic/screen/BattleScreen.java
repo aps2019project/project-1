@@ -24,6 +24,7 @@ import model.game.*;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -493,9 +494,10 @@ public class BattleScreen extends Screen {
                             animations.get(army).draw(batch, x - 10, y, 160, 160);
                         batch.begin();
                     }
-
-                    batch.draw(apIcon, animations.get(army).getX() + 15, animations.get(army).getY());
-                    batch.draw(hpIcon, animations.get(army).getX() + 75, animations.get(army).getY());
+                    if(animations.get(army) != null) {
+                        batch.draw(apIcon, animations.get(army).getX() + 15, animations.get(army).getY());
+                        batch.draw(hpIcon, animations.get(army).getX() + 75, animations.get(army).getY());
+                    }
 
                     BitmapFont font = AssetHandler.getData().get("fonts/Arial 24.fnt");
                     GlyphLayout ap = new GlyphLayout();
@@ -566,15 +568,17 @@ public class BattleScreen extends Screen {
     }
 
     public static void drawPopUps(SpriteBatch batch) {
-        Iterator<BattlePopUp> iterator = popUps.iterator();
-        while (iterator.hasNext()) {
-            BattlePopUp popUp = iterator.next();
-            if(popUp.getTime() > 3) {
-                iterator.remove();
-                continue;
+        try {
+            Iterator<BattlePopUp> iterator = popUps.iterator();
+            while (iterator.hasNext()) {
+                BattlePopUp popUp = iterator.next();
+                if (popUp.getTime() > 3) {
+                    iterator.remove();
+                    continue;
+                }
+                popUp.draw(batch);
             }
-            popUp.draw(batch);
-        }
+        } catch (ConcurrentModificationException c){ }
     }
 
     public static ArrayList<BattlePopUp> getPopUps() {
