@@ -98,6 +98,8 @@ public class BattleScreen extends Screen {
     private Gif hero1Sp;
     private Gif hero2Sp;
 
+    private boolean heroSpSelected = false;
+
     @Override
     public void create() {
         animations = new HashMap<Army, ArmyAnimation>();
@@ -254,6 +256,7 @@ public class BattleScreen extends Screen {
                     selectedCell = null;
                     selectedArmy = null;
                     selectedCellHand = null;
+                    heroSpSelected = false;
                     setCommand("end turn");
                     synchronized (game){
                         game.notify();
@@ -263,10 +266,14 @@ public class BattleScreen extends Screen {
                     endGame();
                 } else if(graveyardButton.isActive()){
                     showingGraveyard = !showingGraveyard;
+                } else if(checkHeroSp()){
+                    if(game.getWhoIsHisTurn().canUseHeroSp())
+                        heroSpSelected = true;
                 } else if(getMouseCell() != null){
                     if(getMouseCell().getInsideArmy() != null && game.getWhoIsHisTurn().isFriend(getMouseCell().getInsideArmy())) {
                         selectedCell = getMouseCell();
                         selectedCellHand = null;
+                        heroSpSelected = false;
                         selectedArmy = selectedCell.getInsideArmy();
                         setCommand("select " + selectedArmy.getID().getValue());
                         synchronized (game){
@@ -307,11 +314,14 @@ public class BattleScreen extends Screen {
                         }
                         selectedCell = null;
                         selectedArmy = null;
+                    } else if(heroSpSelected){
+                        game.getWhoIsHisTurn().useSpecialPower(getMouseCell());
                     }
                 } else if(getMouseHandCell() != null){
                     selectedCellHand = getMouseHandCell();
                     selectedCell = null;
                     selectedArmy = null;
+                    heroSpSelected = false;
                 }
                 return false;
             }
@@ -501,15 +511,6 @@ public class BattleScreen extends Screen {
         font.draw(batch,Integer.toString(player2.getHero().getHp()), 1405, 750);
     }
 
-    public void drawHeroesSP(SpriteBatch batch) {
-        if(hero1Sp != null){
-            hero1Sp.draw(batch, 100, 500, 120, 120);
-        }
-        if(hero2Sp != null){
-            hero2Sp.draw(batch, 1400, 500, 120, 120);
-        }
-    }
-
     public void drawPlayersName(SpriteBatch batch){
         BitmapFont font = AssetHandler.getData().get("fonts/Arial 36.fnt");
         GlyphLayout glyphLayout1 = new GlyphLayout();
@@ -677,6 +678,24 @@ public class BattleScreen extends Screen {
 
     public void drawUsableItem(SpriteBatch batch) {
         usableItem.draw(batch, 120, 120, 150, 150);
+    }
+
+    public void drawHeroesSP(SpriteBatch batch) {
+        if(hero1Sp != null){
+            if(!player1.canUseHeroSp())
+                batch.setColor(Main.toColor(new Color(0xA4B4B2B1, true)));
+            hero1Sp.draw(batch, 120, 550, 120, 120);
+        }
+        if(hero2Sp != null){
+            if(!player2.canUseHeroSp())
+                batch.setColor(Main.toColor(new Color(0xA4B4B2B1, true)));
+            hero2Sp.draw(batch, 1380, 550, 120, 120);
+        }
+        batch.setColor(com.badlogic.gdx.graphics.Color.WHITE);
+    }
+
+    public boolean checkHeroSp(){
+        return mousePos.x >= 120 && mousePos.x <= 120 + 120 && mousePos.y >= 550 && mousePos.y <= 550 + 120;
     }
 
     public static ArrayList<BattlePopUp> getPopUps() {
