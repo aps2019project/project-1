@@ -189,7 +189,6 @@ public class Army extends Card {
                         break;
                     case HP:
                         this.hp += buff.getNumber();
-                        System.out.println(buff.getNumber());
                         break;
                 }
                 break;
