@@ -101,6 +101,8 @@ public class BattleScreen extends Screen {
     private boolean heroSpSelected = false;
     private long turnTimePassed;
 
+    private Texture timer;
+
     @Override
     public void create() {
         animations = new HashMap<Army, ArmyAnimation>();
@@ -131,6 +133,7 @@ public class BattleScreen extends Screen {
         attackSound = AssetHandler.getData().get("sfx/attack.mp3");
         runSound = AssetHandler.getData().get("sfx/run.mp3");
         deathSound = AssetHandler.getData().get("sfx/death.mp3");
+        timer = AssetHandler.getData().get("battle/timer.png");
 
         music.setLooping(true);
         music.setVolume(0.5f);
@@ -465,6 +468,7 @@ public class BattleScreen extends Screen {
         drawHand(batch);
         drawPopUps(batch);
         drawGraveYard(batch);
+        drawTimer(batch);
 
         batch.end();
 
@@ -612,12 +616,10 @@ public class BattleScreen extends Screen {
 
                         font.setColor(Main.toColor(new Color(0xFFDEA900, true)));
                         ap.setText(font, Integer.toString(army.getAp()));
-//                    font.draw(batch,Integer.toString(army.getAp()), animations.get(army).getX() + 35 , animations.get(army).getY() + 25);
                         font.draw(batch, Integer.toString(army.getAp()), (animations.get(army).getX() + 15 + apIcon.getWidth() / 2) - ap.width / 2, animations.get(army).getY() + 25);
 
                         font.setColor(Main.toColor(new Color(0xFFBD1900, true)));
                         hp.setText(font, Integer.toString(army.getHp()));
-//                    font.draw(batch,Integer.toString(army.getHp()), animations.get(army).getX() + 95, animations.get(army).getY() + 25);
                         font.draw(batch, Integer.toString(army.getHp()), (animations.get(army).getX() + 75 + hpIcon.getWidth() / 2) - hp.width / 2, animations.get(army).getY() + 25);
 
                         font.setColor(Main.toColor(new Color(0xFFFFFFFF, true)));
@@ -722,6 +724,12 @@ public class BattleScreen extends Screen {
 
     public boolean checkHeroSp(){
         return mousePos.x >= 120 && mousePos.x <= 120 + 120 && mousePos.y >= 550 && mousePos.y <= 550 + 120;
+    }
+
+    public void drawTimer(SpriteBatch batch){
+        batch.setColor(turnTimePassed/30000f, 1 - turnTimePassed/30000f, 1, 1);
+        batch.draw(timer, 1330, 300, 250*(1 - turnTimePassed/30000f), 25);
+        batch.setColor(com.badlogic.gdx.graphics.Color.WHITE);
     }
 
     public static ArrayList<BattlePopUp> getPopUps() {
