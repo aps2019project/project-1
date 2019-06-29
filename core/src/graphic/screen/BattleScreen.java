@@ -227,7 +227,7 @@ public class BattleScreen extends Screen {
             @Override
             public boolean touchDown(int screenX, int screenY, int pointer, int button) {
                 if(game.isGameEnded()){
-                    ScreenManager.setScreen(new ChooseNumberOfPlayersMenuScreen());
+                    ScreenManager.setScreen(new MenuScreen());
                 }
                 if(endTurnButton.isActive()){
                     selectedCell = null;
@@ -321,10 +321,11 @@ public class BattleScreen extends Screen {
             Thread thread = iterator.next();
             if(thread.getName().equals("Thread-2")) {
                 thread.interrupt();
-//                ScreenManager.setScreen(new ChooseNumberOfPlayersMenuScreen());
                 return;
             }
         }
+        if(game.isExitFromGame())
+            ScreenManager.setScreen(new MenuScreen());
     }
 
     public void setEndGameScreen(SpriteBatch batch) {
@@ -357,6 +358,13 @@ public class BattleScreen extends Screen {
         } else{
             if(graveyardCord.x > -graveyardBg.getWidth())
                 graveyardCord.x -= speed;
+        }
+    }
+
+    public void flipAnimations() {
+        for(Army army : animations.keySet()){
+            if(player2.isFriend(army ) && animations.get(army) != null)
+                animations.get(army).flip();
         }
     }
 
@@ -496,6 +504,7 @@ public class BattleScreen extends Screen {
 
 
     public void drawTable( SpriteBatch batch) {
+        flipAnimations();
         game.getTable()[3][3].setEffect(CellEffect.FIERY);
         game.getTable()[3][4].setEffect(CellEffect.POISON);
         game.getTable()[3][5].setEffect(CellEffect.HOLY);
@@ -541,7 +550,7 @@ public class BattleScreen extends Screen {
                             batch.setColor(com.badlogic.gdx.graphics.Color.WHITE);
                             batch.end();
                             if (animations.get(army) != null)
-                                animations.get(army).draw(batch, x - 10, y, 160, 160);
+                                animations.get(army).draw(batch, x - 20, y);
                             batch.begin();
                         }
                         if (animations.get(army) != null) {

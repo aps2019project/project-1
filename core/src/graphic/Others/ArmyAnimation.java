@@ -22,6 +22,7 @@ public class ArmyAnimation {
     private Sound deathSound;
     private Sound runSound;
     private MoveAnimation runAnimation;
+    private boolean flipped = false;
 
     public ArmyAnimation(String dataPath) {
         Animation animation = new Animation<TextureRegion>(SPEED, new TextureAtlas(dataPath).findRegions("attack"), Animation.PlayMode.LOOP);
@@ -89,5 +90,13 @@ public class ArmyAnimation {
             return runAnimation.getCurrentLoc().y;
         }
         return y;
+    }
+
+    public void flip(){
+        flipped = true;
+        normalGif.flip();
+        runGif.flip();
+        deathGif.flip();
+        attackGif.flip();
     }
 }
