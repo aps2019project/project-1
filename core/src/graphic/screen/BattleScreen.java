@@ -99,6 +99,9 @@ public class BattleScreen extends Screen {
     private Gif hero2Sp;
 
     private boolean heroSpSelected = false;
+    private long turnTimePassed;
+
+    private Texture timer;
 
     @Override
     public void create() {
@@ -130,6 +133,7 @@ public class BattleScreen extends Screen {
         attackSound = AssetHandler.getData().get("sfx/attack.mp3");
         runSound = AssetHandler.getData().get("sfx/run.mp3");
         deathSound = AssetHandler.getData().get("sfx/death.mp3");
+        timer = AssetHandler.getData().get("battle/timer.png");
 
         music.setLooping(true);
         music.setVolume(0.5f);
@@ -218,6 +222,8 @@ public class BattleScreen extends Screen {
             endGame();
         }
 
+        checkTurnTime();
+
         updateHandCells();
 
         setAnimations();
@@ -253,14 +259,7 @@ public class BattleScreen extends Screen {
                     ScreenManager.setScreen(new MenuScreen());
                 }
                 if(endTurnButton.isActive()){
-                    selectedCell = null;
-                    selectedArmy = null;
-                    selectedCellHand = null;
-                    heroSpSelected = false;
-                    setCommand("end turn");
-                    synchronized (game){
-                        game.notify();
-                    }
+                    endTurn();
                 } else if(endGameButton.isActive()){
                     game.exitFromGame();
                     endGame();
@@ -346,6 +345,23 @@ public class BattleScreen extends Screen {
                 return false;
             }
         });
+    }
+
+    public void endTurn() {
+        selectedCell = null;
+        selectedArmy = null;
+        selectedCellHand = null;
+        heroSpSelected = false;
+        setCommand("end turn");
+        synchronized (game){
+            game.notify();
+        }
+    }
+
+    public void checkTurnTime() {
+        turnTimePassed = System.currentTimeMillis() - game.getTurnStartTime();
+        if(turnTimePassed >= 30000)
+            endTurn();
     }
 
     public void endGame() {
@@ -452,6 +468,7 @@ public class BattleScreen extends Screen {
         drawHand(batch);
         drawPopUps(batch);
         drawGraveYard(batch);
+        drawTimer(batch);
 
         batch.end();
 
@@ -599,12 +616,10 @@ public class BattleScreen extends Screen {
 
                         font.setColor(Main.toColor(new Color(0xFFDEA900, true)));
                         ap.setText(font, Integer.toString(army.getAp()));
-//                    font.draw(batch,Integer.toString(army.getAp()), animations.get(army).getX() + 35 , animations.get(army).getY() + 25);
                         font.draw(batch, Integer.toString(army.getAp()), (animations.get(army).getX() + 15 + apIcon.getWidth() / 2) - ap.width / 2, animations.get(army).getY() + 25);
 
                         font.setColor(Main.toColor(new Color(0xFFBD1900, true)));
                         hp.setText(font, Integer.toString(army.getHp()));
-//                    font.draw(batch,Integer.toString(army.getHp()), animations.get(army).getX() + 95, animations.get(army).getY() + 25);
                         font.draw(batch, Integer.toString(army.getHp()), (animations.get(army).getX() + 75 + hpIcon.getWidth() / 2) - hp.width / 2, animations.get(army).getY() + 25);
 
                         font.setColor(Main.toColor(new Color(0xFFFFFFFF, true)));
@@ -681,21 +696,40 @@ public class BattleScreen extends Screen {
     }
 
     public void drawHeroesSP(SpriteBatch batch) {
+        BitmapFont font = AssetHandler.getData().get("fonts/Arial 16.fnt");
+        font.setColor(Main.toColor(new Color(0xFF000000, true)));
         if(hero1Sp != null){
             if(!player1.canUseHeroSp())
                 batch.setColor(Main.toColor(new Color(0xA4B4B2B1, true)));
-            hero1Sp.draw(batch, 120, 550, 120, 120);
+            hero1Sp.draw(batch, 120, 560, 120, 120);
+            batch.begin();
+            batch.draw(mana, 163,560);
+            font.draw(batch, Integer.toString(player1.getHero().getMp()), 178, 585);
+            batch.end();
+            batch.setColor(com.badlogic.gdx.graphics.Color.WHITE);
         }
         if(hero2Sp != null){
             if(!player2.canUseHeroSp())
                 batch.setColor(Main.toColor(new Color(0xA4B4B2B1, true)));
-            hero2Sp.draw(batch, 1380, 550, 120, 120);
+            hero2Sp.draw(batch, 1380, 560, 120, 120);
+            batch.begin();
+            batch.draw(mana, 1420,550);
+            font.draw(batch, Integer.toString(player1.getHero().getMp()), 1435, 580);
+            batch.end();
+            batch.setColor(com.badlogic.gdx.graphics.Color.WHITE);
+
         }
-        batch.setColor(com.badlogic.gdx.graphics.Color.WHITE);
+        font.setColor(Main.toColor(new Color(0xFFFFFFFF, true)));
     }
 
     public boolean checkHeroSp(){
         return mousePos.x >= 120 && mousePos.x <= 120 + 120 && mousePos.y >= 550 && mousePos.y <= 550 + 120;
+    }
+
+    public void drawTimer(SpriteBatch batch){
+        batch.setColor(turnTimePassed/30000f, 1 - turnTimePassed/30000f, 1, 1);
+        batch.draw(timer, 1330, 300, 250*(1 - turnTimePassed/30000f), 25);
+        batch.setColor(com.badlogic.gdx.graphics.Color.WHITE);
     }
 
     public static ArrayList<BattlePopUp> getPopUps() {

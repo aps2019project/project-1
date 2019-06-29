@@ -23,6 +23,8 @@ public class Game {
     private GameType type;
     private boolean exitFromGame = false;
     private ArrayList<Cell> allCellsInTable = new ArrayList<Cell>();
+    private long turnStartTime = 0;
+
     public Game(Account firstAccount, Account secondAccount, GameType type) {
         firstPlayer = new Player(firstAccount);
         secondPlayer = new Player(secondAccount);
@@ -129,6 +131,7 @@ public class Game {
         nextTurn();
     }
     public void nextTurn() {
+        turnStartTime = System.currentTimeMillis();
         turnNumber++;
         firstPlayer.nextTurnSetup();
         secondPlayer.nextTurnSetup();
@@ -300,4 +303,11 @@ public class Game {
         return array;
     }
 
+    public long getTurnStartTime() {
+        return turnStartTime;
+    }
+
+    public void setTurnStartTime(long turnStartTime) {
+        this.turnStartTime = turnStartTime;
+    }
 }

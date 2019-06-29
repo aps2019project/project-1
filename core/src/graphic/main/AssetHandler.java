@@ -131,6 +131,7 @@ public class AssetHandler {
         assetManager.load("sfx/attack.mp3", Sound.class);
         assetManager.load("sfx/run.mp3", Sound.class);
         assetManager.load("sfx/death.mp3", Sound.class);
+        assetManager.load("battle/timer.png", Texture.class);
 
 
         for(int i = 1; i <= 11; i++)
