@@ -4,6 +4,7 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import graphic.Others.PopUp;
 import graphic.screen.LoadingScreen;
@@ -19,13 +20,18 @@ public class Main extends ApplicationAdapter {
 
 	@Override
 	public void create () {
-//		control.Main main = new control.Main();
-//		main.start();
+		createMouseIcon("mouse.png");
 		Card.scanAllCards();
 		Account.readAccountDetails();
 		AssetHandler.load();
 		ScreenManager.setScreen(new LoadingScreen());
 		batch = new SpriteBatch();
+	}
+
+	private void createMouseIcon(String picPath) {
+		Pixmap pm = new Pixmap(Gdx.files.internal(picPath));
+		Gdx.graphics.setCursor(Gdx.graphics.newCursor(pm, 0, 0));
+		pm.dispose();
 	}
 
 	@Override
