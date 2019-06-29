@@ -681,17 +681,30 @@ public class BattleScreen extends Screen {
     }
 
     public void drawHeroesSP(SpriteBatch batch) {
+        BitmapFont font = AssetHandler.getData().get("fonts/Arial 16.fnt");
+        font.setColor(Main.toColor(new Color(0xFF000000, true)));
         if(hero1Sp != null){
             if(!player1.canUseHeroSp())
                 batch.setColor(Main.toColor(new Color(0xA4B4B2B1, true)));
-            hero1Sp.draw(batch, 120, 550, 120, 120);
+            hero1Sp.draw(batch, 120, 560, 120, 120);
+            batch.begin();
+            batch.draw(mana, 163,560);
+            font.draw(batch, Integer.toString(player1.getHero().getMp()), 178, 585);
+            batch.end();
+            batch.setColor(com.badlogic.gdx.graphics.Color.WHITE);
         }
         if(hero2Sp != null){
             if(!player2.canUseHeroSp())
                 batch.setColor(Main.toColor(new Color(0xA4B4B2B1, true)));
-            hero2Sp.draw(batch, 1380, 550, 120, 120);
+            hero2Sp.draw(batch, 1380, 560, 120, 120);
+            batch.begin();
+            batch.draw(mana, 1420,550);
+            font.draw(batch, Integer.toString(player1.getHero().getMp()), 1435, 580);
+            batch.end();
+            batch.setColor(com.badlogic.gdx.graphics.Color.WHITE);
+
         }
-        batch.setColor(com.badlogic.gdx.graphics.Color.WHITE);
+        font.setColor(Main.toColor(new Color(0xFFFFFFFF, true)));
     }
 
     public boolean checkHeroSp(){
