@@ -292,6 +292,8 @@ public class Army extends Card {
     public void getDamaged(int number, Army army) {
         if(this.getName().equals("Giv")) return;
         int holyBuffs = this.haveBuff(HOLY);
+        if(this.whereItIs.getCellEffect() == CellEffect.HOLY)
+            holyBuffs ++;
         if(holyBuffs > 0) {
             BattleScreen.getPopUps().add(new BattlePopUp("Holy", this.whereItIs.getScreenX(), this.whereItIs.getScreenY()));
         }

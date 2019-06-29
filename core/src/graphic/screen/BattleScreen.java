@@ -99,6 +99,7 @@ public class BattleScreen extends Screen {
     private Gif hero2Sp;
 
     private boolean heroSpSelected = false;
+    private long turnTimePassed;
 
     @Override
     public void create() {
@@ -218,6 +219,8 @@ public class BattleScreen extends Screen {
             endGame();
         }
 
+        checkTurnTime();
+
         updateHandCells();
 
         setAnimations();
@@ -253,14 +256,7 @@ public class BattleScreen extends Screen {
                     ScreenManager.setScreen(new MenuScreen());
                 }
                 if(endTurnButton.isActive()){
-                    selectedCell = null;
-                    selectedArmy = null;
-                    selectedCellHand = null;
-                    heroSpSelected = false;
-                    setCommand("end turn");
-                    synchronized (game){
-                        game.notify();
-                    }
+                    endTurn();
                 } else if(endGameButton.isActive()){
                     game.exitFromGame();
                     endGame();
@@ -346,6 +342,23 @@ public class BattleScreen extends Screen {
                 return false;
             }
         });
+    }
+
+    public void endTurn() {
+        selectedCell = null;
+        selectedArmy = null;
+        selectedCellHand = null;
+        heroSpSelected = false;
+        setCommand("end turn");
+        synchronized (game){
+            game.notify();
+        }
+    }
+
+    public void checkTurnTime() {
+        turnTimePassed = System.currentTimeMillis() - game.getTurnStartTime();
+        if(turnTimePassed >= 30000)
+            endTurn();
     }
 
     public void endGame() {
