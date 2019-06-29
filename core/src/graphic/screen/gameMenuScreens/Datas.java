@@ -83,7 +83,6 @@ public class Datas {
                 playGame(0,firstLevelPlayer);
             }
         }).start();
-
     }
 
     public void makeSecondStory() {
@@ -118,7 +117,7 @@ public class Datas {
         game.startMatch();
         if(game.isExitFromGame()) {
             System.out.println("you leave the game");
-            ScreenManager.setScreen(new MenuScreen());
+//            ScreenManager.setScreen(new MenuScreen());
         } else {
             MatchResult result = game.getResults();
 //            System.out.println(account.getDaric());
@@ -135,7 +134,7 @@ public class Datas {
         game.startMatch();
         if(game.isExitFromGame()) {
             System.out.println("you leave the game");
-            ScreenManager.setScreen(new MenuScreen());
+//            ScreenManager.setScreen(new MenuScreen());
 
         } else {
             if (game.getType() == GameType.KILL_HERO) {

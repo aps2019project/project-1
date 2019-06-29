@@ -29,8 +29,8 @@ public class IntelligentPlayer extends Player {
             Card card = ourArmies.getRandomCard();
             Cell destinationCell = Cell.getRandomCell(game.getAllCellsWithUniqueDistance(card.getWhereItIs(),2));
             super.moveArmy(card.getWhereItIs(),destinationCell);
+            super.moveFromHandToCell(hand.getRandomCard(),Cell.getRandomCell(game.getAllCellsNearArmies(ourArmies)));
         }
-        super.moveFromHandToCell(hand.getRandomCard(),Cell.getRandomCell(game.getAllCellsNearArmies(ourArmies)));
         endTurn = true;
     }
 }
