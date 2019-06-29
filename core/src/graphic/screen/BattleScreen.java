@@ -3,6 +3,7 @@ package graphic.screen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
@@ -88,6 +89,12 @@ public class BattleScreen extends Screen {
     private Texture endgameBg;
     private Texture winnerNameSlot;
 
+    private Sound endgameSound;
+    private Sound attackSound;
+    private Sound deathSound;
+    private Sound runSound;
+    private boolean endgameSoundPlayed;
+
     @Override
     public void create() {
         animations = new HashMap<Army, ArmyAnimation>();
@@ -114,6 +121,10 @@ public class BattleScreen extends Screen {
         flag = AssetHandler.getData().get("battle/flag.png");
         endgameBg = AssetHandler.getData().get("battle/endgame bg.png");
         winnerNameSlot = AssetHandler.getData().get("button/daric slot.png");
+        endgameSound = AssetHandler.getData().get("sfx/end game.mp3");
+        attackSound = AssetHandler.getData().get("sfx/attack.mp3");
+        runSound = AssetHandler.getData().get("sfx/run.mp3");
+        deathSound = AssetHandler.getData().get("sfx/death.mp3");
 
         music.setLooping(true);
         music.setVolume(0.5f);
@@ -257,6 +268,7 @@ public class BattleScreen extends Screen {
                             setPopUp("Invalid Cell");
                             return false;
                         }
+                        runSound.play();
                         game.getWhoIsHisTurn().moveArmy(selectedCell, cell);
                         selectedCell = null;
                         selectedArmy = null;
@@ -269,6 +281,7 @@ public class BattleScreen extends Screen {
                         Cell cell = getMouseCell();
                         Army target = cell.getInsideArmy();
                         if(game.getWhoIsHisTurn().isInRange(selectedCell, cell)) {
+                            attackSound.play();
                             animations.get(selectedArmy).attack();
                             if (game.getWhoIsHisTurn().isInRange(cell, selectedCell))
                                 animations.get(target).attack();
@@ -329,6 +342,10 @@ public class BattleScreen extends Screen {
     }
 
     public void setEndGameScreen(SpriteBatch batch) {
+        if(!endgameSoundPlayed) {
+            endgameSound.play();
+            endgameSoundPlayed = true;
+        }
         Texture heroIcon;
         if(game.getWinner().getUsername().equals(player1.getAccount().getUsername()))
             heroIcon = hero1Icon;

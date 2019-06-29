@@ -217,9 +217,9 @@ public class CustomCardScreen extends Screen {
     }
 
     public void getSpell(){
-        if(text.contains("Price") && cardType == MINION) {
+        if(text.contains("Price")) {
             text = "Enter Mana";
-        } else if(text.contains("Mana") && cardType == MINION || text.contains("Price") && cardType == HERO) {
+        } else if(text.contains("Mana")) {
             text = "Enter Target";
             state = "Get Buff";
         }

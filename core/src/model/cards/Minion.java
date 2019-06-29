@@ -32,9 +32,13 @@ public class Minion extends Army {
         this.spTime = spTime;
         gifPath = "Card/Minion/" +number+".atlas";
         lastNumber = number;
-        minions.add(this);
-        cards.add(this);
-//        this.animation = new ArmyAnimation("Card/Hero/2.atlas");
+        if(number > 41) {
+            gifPath = "Card/Minion/41.atlas";
+        }
+        if(number <=40) {
+            minions.add(this);
+            cards.add(this);
+        }
     }
 
     public static int getLastNumber() {
