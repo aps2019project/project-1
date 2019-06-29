@@ -21,6 +21,8 @@ public class IntelligentPlayer extends Player {
     @Override
     public void play() {
         endTurn = false;
+        this.setUpBuffs();
+        this.checkPassive();
         increaseTurnNumber();
         setMana();
         deck.transferCardTo(hand);

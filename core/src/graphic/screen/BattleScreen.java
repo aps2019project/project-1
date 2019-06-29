@@ -5,9 +5,7 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.GlyphLayout;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import graphic.Others.ArmyAnimation;
@@ -16,6 +14,7 @@ import graphic.Others.CardTexture;
 import graphic.Others.PopUp;
 import graphic.main.AssetHandler;
 import graphic.main.Button;
+import graphic.main.Gif;
 import graphic.main.Main;
 import graphic.screen.gameMenuScreens.ChooseNumberOfPlayersMenuScreen;
 import model.cards.*;
@@ -95,6 +94,10 @@ public class BattleScreen extends Screen {
     private Sound runSound;
     private boolean endgameSoundPlayed;
 
+    private Gif usableItem;
+    private Gif hero1Sp;
+    private Gif hero2Sp;
+
     @Override
     public void create() {
         animations = new HashMap<Army, ArmyAnimation>();
@@ -162,6 +165,13 @@ public class BattleScreen extends Screen {
         setHandCells();
 
         graveyardCord = new Vector2(-graveyardBg.getWidth(), 180);
+
+        if(player1.getUsableItem() != null)
+            usableItem = new Gif(new Animation<TextureRegion>(1/20f, new TextureAtlas(player1.getUsableItem().getGifPath()).findRegions("gif"), Animation.PlayMode.LOOP));
+        if(player1.getHero().getSpellPath() != null)
+            hero1Sp = new Gif(new Animation<TextureRegion>(1/20f, new TextureAtlas(player1.getHero().getSpellPath()).findRegions("gif"), Animation.PlayMode.LOOP));
+        if(player2.getHero().getSpellPath() != null)
+            hero2Sp = new Gif(new Animation<TextureRegion>(1/20f, new TextureAtlas(player2.getHero().getSpellPath()).findRegions("gif"), Animation.PlayMode.LOOP));
     }
 
     public void setAnimations() {
@@ -438,6 +448,8 @@ public class BattleScreen extends Screen {
         endTurnButton.draw(batch);
         endGameButton.draw(batch);
         graveyardButton.draw(batch);
+        drawUsableItem(batch);
+        drawHeroesSP(batch);
 
         if(game.isGameEnded()) {
             batch.begin();
@@ -490,7 +502,12 @@ public class BattleScreen extends Screen {
     }
 
     public void drawHeroesSP(SpriteBatch batch) {
-
+        if(hero1Sp != null){
+            hero1Sp.draw(batch, 100, 500, 120, 120);
+        }
+        if(hero2Sp != null){
+            hero2Sp.draw(batch, 1400, 500, 120, 120);
+        }
     }
 
     public void drawPlayersName(SpriteBatch batch){
@@ -656,6 +673,10 @@ public class BattleScreen extends Screen {
                 popUp.draw(batch);
             }
         } catch (ConcurrentModificationException c){ }
+    }
+
+    public void drawUsableItem(SpriteBatch batch) {
+        usableItem.draw(batch, 120, 120, 150, 150);
     }
 
     public static ArrayList<BattlePopUp> getPopUps() {
