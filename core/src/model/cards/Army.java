@@ -197,9 +197,11 @@ public class Army extends Card {
                 switch (buff.getPowerBuffType()) {
                     case AP:
                         this.ap -= buff.getNumber();
+                        if(this.ap < 0) this.ap = 0;
                         break;
                     case HP:
                         this.hp -= buff.getNumber();
+                        if(this.hp < 0) this.hp = 0;
                         break;
                 }
                 break;
@@ -218,9 +220,11 @@ public class Army extends Card {
                 switch (buff.getPowerBuffType()) {
                     case AP:
                         this.ap -= buff.getNumber();
+                        if(this.ap < 0) this.ap = 0;
                         break;
                     case HP:
                         this.hp -= buff.getNumber();
+                        if(this.hp < 0) this.hp = 0;
                         break;
                 }
                 break;

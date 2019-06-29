@@ -15,6 +15,7 @@ import graphic.main.AssetHandler;
 import graphic.main.Button;
 import graphic.main.Main;
 import graphic.screen.gameMenuScreens.ChooseNumberOfPlayersMenuScreen;
+import graphic.screen.gameMenuScreens.CustomCardScreen;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -101,6 +102,8 @@ public class MenuScreen extends Screen {
                     ScreenManager.setScreen(new TestScreen());
                 if (profileButton.isActive())
                     PopUp.getInstance().setText("Tet pop up sdfsdfasdfsa");
+                if(customCardButton.isActive())
+                    ScreenManager.setScreen(new CustomCardScreen());
                 return false;
             }
 
