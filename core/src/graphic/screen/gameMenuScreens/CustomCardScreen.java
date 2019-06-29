@@ -278,6 +278,7 @@ public class CustomCardScreen extends Screen {
     }
 
     public void writeCard(){
+        if(state.contains("Card Created")) return;
         switch (cardType){
             case HERO:
                 CvsWriter.write("Heroes", data);
@@ -292,6 +293,7 @@ public class CustomCardScreen extends Screen {
                 Spell.createSpell(data.toArray(new String[data.size()]));
                 break;
         }
+        state = "Card Created";
         text = "Your Card Created Successfully. Press Enter to Continue";
     }
 }
