@@ -127,6 +127,8 @@ public class AssetHandler {
         assetManager.load("battle/endgame bg.png", Texture.class);
         assetManager.load("slots/text field.png", Texture.class);
         assetManager.load("backGround/custom card bg.png", Texture.class);
+        assetManager.load("sfx/end game.mp3", Sound.class);
+
 
         for(int i = 1; i <= 11; i++)
             assetManager.load("Card/Hero/generals/" + Integer.toString(i) + ".png", Texture.class);
