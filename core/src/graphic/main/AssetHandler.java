@@ -128,6 +128,9 @@ public class AssetHandler {
         assetManager.load("slots/text field.png", Texture.class);
         assetManager.load("backGround/custom card bg.png", Texture.class);
         assetManager.load("sfx/end game.mp3", Sound.class);
+        assetManager.load("sfx/attack.mp3", Sound.class);
+        assetManager.load("sfx/run.mp3", Sound.class);
+        assetManager.load("sfx/death.mp3", Sound.class);
 
 
         for(int i = 1; i <= 11; i++)

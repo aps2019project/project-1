@@ -90,6 +90,9 @@ public class BattleScreen extends Screen {
     private Texture winnerNameSlot;
 
     private Sound endgameSound;
+    private Sound attackSound;
+    private Sound deathSound;
+    private Sound runSound;
     private boolean endgameSoundPlayed;
 
     @Override
@@ -119,6 +122,9 @@ public class BattleScreen extends Screen {
         endgameBg = AssetHandler.getData().get("battle/endgame bg.png");
         winnerNameSlot = AssetHandler.getData().get("button/daric slot.png");
         endgameSound = AssetHandler.getData().get("sfx/end game.mp3");
+        attackSound = AssetHandler.getData().get("sfx/attack.mp3");
+        runSound = AssetHandler.getData().get("sfx/run.mp3");
+        deathSound = AssetHandler.getData().get("sfx/death.mp3");
 
         music.setLooping(true);
         music.setVolume(0.5f);
@@ -262,6 +268,7 @@ public class BattleScreen extends Screen {
                             setPopUp("Invalid Cell");
                             return false;
                         }
+                        runSound.play();
                         game.getWhoIsHisTurn().moveArmy(selectedCell, cell);
                         selectedCell = null;
                         selectedArmy = null;
@@ -274,6 +281,7 @@ public class BattleScreen extends Screen {
                         Cell cell = getMouseCell();
                         Army target = cell.getInsideArmy();
                         if(game.getWhoIsHisTurn().isInRange(selectedCell, cell)) {
+                            attackSound.play();
                             animations.get(selectedArmy).attack();
                             if (game.getWhoIsHisTurn().isInRange(cell, selectedCell))
                                 animations.get(target).attack();
