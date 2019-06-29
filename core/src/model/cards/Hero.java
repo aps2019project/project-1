@@ -32,6 +32,7 @@ public class Hero extends Army {
         gifPath = "Card/Hero/" +number+".atlas";
         if(number > 11) {
             iconId = "Card/Hero/Icon/11.png";
+            gifPath = "Card/Hero/11.atlas";
         }
         if(number <=10) {
             heroes.add(this);
