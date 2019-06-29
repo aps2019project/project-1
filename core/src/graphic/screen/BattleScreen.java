@@ -67,7 +67,7 @@ public class BattleScreen extends Screen {
     private Cell selectedCell;
     private Army selectedArmy;
 
-    private static HashMap<Army, ArmyAnimation> animations;
+    private static HashMap<Army, ArmyAnimation> animations = new HashMap<Army, ArmyAnimation>();;
 
     private Vector2 handStartCord;
 
@@ -77,8 +77,8 @@ public class BattleScreen extends Screen {
 
     private Cell selectedCellHand;
 
-    private static ArrayList<BattlePopUp> popUps;
-
+    private static ArrayList<BattlePopUp> popUps = new ArrayList<BattlePopUp>();
+    ;
     private Texture graveyardBg;
     private Vector2 graveyardCord;
     private boolean showingGraveyard;
@@ -103,10 +103,12 @@ public class BattleScreen extends Screen {
 
     private Texture timer;
 
+    private HashMap<Item, Gif> itemsGifs = new HashMap<Item, Gif>();
+
+    private Vector2 playerItemStartCord;
+
     @Override
     public void create() {
-        animations = new HashMap<Army, ArmyAnimation>();
-        popUps = new ArrayList<BattlePopUp>();
 
         setCameraAndViewport();
         shapeRenderer = new ShapeRenderer();
@@ -178,6 +180,18 @@ public class BattleScreen extends Screen {
             hero1Sp = new Gif(new Animation<TextureRegion>(1/20f, new TextureAtlas(player1.getHero().getSpellPath()).findRegions("gif"), Animation.PlayMode.LOOP));
         if(player2.getHero().getSpellPath() != null)
             hero2Sp = new Gif(new Animation<TextureRegion>(1/20f, new TextureAtlas(player2.getHero().getSpellPath()).findRegions("gif"), Animation.PlayMode.LOOP));
+
+        setItemGifs();
+        playerItemStartCord = new Vector2(55, 505);
+
+    }
+
+    public void setItemGifs() {
+        for(Cell cell : game.getAllCellsInTable()){
+            if(cell.getInsideItem() != null){
+                itemsGifs.put(cell.getInsideItem(), new Gif(new Animation<TextureRegion>(1/20f, new TextureAtlas(cell.getInsideItem().getGifPath()).findRegions("gif"), Animation.PlayMode.LOOP)));
+            }
+        }
     }
 
     public void setAnimations() {
@@ -477,6 +491,7 @@ public class BattleScreen extends Screen {
         graveyardButton.draw(batch);
         drawUsableItem(batch);
         drawHeroesSP(batch);
+        drawPlayerItems(batch);
 
         if(game.isGameEnded()) {
             batch.begin();
@@ -586,6 +601,7 @@ public class BattleScreen extends Screen {
                             batch.setColor(Main.toColor(new Color(0x3DB0C0F9, true)));
                         batch.draw(tile, x, y, cellSizeX, cellSizeY);
                         batch.setColor(com.badlogic.gdx.graphics.Color.WHITE);
+                        drawItem(batch, cell);
 
                     } else {
                         if (player1.isFriend(army)) {
@@ -631,6 +647,14 @@ public class BattleScreen extends Screen {
             }
         } catch(NullPointerException n){ }
         batch.end();
+    }
+
+    public void drawItem(SpriteBatch batch, Cell cell) {
+        if(cell.getInsideItem() != null){
+            batch.end();
+            itemsGifs.get(cell.getInsideItem()).draw(batch, cell.getScreenX(), cell.getScreenY(), 90, 90);
+            batch.begin();
+        }
     }
 
     public void drawTileEffect(SpriteBatch batch, Cell cell, float x, float y){
@@ -728,8 +752,23 @@ public class BattleScreen extends Screen {
 
     public void drawTimer(SpriteBatch batch){
         batch.setColor(turnTimePassed/30000f, 1 - turnTimePassed/30000f, 1, 1);
-        batch.draw(timer, 1330, 300, 250*(1 - turnTimePassed/30000f), 25);
+        batch.draw(timer, 1330, 190, 250*(1 - turnTimePassed/30000f), 25);
         batch.setColor(com.badlogic.gdx.graphics.Color.WHITE);
+    }
+
+    public void drawPlayerItems(SpriteBatch batch) {
+        for(int i = 0; i<player1.getCollectibleItem().getAllItems().size(); i++){
+            Gif itemGif = findItemGif(player1.getCollectibleItem().getAllItems().get(i));
+            itemGif.draw(batch, playerItemStartCord.x, playerItemStartCord.y - i*100, 90, 90);
+        }
+    }
+
+    public Gif findItemGif(Item item) {
+        for(Item item1 : itemsGifs.keySet()){
+            if(item1.getName().equals(item.getName()))
+            return itemsGifs.get(item1);
+        }
+        return null;
     }
 
     public static ArrayList<BattlePopUp> getPopUps() {
