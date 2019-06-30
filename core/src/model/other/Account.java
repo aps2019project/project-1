@@ -145,7 +145,10 @@ public class Account {
         matchHistory.add(result);
     }
 
-    public void addDeck(Deck deck) {
+    public void addDeck(Deck deck) throws DontHaveCardException {
+        for (Card card: deck.getCards().getAllCards())
+            if (this.collection.findByName(card.getName()) == null)
+                throw new DontHaveCardException();
         allDecks.add(deck);
     }
 
@@ -240,9 +243,6 @@ public class Account {
         for (SavingObject temp: data) {
             temp.getAccount();
         }
-
-        Account.setCurrentAccount(accounts.get(0));
-
     }
 
     public void deleteCardFromAllDecks(String cardName){

@@ -14,9 +14,14 @@ import graphic.main.Button;
 import graphic.main.Main;
 import model.game.Deck;
 import model.other.Account;
+import model.other.DeckSavingObject;
 import model.other.exeptions.collection.*;
 
+import javax.swing.*;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
+import java.io.FileNotFoundException;
 import java.nio.BufferUnderflowException;
 import java.util.ArrayList;
 
@@ -35,11 +40,14 @@ public class TestScreen extends Screen {
     private Button addToDeckButton;
     private Button deleteCardFromDeckButton;
     private Button doneTypingButton;
+    private Button importDeckButton;
+    private Button exportDeckButton;
     private CardShowSlot cardList;
     private Vector2 mousePos;
     private String selectedCard;
     private String deckCard = "";
     private String text = "";
+    private String filePath;
     private boolean isTyping = false;
     private Deck currentDeck;
     private DeckTexture deckTexture;
@@ -67,6 +75,9 @@ public class TestScreen extends Screen {
         createDeckButton = new Button("button/yellow.png", "button/yellow glow.png", 1300, 30, "Create Deck", "fonts/Arial 20.fnt");
         doneTypingButton = new Button("button/shop done.png", 711, 300, "Done");
         selectAsMainDeckButton = new Button("button/green.png", "button/green glow.png", 450, 760, "Select Main", "fonts/Arial 20.fnt");
+        importDeckButton = new Button("button/yellow.png", "button/yellow glow.png", 1100, 30, "Import Deck", "fonts/Arial 20.fnt");
+        exportDeckButton = new Button("button/green.png", "button/green glow.png", 450, 820, "Export Deck", "fonts/Arial 20.fnt");
+
         createWaterFallAnimation();
 
         cardList = new CardShowSlot(Account.getCurrentAccount().getCollection(), 670, 140, 3, 2);
@@ -97,8 +108,11 @@ public class TestScreen extends Screen {
                 deleteCardFromDeckButton.setActive(deleteCardFromDeckButton.contains(mousePos));
             if (currentDeck != null && !currentDeck.getName().equals(account.getMainDeck().getName()))
                 selectAsMainDeckButton.setActive(selectAsMainDeckButton.contains(mousePos));
+            if (currentDeck != null)
+                exportDeckButton.setActive(exportDeckButton.contains(mousePos));
             backButton.setActive(backButton.contains(mousePos));
             createDeckButton.setActive(createDeckButton.contains(mousePos));
+            importDeckButton.setActive(importDeckButton.contains(mousePos));
         }
 
         Gdx.input.setInputProcessor(new InputProcessor() {
@@ -136,7 +150,11 @@ public class TestScreen extends Screen {
                 if (isTyping) {
                     if (doneTypingButton.isActive() && text.length() >= 3) {
                         Deck deck = new Deck(text);
-                        Account.getCurrentAccount().addDeck(deck);
+                        try {
+                            Account.getCurrentAccount().addDeck(deck);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                         createDeckButtons();
                         isTyping = false;
                         text = "";
@@ -213,6 +231,13 @@ public class TestScreen extends Screen {
                     selectAsMainDeckButton.setActive(false);
                 }
 
+                if (importDeckButton.isActive()) {
+                    importDeckFromFile();
+                }
+
+                if (exportDeckButton.isActive() && currentDeck != null) {
+                    exportDeck();
+                }
 
                 return false;
             }
@@ -240,6 +265,61 @@ public class TestScreen extends Screen {
 
     }
 
+    private void exportDeck() {
+        EventQueue.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                JFileChooser fileChooser = new JFileChooser();
+                fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+                int returnVal = fileChooser.showOpenDialog(null);
+                if (returnVal == JFileChooser.APPROVE_OPTION) {
+                    filePath = fileChooser.getSelectedFile().getPath();
+                }
+                Gdx.app.postRunnable(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            DeckSavingObject.saveDeck(currentDeck, filePath);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+            }
+        });
+        exportDeckButton.setActive(false);
+    }
+
+    private void importDeckFromFile() {
+        EventQueue.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                JFileChooser fileChooser = new JFileChooser();
+                FileFilter filter = new FileNameExtensionFilter("Deck Files", "deck");
+                fileChooser.setFileFilter(filter);
+                fileChooser.addChoosableFileFilter(filter);
+                int returnVal = fileChooser.showOpenDialog(null);
+                if (returnVal == JFileChooser.APPROVE_OPTION) {
+                    filePath = fileChooser.getSelectedFile().getPath();
+                }
+                Gdx.app.postRunnable(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            Account.getCurrentAccount().addDeck(DeckSavingObject.readDeck(filePath));
+                        } catch (FileNotFoundException e) {
+                            PopUp.getInstance().setText(e.getMessage());
+                        } catch (DontHaveCardException e) {
+                            PopUp.getInstance().setText("You Don't Have All Cards in this deck");
+                        }
+                        createDeckButtons();
+                    }
+                });
+            }
+        });
+        importDeckButton.setActive(false);
+    }
+
     @Override
     public void render(SpriteBatch batch) {
         batch.setProjectionMatrix(camera.combined);
@@ -261,6 +341,9 @@ public class TestScreen extends Screen {
         createDeckButton.draw(batch);
         if (currentDeck != null && !currentDeck.getName().equals(account.getMainDeck().getName()))
             selectAsMainDeckButton.draw(batch);
+        importDeckButton.draw(batch);
+        if (currentDeck != null)
+            exportDeckButton.draw(batch);
 
         if (isTyping) {
             batch.setColor(Main.toColor(new Color(0xFFFFFFFF, true)));
