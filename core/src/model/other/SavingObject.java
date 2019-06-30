@@ -4,6 +4,7 @@ import graphic.main.Main;
 import model.cards.Card;
 import model.game.Deck;
 import model.game.MatchResult;
+import model.other.exeptions.collection.DontHaveCardException;
 import model.variables.CardsArray;
 import org.omg.PortableInterceptor.ServerRequestInfo;
 
@@ -59,7 +60,11 @@ public class SavingObject {
         for (Map.Entry<String, ArrayList<String>> tempDeck: allDecks.entrySet()) {
             String deckName = tempDeck.getKey();
             CardsArray cards = new CardsArray(tempDeck.getValue(), this.username);
-            account.addDeck(new Deck(deckName, cards));
+            try {
+                account.addDeck(new Deck(deckName, cards));
+            } catch (DontHaveCardException e) {
+                e.printStackTrace();
+            }
         }
     }
 

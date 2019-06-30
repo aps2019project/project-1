@@ -16,6 +16,7 @@ import graphic.main.Button;
 import graphic.main.Main;
 import graphic.screen.gameMenuScreens.ChooseNumberOfPlayersMenuScreen;
 import graphic.screen.gameMenuScreens.CustomCardScreen;
+import model.other.Account;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -37,6 +38,7 @@ public class MenuScreen extends Screen {
 
     @Override
     public void create() {
+        Account.saveAccountDetails();
         setCameraAndViewport();
         createLanternsAnimation();
         shapeRenderer = new ShapeRenderer();
