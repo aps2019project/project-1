@@ -28,12 +28,6 @@ public class Main extends ApplicationAdapter {
 		batch = new SpriteBatch();
 	}
 
-	private void createMouseIcon(String picPath) {
-		Pixmap pm = new Pixmap(Gdx.files.internal(picPath));
-		Gdx.graphics.setCursor(Gdx.graphics.newCursor(pm, 0, 0));
-		pm.dispose();
-	}
-
 	@Override
 	public void render () {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
@@ -42,12 +36,18 @@ public class Main extends ApplicationAdapter {
 		ScreenManager.getScreen().render(batch);
 		PopUp.getInstance().draw(batch);
 	}
-	
+
 	@Override
 	public void dispose () {
 		if (ScreenManager.getScreen() != null)
 			ScreenManager.getScreen().dispose();
 		batch.dispose();
+	}
+
+	private void createMouseIcon(String picPath) {
+		Pixmap pm = new Pixmap(Gdx.files.internal(picPath));
+		Gdx.graphics.setCursor(Gdx.graphics.newCursor(pm, 0, 0));
+		pm.dispose();
 	}
 
 	public static Color toColor(java.awt.Color color) {

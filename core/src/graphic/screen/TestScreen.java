@@ -5,22 +5,19 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import graphic.Others.CardShowSlot;
-import graphic.Others.CardTexture;
-import graphic.Others.MoveAnimation;
-import graphic.Others.MoveType;
+import graphic.Others.*;
 import graphic.main.AssetHandler;
 import graphic.main.Button;
 import graphic.main.Main;
-import model.cards.Hero;
-import model.cards.Item;
-import model.cards.Minion;
-import model.cards.Spell;
+import model.game.Deck;
 import model.other.Account;
+import model.other.exeptions.collection.*;
 
 import java.awt.*;
+import java.nio.BufferUnderflowException;
 import java.util.ArrayList;
 
 public class TestScreen extends Screen {
@@ -29,15 +26,24 @@ public class TestScreen extends Screen {
     private Texture backGroundPic;
     private Texture middleGroundPic;
     private Texture frontPic;
+    private Texture textSlot;
     private ArrayList<MoveAnimation> waterFallAnimation;
     private ArrayList<Button> allDecksButtons;
     private Button backButton;
     private Button selectAsMainDeckButton;
     private Button createDeckButton;
     private Button addToDeckButton;
+    private Button deleteCardFromDeckButton;
+    private Button doneTypingButton;
     private CardShowSlot cardList;
     private Vector2 mousePos;
     private String selectedCard;
+    private String deckCard = "";
+    private String text = "";
+    private boolean isTyping = false;
+    private Deck currentDeck;
+    private DeckTexture deckTexture;
+    private BitmapFont font;
 
 
     @Override
@@ -46,25 +52,54 @@ public class TestScreen extends Screen {
         playBackGroundMusic("music/collection.mp3");
         backGroundPic = AssetHandler.getData().get("backGround/collection1.png");
         middleGroundPic = AssetHandler.getData().get("backGround/collection2.png");
+        textSlot = AssetHandler.getData().get("slots/text field.png");
         frontPic = AssetHandler.getData().get("backGround/collection3.png");
 
         account = Account.getCurrentAccount();
-
-        float buttonHeight = AssetHandler.getData().get("button/deckSlot.png", Texture.class).getHeight();
-        allDecksButtons = new ArrayList<Button>();
-        for (int i = 0; i < account.getAllDecks().size(); ++i)
-            allDecksButtons.add(new Button("button/deckSlot.png", "button/deckSlotGlow.png", 0, Main.HEIGHT - 100 - (i + 1) * buttonHeight));
+        font = new BitmapFont(AssetHandler.getData().get("fonts/Arial 24.fnt", BitmapFont.class).getData(), AssetHandler.getData().get("fonts/Arial 24.fnt", BitmapFont.class).getRegions(), true);
+        font.setColor(Main.toColor(new Color(0x001042)));
+        createDeckButtons();
         mousePos = new Vector2();
+
+        backButton = new Button("button/back.png", 0, 850, 50, 50);
+        addToDeckButton = new Button("button/green.png", "button/green glow.png", 800, 50, "Add Card", "fonts/Arial 20.fnt");
+        deleteCardFromDeckButton = new Button("button/red.png", "button/red glow.png", 450, 700, "remove card", "fonts/Arial 20.fnt");
+        createDeckButton = new Button("button/yellow.png", "button/yellow glow.png", 1300, 30, "Create Deck", "fonts/Arial 20.fnt");
+        doneTypingButton = new Button("button/shop done.png", 711, 300, "Done");
+        selectAsMainDeckButton = new Button("button/green.png", "button/green glow.png", 450, 760, "Select Main", "fonts/Arial 20.fnt");
         createWaterFallAnimation();
 
         cardList = new CardShowSlot(Account.getCurrentAccount().getCollection(), 670, 140, 3, 2);
         selectedCard = "";
     }
 
+    private void createDeckButtons() {
+        float buttonHeight = AssetHandler.getData().get("button/deckSlot.png", Texture.class).getHeight();
+        allDecksButtons = new ArrayList<Button>();
+        for (int i = 0; i < account.getAllDecks().size(); ++i)
+            if (account.getAllDecks().get(i).getName().equals(account.getMainDeck().getName()))
+                allDecksButtons.add(new Button("button/deckSlot.png", "button/deckSlotGlow.png", 0, Main.HEIGHT - 100 - (i + 1) * buttonHeight, "Main", "fonts/Arial 20.fnt"));
+            else
+                allDecksButtons.add(new Button("button/deckSlot.png", "button/deckSlotGlow.png", 0, Main.HEIGHT - 100 - (i + 1) * buttonHeight));
+    }
+
     @Override
     public void update() {
         camera.update();
         mousePos = viewport.unproject(new Vector2(Gdx.input.getX(), Gdx.input.getY()));
+
+        if (isTyping) {
+            doneTypingButton.setActive(doneTypingButton.contains(mousePos));
+        } else {
+            if (!selectedCard.equals("") && currentDeck != null)
+                addToDeckButton.setActive(addToDeckButton.contains(mousePos));
+            if (currentDeck != null && !deckCard.equals(""))
+                deleteCardFromDeckButton.setActive(deleteCardFromDeckButton.contains(mousePos));
+            if (currentDeck != null && !currentDeck.getName().equals(account.getMainDeck().getName()))
+                selectAsMainDeckButton.setActive(selectAsMainDeckButton.contains(mousePos));
+            backButton.setActive(backButton.contains(mousePos));
+            createDeckButton.setActive(createDeckButton.contains(mousePos));
+        }
 
         Gdx.input.setInputProcessor(new InputProcessor() {
             @Override
@@ -73,6 +108,15 @@ public class TestScreen extends Screen {
                     setMusicVolume(false);
                 if (keycode == Input.Keys.PAGE_UP)
                     setMusicVolume(true);
+                if (!isTyping) return false;
+
+                if (keycode >= Input.Keys.A && keycode <= Input.Keys.Z)
+                    text = text + (char) (keycode - Input.Keys.A + 'a');
+                else if (keycode >= Input.Keys.NUM_0 && keycode <= Input.Keys.NUM_9)
+                    text = text + String.valueOf(keycode - Input.Keys.NUM_0).charAt(0);
+                else if (keycode == Input.Keys.BACKSPACE && text.length() > 0)
+                    text = text.substring(0, text.length() - 1);
+
                 return false;
             }
 
@@ -88,10 +132,88 @@ public class TestScreen extends Screen {
 
             @Override
             public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-                for (Button deckButton: allDecksButtons)
-                    deckButton.setActive(deckButton.contains(mousePos));
-                cardList.update(mousePos);
-                selectedCard = cardList.getSelectedCard(mousePos);
+
+                if (isTyping) {
+                    if (doneTypingButton.isActive() && text.length() >= 3) {
+                        Deck deck = new Deck(text);
+                        Account.getCurrentAccount().addDeck(deck);
+                        createDeckButtons();
+                        isTyping = false;
+                        text = "";
+                        doneTypingButton.setActive(false);
+                    }
+                }
+
+                boolean isDeckSelected = false;
+                for (Button deckButton: allDecksButtons) {
+                    if (deckButton.contains(mousePos)) {
+                        currentDeck = account.getAllDecks().get(allDecksButtons.indexOf(deckButton));
+                        deckTexture = new DeckTexture(currentDeck, 200, 870);
+                        deckCard = "";
+                        isDeckSelected = true;
+                    }
+                }
+
+                if (isDeckSelected)
+                    for (Button deckButton: allDecksButtons) {
+                        deckButton.setActive(deckButton.contains(mousePos));
+                    }
+
+                if (deckTexture != null) {
+                    if (deckTexture.contains(mousePos)) {
+                        deckCard = deckTexture.getCardName(mousePos);
+                        deckTexture.setActive(mousePos);
+                    }
+                }
+
+                if (cardList.contains(mousePos)) {
+                    cardList.update(mousePos);
+                    selectedCard = cardList.getSelectedCard(mousePos);
+                }
+
+                if (backButton.isActive()) {
+                    Account.saveAccountDetails();
+                    ScreenManager.setScreen(new MenuScreen());
+                }
+
+                if (addToDeckButton.isActive() && !selectedCard.equals("") && currentDeck != null) {
+                    try {
+                        Account.getCurrentAccount().addCardToDeck(selectedCard, currentDeck);
+                    } catch (DeckIsFullException e) {
+                        PopUp.getInstance().setText("Deck is Full. Delete some cards first.");
+                    } catch (DeckAlreadyHaveHeroException e) {
+                        PopUp.getInstance().setText("Deck Already Have a Hero.");
+                    } catch (DeckAlreadyHaveItemException e) {
+                        PopUp.getInstance().setText("Deck Already Have an Item");
+                    } catch (CollectionException e) {
+                        PopUp.getInstance().setText("Something went wrong. Try again later...");
+                    }
+                    deckTexture = new DeckTexture(currentDeck, 200, 870);
+                }
+
+                if (deleteCardFromDeckButton.isActive() && !deckCard.equals("")) {
+                    try {
+                        Account.getCurrentAccount().removeCardFromDeck(deckCard, currentDeck);
+                    } catch (CollectionException e) {
+                        PopUp.getInstance().setText("Can't delete this card");
+                    }
+                    deckTexture = new DeckTexture(currentDeck, 200, 870);
+                    deckCard = "";
+                    deleteCardFromDeckButton.setActive(false);
+                }
+
+                if (createDeckButton.isActive()) {
+                    isTyping = true;
+                    createDeckButton.setActive(false);
+                }
+
+                if (selectAsMainDeckButton.isActive() && currentDeck != null) {
+                    Account.getCurrentAccount().setMainDeck(currentDeck);
+                    createDeckButtons();
+                    selectAsMainDeckButton.setActive(false);
+                }
+
+
                 return false;
             }
 
@@ -121,10 +243,38 @@ public class TestScreen extends Screen {
     @Override
     public void render(SpriteBatch batch) {
         batch.setProjectionMatrix(camera.combined);
+        if (isTyping)
+            batch.setColor(Main.toColor(new Color(0x6EFFFFFF, true)));
+        else
+            batch.setColor(Main.toColor(new Color(0xFFFFFFFF, true)));
         drawBackGround(batch);
         for (Button deckButton: allDecksButtons)
             deckButton.draw(batch);
         cardList.draw(batch);
+        backButton.draw(batch);
+        if (deckTexture != null)
+            deckTexture.draw(batch);
+        if (!selectedCard.equals("") && currentDeck != null)
+            addToDeckButton.draw(batch);
+        if (!deckCard.equals(""))
+            deleteCardFromDeckButton.draw(batch);
+        createDeckButton.draw(batch);
+        if (currentDeck != null && !currentDeck.getName().equals(account.getMainDeck().getName()))
+            selectAsMainDeckButton.draw(batch);
+
+        if (isTyping) {
+            batch.setColor(Main.toColor(new Color(0xFFFFFFFF, true)));
+            batch.begin();
+            float x = (Main.WIDTH - textSlot.getWidth()) / 2;
+            float y = (Main.HEIGHT - textSlot.getHeight()) / 2;
+            GlyphLayout glyphLayout = new GlyphLayout();
+            glyphLayout.setText(font, text);
+            batch.draw(textSlot, x, y);
+            font.draw(batch, text, (Main.WIDTH - glyphLayout.width) / 2, Main.HEIGHT - (Main.HEIGHT - glyphLayout.height) / 2);
+            batch.end();
+            doneTypingButton.draw(batch);
+
+        }
     }
 
     @Override
