@@ -23,6 +23,9 @@ public class Game {
     private GameType type;
     private boolean exitFromGame = false;
     private ArrayList<Cell> allCellsInTable = new ArrayList<Cell>();
+    private long turnStartTime = 0;
+    private ArrayList<Item> items = new ArrayList<Item>();
+
     public Game(Account firstAccount, Account secondAccount, GameType type) {
         firstPlayer = new Player(firstAccount);
         secondPlayer = new Player(secondAccount);
@@ -34,9 +37,21 @@ public class Game {
         }
         this.type = type;
         currentGame = this;
+        setItems();
+    }
+
+    public void setItems() {
 //        table[2][2].setInsideItem(Item.getCollectableItems().getAllItems().get(0));
 //        table[2][6].setInsideItem(Item.getCollectableItems().getAllItems().get(3));
+        addItem(Item.getCollectableItems().getAllItems().get(0), table[2][2]);
+        addItem(Item.getCollectableItems().getAllItems().get(3), table[2][6]);
     }
+
+    public void addItem(Item item, Cell cell) {
+        cell.setInsideItem(item);
+        items.add(item);
+    }
+
     public Game(Account firstAccount, Account secondAccount, GameType type, int numberOfFlags) {
         this(firstAccount,secondAccount,type);
         if(numberOfFlags%2 == 1) {
@@ -129,6 +144,7 @@ public class Game {
         nextTurn();
     }
     public void nextTurn() {
+        turnStartTime = System.currentTimeMillis();
         turnNumber++;
         firstPlayer.nextTurnSetup();
         secondPlayer.nextTurnSetup();
@@ -300,4 +316,15 @@ public class Game {
         return array;
     }
 
+    public long getTurnStartTime() {
+        return turnStartTime;
+    }
+
+    public void setTurnStartTime(long turnStartTime) {
+        this.turnStartTime = turnStartTime;
+    }
+
+    public ArrayList<Item> getItems() {
+        return items;
+    }
 }

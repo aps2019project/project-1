@@ -22,6 +22,7 @@ public class Hero extends Army {
     private int mp, coolDown;
     private Buff specialBuff = null;
     private String iconId;
+    private String spellPath;
 
     Hero(int number, String name, int price, int hp, int ap, int ar, int mp, int coolDown, AttackType attackType, String description) {
         super(number, name, price, description, hp, ap, ar, attackType, HERO, 0);
@@ -30,9 +31,13 @@ public class Hero extends Army {
         lastNumber = number;
         iconId = "Card/Hero/Icon/" + number +".png";
         gifPath = "Card/Hero/" +number+".atlas";
+        spellPath = "Card/Hero/general spell/" +number+".atlas";
         if(number > 11) {
             iconId = "Card/Hero/Icon/11.png";
+            gifPath = "Card/Hero/11.atlas";
+            spellPath = "Card/Hero/general spell/11.atlas";
         }
+        if(name.equals("Rostam")) spellPath = null;
         if(number <=10) {
             heroes.add(this);
             cards.add(this);
@@ -176,4 +181,7 @@ public class Hero extends Army {
         this.addBuff(new Buff(HOLY, 3, CONTINUOUS));
     }
 
+    public String getSpellPath() {
+        return spellPath;
+    }
 }

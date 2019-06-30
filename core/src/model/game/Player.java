@@ -249,14 +249,23 @@ public class Player {
 
     public boolean useSpecialPower(Cell cell) {
         selectedCardPlace = cell;
-        if(this.getHero().getMp() > this.mana) return false;
-        if( this.usedSpecialPowerTurn != 0 && (this.turnNumber - this.usedSpecialPowerTurn < this.getHero().getCoolDown())) return false;
+        if(this.getHero().getMp() > this.mana){
+            BattleScreen.setPopUp("Not Enough Mana");
+            return false;
+        }
+        if(!canUseHeroSp()){
+            return false;
+        }
         try {
             this.getHero().useSpell(this);
         } catch (Exception e) { e.printStackTrace();}
         this.mana -= this.getHero().getMp();
         this.usedSpecialPowerTurn = this.turnNumber;
         return true;
+    }
+
+    public boolean canUseHeroSp() {
+        return this.usedSpecialPowerTurn == 0 || (this.turnNumber - this.usedSpecialPowerTurn >= this.getHero().getCoolDown());
     }
 
     public boolean moveFromHandToCell(Card card,Cell cell) {
