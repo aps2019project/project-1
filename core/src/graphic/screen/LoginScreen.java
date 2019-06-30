@@ -248,7 +248,7 @@ public class LoginScreen extends Screen {
     }
 
     private void createFonts() {
-        font = AssetHandler.getData().get("fonts/Arial 16.fnt");
+        font = AssetHandler.getData().get("fonts/Arial 20.fnt");
     }
 
     private void drawBackGround(SpriteBatch batch) {
