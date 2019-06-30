@@ -171,7 +171,7 @@ public class Player {
             animations.get(army).run(destinationCell.getScreenX(), destinationCell.getScreenY());
         }
         else {
-            System.out.println("animation army is null");
+//            System.out.println("animation army is null");
         }
         return destinationCell.put(army, turnNumber);
     }
