@@ -3,6 +3,7 @@ package control;
 import model.cards.Card;
 import model.game.Deck;
 import model.other.Account;
+import model.other.exeptions.collection.DontHaveCardException;
 import model.variables.CardsArray;
 import view.CollectionScreen;
 
@@ -26,7 +27,11 @@ class CollectionHandler extends Handler{
             } else if (command.matches("search \\w+")) {
                 searchCard();
             } else if (command.matches("create deck \\w+")) {
-                createNewDeck();
+                try {
+                    createNewDeck();
+                } catch (DontHaveCardException e) {
+                    e.printStackTrace();
+                }
             } else if (command.matches("delete deck \\w+")) {
                 deleteDeck();
             } else if (command.matches("add [^ ]+ to deck \\w+")) {
@@ -158,7 +163,7 @@ class CollectionHandler extends Handler{
         }
     }
 
-    private void createNewDeck() {
+    private void createNewDeck() throws DontHaveCardException {
         String deckName = command.split(" ")[2];
         Deck deck = Account.getCurrentAccount().findDeck(deckName);
         if (deck == null) {

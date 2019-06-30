@@ -31,7 +31,6 @@ import static model.cards.CardType.MINION;
 public class CustomCardScreen extends Screen {
 
     private Texture backGround;
-    private Music music;
     private BitmapFont font;
     private GlyphLayout glyphLayout;
     private Texture textField;
@@ -48,16 +47,12 @@ public class CustomCardScreen extends Screen {
     public void create() {
         setCameraAndViewport();
         backGround = AssetHandler.getData().get("backGround/custom card bg.png");
-        music = AssetHandler.getData().get("music/login.mp3");
         textField = AssetHandler.getData().get("slots/text field.png");
         font = AssetHandler.getData().get("fonts/Arial 36.fnt");
 
         glyphLayout = new GlyphLayout();
 
-        music.setLooping(true);
-        music.setVolume(0.5f);
-        music.play();
-
+        playBackGroundMusic("music/login.mp3");
 
     }
 
@@ -79,8 +74,6 @@ public class CustomCardScreen extends Screen {
             } else{
                 switch (cardType){
                     case HERO:
-                        getMinionAndHero();
-                        break;
                     case MINION:
                         getMinionAndHero();
                         break;
@@ -192,7 +185,7 @@ public class CustomCardScreen extends Screen {
         music.dispose();
     }
 
-    public void getMinionAndHero(){
+    private void getMinionAndHero(){
         if(text.contains("Price") && cardType == MINION) {
             text = "Enter Mana";
         } else if(text.contains("Mana") && cardType == MINION || text.contains("Price") && cardType == HERO){
@@ -216,7 +209,7 @@ public class CustomCardScreen extends Screen {
         }
     }
 
-    public void getSpell(){
+    private void getSpell(){
         if(text.contains("Price")) {
             text = "Enter Mana";
         } else if(text.contains("Mana")) {
@@ -225,7 +218,7 @@ public class CustomCardScreen extends Screen {
         }
     }
 
-    public void getBuff() {
+    private void getBuff() {
         if(text.contains("Buff Name")){
             text = "Enter Buff Type";
         } else if(text.contains("Buff Type")){
@@ -250,7 +243,7 @@ public class CustomCardScreen extends Screen {
 
     }
 
-    public void addNumber() {
+    private void addNumber() {
         switch (cardType){
             case HERO:
                 data.add(0, Integer.toString(Hero.getLastNumber() + 1));
@@ -263,7 +256,8 @@ public class CustomCardScreen extends Screen {
                 break;
         }
     }
-    public void addBuffName(){
+
+    private void addBuffName(){
         switch (cardType){
             case HERO:
                 data.add(7, input);
@@ -277,7 +271,7 @@ public class CustomCardScreen extends Screen {
         }
     }
 
-    public void writeCard(){
+    private void writeCard(){
         if(state.contains("Card Created")) return;
         switch (cardType){
             case HERO:

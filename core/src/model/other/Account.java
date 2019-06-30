@@ -6,8 +6,10 @@ import com.google.gson.reflect.TypeToken;
 import model.cards.*;
 import model.game.Deck;
 import model.game.MatchResult;
+import model.other.exeptions.collection.*;
 import model.other.exeptions.shop.*;
 import model.variables.CardsArray;
+import view.CollectionScreen;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -15,6 +17,9 @@ import java.io.IOException;
 import java.io.Writer;
 import java.lang.reflect.Type;
 import java.util.*;
+
+import static model.cards.CardType.HERO;
+import static model.cards.CardType.ITEM;
 
 public class Account {
 
@@ -140,7 +145,10 @@ public class Account {
         matchHistory.add(result);
     }
 
-    public void addDeck(Deck deck) {
+    public void addDeck(Deck deck) throws DontHaveCardException {
+        for (Card card: deck.getCards().getAllCards())
+            if (this.collection.findByName(card.getName()) == null)
+                throw new DontHaveCardException();
         allDecks.add(deck);
     }
 
@@ -235,9 +243,6 @@ public class Account {
         for (SavingObject temp: data) {
             temp.getAccount();
         }
-
-        Account.setCurrentAccount(accounts.get(0));
-
     }
 
     public void deleteCardFromAllDecks(String cardName){
@@ -298,6 +303,33 @@ public class Account {
         deleteCardFromAllDecks(card.getName());
         removeCardFromCollection(card);
         getCollection().remove(card);
+    }
+
+    public void addCardToDeck(String cardName, Deck deck) throws CollectionException {
+        Card card = Card.getCards().findByName(cardName);
+        if (deck.size() >= 20)
+            throw new DeckIsFullException();
+        else if (deck.getHero() != null && card.getType() == HERO)
+            throw new DeckAlreadyHaveHeroException();
+        else if (deck.getItem() != null && card.getType() == ITEM)
+            throw new DeckAlreadyHaveItemException();
+        else {
+            try {
+                card = card.clone();
+            } catch (Exception e) {
+                CollectionScreen.showCloneError();
+            }
+            deck.addCard(card);
+        }
+    }
+
+    public void removeCardFromDeck(String cardName, Deck deck) throws CollectionException {
+        Card card = deck.getCards().findByName(cardName);
+        if (deck.size() == 0)
+            throw new DeckIsEmptyException();
+        else {
+            deck.deleteCard(card);
+        }
     }
 
     @Override
