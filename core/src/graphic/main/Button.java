@@ -204,5 +204,8 @@ public class Button {
         return deActiveRectangle.contains(vec);
     }
 
+    public void setText(String text) {
+        this.text = text;
+    }
 }
 

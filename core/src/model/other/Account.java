@@ -78,7 +78,7 @@ public class Account {
         return null;
     }
 
-    void setDaric(int daric) {
+    public void setDaric(int daric) {
         this.daric = daric;
     }
 
