@@ -11,7 +11,7 @@ import javax.xml.soap.Text;
 
 public class ArmyAnimation {
 
-    private final static float SPEED = 1 / 20f;
+    private static float SPEED = 1 / 20f;
 
     private float x, y;
     private Gif currentGif;
@@ -43,7 +43,7 @@ public class ArmyAnimation {
         this.x = x;
         this.y = y;
         if (runAnimation != null && !runAnimation.isFinished()) {
-            runAnimation.draw(batch, 5, width, height);
+            runAnimation.draw(batch, getMovingSpeed(), width, height);
             return;
         }
         else if (runAnimation != null)
@@ -102,11 +102,18 @@ public class ArmyAnimation {
     }
 
     public static void setSPEED(float speed) {
+        SPEED = speed;
         for(ArmyAnimation armyAnimation : BattleScreen.getAnimations().values()){
             armyAnimation.normalGif.setSpeed(speed);
             armyAnimation.runGif.setSpeed(speed);
             armyAnimation.attackGif.setSpeed(speed);
             armyAnimation.deathGif.setSpeed(speed);
         }
+    }
+
+    public static int getMovingSpeed() {
+        if(SPEED == 1/20f)
+            return 5;
+        return 10;
     }
 }
