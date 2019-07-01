@@ -545,7 +545,7 @@ public class Player {
     }
 
     public boolean isFriend(Army army) {
-        return army.getAccount() == this.getAccount();
+        return army.getAccount().getUsername().equals(this.getAccount().getUsername());
 //        return inGameCards.find(army) != null;
     }
 
