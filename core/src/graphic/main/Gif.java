@@ -63,4 +63,8 @@ public class Gif {
         flipped = true;
     }
 
+    public void setSpeed(float speed){
+        this.animation.setFrameDuration(speed);
+    }
+
 }

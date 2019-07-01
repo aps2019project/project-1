@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import graphic.main.Gif;
+import graphic.screen.BattleScreen;
 
 import javax.xml.soap.Text;
 
@@ -98,5 +99,14 @@ public class ArmyAnimation {
         runGif.flip();
         deathGif.flip();
         attackGif.flip();
+    }
+
+    public static void setSPEED(float speed) {
+        for(ArmyAnimation armyAnimation : BattleScreen.getAnimations().values()){
+            armyAnimation.normalGif.setSpeed(speed);
+            armyAnimation.runGif.setSpeed(speed);
+            armyAnimation.attackGif.setSpeed(speed);
+            armyAnimation.deathGif.setSpeed(speed);
+        }
     }
 }
