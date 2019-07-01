@@ -303,10 +303,10 @@ public class BattleScreen extends Screen {
                         selectedCell = null;
                         selectedArmy = null;
                     } else if(selectedCellHand != null && getMouseCell().getInsideArmy() == null) {
-                        Cell cell = getMouseCell();
-                        if(game.getWhoIsHisTurn().moveFromHandToCell(handCards.get(selectedCellHand), cell));
-                            handCards.put(selectedCellHand, null);
-                        selectedCellHand = null;
+//                        Cell cell = getMouseCell();
+//                        if(game.getWhoIsHisTurn().moveFromHandToCell(handCards.get(selectedCellHand), cell));
+//                            handCards.put(selectedCellHand, null);
+//                        selectedCellHand = null;
                     } else if(selectedArmy != null && getMouseCell().getInsideArmy() != null) {
                         Cell cell = getMouseCell();
                         Army target = cell.getInsideArmy();
@@ -341,6 +341,12 @@ public class BattleScreen extends Screen {
 
             @Override
             public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+                if(selectedCellHand != null && getMouseCell()!= null && getMouseCell().getInsideArmy() == null){
+                    Cell cell = getMouseCell();
+                    if(game.getWhoIsHisTurn().moveFromHandToCell(handCards.get(selectedCellHand), cell));
+                    handCards.put(selectedCellHand, null);
+                    selectedCellHand = null;
+                }
                 return false;
             }
 
