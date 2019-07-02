@@ -23,7 +23,15 @@ public class Datas {
     private IntelligentPlayer customPlayer;
     private ArrayList<Deck> customDecks = new ArrayList<Deck>();
     private Hero hero;
+    private Game lastGame = null;
     private Datas() {
+    }
+
+    public boolean isLastGameNull() {
+        return lastGame == null;
+    }
+    public void setLastGame(Game lastGame) {
+        this.lastGame = lastGame;
     }
 
     public void setHero(Hero hero) {
@@ -134,7 +142,34 @@ public class Datas {
         }
     }
 
-    private void playGame(int numberOfFlags,IntelligentPlayer player) {
+    public void createLastGame() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                lastGameStart();
+            }
+        }).start();
+    }
+    private void lastGameStart() {
+        Game game = lastGame;
+        game.backToGame();
+        game.nextTurn();
+        if(game.isExitFromGame()) {
+            System.out.println("you leave the game");
+            ScreenManager.setScreen(new MenuScreen());
+
+        } else {
+            if (game.getType() == GameType.KILL_HERO) {
+                game.getWinner().increaseDaric(500);
+            } else if (game.getType() == GameType.CAPTURE_THE_FLAG) {
+                game.getWinner().increaseDaric(1000);
+            } else if (game.getType() == GameType.ROLLUP_FLAGS) {
+                game.getWinner().increaseDaric(1500);
+            }
+            MatchResult result = game.getResults();
+        }
+    }
+    private void playGame(int numberOfFlags, IntelligentPlayer player) {
         Game game = new Game(account,player,type,numberOfFlags);
         game.startMatch();
         if(game.isExitFromGame()) {

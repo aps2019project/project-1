@@ -1,5 +1,6 @@
 package model.game;
 
+import graphic.screen.gameMenuScreens.Datas;
 import model.cards.Army;
 import model.cards.Card;
 import model.cards.Minion;
@@ -77,11 +78,15 @@ public class Game {
         return gameCreated;
     }
 
+    public void backToGame() {
+        this.exitFromGame = false;
+    }
     public boolean isExitFromGame() {
         return exitFromGame;
     }
 
     public void exitFromGame() {
+        Datas.getDatas().setLastGame(this);
         this.exitFromGame = true;
     }
 

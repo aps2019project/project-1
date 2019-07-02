@@ -13,6 +13,7 @@ import graphic.Others.MoveType;
 import graphic.main.AssetHandler;
 import graphic.main.Button;
 import graphic.main.Main;
+import graphic.screen.BattleScreen;
 import graphic.screen.Screen;
 import graphic.screen.ScreenManager;
 
@@ -26,6 +27,7 @@ public class ChooseNumberOfPlayersMenuScreen extends Screen {
     private Button multiPlayerButton;
     private Button storyButton;
     private Button customButton;
+    private Button lastGameButton;
     private Button exitButton;
     private Vector2 mousePos;
     private ArrayList<MoveAnimation> lanternAnimation;
@@ -42,6 +44,8 @@ public class ChooseNumberOfPlayersMenuScreen extends Screen {
         multiPlayerButton = new Button("button/choosePlayerButton1.psd", "button/choosePlayerButton1-1.psd","sfx/playerChangeButton1.mp3", 303, 278, "Multi Player", font);
         storyButton =  new Button("button/choosePlayerButton2.psd", "button/choosePlayerButton2-1.psd","sfx/playerChangeButton2.mp3",755, 135, "Story", font);
         customButton =  new Button("button/choosePlayerButton3.psd","button/choosePlayerButton3-1.psd","sfx/playerChangeButton3.mp3", 1150, 351, "Custom", font);
+        lastGameButton =  new Button("button/lastGameButton.png","button/lastGameButton.png","sfx/playerChangeButton3.mp3", 768, 762, "last game", font);
+
         exitButton = new Button("button/exit.png", Main.WIDTH - 200, Main.HEIGHT - 200);
         createBackGroundMusic();        mousePos = new Vector2();
 
@@ -53,6 +57,7 @@ public class ChooseNumberOfPlayersMenuScreen extends Screen {
         mousePos.set(Gdx.input.getX(), Gdx.input.getY());
         mousePos = viewport.unproject(mousePos);
 
+        lastGameButton.setActive(lastGameButton.contains(mousePos));
         customButton.setActive(customButton.contains(mousePos));
         storyButton.setActive(storyButton.contains(mousePos));
         multiPlayerButton.setActive(multiPlayerButton.contains(mousePos));
@@ -85,6 +90,12 @@ public class ChooseNumberOfPlayersMenuScreen extends Screen {
                     ScreenManager.setScreen(new StoryMenuScreen());
                 if (customButton.isActive())
                     ScreenManager.setScreen(new FirstCustomMenuScreen());
+                if (lastGameButton.isActive()) {
+                    if(!Datas.getDatas().isLastGameNull()) {
+                        Datas.getDatas().createLastGame();
+                        ScreenManager.setScreen(new BattleScreen());
+                    }
+                }
                 return false;
             }
 
@@ -120,6 +131,7 @@ public class ChooseNumberOfPlayersMenuScreen extends Screen {
         multiPlayerButton.draw(batch);
         storyButton.draw(batch);
         customButton.draw(batch);
+        lastGameButton.draw(batch);
         exitButton.draw(batch);
         showFireAnimation(batch);
     }
@@ -145,23 +157,23 @@ public class ChooseNumberOfPlayersMenuScreen extends Screen {
             float yEnd;
             if (fireType > 6) {
                 fireType = 1;
-                xStart = (int) (700 + (Math.random() * 200));
+                xStart = (int) (100 + (Math.random() * 200));
                 yStart = (int) (30 + 70 * Math.random());
-                xEnd = (int) (650 + 300 * Math.random());;
+                xEnd = (int) (50 + 300 * Math.random());;
                 yEnd = (int) (100 + Math.random()*200);
 
             } else if (fireType > 3) {
                 fireType = 2;
-                xStart = (int) (650 + (Math.random() * 300));
+                xStart = (int) (50 + (Math.random() * 300));
                 yStart = (int) (100 * Math.random());
-                xEnd = (int) (770 + 60 * Math.random());
+                xEnd = (int) (170 + 60 * Math.random());
                 yEnd = 300;
 
             } else {
                 fireType = 3;
-                xStart = (int) (700 + (Math.random() * 200));
+                xStart = (int) (100 + (Math.random() * 200));
                 yStart = (int) (100 * Math.random());
-                xEnd = (int) (730 + 140 * Math.random());
+                xEnd = (int) (130 + 140 * Math.random());
                 yEnd = 150;
             }
             lanternAnimation.add(new MoveAnimation("simpleIcons/fire" + fireType + ".png", xStart, yStart, xEnd, yEnd, MoveType.SIMPLE, true));
