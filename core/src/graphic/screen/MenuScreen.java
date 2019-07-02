@@ -15,7 +15,6 @@ import graphic.main.AssetHandler;
 import graphic.main.Button;
 import graphic.main.Main;
 import graphic.screen.gameMenuScreens.ChooseNumberOfPlayersMenuScreen;
-import graphic.screen.gameMenuScreens.CustomCardScreen;
 import model.other.Account;
 
 import java.awt.*;

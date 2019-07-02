@@ -28,7 +28,8 @@ public class Spell extends Card {
         super(number, name, price, description, SPELL, mana);
         this.mana = mana;
         gifPath = "Card/Spell/" +number+".atlas";
-        lastNumber = number;
+        if(number > lastNumber)
+            lastNumber = number;
         this.targetDescription = target;
         if(number > 21) {
             gifPath = "Card/Spell/21.atlas";

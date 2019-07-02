@@ -28,7 +28,8 @@ public class Hero extends Army {
         super(number, name, price, description, hp, ap, ar, attackType, HERO, 0);
         this.mp = mp;
         this.coolDown = coolDown;
-        lastNumber = number;
+        if(number > lastNumber)
+            lastNumber = number;
         iconId = "Card/Hero/Icon/" + number +".png";
         gifPath = "Card/Hero/" +number+".atlas";
         spellPath = "Card/Hero/general spell/" +number+".atlas";
