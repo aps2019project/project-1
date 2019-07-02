@@ -117,4 +117,8 @@ public class CardListTexture {
     public void setY(float y) {
         this.y = y;
     }
+
+    public ArrayList<CardTexture> getCardTextures() {
+        return cardTextures;
+    }
 }

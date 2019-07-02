@@ -1,4 +1,4 @@
-package graphic.screen.gameMenuScreens;
+package graphic.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -9,18 +9,19 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import control.CvsWriter;
+import graphic.Others.CardTexture;
 import graphic.main.AssetHandler;
+import graphic.main.Button;
+import graphic.main.Main;
 import graphic.screen.MenuScreen;
 import graphic.screen.Screen;
 import graphic.screen.ScreenManager;
 import model.Buff.Buff;
 import model.Buff.BuffType;
-import model.cards.CardType;
+import model.cards.*;
 import model.cards.CardType.*;
-import model.cards.Hero;
-import model.cards.Minion;
-import model.cards.Spell;
 import view.CustomCardHandlerScreen;
 
 import java.util.ArrayList;
@@ -37,11 +38,14 @@ public class CustomCardScreen extends Screen {
     private String text = "";
     private String input = "";
     private String state = "";
-
     private ArrayList<String> data = new ArrayList<String>();
     private CardType cardType;
     private BuffType buffType;
     private boolean nextStep = false;
+    private CardListTexture cardList;
+    private Button doneButton;
+    private Vector2 mousePos = new Vector2();
+    private String selectedCard;
 
     @Override
     public void create() {
@@ -49,22 +53,26 @@ public class CustomCardScreen extends Screen {
         backGround = AssetHandler.getData().get("backGround/custom card bg.png");
         textField = AssetHandler.getData().get("slots/text field.png");
         font = AssetHandler.getData().get("fonts/Arial 36.fnt");
-
         glyphLayout = new GlyphLayout();
-
         playBackGroundMusic("music/login.mp3");
-
+        doneButton = new Button("button/shop done.png", 1400, 450, "Done", "fonts/Arial 36.fnt");
     }
 
     @Override
     public void update() {
+        camera.update();
+        mousePos.set(Gdx.input.getX(), Gdx.input.getY());
+        mousePos = viewport.unproject(mousePos);
+
         if(text.matches("")){
             text = "Enter Card Type";
         }
         if(state.contains("Finished")){
             writeCard();
-        }
-        if(nextStep){
+        } else if(state.contains("Card Texture")){
+            setCardTexture();
+            doneButton.setActive(doneButton.contains(mousePos));
+        } else if(nextStep){
             if(text.contains("Card Type")){
                 text = "Enter Card Name";
             } else if(text.contains("Card Name")){
@@ -106,10 +114,19 @@ public class CustomCardScreen extends Screen {
                     input = input.substring(0, input.length() - 1);
                 }
 
+                if (keycode == Input.Keys.RIGHT && cardList != null)
+                    cardList.nextPage();
+                else if (keycode == Input.Keys.LEFT && cardList != null)
+                    cardList.previousPage();
+                else if (keycode == Input.Keys.PAGE_DOWN)
+                    setMusicVolume(false);
+                else if (keycode == Input.Keys.PAGE_UP)
+                    setMusicVolume(true);
+
                 if (keycode == Input.Keys.ENTER) {
                     if(text.contains("Card Type")){
                         cardType = CardType.valueOf(input.toUpperCase());
-                        addNumber();
+//                        addNumber();
                     } else if(text.contains("Buff Name")){
                         addBuffName();
                     } else if(text.contains("Buff Type")){
@@ -138,6 +155,14 @@ public class CustomCardScreen extends Screen {
 
             @Override
             public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+                if(state.contains("Card Texture") ){
+                    if(cardList.contains(mousePos)){
+                        selectedCard = cardList.getSelectedCardName(mousePos);
+                    }
+                    if(doneButton.isActive() && selectedCard != null){
+                        addNumber();
+                    }
+                }
                 return false;
             }
 
@@ -171,11 +196,17 @@ public class CustomCardScreen extends Screen {
 
         glyphLayout.setText(font, text);
         font.draw(batch, text, (1600 - glyphLayout.width)/2, 730 );
-        batch.draw(textField, (1600 - textField.getWidth()*2)/2, 480, textField.getWidth()* 2, textField.getHeight());
-
-        font.setColor(Color.BLACK);
-        font.draw(batch, input, (1600 - textField.getWidth()*2)/2 +80, 550);
-        font.setColor(Color.WHITE);
+        if(!state.contains("Finished") && !state.contains("Card Texture")) {
+            batch.draw(textField, (1600 - textField.getWidth() * 2) / 2, 480, textField.getWidth() * 2, textField.getHeight());
+            font.setColor(Color.BLACK);
+            font.draw(batch, input, (1600 - textField.getWidth() * 2) / 2 + 80, 550);
+            font.setColor(Color.WHITE);
+        } else if(state.contains("Card Texture")){
+            batch.end();
+            drawList(batch);
+            doneButton.draw(batch);
+            batch.begin();
+        }
         batch.end();
     }
 
@@ -235,7 +266,8 @@ public class CustomCardScreen extends Screen {
         } else if(text.contains("Last")){
             text = "Enter Buff Friend or Enemy";
         } else if(text.contains("Friend or Enemy")){
-            state = "Finished";
+            state = "Select Card Texture";
+            text = "Select Card Texture";
         }
         else {
             text = "Enter Buff Name";
@@ -244,17 +276,11 @@ public class CustomCardScreen extends Screen {
     }
 
     private void addNumber() {
-        switch (cardType){
-            case HERO:
-                data.add(0, Integer.toString(Hero.getLastNumber() + 1));
-                break;
-            case MINION:
-                data.add(0, Integer.toString(Minion.getLastNumber() + 1));
-                break;
-            case SPELL:
-                data.add(0, Integer.toString(Spell.getLastNumber() + 1));
-                break;
+        for(Card card : Card.getCards().getAllCards()){
+            if(card.getName().equals(selectedCard))
+                data.add(0, Integer.toString(card.getNumber()));
         }
+        state = "Finished";
     }
 
     private void addBuffName(){
@@ -289,5 +315,43 @@ public class CustomCardScreen extends Screen {
         }
         state = "Card Created";
         text = "Your Card Created Successfully. Press Enter to Continue";
+    }
+
+    public void setCardTexture() {
+        if(cardList == null) {
+            cardList = new CardListTexture(4, 2, 40, 0);
+            switch (cardType) {
+                case HERO:
+                    for (Hero temp : Hero.getHeroes()) {
+                        cardList.addCardTexture(new CardTexture(temp.getName(), temp.getDescription(), temp.getPrice(), temp.getAp(), temp.getHp(), temp.getGifPath()));
+                        if(cardList.getCardTextures().size() >= 10)
+                            return;
+                    }
+                    break;
+                case MINION:
+                    for (Minion temp : Minion.getMinions()) {
+                        cardList.addCardTexture(new CardTexture(temp.getName(), temp.getDescription(), temp.getPrice(), temp.getAp(), temp.getHp(), temp.getGifPath()));
+                        if(cardList.getCardTextures().size() >= 40)
+                            return;
+                    }
+                    break;
+                case SPELL:
+                    for (Spell temp : Spell.getSpells()){
+                        cardList.addCardTexture(new CardTexture(temp.getName(), temp.getDescription(), temp.getPrice(),temp.getGifPath()));
+                        if(cardList.getCardTextures().size() >= 20)
+                            return;
+                    }
+                    break;
+            }
+            for(CardTexture cardTexture : cardList.getCardTextures()){
+                System.out.println(cardTexture.getName());
+            }
+        }
+    }
+
+    public void drawList(SpriteBatch batch) {
+        if(cardList != null) {
+            cardList.draw(batch);
+        }
     }
 }

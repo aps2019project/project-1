@@ -31,7 +31,8 @@ public class Minion extends Army {
         this.mana = mana;
         this.spTime = spTime;
         gifPath = "Card/Minion/" +number+".atlas";
-        lastNumber = number;
+        if(number > lastNumber)
+            lastNumber = number;
         if(number > 41) {
             gifPath = "Card/Minion/41.atlas";
         }
