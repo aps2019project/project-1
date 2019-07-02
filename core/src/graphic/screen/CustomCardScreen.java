@@ -286,10 +286,10 @@ public class CustomCardScreen extends Screen {
     private void addBuffName(){
         switch (cardType){
             case HERO:
-                data.add(7, input);
+                data.add(6, input);
                 break;
             case MINION:
-                data.add(8, input);
+                data.add(7, input);
                 break;
             case SPELL:
                 data.add(input);
