@@ -111,6 +111,7 @@ public class AssetHandler {
         assetManager.load("button/choosePlayerButton1-1.psd", Texture.class);
         assetManager.load("button/choosePlayerButton2.psd", Texture.class);
         assetManager.load("button/choosePlayerButton2-1.psd", Texture.class);
+        assetManager.load("button/lastGameButton.png", Texture.class);
         assetManager.load("sfx/playerChangeButton1.mp3", Sound.class);
         assetManager.load("sfx/playerChangeButton2.mp3", Sound.class);
         assetManager.load("sfx/playerChangeButton3.mp3", Sound.class);

@@ -87,8 +87,7 @@ public class Deck {
     }
     public void setNextCard() {
         int number = (int)(Math.random()*cards.getAllCards().size());
-        if(number >= cards.getAllCards().size()) number = cards.getAllCards().size() - 1;
-        if( number == -1) return;
+        if(cards.getAllCards().size() == 0) return;
         nextCard = cards.getAllCards().get(number);
         if(nextCard == this.item || nextCard == this.hero) setNextCard();
     }

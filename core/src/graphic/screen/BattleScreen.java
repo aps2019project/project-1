@@ -110,6 +110,7 @@ public class BattleScreen extends Screen {
         shapeRenderer = new ShapeRenderer();
 
         game = Game.getCurrentGame();
+        while(!game.isGameCreated());
         player1 = game.getFirstPlayer();
         player2 = game.getSecondPlayer();
 
@@ -164,7 +165,12 @@ public class BattleScreen extends Screen {
 
         animations.put(player1.getHero(), new ArmyAnimation(player1.getHero().getGifPath()));
         animations.put(player2.getHero(), new ArmyAnimation(player2.getHero().getGifPath()));
-
+        for(Card card: game.getAllInGameCards()) {
+            if(card.getType() == CardType.ITEM  || card.getType() == CardType.SPELL || card.getType() == CardType.HERO) continue;
+            if(animations.containsKey((Army)card)) continue;
+            ArmyAnimation animation = new ArmyAnimation(card.getGifPath());
+            animations.put((Army) card, animation);
+        }
         handStartCord = new Vector2(400, 20);
 
         setHandCells();
@@ -495,7 +501,6 @@ public class BattleScreen extends Screen {
         batch.end();
 
         drawTable(batch);
-
         batch.begin();
 
         drawHand(batch);
@@ -525,7 +530,11 @@ public class BattleScreen extends Screen {
 
     @Override
     public void dispose() {
-        music.dispose();
+        try {
+            music.dispose();
+        } catch (Exception e) {
+            System.out.println("no music playing");
+        }
     }
 
     public void drawMana(SpriteBatch batch) {
@@ -627,6 +636,58 @@ public class BattleScreen extends Screen {
                     drawItem(batch, cell);
 
                 } else {
+// <<<<<<< erfan
+//                     if(player1.isFriend(army)){
+//                         batch.setColor(Main.toColor(new Color(0x750000E3, true)));
+//                         batch.draw(tile, x, y, cellSizeX, cellSizeY);
+//                         batch.setColor(com.badlogic.gdx.graphics.Color.WHITE);
+//                         batch.end();
+//                         try {
+//                             animations.get(army).draw(batch, x - 20, y);
+//                         } catch (NullPointerException e) {
+//                             System.out.println("dont find army animation");
+//                         }
+//                         batch.begin();
+//                     } else {
+//                         batch.setColor(Main.toColor(new Color(0x83C80000, true)));
+//                         batch.draw(tile, x, y, cellSizeX, cellSizeY);
+//                         batch.setColor(com.badlogic.gdx.graphics.Color.WHITE);
+//                         batch.end();
+//                         try {
+//                             animations.get(army).draw(batch, x - 10, y, 160, 160);
+//                         } catch (NullPointerException e){
+//                         System.out.println("dont find army animation");
+//                         }
+//                         batch.begin();
+//                     }
+//                     try {
+//                         batch.draw(apIcon, animations.get(army).getX() + 15, animations.get(army).getY());
+//                         batch.draw(hpIcon, animations.get(army).getX() + 75, animations.get(army).getY());
+//                     } catch (NullPointerException e) {
+//                         System.out.println("dont find army animation");
+//                     }
+
+//                     BitmapFont font = AssetHandler.getData().get("fonts/Arial 24.fnt");
+//                     GlyphLayout ap = new GlyphLayout();
+//                     GlyphLayout hp = new GlyphLayout();
+
+//                     font.setColor(Main.toColor(new Color(0xFFDEA900, true)));
+//                     ap.setText(font, Integer.toString(army.getAp()));
+// //                    font.draw(batch,Integer.toString(army.getAp()), animations.get(army).getX() + 35 , animations.get(army).getY() + 25);
+//                     try {
+//                         font.draw(batch, Integer.toString(army.getAp()), (animations.get(army).getX() + 15 + apIcon.getWidth() / 2) - ap.width / 2, animations.get(army).getY() + 25);
+//                     } catch (NullPointerException e) {
+//                         System.out.println("dont find army animation");
+//                     }
+//                     font.setColor(Main.toColor(new Color(0xFFBD1900, true)));
+//                     hp.setText(font, Integer.toString(army.getHp()));
+// //                    font.draw(batch,Integer.toString(army.getHp()), animations.get(army).getX() + 95, animations.get(army).getY() + 25);
+//                     try {
+//                         font.draw(batch,Integer.toString(army.getHp()), (animations.get(army).getX() +75+ hpIcon.getWidth()/2) - hp.width/2, animations.get(army).getY() + 25);
+//                     } catch (NullPointerException e) {
+//                         System.out.println("dont find army animation");
+//                     }
+//                     font.setColor(Main.toColor(new Color(0xFFFFFFFF, true)))
                     try {
                         if (player1.isFriend(army)) {
                             batch.setColor(Main.toColor(new Color(0x750000E3, true)));
@@ -661,7 +722,6 @@ public class BattleScreen extends Screen {
                         font.setColor(Main.toColor(new Color(0xFFBD1900, true)));
                         hp.setText(font, Integer.toString(army.getHp()));
                         font.draw(batch, Integer.toString(army.getHp()), (animations.get(army).getX() + 75 + hpIcon.getWidth() / 2) - hp.width / 2, animations.get(army).getY() + 25);
-
                         font.setColor(Main.toColor(new Color(0xFFFFFFFF, true)));
                     } catch (NullPointerException n){}
 
@@ -694,8 +754,8 @@ public class BattleScreen extends Screen {
     }
 
     public void drawHand(SpriteBatch batch) {
-        for(Cell cell : handCards.keySet()){
 
+        for(Cell cell : handCards.keySet()){
             if(selectedCellHand == cell) {
                 batch.setColor(Main.toColor(new Color(0xFFDCDCDC, true)));
             }

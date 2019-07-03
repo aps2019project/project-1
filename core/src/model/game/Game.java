@@ -1,5 +1,7 @@
 package model.game;
 
+
+import graphic.screen.gameMenuScreens.Datas;
 import model.cards.*;
 import model.other.Account;
 import model.variables.CardsArray;
@@ -22,6 +24,7 @@ public class Game {
     private int turnNumber = 1;
     private GameType type;
     private boolean exitFromGame = false;
+    private boolean gameCreated = false;
     private ArrayList<Cell> allCellsInTable = new ArrayList<Cell>();
     private long turnStartTime = 0;
     private ArrayList<Item> items = new ArrayList<Item>();
@@ -43,6 +46,7 @@ public class Game {
     public void setItems() {
 //        table[2][2].setInsideItem(Item.getCollectableItems().getAllItems().get(0));
 //        table[2][6].setInsideItem(Item.getCollectableItems().getAllItems().get(3));
+        this.gameCreated = true;
         addItem(Item.getCollectableItems().getAllItems().get(0), table[2][2]);
         addItem(Item.getCollectableItems().getAllItems().get(3), table[2][6]);
     }
@@ -69,11 +73,13 @@ public class Game {
             putFlagIn(table[TABLE_HEIGHT/2-2][TABLE_WIDTH/2-2]);
             putFlagIn(table[TABLE_HEIGHT/2-2][TABLE_WIDTH/2+2]);
         }
+        this.gameCreated = true;
     }
     public Game(Account firstAccount, IntelligentPlayer intelligentPlayer, GameType type, int numberOfFlags) {
         this(firstAccount,intelligentPlayer.getAccount(),type,numberOfFlags);
         intelligentPlayer.setGame(this);
         secondPlayer = intelligentPlayer;
+        this.gameCreated = true;
     }
     public void putFlagIn(Cell cell) {
         Flag flag = new Flag();
@@ -82,11 +88,19 @@ public class Game {
         cell.setFlag(flag);
     }
 
+    public boolean isGameCreated() {
+        return gameCreated;
+    }
+
+    public void backToGame() {
+        this.exitFromGame = false;
+    }
     public boolean isExitFromGame() {
         return exitFromGame;
     }
 
     public void exitFromGame() {
+        Datas.getDatas().setLastGame(this);
         this.exitFromGame = true;
     }
 
