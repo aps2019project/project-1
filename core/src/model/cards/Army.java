@@ -5,6 +5,7 @@ import graphic.Others.BattlePopUp;
 import graphic.screen.BattleScreen;
 import model.Buff.*;
 import model.game.Cell;
+import model.game.CellEffect;
 import model.game.Game;
 import model.game.Player;
 import model.variables.CardsArray;
@@ -104,7 +105,7 @@ public class Army extends Card {
         for (Army army : array) {
             for (Buff buff : army.getBuffs()) {
                 if (buff.getBuffTImeType() == BuffTImeType.CONTINUOUS) {
-                    BattleScreen.getPopUps().add( new BattlePopUp("CONTINUOUS", army.whereItIs.getScreenX(), army.whereItIs.getScreenY()));
+                    BattleScreen.getPopUps().add( new BattlePopUp("Continuous", army.whereItIs.getScreenX(), army.whereItIs.getScreenY()));
                     buff.setTurns(1);
                 }
             }
@@ -113,11 +114,18 @@ public class Army extends Card {
 
     public static void checkPoisonAndBleeding(ArrayList<Army> array) {
         for (Army army : array) {
-            army.setHp(army.getHp() - army.haveBuff(BuffType.POISON));
             for (Buff buff : army.getBuffs()) {
-                if (buff.getBuffType() == BLEEDING) {
+                if (buff.getBuffType() == POISON){
+                    army.setHp(army.getHp() - army.haveBuff(BuffType.POISON));
+                    BattleScreen.getPopUps().add(new BattlePopUp("Poison", army.whereItIs.getScreenX(), army.whereItIs.getScreenY()));
+                }else if (buff.getBuffType() == BLEEDING) {
+                    BattleScreen.getPopUps().add(new BattlePopUp("Bleeding", army.whereItIs.getScreenX(), army.whereItIs.getScreenY()));
                     army.setHp(army.getHp() - buff.getFirstBleeding());
                 }
+            }
+            if(army.getWhereItIs().getCellEffect() == CellEffect.POISON){
+                BattleScreen.getPopUps().add(new BattlePopUp("Poison", army.whereItIs.getScreenX(), army.whereItIs.getScreenY()));
+                army.getWhereItIs().getEffect();
             }
         }
     }
@@ -163,15 +171,17 @@ public class Army extends Card {
 
     public void activateBuff(Buff buff) {
         if(buff.getDelay() != 0) return;
-        System.out.println(buff.getBuffType());
         switch (buff.getBuffType()){
             case DISARM:
+                BattleScreen.getPopUps().add(new BattlePopUp("Disarm", this.whereItIs.getScreenX(), this.whereItIs.getScreenY()));
                 this.isDisarmed = true;
                 break;
             case STUN:
+                BattleScreen.getPopUps().add(new BattlePopUp("Stun", this.whereItIs.getScreenX(), this.whereItIs.getScreenY()));
                 this.isStunned = true;
                 break;
             case POWER:
+                BattleScreen.getPopUps().add(new BattlePopUp("Power", this.whereItIs.getScreenX(), this.whereItIs.getScreenY()));
                 switch (buff.getPowerBuffType()) {
                     case AP:
                         this.ap += buff.getNumber();
@@ -182,15 +192,18 @@ public class Army extends Card {
                 }
                 break;
             case WEAKNESS:
+                BattleScreen.getPopUps().add(new BattlePopUp("Weakness", this.whereItIs.getScreenX(), this.whereItIs.getScreenY()));
                 switch (buff.getPowerBuffType()) {
                     case AP:
                         this.ap -= buff.getNumber();
+                        if(this.ap < 0) this.ap = 0;
                         break;
                     case HP:
                         this.hp -= buff.getNumber();
+                        if(this.hp < 0) this.hp = 0;
                         break;
-                }                break;
-
+                }
+                break;
         }
     }
 
@@ -206,9 +219,11 @@ public class Army extends Card {
                 switch (buff.getPowerBuffType()) {
                     case AP:
                         this.ap -= buff.getNumber();
+                        if(this.ap < 0) this.ap = 0;
                         break;
                     case HP:
                         this.hp -= buff.getNumber();
+                        if(this.hp < 0) this.hp = 0;
                         break;
                 }
                 break;
@@ -228,15 +243,16 @@ public class Army extends Card {
     public void attack(Army army) {
         if (this.isStunned) return;
         if (army.getName().equals("Ashkbous") && ((Minion)army).AshkbousOnDefend(this)) return;
-        army.getDamaged(this.getAp(), army);
+        army.getDamaged(this.getAp(), this);
         this.checkOnAttack(army);
     }
 
     public void checkOnAttack(Army army) {
-        if (this instanceof Hero) {
+        if (this.getType() == CardType.HERO) {
             Hero hero = (Hero)this;
-            if (hero.getName().equals("Zahack"))
-                army.addBuff(new Buff(POISON, 3, NORMAL));
+            if (this.getName().equals("Zahack")){
+                army.addBuff(new Buff(POISON,1,  3, NORMAL));
+            }
             if(hero.getPlayer().getUsableItem() == null) return;
             try {
                 String itemName = hero.getPlayer().getUsableItem().getName();
@@ -276,6 +292,11 @@ public class Army extends Card {
     public void getDamaged(int number, Army army) {
         if(this.getName().equals("Giv")) return;
         int holyBuffs = this.haveBuff(HOLY);
+        if(this.whereItIs.getCellEffect() == CellEffect.HOLY)
+            holyBuffs ++;
+        if(holyBuffs > 0) {
+            BattleScreen.getPopUps().add(new BattlePopUp("Holy", this.whereItIs.getScreenX(), this.whereItIs.getScreenY()));
+        }
         int unholyBuffs = this.haveBuff(UNHOLY);
         try {
             if (army.getName().equals("PredatorLion")) holyBuffs = 0;

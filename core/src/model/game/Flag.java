@@ -29,6 +29,7 @@ public class Flag {
     }
     public void takeBy(Army army,int turnNumber) {
         this.army = army;
+        this.cell.setFlag(null);
         this.cell = null;
         this.taken = true;
         this.numberOfTurnItTaken = turnNumber;

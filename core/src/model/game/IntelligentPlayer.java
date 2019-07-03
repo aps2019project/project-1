@@ -21,16 +21,20 @@ public class IntelligentPlayer extends Player {
     @Override
     public void play() {
         endTurn = false;
+        this.setUpBuffs();
+        this.checkPassive();
         increaseTurnNumber();
         setMana();
         deck.transferCardTo(hand);
         CardsArray ourArmies = game.getAllAccountArmiesInCellArray(game.getAllCellsInTable(),account);
         if(ourArmies.getAllCards().size() != 0) {
-            Card card = ourArmies.getRandomCard();
-            Cell destinationCell = Cell.getRandomCell(game.getAllCellsWithUniqueDistance(card.getWhereItIs(),2));
-            super.moveArmy(card.getWhereItIs(),destinationCell);
+            try {
+                Card card = ourArmies.getRandomCard();
+                Cell destinationCell = Cell.getRandomCell(game.getAllCellsWithUniqueDistance(card.getWhereItIs(), 2));
+                super.moveArmy(card.getWhereItIs(), destinationCell);
+                super.moveFromHandToCell(hand.getRandomCard(), Cell.getRandomCell(game.getAllCellsNearArmies(ourArmies)));
+            } catch (IllegalStateException i){}
         }
-        super.moveFromHandToCell(hand.getRandomCard(),Cell.getRandomCell(game.getAllCellsNearArmies(ourArmies)));
         endTurn = true;
     }
 }

@@ -26,6 +26,13 @@ public class AssetHandler {
         assetManager.load("backGround/collection1.png", Texture.class);
         assetManager.load("backGround/collection2.png", Texture.class);
         assetManager.load("backGround/collection3.png", Texture.class);
+        assetManager.load("backGround/background_ChooseNumberOfPlayersMenu.psd", Texture.class);
+        assetManager.load("backGround/brand.png", Texture.class);
+        assetManager.load("backGround/storyMenu.jpg", Texture.class);
+        assetManager.load("backGround/customFirstMenu.png", Texture.class);
+        assetManager.load("backGround/secondCustomMenu.jpg", Texture.class);
+        assetManager.load("button/decks/activeDeck.png", Texture.class);
+
         assetManager.load("animation/waterFall.png", Texture.class);
         assetManager.load("music/login.mp3", Music.class);
         assetManager.load("music/menu.mp3", Music.class);
@@ -53,6 +60,7 @@ public class AssetHandler {
         assetManager.load("button/exit.png", Texture.class);
         assetManager.load("fonts/Arial 12.fnt", BitmapFont.class);
         assetManager.load("fonts/Arial 16.fnt", BitmapFont.class);
+        assetManager.load("fonts/Arial 20.fnt", BitmapFont.class);
         assetManager.load("fonts/Arial 24.fnt", BitmapFont.class);
         assetManager.load("fonts/Arial 36.fnt", BitmapFont.class);
         assetManager.load("Card/backGround/hero deActive.png", Texture.class);
@@ -93,9 +101,7 @@ public class AssetHandler {
         assetManager.load("button/back.png", Texture.class);
         assetManager.load("button/deckSlot.png", Texture.class);
         assetManager.load("button/deckSlotGlow.png", Texture.class);
-        assetManager.load("backGround/brand.png", Texture.class);
         assetManager.load("button/daric slot.png", Texture.class);
-        assetManager.load("backGround/background_ChooseNumberOfPlayersMenu.psd", Texture.class);
         assetManager.load("simpleIcons/fire2.png", Texture.class);
         assetManager.load("simpleIcons/fire1.png", Texture.class);
         assetManager.load("simpleIcons/fire3.png", Texture.class);
@@ -113,21 +119,29 @@ public class AssetHandler {
         assetManager.load("simpleIcons/stone1.png", Texture.class);
         assetManager.load("simpleIcons/stone2.png", Texture.class);
         assetManager.load("simpleIcons/stone3.png", Texture.class);
-        assetManager.load("backGround/storyMenu.jpg", Texture.class);
         assetManager.load("button/storySelectScreen.atlas", TextureAtlas.class);
-        assetManager.load("backGround/customFirstMenu.png", Texture.class);
-        assetManager.load("backGround/secondCustomMenu.jpg", Texture.class);
-        assetManager.load("button/decks/activeDeck.png", Texture.class);
         assetManager.load("button/decks/deActiveDeck.png", Texture.class);
-
         assetManager.load("battle/tile hand.png", Texture.class);
-
         assetManager.load("battle/ap icon.png", Texture.class);
         assetManager.load("battle/hp icon.png", Texture.class);
         assetManager.load("battle/Graveyard bg.png", Texture.class);
+        assetManager.load("battle/lava.png", Texture.class);
+        assetManager.load("battle/flag.png", Texture.class);
+        assetManager.load("battle/endgame bg.png", Texture.class);
+        assetManager.load("slots/text field.png", Texture.class);
+        assetManager.load("backGround/custom card bg.png", Texture.class);
+        assetManager.load("sfx/end game.mp3", Sound.class);
+        assetManager.load("sfx/attack.mp3", Sound.class);
+        assetManager.load("sfx/run.mp3", Sound.class);
+        assetManager.load("sfx/death.mp3", Sound.class);
+        assetManager.load("battle/timer.png", Texture.class);
+        assetManager.load("button/card in deck.png", Texture.class);
+        assetManager.load("button/card in deck1.png", Texture.class);
+        assetManager.load("button/deckName.png", Texture.class);
+
 
         for(int i = 1; i <= 11; i++)
-            assetManager.load("Card/Hero/generals/" + Integer.toString(i) + ".png", Texture.class);
+            assetManager.load("Card/Hero/generals/" + i + ".png", Texture.class);
         for (int i = 1; i <= 11; ++i)
             assetManager.load("Card/Hero/" + i + ".atlas", TextureAtlas.class);
         for (int i = 1; i <= 20; ++i)

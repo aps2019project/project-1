@@ -5,12 +5,13 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import graphic.main.Gif;
+import graphic.screen.BattleScreen;
 
 import javax.xml.soap.Text;
 
 public class ArmyAnimation {
 
-    private final static float SPEED = 1 / 20f;
+    private static float SPEED = 1 / 20f;
 
     private float x, y;
     private Gif currentGif;
@@ -22,6 +23,7 @@ public class ArmyAnimation {
     private Sound deathSound;
     private Sound runSound;
     private MoveAnimation runAnimation;
+    private boolean flipped = false;
 
     public ArmyAnimation(String dataPath) {
         Animation animation = new Animation<TextureRegion>(SPEED, new TextureAtlas(dataPath).findRegions("attack"), Animation.PlayMode.LOOP);
@@ -41,7 +43,7 @@ public class ArmyAnimation {
         this.x = x;
         this.y = y;
         if (runAnimation != null && !runAnimation.isFinished()) {
-            runAnimation.draw(batch, 5, width, height);
+            runAnimation.draw(batch, getMovingSpeed(), width, height);
             return;
         }
         else if (runAnimation != null)
@@ -89,5 +91,29 @@ public class ArmyAnimation {
             return runAnimation.getCurrentLoc().y;
         }
         return y;
+    }
+
+    public void flip(){
+        flipped = true;
+        normalGif.flip();
+        runGif.flip();
+        deathGif.flip();
+        attackGif.flip();
+    }
+
+    public static void setSPEED(float speed) {
+        SPEED = speed;
+        for(ArmyAnimation armyAnimation : BattleScreen.getAnimations().values()){
+            armyAnimation.normalGif.setSpeed(speed);
+            armyAnimation.runGif.setSpeed(speed);
+            armyAnimation.attackGif.setSpeed(speed);
+            armyAnimation.deathGif.setSpeed(speed);
+        }
+    }
+
+    public static int getMovingSpeed() {
+        if(SPEED == 1/20f)
+            return 5;
+        return 10;
     }
 }

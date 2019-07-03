@@ -3,77 +3,77 @@ size: 128,256
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-phoenixfire
+gif
   rotate: false
   xy: 0, 175
   size: 34, 34
   orig: 34, 34
   offset: 0, 0
   index: 0
-phoenixfire
+gif
   rotate: false
   xy: 35, 70
   size: 34, 34
   orig: 34, 34
   offset: 0, 0
   index: 1
-phoenixfire
+gif
   rotate: false
   xy: 35, 35
   size: 34, 34
   orig: 34, 34
   offset: 0, 0
   index: 2
-phoenixfire
+gif
   rotate: false
   xy: 35, 0
   size: 34, 34
   orig: 34, 34
   offset: 0, 0
   index: 3
-phoenixfire
+gif
   rotate: false
   xy: 0, 210
   size: 34, 34
   orig: 34, 34
   offset: 0, 0
   index: 0
-phoenixfire
+gif
   rotate: false
   xy: 35, 105
   size: 34, 34
   orig: 34, 34
   offset: 0, 0
   index: 1
-phoenixfire
+gif
   rotate: false
   xy: 0, 140
   size: 34, 34
   orig: 34, 34
   offset: 0, 0
   index: 2
-phoenixfire
+gif
   rotate: false
   xy: 0, 105
   size: 34, 34
   orig: 34, 34
   offset: 0, 0
   index: 3
-phoenixfire
+gif
   rotate: false
   xy: 0, 70
   size: 34, 34
   orig: 34, 34
   offset: 0, 0
   index: 4
-phoenixfire
+gif
   rotate: false
   xy: 0, 35
   size: 34, 34
   orig: 34, 34
   offset: 0, 0
   index: 5
-phoenixfire
+gif
   rotate: false
   xy: 0, 0
   size: 34, 34

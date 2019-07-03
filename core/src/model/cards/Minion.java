@@ -31,10 +31,15 @@ public class Minion extends Army {
         this.mana = mana;
         this.spTime = spTime;
         gifPath = "Card/Minion/" +number+".atlas";
-        lastNumber = number;
-        minions.add(this);
-        cards.add(this);
-//        this.animation = new ArmyAnimation("Card/Hero/2.atlas");
+        if(number > lastNumber)
+            lastNumber = number;
+        if(number > 41) {
+            gifPath = "Card/Minion/41.atlas";
+        }
+        if(number <=40) {
+            minions.add(this);
+            cards.add(this);
+        }
     }
 
     public static int getLastNumber() {
@@ -146,9 +151,8 @@ public class Minion extends Army {
         army.addBuff(poison);
     }
 
-    public void EagleOnSpawn(Player player, Cell cell) {
-        BattleScreen.getPopUps().add( new BattlePopUp("PASSIVE", cell.getScreenX(), cell.getScreenY()));
-        Buff buff = new Buff(POWER, 10, 1, CONTINUOUS);
+    public void EaglePassive(Player player, Cell cell) {
+        Buff buff = new Buff(POWER, 10, 1, NORMAL);
         buff.setPowerBuffType(HP);
         this.addBuff(buff);
     }
@@ -208,7 +212,7 @@ public class Minion extends Army {
         }
     }
 
-    public void GrandWitchOnSpawn(Player player, Cell cell) {
+    public void GrandWitchPassive(Player player, Cell cell) {
         ArrayList<Army> array = player.getFriendsAround(cell).getArmy();
         array.add(this);
         for (Army army : array) {
@@ -300,7 +304,7 @@ public class Minion extends Army {
             this.addBuff(specialBuff);
         }else {
             try{
-                Minion.class.getDeclaredMethod(this.getName() +"OnSpawn", Player.class, Cell.class).invoke(this, player, cell);
+                Minion.class.getDeclaredMethod(this.getName() +"Passive", Player.class, Cell.class).invoke(this, player, cell);
             } catch (Exception n){ n.printStackTrace();}
         }
     }

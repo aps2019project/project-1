@@ -4,6 +4,7 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import graphic.Others.PopUp;
 import graphic.screen.LoadingScreen;
@@ -19,8 +20,7 @@ public class Main extends ApplicationAdapter {
 
 	@Override
 	public void create () {
-//		control.Main main = new control.Main();
-//		main.start();
+		createMouseIcon("mouse.png");
 		Card.scanAllCards();
 		Account.readAccountDetails();
 		AssetHandler.load();
@@ -36,12 +36,18 @@ public class Main extends ApplicationAdapter {
 		ScreenManager.getScreen().render(batch);
 		PopUp.getInstance().draw(batch);
 	}
-	
+
 	@Override
 	public void dispose () {
 		if (ScreenManager.getScreen() != null)
 			ScreenManager.getScreen().dispose();
 		batch.dispose();
+	}
+
+	private void createMouseIcon(String picPath) {
+		Pixmap pm = new Pixmap(Gdx.files.internal(picPath));
+		Gdx.graphics.setCursor(Gdx.graphics.newCursor(pm, 0, 0));
+		pm.dispose();
 	}
 
 	public static Color toColor(java.awt.Color color) {

@@ -1,9 +1,8 @@
 package model.game;
 
+
 import graphic.screen.gameMenuScreens.Datas;
-import model.cards.Army;
-import model.cards.Card;
-import model.cards.Minion;
+import model.cards.*;
 import model.other.Account;
 import model.variables.CardsArray;
 
@@ -27,6 +26,9 @@ public class Game {
     private boolean exitFromGame = false;
     private boolean gameCreated = false;
     private ArrayList<Cell> allCellsInTable = new ArrayList<Cell>();
+    private long turnStartTime = 0;
+    private ArrayList<Item> items = new ArrayList<Item>();
+
     public Game(Account firstAccount, Account secondAccount, GameType type) {
         firstPlayer = new Player(firstAccount);
         secondPlayer = new Player(secondAccount);
@@ -38,10 +40,22 @@ public class Game {
         }
         this.type = type;
         currentGame = this;
+        setItems();
+    }
+
+    public void setItems() {
 //        table[2][2].setInsideItem(Item.getCollectableItems().getAllItems().get(0));
 //        table[2][6].setInsideItem(Item.getCollectableItems().getAllItems().get(3));
         this.gameCreated = true;
+        addItem(Item.getCollectableItems().getAllItems().get(0), table[2][2]);
+        addItem(Item.getCollectableItems().getAllItems().get(3), table[2][6]);
     }
+
+    public void addItem(Item item, Cell cell) {
+        cell.setInsideItem(item);
+        items.add(item);
+    }
+
     public Game(Account firstAccount, Account secondAccount, GameType type, int numberOfFlags) {
         this(firstAccount,secondAccount,type);
         if(numberOfFlags%2 == 1) {
@@ -144,6 +158,7 @@ public class Game {
         nextTurn();
     }
     public void nextTurn() {
+        turnStartTime = System.currentTimeMillis();
         turnNumber++;
         firstPlayer.nextTurnSetup();
         secondPlayer.nextTurnSetup();
@@ -224,8 +239,9 @@ public class Game {
     }
     public Player getPlayer(Account account) {
         if(firstPlayer.getAccount() == account) return firstPlayer;
-        else if(secondPlayer.getAccount() == account) return secondPlayer;
-        else   return null;
+        else return secondPlayer;
+//        else if(secondPlayer.getAccount() == account) return secondPlayer;
+//        else   return null;
     }
     public Cell findInTable(String ID){
         for(Cell[] row : table) {
@@ -241,8 +257,9 @@ public class Game {
         CardsArray allArmiesInTable = new CardsArray();
         for(Cell cell : cells) {
             try {
-                if(!cell.isEmpty() && cell.getInsideArmy().getAccount().equals(account))
+                if(!cell.isEmpty() && cell.getInsideArmy().getAccount().getUsername().equals(account.getUsername())){
                     allArmiesInTable.add(cell.getInsideArmy());
+                }
             }
             catch (NullPointerException e) {
                 System.out.println("naaa");
@@ -311,5 +328,17 @@ public class Game {
         array.addAll(firstPlayer.getInGameCards());
         array.addAll(secondPlayer.getInGameCards());
         return array;
+    }
+
+    public long getTurnStartTime() {
+        return turnStartTime;
+    }
+
+    public void setTurnStartTime(long turnStartTime) {
+        this.turnStartTime = turnStartTime;
+    }
+
+    public ArrayList<Item> getItems() {
+        return items;
     }
 }

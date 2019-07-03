@@ -15,6 +15,7 @@ import graphic.main.AssetHandler;
 import graphic.main.Button;
 import graphic.main.Main;
 import graphic.screen.gameMenuScreens.ChooseNumberOfPlayersMenuScreen;
+import model.other.Account;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -31,11 +32,14 @@ public class MenuScreen extends Screen {
     private Button customCardButton;
     private Button profileButton;
     private Button exitButton;
+    private Button cheatButton;
     private Vector2 mousePos;
     private ArrayList<MoveAnimation> lanternAnimation;
+    private boolean cheat = false;
 
     @Override
     public void create() {
+        Account.saveAccountDetails();
         setCameraAndViewport();
         createLanternsAnimation();
         shapeRenderer = new ShapeRenderer();
@@ -48,6 +52,7 @@ public class MenuScreen extends Screen {
         gameMakerButton = new Button("button/menuButton.png", "button/menuButtonActive.png", 200, 200, 300, 50, "Play Game", font);
         shopButton =  new Button("button/menuButton.png", "button/menuButtonActive.png",150, 300, 300, 50, "Enter Shop", font);
         collectionButton =  new Button("button/menuButton.png","button/menuButtonActive.png", 100, 400, 300, 50, "Enter Collection", font);
+        cheatButton =  new Button("button/menuButton.png","button/menuButtonActive.png", 59, 500, 300, 50, "Cheat Mode : OFF", font);
         exitButton = new Button("button/exit.png", Main.WIDTH - 200, Main.HEIGHT - 200);
         profileButton = new Button("button/profile.png", Main.WIDTH - 200, Main.HEIGHT - 400);
         mousePos = new Vector2();
@@ -67,6 +72,7 @@ public class MenuScreen extends Screen {
         customCardButton.setActive(customCardButton.contains(mousePos));
         profileButton.setActive(profileButton.contains(mousePos));
         exitButton.setActive(exitButton.contains(mousePos));
+        cheatButton.setActive(cheatButton.contains(mousePos));
 
 
         Gdx.input.setInputProcessor(new InputProcessor() {
@@ -101,6 +107,10 @@ public class MenuScreen extends Screen {
                     ScreenManager.setScreen(new TestScreen());
                 if (profileButton.isActive())
                     PopUp.getInstance().setText("Tet pop up sdfsdfasdfsa");
+                if(customCardButton.isActive())
+                    ScreenManager.setScreen(new CustomCardScreen());
+                if(cheatButton.isActive())
+                    setCheat();
                 return false;
             }
 
@@ -139,6 +149,7 @@ public class MenuScreen extends Screen {
         customCardButton.draw(batch);
         profileButton.draw(batch);
         exitButton.draw(batch);
+        cheatButton.draw(batch);
     }
 
     private void showLanternAnimation(SpriteBatch batch) {
@@ -180,5 +191,17 @@ public class MenuScreen extends Screen {
         batch.begin();
         batch.draw(brand,(Main.WIDTH - brand.getWidth()) / 2, (Main.HEIGHT - brand.getHeight()) / 2);
         batch.end();
+    }
+
+    public void setCheat() {
+        if(!cheat){
+            cheat = true;
+            Account.getCurrentAccount().setDaric(999999);
+            cheatButton.setText("Cheat Mode : ON");
+        } else{
+            cheat = false;
+            Account.getCurrentAccount().setDaric(15000);
+            cheatButton.setText("Cheat Mode : OFF");
+        }
     }
 }

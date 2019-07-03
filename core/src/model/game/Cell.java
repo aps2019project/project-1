@@ -133,4 +133,12 @@ public class Cell {
     public void setScreenY(float screenY) {
         this.screenY = screenY;
     }
+
+    public CellEffect getCellEffect() {
+        return effect;
+    }
+
+    public Flag getFlag() {
+        return flag;
+    }
 }

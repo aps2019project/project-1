@@ -19,7 +19,7 @@ public class Player {
     protected Hand hand = new Hand();
     protected int mana;
     protected CardsArray graveYard = new CardsArray();
-    protected CardsArray inGameCards = new CardsArray();
+//    protected CardsArray inGameCards = new CardsArray();
     protected CardsArray movedCardsInThisTurn = new CardsArray();
     protected CardsArray attackerCardsInThisTurn = new CardsArray();
     protected int turnNumber = 0;
@@ -165,15 +165,13 @@ public class Player {
     public boolean moveArmy(Cell presentCell, Cell destinationCell) {
         if(!this.canMove(presentCell, destinationCell)) return false;
         Army army = presentCell.pick();
-
         movedCardsInThisTurn.add(army);
         HashMap<Army, ArmyAnimation> animations = BattleScreen.getAnimations();
-        System.out.println(animations.get(army));
         if(animations.get(army) != null) {
             animations.get(army).run(destinationCell.getScreenX(), destinationCell.getScreenY());
         }
         else {
-            System.out.println("animation army is null");
+//            System.out.println("animation army is null");
         }
         return destinationCell.put(army, turnNumber);
     }
@@ -191,7 +189,7 @@ public class Player {
         this.hero = hero;
         deck.deleteCard(hero);
         cell.put(hero, turnNumber);
-        this.inGameCards.add(hero);
+//        this.inGameCards.add(hero);
     }
     public boolean isInRange(Cell attackersCell,Cell defenderCell) {
         if(attackersCell.isEmpty() || defenderCell.isEmpty()) return false;
@@ -230,7 +228,7 @@ public class Player {
         if(defenderCell.getInsideArmy().isDisarmed()) return;
         Army attacker = attackersCell.getInsideArmy();
         if(attacker instanceof  Minion){
-            ((Minion)attacker).checkOnDefend(defenderCell.getInsideArmy());
+            ((Minion)attacker).checkOnDefend(attackersCell.getInsideArmy());
         }
         attackersCell.getInsideArmy().attack(defenderCell.getInsideArmy());
     }
@@ -251,14 +249,23 @@ public class Player {
 
     public boolean useSpecialPower(Cell cell) {
         selectedCardPlace = cell;
-        if(this.getHero().getMp() > this.mana) return false;
-        if( this.usedSpecialPowerTurn != 0 && (this.turnNumber - this.usedSpecialPowerTurn < this.getHero().getCoolDown())) return false;
+        if(this.getHero().getMp() > this.mana){
+            BattleScreen.setPopUp("Not Enough Mana");
+            return false;
+        }
+        if(!canUseHeroSp()){
+            return false;
+        }
         try {
             this.getHero().useSpell(this);
         } catch (Exception e) { e.printStackTrace();}
         this.mana -= this.getHero().getMp();
         this.usedSpecialPowerTurn = this.turnNumber;
         return true;
+    }
+
+    public boolean canUseHeroSp() {
+        return this.usedSpecialPowerTurn == 0 || (this.turnNumber - this.usedSpecialPowerTurn >= this.getHero().getCoolDown());
     }
 
     public boolean moveFromHandToCell(Card card,Cell cell) {
@@ -280,7 +287,7 @@ public class Player {
                 mana -= cell.getInsideArmy().getNeededManaToPut();
                 movedCardsInThisTurn.add(card);
                 attackerCardsInThisTurn.add(card);
-                this.inGameCards.add(card);
+//                this.inGameCards.add(card);
                 if(card instanceof Minion){
                     Minion minion = (Minion)card;
                     minion.checkOnSpawn(this, cell);
@@ -333,8 +340,8 @@ public class Player {
 
     public void play() {
         endTurn = false;
-        this.checkPassive();
         this.setUpBuffs();
+        this.checkPassive();
         increaseTurnNumber();
         setMana();
         deck.transferCardTo(hand);
@@ -343,7 +350,7 @@ public class Player {
                 try{
                     Game.getCurrentGame().wait();
                 } catch (InterruptedException i){
-                    i.printStackTrace();
+                    return;
                 }
             }
             handleCommands();
@@ -405,8 +412,10 @@ public class Player {
 
     public ArrayList<Army> getInGameCards() {
         ArrayList<Army> army = new ArrayList<Army>();
-        for (Card card : this.inGameCards.getAllCards()) {
-            army.add((Army) card);
+        for(Cell cell : Game.getCurrentGame().getAllCellsInTable()){
+            if(cell.getInsideArmy() == null) continue;
+            if(this.isFriend(cell.getInsideArmy()))
+                army.add(cell.getInsideArmy());
         }
         return army;
     }
@@ -536,7 +545,7 @@ public class Player {
     }
 
     public boolean isFriend(Army army) {
-        return army.getAccount() == this.getAccount();
+        return army.getAccount().getUsername().equals(this.getAccount().getUsername());
 //        return inGameCards.find(army) != null;
     }
 

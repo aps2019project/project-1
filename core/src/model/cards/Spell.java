@@ -28,10 +28,16 @@ public class Spell extends Card {
         super(number, name, price, description, SPELL, mana);
         this.mana = mana;
         gifPath = "Card/Spell/" +number+".atlas";
-        spells.add(this);
-        cards.add(this);
-        lastNumber = number;
+        if(number > lastNumber)
+            lastNumber = number;
         this.targetDescription = target;
+        if(number > 21) {
+            gifPath = "Card/Spell/21.atlas";
+        }
+        if(number <=20) {
+            spells.add(this);
+            cards.add(this);
+        }
     }
 
     public static ArrayList<Spell> getSpells() {

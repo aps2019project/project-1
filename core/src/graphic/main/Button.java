@@ -30,12 +30,13 @@ public class Button {
         this.font = new BitmapFont();
         this.isActive = false;
         this.deActiveRectangle = new Rectangle(x, y, sprite.getWidth(), sprite.getHeight());
-        this.activeRectangle = this.deActiveRectangle;
+        this.activeRectangle = new Rectangle(x, y, sprite.getWidth(), sprite.getHeight());
     }
 
     public Button(String picPath, float x, float y, float width, float height) {
         this(picPath, x, y);
         this.deActiveRectangle = new Rectangle(x, y, width, height);
+        this.activeRectangle = new Rectangle(x, y, width, height);
     }
 
     public Button(String deActivePic, String activePic, float x, float y) {
@@ -147,6 +148,7 @@ public class Button {
         this(deActivePic, activePic, soundEffect, x, y, width, height, text);
         this.font = font;
     }
+
     public Button(Sprite deActivePic, Sprite activePic, String soundEffect, float x, float y){
         this.activePic = activePic;
         this.deActivePic = deActivePic;
@@ -157,6 +159,7 @@ public class Button {
         this.deActiveRectangle = new Rectangle(x, y, activePic.getWidth(), activePic.getHeight());
         this.activeRectangle = this.deActiveRectangle;
     }
+
     public Button(String deActivePic, String activePic, String soundEffect, float deActiveX, float deActiveY, float deActiveWidth, float deActiveHeight, float activeX, float activeY, float activeScale) {
 
         this.activePic = new Sprite(AssetHandler.getData().get(activePic, Texture.class));
@@ -168,6 +171,7 @@ public class Button {
         this.activeRectangle = new Rectangle(activeX, activeY, this.activePic.getWidth()*activeScale, this.activePic.getHeight()*activeScale);
         this.deActiveRectangle = new Rectangle(deActiveX, deActiveY, deActiveWidth, deActiveHeight);
     }
+
     public boolean isActive() {
         return this.isActive;
     }
@@ -200,5 +204,8 @@ public class Button {
         return deActiveRectangle.contains(vec);
     }
 
+    public void setText(String text) {
+        this.text = text;
+    }
 }
 
