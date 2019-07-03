@@ -67,4 +67,8 @@ public class Server {
         catch (Exception ignored){}
     }
 
+    static synchronized boolean isAccountOnline(String userName) {
+        return onlineUsers.containsKey(userName);
+    }
+
 }
