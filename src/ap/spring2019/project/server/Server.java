@@ -29,7 +29,16 @@ public class Server {
 
     public static void main(String[] args) {
         ExecutorService serverSocketAdder = Executors.newSingleThreadExecutor();
-        serverSocketAdder.submit(new SocketAdder());
+        serverSocketAdder.submit(() -> {
+            while (Thread.currentThread().isAlive()) {
+                try {
+                    Socket socket = Server.getServer().accept();
+                    new Thread(new Listener(socket)).start();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     static synchronized ServerSocket getServer() {
