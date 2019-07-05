@@ -4,13 +4,12 @@ import control.CsvReader;
 import model.game.Cell;
 import model.game.Deck;
 import model.game.Flag;
-import model.game.Player;
 import model.other.Account;
-import model.variables.*;
+import model.variables.CardsArray;
+import model.variables.ID;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class Card implements Cloneable {
@@ -167,6 +166,7 @@ public class Card implements Cloneable {
                 deck.addCard(temp);
             }
         }
+        account.addDeckToCollections(deck);
         account.addDeck(deck);
         account.changeMainDeck(deck);
     }

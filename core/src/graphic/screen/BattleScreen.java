@@ -16,9 +16,11 @@ import graphic.main.AssetHandler;
 import graphic.main.Button;
 import graphic.main.Gif;
 import graphic.main.Main;
-import graphic.screen.gameMenuScreens.ChooseNumberOfPlayersMenuScreen;
 import model.cards.*;
-import model.game.*;
+import model.game.Cell;
+import model.game.CellEffect;
+import model.game.Game;
+import model.game.Player;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -185,6 +187,8 @@ public class BattleScreen extends Screen {
             hero2Sp = new Gif(new Animation<TextureRegion>(1/20f, new TextureAtlas(player2.getHero().getSpellPath()).findRegions("gif"), Animation.PlayMode.LOOP));
 
         setItemGifs();
+        setItemGifsInPlayer(game.getFirstPlayer());
+        setItemGifsInPlayer(game.getSecondPlayer());
         playerItemStartCord = new Vector2(55, 505);
 
     }
@@ -194,6 +198,12 @@ public class BattleScreen extends Screen {
             if(cell.getInsideItem() != null){
                 itemsGifs.put(cell.getInsideItem(), new Gif(new Animation<TextureRegion>(1/20f, new TextureAtlas(cell.getInsideItem().getGifPath()).findRegions("gif"), Animation.PlayMode.LOOP)));
             }
+        }
+    }
+    public void setItemGifsInPlayer(Player player) {
+        for(Item item : player.getCollectibleItem().getAllItems()) {
+            itemsGifs.put(item, new Gif(new Animation<TextureRegion>(1/20f, new TextureAtlas(item.getGifPath()).findRegions("gif"), Animation.PlayMode.LOOP)));
+
         }
     }
 
