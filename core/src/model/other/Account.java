@@ -160,6 +160,11 @@ public class Account {
         mainDeck = deck;
     }
 
+    public void addDeckToCollections(Deck deck) {
+        for(Card card : deck.getCards().getAllCards()) {
+            this.addCardToCollection(card);
+        }
+    }
     public void addCardToCollection(Card card) {
         collection.add(card);
     }
