@@ -193,6 +193,7 @@ public class Datas {
         }
         return copyDeck;
     }
+
     public void makeKillHeroCustom(int deckNumber) {
         type = GameType.KILL_HERO;
         Account account;
@@ -245,4 +246,37 @@ public class Datas {
         }).start();
 
     }
+    public void makeKillHeroCustom(final Account account) {
+        type = GameType.KILL_HERO;
+        secondAccount = account;
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                playGame(0);
+            }
+        }).start();
+    }
+
+    public void makeCaptureTheFlagCustom(Account account) {
+        type = GameType.CAPTURE_THE_FLAG;
+        secondAccount = account;
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                playGame(1);
+            }
+        }).start();
+    }
+
+    public void makeRollUpFlagCustom(Account account, final int numberOfFlags) {
+        type = GameType.ROLLUP_FLAGS;
+        secondAccount = account;
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                playGame(numberOfFlags);
+            }
+        }).start();
+    }
+
 }

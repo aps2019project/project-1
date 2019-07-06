@@ -5,8 +5,9 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.*;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import graphic.Others.SlotType;
@@ -14,6 +15,7 @@ import graphic.main.AssetHandler;
 import graphic.main.Button;
 import graphic.main.Main;
 import model.other.Account;
+import network.Client;
 
 import java.awt.*;
 
@@ -119,7 +121,7 @@ public class LoginScreen extends Screen {
                         }
                     }
                     if (loginButton.isActive() && Account.doesAccountExist(userName)) {
-                        if (Account.checkIfPasswordIsCorrect(userName,password)) {
+                        if (Client.logIn(userName, password).equals("correct login")) {
                             Account.setCurrentAccount(Account.findAccount(userName));
                             ScreenManager.setScreen(new MenuScreen());
                         }

@@ -16,19 +16,19 @@ import graphic.main.Main;
 import graphic.screen.BattleScreen;
 import graphic.screen.Screen;
 import graphic.screen.ScreenManager;
-import model.game.Deck;
 import model.game.GameType;
+import network.Client;
 
 import java.util.ArrayList;
 
-public class SecondCustomMenuScreen extends Screen {
+public class MultiPlayerScreen extends Screen {
 
     private ShapeRenderer shapeRenderer;
     private Music music;
     private Texture backGroundPic;
     private Button exitButton;
     private Vector2 mousePos;
-    private Button[] decksButtons;
+    private Button[] onlinePlayersButtons;
     private Button killHeroButton;
     private Button captureTheFlagButton;
     private Button rollUpFlagsButton;
@@ -36,17 +36,16 @@ public class SecondCustomMenuScreen extends Screen {
     private Button decreaseNumberOfFlagsButton;
     private BitmapFont font;
     private GameType gameType = GameType.KILL_HERO;
-    private ArrayList<Deck> decks = new ArrayList<Deck>();
-    private int numberOFDecks = 3;
+    private ArrayList<String> accounts = new ArrayList<>();
     private int numberOfFlags = 1;
     @Override
     public void create() {
         String font = "fonts/Arial 36.fnt";
         this.font = AssetHandler.getData().get(font);
-        addDecks();
+        addOnlineAccounts();
         setCameraAndViewport();
         shapeRenderer = new ShapeRenderer();
-        decksButtons = new Button[numberOFDecks + 1];
+        onlinePlayersButtons = new Button[accounts.size() + 1];
         backGroundPic = AssetHandler.getData().get("backGround/secondCustomMenu.jpg");
         mousePos = new Vector2();
         killHeroButton = new Button("button/secondCustom1.png", "button/secondCustom1-1.png", "sfx/click.mp3", 100, 700, "kill hero", font);
@@ -57,7 +56,7 @@ public class SecondCustomMenuScreen extends Screen {
         killHeroButton.setActive(true);
         captureTheFlagButton.setActive(false);
         rollUpFlagsButton.setActive(false);
-        createDecks();
+        createAccounts();
         exitButton = new Button("button/exit.png", Main.WIDTH - 200, Main.HEIGHT - 200);
         createBackGroundMusic();        mousePos = new Vector2();
 
@@ -73,7 +72,7 @@ public class SecondCustomMenuScreen extends Screen {
 
 
         exitButton.setActive(exitButton.contains(mousePos));
-        updateDecks();
+        updateAccounts();
         Gdx.input.setInputProcessor(new InputProcessor() {
             @Override
             public boolean keyDown(int keycode) {
@@ -94,14 +93,14 @@ public class SecondCustomMenuScreen extends Screen {
             public boolean touchDown(int screenX, int screenY, int pointer, int button) {
                 if (button != Input.Buttons.LEFT)
                     return false;
-                for(int i = 0; i < numberOFDecks; i++) {
-                    if (decksButtons[i].isActive()) {
+                for(int i = 0; i < accounts.size(); i++) {
+                    if (onlinePlayersButtons[i].isActive()) {
                         if(gameType == GameType.KILL_HERO)
-                            Datas.getDatas().makeKillHeroCustom(i);
+                            Datas.getDatas().makeKillHeroCustom(Client.getAccount(accounts.get(i)));
                         else if(gameType == GameType.CAPTURE_THE_FLAG)
-                            Datas.getDatas().makeCaptureTheFlagCustom(i);
+                            Datas.getDatas().makeCaptureTheFlagCustom(Client.getAccount(accounts.get(i)));
                         else if(gameType == GameType.ROLLUP_FLAGS)
-                            Datas.getDatas().makeRollUpFlagCustom(i, numberOfFlags);
+                            Datas.getDatas().makeRollUpFlagCustom(Client.getAccount(accounts.get(i)), numberOfFlags);
 
                         ScreenManager.setScreen(new BattleScreen());
 
@@ -173,7 +172,7 @@ public class SecondCustomMenuScreen extends Screen {
             font.draw(batch, Integer.toString(numberOfFlags), 630, 500);
             batch.end();
         }
-        drawDecks(batch);
+        drawAccounts(batch);
     }
 
 
@@ -194,26 +193,26 @@ public class SecondCustomMenuScreen extends Screen {
         batch.draw(backGroundPic, 0, 0);
         batch.end();
     }
-    private void createDecks() {
-        for(int i = 0; i < numberOFDecks; i++) {
-            float x = i*400;
+    private void createAccounts() {
+        for(int i = 0; i < accounts.size(); i++) {
+            float x = 1200*i/accounts.size();
             float y = 250;
-            decksButtons[i] = new Button("button/decks/deActiveDeck.png","button/decks/activeDeck.png" , x, y, decks.get(i).getName());
-            decksButtons[i].setActive(decksButtons[i].contains(mousePos));
+            onlinePlayersButtons[i] = new Button("button/decks/deActiveDeck.png","button/decks/activeDeck.png" , x, y, accounts.get(i));
+            onlinePlayersButtons[i].setActive(onlinePlayersButtons[i].contains(mousePos));
 
         }
     }
-    private void drawDecks(SpriteBatch batch) {
-        for(int i = 0; i < numberOFDecks; i++)
-            decksButtons[i].draw(batch);
+    private void drawAccounts(SpriteBatch batch) {
+        for(int i = 0; i < accounts.size(); i++)
+            onlinePlayersButtons[i].draw(batch);
     }
-    private void updateDecks() {
-        for(int i = 0; i < numberOFDecks; i++) {
-            decksButtons[i].setActive(decksButtons[i].contains(mousePos));
+    private void updateAccounts() {
+        for(int i = 0; i < accounts.size(); i++) {
+            onlinePlayersButtons[i].setActive(onlinePlayersButtons[i].contains(mousePos));
         }
     }
-    private void addDecks() {
-        Datas.getDatas().setCustomDecks();
-        decks.addAll(Datas.getDatas().getCustomDecks());
+    private void addOnlineAccounts() {
+        Client.setOnlineAccounts();
+        accounts.addAll(Client.getOnlineAccounts());
     }
 }

@@ -138,6 +138,10 @@ public class AssetHandler {
         assetManager.load("button/card in deck.png", Texture.class);
         assetManager.load("button/card in deck1.png", Texture.class);
         assetManager.load("button/deckName.png", Texture.class);
+        assetManager.load("button/secondCustom1.png", Texture.class);
+        assetManager.load("button/secondCustom1-1.png", Texture.class);
+        assetManager.load("button/increaseButton.png", Texture.class);
+        assetManager.load("button/decreaseButton.png", Texture.class);
 
 
         for(int i = 1; i <= 11; i++)

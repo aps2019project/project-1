@@ -21,6 +21,8 @@ import model.game.Cell;
 import model.game.CellEffect;
 import model.game.Game;
 import model.game.Player;
+import network.Client;
+import network.MouseState;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -149,7 +151,6 @@ public class BattleScreen extends Screen {
         manaStart2 = new Vector2(1330 - mana.getWidth(), 730);
 
         mousePos = new Vector2();
-
         hero1Icon = AssetHandler.getData().get(player1.getHero().getIconId());
         hero2Icon = AssetHandler.getData().get(player2.getHero().getIconId());
 
@@ -283,87 +284,13 @@ public class BattleScreen extends Screen {
 
             @Override
             public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-                if(game.isGameEnded()){
-                    ScreenManager.setScreen(new MenuScreen());
-                }
-                if(endTurnButton.isActive()){
-                    endTurn();
-                } else if(endGameButton.isActive()){
-                    game.exitFromGame();
-                    endGame();
-                } else if(graveyardButton.isActive()){
-                    showingGraveyard = !showingGraveyard;
-                } else if(fastForwardButton.isActive()){
-                    setFastForward();
-                }
-                else if(checkHeroSp()){
-                    if(game.getWhoIsHisTurn().canUseHeroSp())
-                        heroSpSelected = true;
-                } else if(getMouseCell() != null){
-                    if(getMouseCell().getInsideArmy() != null && game.getWhoIsHisTurn().isFriend(getMouseCell().getInsideArmy())) {
-                        selectedCell = getMouseCell();
-                        selectedCellHand = null;
-                        heroSpSelected = false;
-                        selectedArmy = selectedCell.getInsideArmy();
-                        setCommand("select " + selectedArmy.getID().getValue());
-                        synchronized (game){
-                            game.notify();
-                        }
-                    } else if(selectedArmy != null && getMouseCell().getInsideArmy() == null) {
-                        Cell cell = getMouseCell();
-                        if (!game.getWhoIsHisTurn().canMove(selectedCell, cell)){
-                            setPopUp("Invalid Cell");
-                            return false;
-                        }
-                        runSound.play();
-                        game.getWhoIsHisTurn().moveArmy(selectedCell, cell);
-                        selectedCell = null;
-                        selectedArmy = null;
-                    } else if(selectedCellHand != null && getMouseCell().getInsideArmy() == null) {
-//                        Cell cell = getMouseCell();
-//                        if(game.getWhoIsHisTurn().moveFromHandToCell(handCards.get(selectedCellHand), cell));
-//                            handCards.put(selectedCellHand, null);
-//                        selectedCellHand = null;
-                    } else if(selectedArmy != null && getMouseCell().getInsideArmy() != null) {
-                        Cell cell = getMouseCell();
-                        Army target = cell.getInsideArmy();
-                        if(game.getWhoIsHisTurn().isInRange(selectedCell, cell)) {
-                            attackSound.play();
-                            animations.get(selectedArmy).attack();
-                            if (game.getWhoIsHisTurn().isInRange(cell, selectedCell))
-                                animations.get(target).attack();
-                        }
-                        game.getWhoIsHisTurn().attack(selectedCell, cell);
-                        if(selectedCell.getInsideArmy().getHp() <= 0){
-                            animations.get(selectedArmy).death();
-                            game.setupCardDeaf(selectedCell);
-                        }
-                        if(cell.getInsideArmy().getHp() <= 0){
-                            animations.get(target).death();
-                            game.setupCardDeaf(cell);
-                        }
-                        selectedCell = null;
-                        selectedArmy = null;
-                    } else if(heroSpSelected){
-                        game.getWhoIsHisTurn().useSpecialPower(getMouseCell());
-                    }
-                } else if(getMouseHandCell() != null){
-                    selectedCellHand = getMouseHandCell();
-                    selectedCell = null;
-                    selectedArmy = null;
-                    heroSpSelected = false;
-                }
+                mouseTouchDown();
                 return false;
             }
 
             @Override
             public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-                if(selectedCellHand != null && getMouseCell()!= null && getMouseCell().getInsideArmy() == null){
-                    Cell cell = getMouseCell();
-                    if(game.getWhoIsHisTurn().moveFromHandToCell(handCards.get(selectedCellHand), cell));
-                    handCards.put(selectedCellHand, null);
-                    selectedCellHand = null;
-                }
+                mouseTouchUp();
                 return false;
             }
 
@@ -383,7 +310,122 @@ public class BattleScreen extends Screen {
             }
         });
     }
+    public void updateByServer() {
+        camera.update();
+        shapeRenderer.setProjectionMatrix(camera.combined);
+        game = Game.getCurrentGame();
+        player1 = game.getFirstPlayer();
+        player2 = game.getSecondPlayer();
 
+        if(game.isGameEnded()){
+            endGame();
+        }
+
+        checkTurnTime();
+
+        updateHandCells();
+
+        setAnimations();
+        Client.setMousePos();
+        mousePos.set(Client.getMousePos());
+        //mousePos.set(Gdx.input.getX(), Gdx.input.getY());
+        mousePos = viewport.unproject(mousePos);
+
+        endTurnButton.setActive(endTurnButton.contains(mousePos));
+        endGameButton.setActive(endGameButton.contains(mousePos));
+        graveyardButton.setActive(graveyardButton.contains(mousePos));
+        fastForwardButton.setActive(fastForwardButton.contains(mousePos));
+
+        updateGraveyard();
+        if(Client.getMouseState() == MouseState.TOUCH_DOWN) {
+            mouseTouchDown();
+        }
+        else if(Client.getMouseState() == MouseState.TOUCH_UP) {
+            mouseTouchUp();
+        }
+    }
+    public void mouseTouchUp() {
+            if(selectedCellHand != null && getMouseCell()!= null && getMouseCell().getInsideArmy() == null){
+                Cell cell = getMouseCell();
+                if(game.getWhoIsHisTurn().moveFromHandToCell(handCards.get(selectedCellHand), cell));
+                handCards.put(selectedCellHand, null);
+                selectedCellHand = null;
+            }
+            return;
+
+    }
+    public void mouseTouchDown() {
+        if (game.isGameEnded()) {
+            ScreenManager.setScreen(new MenuScreen());
+        }
+        if (endTurnButton.isActive()) {
+            endTurn();
+        } else if (endGameButton.isActive()) {
+            game.exitFromGame();
+            endGame();
+        } else if (graveyardButton.isActive()) {
+            showingGraveyard = !showingGraveyard;
+        } else if (fastForwardButton.isActive()) {
+            setFastForward();
+        } else if (checkHeroSp()) {
+            if (game.getWhoIsHisTurn().canUseHeroSp())
+                heroSpSelected = true;
+        } else if (getMouseCell() != null) {
+            if (getMouseCell().getInsideArmy() != null && game.getWhoIsHisTurn().isFriend(getMouseCell().getInsideArmy())) {
+                selectedCell = getMouseCell();
+                selectedCellHand = null;
+                heroSpSelected = false;
+                selectedArmy = selectedCell.getInsideArmy();
+                setCommand("select " + selectedArmy.getID().getValue());
+                synchronized (game) {
+                    game.notify();
+                }
+            } else if (selectedArmy != null && getMouseCell().getInsideArmy() == null) {
+                Cell cell = getMouseCell();
+                if (!game.getWhoIsHisTurn().canMove(selectedCell, cell)) {
+                    setPopUp("Invalid Cell");
+                    return;
+                }
+                runSound.play();
+                game.getWhoIsHisTurn().moveArmy(selectedCell, cell);
+                selectedCell = null;
+                selectedArmy = null;
+            } else if (selectedCellHand != null && getMouseCell().getInsideArmy() == null) {
+//                        Cell cell = getMouseCell();
+//                        if(game.getWhoIsHisTurn().moveFromHandToCell(handCards.get(selectedCellHand), cell));
+//                            handCards.put(selectedCellHand, null);
+//                        selectedCellHand = null;
+            } else if (selectedArmy != null && getMouseCell().getInsideArmy() != null) {
+                Cell cell = getMouseCell();
+                Army target = cell.getInsideArmy();
+                if (game.getWhoIsHisTurn().isInRange(selectedCell, cell)) {
+                    attackSound.play();
+                    animations.get(selectedArmy).attack();
+                    if (game.getWhoIsHisTurn().isInRange(cell, selectedCell))
+                        animations.get(target).attack();
+                }
+                game.getWhoIsHisTurn().attack(selectedCell, cell);
+                if (selectedCell.getInsideArmy().getHp() <= 0) {
+                    animations.get(selectedArmy).death();
+                    game.setupCardDeaf(selectedCell);
+                }
+                if (cell.getInsideArmy().getHp() <= 0) {
+                    animations.get(target).death();
+                    game.setupCardDeaf(cell);
+                }
+                selectedCell = null;
+                selectedArmy = null;
+            } else if (heroSpSelected) {
+                game.getWhoIsHisTurn().useSpecialPower(getMouseCell());
+            }
+        } else if (getMouseHandCell() != null) {
+            selectedCellHand = getMouseHandCell();
+            selectedCell = null;
+            selectedArmy = null;
+            heroSpSelected = false;
+        }
+        return;
+    }
     public void endTurn() {
         selectedCell = null;
         selectedArmy = null;
