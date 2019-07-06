@@ -345,9 +345,6 @@ public class BattleScreen extends Screen {
                 }
                 runSound.play();
                 game.getWhoIsHisTurn().moveArmy(selectedCell, cell);
-                if(animations.get(selectedCell.getInsideArmy()) != null) {
-                    animations.get(selectedCell.getInsideArmy()).run(cell.getScreenX(), cell.getScreenY());
-                }
                 selectedCell = null;
                 selectedArmy = null;
             } else if(selectedCellHand != null && getMouseCell().getInsideArmy() == null) {
