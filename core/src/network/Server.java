@@ -184,8 +184,8 @@ class EchoThread extends Thread {
         GameType type = GameType.KILL_HERO;
         int numberOfFlags = 0;
         try {
-            type = Game.getGameTypeByString(input.readUTF());
             username = input.readUTF();
+            type = Game.getGameTypeByString(input.readUTF());
             numberOfFlags = Integer.parseInt(input.readUTF());
         } catch (IOException e) {
             e.printStackTrace();
@@ -225,7 +225,7 @@ class EchoThread extends Thread {
         }
         ContentsBetweenTwoPlayers content = Server.findOrCreateContent(account.getUsername(), username);
         try {
-            out.writeUTF(content.getApplyingCondition(username));
+            out.writeUTF(content.getApplyingCondition(account.getUsername()));
         } catch (IOException e) {
             e.printStackTrace();
         }

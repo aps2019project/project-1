@@ -100,11 +100,11 @@ public class MultiPlayerScreen extends Screen {
                         if(gameType == GameType.KILL_HERO) type = "kill hero";
                         else if(gameType == GameType.CAPTURE_THE_FLAG) type = "capture the flag";
                         else if(gameType == GameType.ROLLUP_FLAGS)      type = "rollup flags";
-                        if(applyingCondition == "nothing") {
+                        if(applyingCondition.equals("nothing")) {
                             Client.applyPlayMultiPlayerGame(accounts.get(i), type, numberOfFlags);
                             ScreenManager.setScreen(new WaitingScreen(accounts.get(i)));
                         }
-                        else if(applyingCondition == "waiting for me") {
+                        else if(applyingCondition.equals("wait for me")) {
                             Client.acceptApplying(accounts.get(i));
                             if(gameType == GameType.KILL_HERO)
                                 Datas.getDatas().makeKillHeroCustom(Client.getAccount(accounts.get(i)));
@@ -207,8 +207,8 @@ public class MultiPlayerScreen extends Screen {
         for(int i = 0; i < accounts.size(); i++) {
             float x = 1200*i/accounts.size();
             float y = 250;
-            onlinePlayersButtons[i] = new Button("button/decks/deActiveDeck.png","button/decks/activeDeck.png" , x, y, accounts.get(i));
-            onlinePlayersButtons[i].setActive(onlinePlayersButtons[i].contains(mousePos));
+            onlinePlayersButtons[i] = new Button("button/multiplayer1.png","button/multiplayer1-1.png" , x, y, accounts.get(i));
+            onlinePlayersButtons[i].setActive(Client.getApplyCondition(accounts.get(i)).equals("wait for me"));
 
         }
     }

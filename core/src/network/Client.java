@@ -123,7 +123,7 @@ public class Client
     }
     public static String getApplyCondition(String username){
         try {
-            out.writeUTF("get apply condition");
+            out.writeUTF("get applying condition");
             out.writeUTF(username);
         } catch (IOException e) {
             e.printStackTrace();

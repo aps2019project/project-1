@@ -9,7 +9,10 @@ import com.badlogic.gdx.math.Vector2;
 import graphic.main.Button;
 import graphic.main.Gif;
 import graphic.main.Main;
+import graphic.screen.BattleScreen;
 import graphic.screen.Screen;
+import graphic.screen.ScreenManager;
+import model.game.GameType;
 import network.Client;
 
 
@@ -22,7 +25,8 @@ public class WaitingScreen extends Screen {
     private String condition = "wait for another";
     private Button cancelButton;
     private Vector2 mousePos;
-
+    private GameType gameType = GameType.KILL_HERO;
+    private int numberOfFlags = 0;
     public WaitingScreen(String username) {
         this.username = username;
     }
@@ -46,6 +50,16 @@ public class WaitingScreen extends Screen {
 
         String condition = Client.getApplyCondition(this.username);
         this.condition = condition;
+        if(this.condition.equals("accepted")) {
+            if(gameType == GameType.KILL_HERO)
+                Datas.getDatas().makeKillHeroCustom(Client.getAccount(username));
+            else if(gameType == GameType.CAPTURE_THE_FLAG)
+                Datas.getDatas().makeCaptureTheFlagCustom(Client.getAccount(username));
+            else if(gameType == GameType.ROLLUP_FLAGS)
+                Datas.getDatas().makeRollUpFlagCustom(Client.getAccount(username), numberOfFlags);
+            ScreenManager.setScreen(new BattleScreen());
+
+        }
         cancelButton.setActive(cancelButton.contains(mousePos));
         Gdx.input.setInputProcessor(new InputProcessor() {
             @Override
@@ -67,7 +81,7 @@ public class WaitingScreen extends Screen {
             public boolean touchDown(int screenX, int screenY, int pointer, int button) {
                 if(cancelButton.isActive()) {
                     Client.cancelApplying(username);
-                    new MultiPlayerScreen();
+                    ScreenManager.setScreen(new MultiPlayerScreen());
                 }
                 return false;
             }
