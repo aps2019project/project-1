@@ -160,10 +160,10 @@ public class Game {
         turnNumber++;
         firstPlayer.nextTurnSetup();
         secondPlayer.nextTurnSetup();
-        if(whoIsHisTurn.getAccount().getUsername().equals(Account.getCurrentAccount().getUsername()) || whoIsHisTurn instanceof IntelligentPlayer)
+//        if(whoIsHisTurn.getAccount().getUsername().equals(Account.getCurrentAccount().getUsername()) || whoIsHisTurn instanceof IntelligentPlayer)
             whoIsHisTurn.play();
-        else
-            whoIsHisTurn.getOpponentCommands();
+//        else
+//            whoIsHisTurn.getOpponentCommands();
         setupDefends();
         setupCardsDeaf();
         if(whoIsHisTurn == firstPlayer) whoIsHisTurn = secondPlayer;
