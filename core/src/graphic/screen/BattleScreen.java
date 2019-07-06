@@ -112,7 +112,7 @@ public class BattleScreen extends Screen {
         setCameraAndViewport();
         shapeRenderer = new ShapeRenderer();
 
-        while(!game.isGameCreated());
+        while(!Game.isGameCreated());
         game = Game.getCurrentGame();
         player1 = game.getFirstPlayer();
         player2 = game.getSecondPlayer();

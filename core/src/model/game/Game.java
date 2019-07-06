@@ -86,7 +86,7 @@ public class Game {
         cell.setFlag(flag);
     }
 
-    public boolean isGameCreated() {
+    public static boolean isGameCreated() {
         return Game.getCurrentGame() != null;
     }
 
