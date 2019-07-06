@@ -4,6 +4,8 @@ import graphic.Others.ArmyAnimation;
 import graphic.screen.BattleScreen;
 import model.cards.*;
 import model.other.Account;
+import model.other.exeptions.battle.*;
+import model.other.exeptions.battle.TargetCellIsEmptyException;
 import model.variables.CardsArray;
 
 import java.lang.reflect.InvocationTargetException;
@@ -167,13 +169,6 @@ public class Player {
         if(!this.canMove(presentCell, destinationCell)) return false;
         Army army = presentCell.pick();
         movedCardsInThisTurn.add(army);
-        HashMap<Army, ArmyAnimation> animations = BattleScreen.getAnimations();
-        if(animations.get(army) != null) {
-            animations.get(army).run(destinationCell.getScreenX(), destinationCell.getScreenY());
-        }
-        else {
-//            System.out.println("animation army is null");
-        }
         return destinationCell.put(army, turnNumber);
     }
 
@@ -209,14 +204,12 @@ public class Player {
         myCardCell.getInsideArmy().attackCombo(opponentCardCell.getInsideArmy(),cardsArray);
         return true;
     }
-    public boolean attack(Cell attackersCell,Cell defenderCell) {
+    public boolean attack(Cell attackersCell,Cell defenderCell) throws TargetCellIsEmptyException, TargetNotInRageException {
         if(attackersCell == null){
-            BattleScreen.setPopUp("Target Cell Is Empty");
-            return false;
+            throw new TargetCellIsEmptyException();
         }
         if(!isInRange(attackersCell,defenderCell)){
-            BattleScreen.setPopUp("Target Not in range");
-            return false;
+            throw new TargetNotInRageException();
         }
         attackersCell.getInsideArmy().attack(defenderCell.getInsideArmy());
         this.counterAttack(defenderCell, attackersCell);
@@ -234,9 +227,9 @@ public class Player {
         attackersCell.getInsideArmy().attack(defenderCell.getInsideArmy());
     }
 
-    public boolean attack(Cell defenderCell) {
-        return attack(selectedCardPlace, defenderCell);
-    }
+//    public boolean attack(Cell defenderCell) {
+//        return attack(selectedCardPlace, defenderCell);
+//    }
 
     public boolean attackCombo() {
         //
@@ -248,11 +241,10 @@ public class Player {
         return true;
     }
 
-    public boolean useSpecialPower(Cell cell) {
+    public boolean useSpecialPower(Cell cell) throws NotEnoughManaException{
         selectedCardPlace = cell;
         if(this.getHero().getMp() > this.mana){
-            BattleScreen.setPopUp("Not Enough Mana");
-            return false;
+            throw new NotEnoughManaException();
         }
         if(!canUseHeroSp()){
             return false;
@@ -269,12 +261,11 @@ public class Player {
         return this.usedSpecialPowerTurn == 0 || (this.turnNumber - this.usedSpecialPowerTurn >= this.getHero().getCoolDown());
     }
 
-    public boolean moveFromHandToCell(Card card,Cell cell) {
+    public boolean moveFromHandToCell(Card card,Cell cell) throws NotEnoughManaException, InvalidCellExceprion{
         if( cell != null && cell.isEmpty() &&
             Game.getCurrentGame().getAllCellsNearAccountArmies(account).indexOf(cell) != -1) {
             if(mana < card.getNeededManaToPut()){
-                BattleScreen.setPopUp("Not Enough Mana");
-                return false;
+                throw new NotEnoughManaException();
             }
             this.hand.remove(card);
             if(card instanceof Spell) {
@@ -297,8 +288,7 @@ public class Player {
                 return true;
             }
         }
-        BattleScreen.setPopUp("Invalid Cell");
-        return false;
+        throw new InvalidCellExceprion();
     }
 
     public void usableItemEffect(String itemName) throws IllegalAccessException, InvocationTargetException {

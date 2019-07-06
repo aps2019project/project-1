@@ -46,9 +46,9 @@ public class BattleHandler extends Handler{
                     BattleScreen.showInvalidMoveError();
                 }
             }else if (command.matches("attack [^ ]+")) {
-                if(!game.getWhoIsHisTurn().attack(game.findInTable(command.split(" ")[1]))) {
-                    BattleScreen.showInvalidAttackError();
-                }
+//                if(!game.getWhoIsHisTurn().attack(game.findInTable(command.split(" ")[1]))) {
+//                    BattleScreen.showInvalidAttackError();
+//                }
             }else if (command.matches("attack combo [^ ]+( [^ ]+)+")) {
                 Cell opponentCardCell = game.findInTable(command.split(" ")[2]);
                 Cell myCardCell = game.findInTable(command.split(" ")[3]);
@@ -63,9 +63,9 @@ public class BattleHandler extends Handler{
                 if(!game.getWhoIsHisTurn().heroHaveSpecialPower()) {
                     BattleScreen.showDoesNotHaveSpecialPower();
                 }
-                if(!game.getWhoIsHisTurn().useSpecialPower(getCell(command))){
-                    BattleScreen.showNotEnoughMana();
-                }
+//                if(!game.getWhoIsHisTurn().useSpecialPower(getCell(command))){
+//                    BattleScreen.showNotEnoughMana();
+//                }
 
             }else if (command.matches("show hand")) {
                 BattleScreen.showCardArray(game.getWhoIsHisTurn().getHand());

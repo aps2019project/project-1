@@ -21,6 +21,8 @@ import model.game.Cell;
 import model.game.CellEffect;
 import model.game.Game;
 import model.game.Player;
+import model.other.exeptions.battle.*;
+import model.other.exeptions.battle.TargetCellIsEmptyException;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -281,7 +283,7 @@ public class BattleScreen extends Screen {
 
             @Override
             public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-                mouseTouchUp();
+                mouseTouchDown();
                 return false;
             }
 
@@ -343,6 +345,9 @@ public class BattleScreen extends Screen {
                 }
                 runSound.play();
                 game.getWhoIsHisTurn().moveArmy(selectedCell, cell);
+                if(animations.get(selectedCell.getInsideArmy()) != null) {
+                    animations.get(selectedCell.getInsideArmy()).run(cell.getScreenX(), cell.getScreenY());
+                }
                 selectedCell = null;
                 selectedArmy = null;
             } else if(selectedCellHand != null && getMouseCell().getInsideArmy() == null) {
@@ -359,7 +364,13 @@ public class BattleScreen extends Screen {
                     if (game.getWhoIsHisTurn().isInRange(cell, selectedCell))
                         animations.get(target).attack();
                 }
-                game.getWhoIsHisTurn().attack(selectedCell, cell);
+                try {
+                    game.getWhoIsHisTurn().attack(selectedCell, cell);
+                } catch (TargetCellIsEmptyException e){
+                    setPopUp("Target Cell Is Empty");
+                } catch (TargetNotInRageException e){
+                    setPopUp("Target Not In Range");
+                }
                 if(selectedCell.getInsideArmy().getHp() <= 0){
                     animations.get(selectedArmy).death();
                     game.setupCardDeaf(selectedCell);
@@ -371,7 +382,11 @@ public class BattleScreen extends Screen {
                 selectedCell = null;
                 selectedArmy = null;
             } else if(heroSpSelected){
-                game.getWhoIsHisTurn().useSpecialPower(getMouseCell());
+                try {
+                    game.getWhoIsHisTurn().useSpecialPower(getMouseCell());
+                } catch (NotEnoughManaException e){
+                    setPopUp("Not Enough Mana");
+                }
             }
         } else if(getMouseHandCell() != null){
             selectedCellHand = getMouseHandCell();
@@ -384,7 +399,13 @@ public class BattleScreen extends Screen {
     public void mouseTouchUp() {
         if(selectedCellHand != null && getMouseCell()!= null && getMouseCell().getInsideArmy() == null){
             Cell cell = getMouseCell();
-            if(game.getWhoIsHisTurn().moveFromHandToCell(handCards.get(selectedCellHand), cell));
+            try {
+                if (game.getWhoIsHisTurn().moveFromHandToCell(handCards.get(selectedCellHand), cell)) ;
+            } catch (NotEnoughManaException e){
+                setPopUp("Not Enough Mana");
+            } catch (InvalidCellExceprion e){
+                setPopUp("Invalid Cell");
+            }
             handCards.put(selectedCellHand, null);
             selectedCellHand = null;
         }
