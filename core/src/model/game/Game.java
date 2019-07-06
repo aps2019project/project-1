@@ -86,8 +86,8 @@ public class Game {
         cell.setFlag(flag);
     }
 
-    public boolean isGameCreated() {
-        return gameCreated;
+    public static boolean isGameCreated() {
+        return Game.getCurrentGame() != null;
     }
 
     public void backToGame() {
@@ -160,10 +160,10 @@ public class Game {
         turnNumber++;
         firstPlayer.nextTurnSetup();
         secondPlayer.nextTurnSetup();
-        if(whoIsHisTurn.getAccount().getUsername().equals(Account.getCurrentAccount().getUsername()) || whoIsHisTurn instanceof IntelligentPlayer)
+//        if(whoIsHisTurn.getAccount().getUsername().equals(Account.getCurrentAccount().getUsername()) || whoIsHisTurn instanceof IntelligentPlayer)
             whoIsHisTurn.play();
-        else
-            whoIsHisTurn.getOpponentCommands();
+//        else
+//            whoIsHisTurn.getOpponentCommands();
         setupDefends();
         setupCardsDeaf();
         if(whoIsHisTurn == firstPlayer) whoIsHisTurn = secondPlayer;
@@ -341,5 +341,9 @@ public class Game {
 
     public ArrayList<Item> getItems() {
         return items;
+    }
+
+    public boolean isFirstPlayerTurn() {
+        return getWhoIsHisTurn().getAccount().getUsername().equals(firstPlayer.getAccount().getUsername());
     }
 }
