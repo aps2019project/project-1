@@ -36,6 +36,7 @@ public class Player {
     private int usedSpecialPowerTurn = 0;
     protected Item selectedItem;
     private String command;
+    private String opponentCommand;
 
     public Player(Account account){
         this(account,account.getMainDeck());
@@ -361,11 +362,11 @@ public class Player {
         command = null;
         command = BattleScreen.getCommand();
         BattleScreen.setCommand(null);
-        if(command.matches("end turn")){
+        if(command.matches("end turn"))
             this.endTurn = true;
-        } else if(command.contains("select")){
-            this.select();
-        }
+//        } else if(command.contains("select")){
+//            this.select();
+//        }
     }
 
     public void select() {
@@ -564,6 +565,19 @@ public class Player {
             if(cell == cell1) return true;
         }
         return false;
+    }
+
+    public void getOpponentCommands(){
+        while(!endTurn && !Game.getCurrentGame().isExitFromGame()) {
+            synchronized (Game.getCurrentGame()){
+                try{
+                    Game.getCurrentGame().wait();
+                } catch (InterruptedException i){
+                    return;
+                }
+            }
+            handleCommands();
+        }
     }
 
 }
