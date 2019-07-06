@@ -29,7 +29,7 @@ class Listener implements Runnable {
 
     @Override
     public void run() {
-        while (true) {
+        while (Thread.currentThread().isAlive()) {
             String command = getCommand();
             if (command.matches("login \\w+ \\w+")) {
                 loginUser(command.split(" ")[1], command.split(" ")[2]);

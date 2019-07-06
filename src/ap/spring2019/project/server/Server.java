@@ -1,5 +1,7 @@
 package ap.spring2019.project.server;
 
+import ap.spring2019.project.logic.model.game.GameType;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -13,12 +15,14 @@ public class Server {
     private static final int PORT = 8000;
     private static ServerSocket server;
     private static HashMap<String, Socket> onlineUsers;
+    private static HashMap<GameType, String> quene;
     private static ArrayList<ap.spring2019.project.logic.model.game.Game> games;
 
     static {
         try {
             server = new ServerSocket(PORT);
             onlineUsers = new HashMap<>();
+            quene = new HashMap<>();
             games = new ArrayList<>();
         } catch (IOException e) {
             e.printStackTrace();
@@ -32,17 +36,13 @@ public class Server {
         serverSocketAdder.submit(() -> {
             while (Thread.currentThread().isAlive()) {
                 try {
-                    Socket socket = Server.getServer().accept();
+                    Socket socket = server.accept();
                     new Thread(new Listener(socket)).start();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
         });
-    }
-
-    static synchronized ServerSocket getServer() {
-        return server;
     }
 
     static synchronized HashMap<String, Socket> getOnlineUsers() {
