@@ -40,13 +40,11 @@ public class Game {
         }
         this.type = type;
         currentGame = this;
-        setItems();
+        this.gameCreated = true;
+//        setItems();
     }
 
     public void setItems() {
-//        table[2][2].setInsideItem(Item.getCollectableItems().getAllItems().get(0));
-//        table[2][6].setInsideItem(Item.getCollectableItems().getAllItems().get(3));
-        this.gameCreated = true;
         addItem(Item.getCollectableItems().getAllItems().get(0), table[2][2]);
         addItem(Item.getCollectableItems().getAllItems().get(3), table[2][6]);
     }
@@ -162,7 +160,10 @@ public class Game {
         turnNumber++;
         firstPlayer.nextTurnSetup();
         secondPlayer.nextTurnSetup();
-        whoIsHisTurn.play();
+        if(whoIsHisTurn.getAccount().getUsername().equals(Account.getCurrentAccount().getUsername()) || whoIsHisTurn instanceof IntelligentPlayer)
+            whoIsHisTurn.play();
+        else
+            whoIsHisTurn.getOpponentCommands();
         setupDefends();
         setupCardsDeaf();
         if(whoIsHisTurn == firstPlayer) whoIsHisTurn = secondPlayer;

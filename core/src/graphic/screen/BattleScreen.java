@@ -98,6 +98,7 @@ public class BattleScreen extends Screen {
 
     private boolean heroSpSelected = false;
     private long turnTimePassed;
+    private long turnTimeLimit = 30000;
 
     private Texture timer;
 
@@ -173,8 +174,8 @@ public class BattleScreen extends Screen {
             ArmyAnimation animation = new ArmyAnimation(card.getGifPath());
             animations.put((Army) card, animation);
         }
-        handStartCord = new Vector2(400, 20);
 
+        handStartCord = new Vector2(400, 20);
         setHandCells();
 
         graveyardCord = new Vector2(-graveyardBg.getWidth(), 180);
@@ -305,10 +306,10 @@ public class BattleScreen extends Screen {
                         selectedCellHand = null;
                         heroSpSelected = false;
                         selectedArmy = selectedCell.getInsideArmy();
-                        setCommand("select " + selectedArmy.getID().getValue());
-                        synchronized (game){
-                            game.notify();
-                        }
+//                        setCommand("select " + selectedArmy.getID().getValue());
+//                        synchronized (game){
+//                            game.notify();
+//                        }
                     } else if(selectedArmy != null && getMouseCell().getInsideArmy() == null) {
                         Cell cell = getMouseCell();
                         if (!game.getWhoIsHisTurn().canMove(selectedCell, cell)){
@@ -397,7 +398,7 @@ public class BattleScreen extends Screen {
 
     public void checkTurnTime() {
         turnTimePassed = System.currentTimeMillis() - game.getTurnStartTime();
-        if(turnTimePassed >= 30000)
+        if(turnTimePassed >= turnTimeLimit)
             endTurn();
     }
 
@@ -614,9 +615,9 @@ public class BattleScreen extends Screen {
 
     public void drawTable( SpriteBatch batch) {
         flipAnimations();
-        game.getTable()[3][3].setEffect(CellEffect.FIERY);
-        game.getTable()[3][4].setEffect(CellEffect.POISON);
-        game.getTable()[3][5].setEffect(CellEffect.HOLY);
+//        game.getTable()[3][3].setEffect(CellEffect.FIERY);
+//        game.getTable()[3][4].setEffect(CellEffect.POISON);
+//        game.getTable()[3][5].setEffect(CellEffect.HOLY);
         batch.begin();
 //        try {
         for (int row = 0; row < 5; row++) {
@@ -845,8 +846,8 @@ public class BattleScreen extends Screen {
     }
 
     public void drawTimer(SpriteBatch batch){
-        batch.setColor(turnTimePassed/30000f, 1 - turnTimePassed/30000f, 1, 1);
-        batch.draw(timer, 1330, 190, 250*(1 - turnTimePassed/30000f), 25);
+        batch.setColor((float)turnTimePassed/turnTimeLimit, 1 - (float)turnTimePassed/turnTimeLimit, 1, 1);
+        batch.draw(timer, 1330, 190, 250*(1 - (float)turnTimePassed/turnTimeLimit), 25);
         batch.setColor(com.badlogic.gdx.graphics.Color.WHITE);
     }
 
