@@ -87,7 +87,7 @@ public class Game {
     }
 
     public boolean isGameCreated() {
-        return gameCreated;
+        return Game.getCurrentGame() != null;
     }
 
     public void backToGame() {
@@ -341,5 +341,9 @@ public class Game {
 
     public ArrayList<Item> getItems() {
         return items;
+    }
+
+    public boolean isFirstPlayerTurn() {
+        return getWhoIsHisTurn().getAccount().getUsername().equals(firstPlayer.getAccount().getUsername());
     }
 }

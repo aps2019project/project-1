@@ -112,8 +112,8 @@ public class BattleScreen extends Screen {
         setCameraAndViewport();
         shapeRenderer = new ShapeRenderer();
 
-        game = Game.getCurrentGame();
         while(!game.isGameCreated());
+        game = Game.getCurrentGame();
         player1 = game.getFirstPlayer();
         player2 = game.getSecondPlayer();
 
@@ -251,10 +251,9 @@ public class BattleScreen extends Screen {
         }
 
         checkTurnTime();
-
         updateHandCells();
-
         setAnimations();
+        updateGraveyard();
 
         mousePos.set(Gdx.input.getX(), Gdx.input.getY());
         mousePos = viewport.unproject(mousePos);
@@ -263,8 +262,6 @@ public class BattleScreen extends Screen {
         endGameButton.setActive(endGameButton.contains(mousePos));
         graveyardButton.setActive(graveyardButton.contains(mousePos));
         fastForwardButton.setActive(fastForwardButton.contains(mousePos));
-
-        updateGraveyard();
 
         Gdx.input.setInputProcessor(new InputProcessor() {
             @Override
