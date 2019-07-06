@@ -169,8 +169,8 @@ public class Player {
         if(!this.canMove(presentCell, destinationCell)) return false;
         Army army = presentCell.pick();
         movedCardsInThisTurn.add(army);
-        if(BattleScreen.getAnimations().get(presentCell.getInsideArmy()) != null) {
-            BattleScreen.getAnimations().get(presentCell.getInsideArmy()).run(destinationCell.getScreenX(), destinationCell.getScreenY());
+        if(BattleScreen.getAnimations().get(army) != null) {
+            BattleScreen.getAnimations().get(army).run(destinationCell.getScreenX(), destinationCell.getScreenY());
         }
         return destinationCell.put(army, turnNumber);
     }
