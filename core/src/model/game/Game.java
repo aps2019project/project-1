@@ -338,6 +338,12 @@ public class Game {
         this.turnStartTime = turnStartTime;
     }
 
+    public static GameType getGameTypeByString(String type) {
+        if(type.equals("kill hero")) return KILL_HERO;
+        else if(type.equals("capture the flag")) return CAPTURE_THE_FLAG;
+        else if(type.equals("rollup flags")) return ROLLUP_FLAGS;
+        else return  KILL_HERO;
+    }
     public ArrayList<Item> getItems() {
         return items;
     }

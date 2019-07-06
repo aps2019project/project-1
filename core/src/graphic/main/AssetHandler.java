@@ -142,6 +142,8 @@ public class AssetHandler {
         assetManager.load("button/secondCustom1-1.png", Texture.class);
         assetManager.load("button/increaseButton.png", Texture.class);
         assetManager.load("button/decreaseButton.png", Texture.class);
+        assetManager.load("button/multiplayer1.png", Texture.class);
+        assetManager.load("button/multiplayer1-1.png", Texture.class);
 
 
         for(int i = 1; i <= 11; i++)

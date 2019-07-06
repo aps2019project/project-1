@@ -72,7 +72,7 @@ public class MultiPlayerScreen extends Screen {
 
 
         exitButton.setActive(exitButton.contains(mousePos));
-        updateAccounts();
+        //updateAccounts();
         Gdx.input.setInputProcessor(new InputProcessor() {
             @Override
             public boolean keyDown(int keycode) {
@@ -94,16 +94,26 @@ public class MultiPlayerScreen extends Screen {
                 if (button != Input.Buttons.LEFT)
                     return false;
                 for(int i = 0; i < accounts.size(); i++) {
-                    if (onlinePlayersButtons[i].isActive()) {
-                        if(gameType == GameType.KILL_HERO)
-                            Datas.getDatas().makeKillHeroCustom(Client.getAccount(accounts.get(i)));
-                        else if(gameType == GameType.CAPTURE_THE_FLAG)
-                            Datas.getDatas().makeCaptureTheFlagCustom(Client.getAccount(accounts.get(i)));
-                        else if(gameType == GameType.ROLLUP_FLAGS)
-                            Datas.getDatas().makeRollUpFlagCustom(Client.getAccount(accounts.get(i)), numberOfFlags);
-
-                        ScreenManager.setScreen(new BattleScreen());
-
+                    if (onlinePlayersButtons[i].contains(mousePos)) {
+                        String applyingCondition = Client.getApplyCondition(accounts.get(i));
+                        String type = "";
+                        if(gameType == GameType.KILL_HERO) type = "kill hero";
+                        else if(gameType == GameType.CAPTURE_THE_FLAG) type = "capture the flag";
+                        else if(gameType == GameType.ROLLUP_FLAGS)      type = "rollup flags";
+                        if(applyingCondition == "nothing") {
+                            Client.applyPlayMultiPlayerGame(accounts.get(i), type, numberOfFlags);
+                            ScreenManager.setScreen(new WaitingScreen(accounts.get(i)));
+                        }
+                        else if(applyingCondition == "waiting for me") {
+                            Client.acceptApplying(accounts.get(i));
+                            if(gameType == GameType.KILL_HERO)
+                                Datas.getDatas().makeKillHeroCustom(Client.getAccount(accounts.get(i)));
+                            else if(gameType == GameType.CAPTURE_THE_FLAG)
+                                Datas.getDatas().makeCaptureTheFlagCustom(Client.getAccount(accounts.get(i)));
+                            else if(gameType == GameType.ROLLUP_FLAGS)
+                                Datas.getDatas().makeRollUpFlagCustom(Client.getAccount(accounts.get(i)), numberOfFlags);
+                            ScreenManager.setScreen(new BattleScreen());
+                        }
                     }
                 }
                 if(killHeroButton.contains(mousePos)) {
@@ -208,7 +218,8 @@ public class MultiPlayerScreen extends Screen {
     }
     private void updateAccounts() {
         for(int i = 0; i < accounts.size(); i++) {
-            onlinePlayersButtons[i].setActive(onlinePlayersButtons[i].contains(mousePos));
+            if(Client.getApplyCondition(accounts.get(i)) == "waiting for me")
+                onlinePlayersButtons[i].setActive(true);
         }
     }
     private void addOnlineAccounts() {

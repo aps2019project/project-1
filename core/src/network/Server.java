@@ -1,6 +1,7 @@
 package network;
 
 import model.game.Game;
+import model.game.GameType;
 import model.other.Account;
 
 import java.io.BufferedInputStream;
@@ -10,12 +11,13 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Server {
     static final int PORT = 5000;
-    static HashMap<Account, EchoThread> clients = new HashMap<>();
-
+    static HashMap<String, EchoThread> clients = new HashMap<>();
+    static ArrayList<ContentsBetweenTwoPlayers> contentsBetweenClients = new ArrayList<>();
     public static void main(String args[]) {
         ServerSocket serverSocket = null;
         Socket socket = null;
@@ -35,6 +37,17 @@ public class Server {
 
             new EchoThread(socket).start();
         }
+    }
+    public static ContentsBetweenTwoPlayers findOrCreateContent(String firstUsername, String secondUsername){
+        if(clients.get(firstUsername) == null || clients.get(secondUsername) == null) return null;
+        for(ContentsBetweenTwoPlayers content : contentsBetweenClients) {
+            if(content.check(firstUsername, secondUsername)){
+                return content;
+            }
+        }
+        ContentsBetweenTwoPlayers content = new ContentsBetweenTwoPlayers(firstUsername, secondUsername);
+        contentsBetweenClients.add(content);
+        return content;
     }
 }
 
@@ -66,9 +79,11 @@ class EchoThread extends Thread {
                 line = input.readUTF();
             } catch (SocketException e) {
                 e.printStackTrace();
+                Server.clients.remove(account);
                 return;
             } catch (IOException e) {
                 e.printStackTrace();
+                Server.clients.remove(account);
                 return;
             }
             switch (line) {
@@ -83,6 +98,18 @@ class EchoThread extends Thread {
                     break;
                 case "get account" :
                     handleGetAccount();
+                    break;
+                case "apply play multiplayer game":
+                    handleApplyPlayMultiplayerGame();
+                    break;
+                case "accept applying":
+                    handleAcceptApplying();
+                    break;
+                case "cancel applying" :
+                    handleCancelApply();
+                    break;
+                case  "get applying condition" :
+                    handleGetApplyingCondition();
                     break;
                 case "another order":
                     break;
@@ -110,9 +137,9 @@ class EchoThread extends Thread {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        for(Account account : Server.clients.keySet()) {
+        for(String username : Server.clients.keySet()) {
             try {
-                out.writeUTF(account.getUsername());
+                out.writeUTF(username);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -136,7 +163,7 @@ class EchoThread extends Thread {
         }
         else {
             outCommand = "correct login";
-            Server.clients.put(account, this);
+            Server.clients.put(account.getUsername(), this);
         }
         try {
             out.writeUTF(outCommand);
@@ -151,5 +178,56 @@ class EchoThread extends Thread {
             e.printStackTrace();
         }
         ////
+    }
+    public void handleApplyPlayMultiplayerGame() {
+        String username = "";
+        GameType type = GameType.KILL_HERO;
+        int numberOfFlags = 0;
+        try {
+            type = Game.getGameTypeByString(input.readUTF());
+            username = input.readUTF();
+            numberOfFlags = Integer.parseInt(input.readUTF());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        ContentsBetweenTwoPlayers content = Server.findOrCreateContent(account.getUsername(), username);
+        if(content != null)
+            content.applyCondition(account.getUsername(), type, numberOfFlags);
+    }
+
+
+    public void handleAcceptApplying() {
+        String username = "";
+        try {
+            username = input.readUTF();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        ContentsBetweenTwoPlayers content = Server.findOrCreateContent(account.getUsername(), username);
+        content.acceptCondition();;
+    }
+    public void handleCancelApply() {
+        String username = "";
+        try {
+            username = input.readUTF();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        ContentsBetweenTwoPlayers content = Server.findOrCreateContent(account.getUsername(), username);
+        content.cancelApplying();;
+    }
+    public void handleGetApplyingCondition() {
+        String username = "";
+        try {
+            username = input.readUTF();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        ContentsBetweenTwoPlayers content = Server.findOrCreateContent(account.getUsername(), username);
+        try {
+            out.writeUTF(content.getApplyingCondition(username));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

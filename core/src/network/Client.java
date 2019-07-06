@@ -111,7 +111,46 @@ public class Client
         ////////
         return Account.findAccount(userName);
     }
-
+    public static void applyPlayMultiPlayerGame(String username, String gameType, int numberOfFlags) {
+        try {
+            out.writeUTF("apply play multiplayer game");
+            out.writeUTF(username);
+            out.writeUTF(gameType);
+            out.writeUTF(Integer.toString(numberOfFlags));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    public static String getApplyCondition(String username){
+        try {
+            out.writeUTF("get apply condition");
+            out.writeUTF(username);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            return input.readUTF();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "nothing";
+    }
+    public static void cancelApplying(String username) {
+        try {
+            out.writeUTF("cancel applying");
+            out.writeUTF(username);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    public static void acceptApplying(String username) {
+        try {
+            out.writeUTF("accept applying");
+            out.writeUTF(username);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     public static ArrayList<String> getOnlineAccounts() {
         return onlineAccounts;
     }

@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import graphic.main.AssetHandler;
 import graphic.main.Gif;
 import graphic.main.Main;
+import graphic.screen.gameMenuScreens.WaitingScreen;
 
 import java.awt.*;
 
