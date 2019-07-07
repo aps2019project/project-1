@@ -140,6 +140,10 @@ public class ShopScreen extends Screen {
                         Account.getCurrentAccount().sellCard(selectedCard);
                     else if (methodName.equals("buyCard"))
                         Account.getCurrentAccount().buyCard(selectedCard);
+                    if (methodName.equals("sellCard"))
+                        PopUp.getInstance().setText("Card Sold Successfully.");
+                    else
+                        PopUp.getInstance().setText("Card added to your Collection Successfully.");
                 } catch (MoreThanTwoItemException e) {
                     PopUp.getInstance().setText("Can't Have More Than 2 Item At The Time.");
                 } catch (CardNotFoundException e) {
@@ -152,11 +156,6 @@ public class ShopScreen extends Screen {
                     PopUp.getInstance().setText("You Can't Sell/Buy This Card");
                 } catch (ShopExeption shopExeption) {
                     PopUp.getInstance().setText("Something Went Wrong. Try Contact With Creators.");
-                } finally {
-                    if (methodName.equals("sellCard"))
-                        PopUp.getInstance().setText("Card Sold Successfully.");
-                    else
-                        PopUp.getInstance().setText("Card added to your Collection Successfully.");
                 }
                 updateDaricShow();
             }
