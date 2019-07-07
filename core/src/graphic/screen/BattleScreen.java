@@ -1,6 +1,7 @@
 package graphic.screen;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
@@ -12,10 +13,8 @@ import graphic.Others.ArmyAnimation;
 import graphic.Others.BattlePopUp;
 import graphic.Others.CardTexture;
 import graphic.Others.PopUp;
-import graphic.main.AssetHandler;
+import graphic.main.*;
 import graphic.main.Button;
-import graphic.main.Gif;
-import graphic.main.Main;
 import model.cards.*;
 import model.game.Cell;
 import model.game.CellEffect;
@@ -25,10 +24,7 @@ import model.other.exeptions.battle.*;
 import model.other.exeptions.battle.TargetCellIsEmptyException;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.ConcurrentModificationException;
-import java.util.HashMap;
-import java.util.Iterator;
+import java.util.*;
 
 public class BattleScreen extends Screen {
 
@@ -108,6 +104,11 @@ public class BattleScreen extends Screen {
 
     private Vector2 playerItemStartCord;
 
+    private CardListTexture graveyardList;
+
+    private ArrayList<Gif> animationEvents = new ArrayList<Gif>();
+
+
     @Override
     public void create() {
 
@@ -181,6 +182,7 @@ public class BattleScreen extends Screen {
         setHandCells();
 
         graveyardCord = new Vector2(-graveyardBg.getWidth(), 180);
+        graveyardList = new CardListTexture(3, 1, graveyardCord.x, graveyardCord.y - 400);
 
         if(player1.getUsableItem() != null)
             usableItem = new Gif(new Animation<TextureRegion>(1/20f, new TextureAtlas(player1.getUsableItem().getGifPath()).findRegions("gif"), Animation.PlayMode.LOOP));
@@ -268,6 +270,10 @@ public class BattleScreen extends Screen {
         Gdx.input.setInputProcessor(new InputProcessor() {
             @Override
             public boolean keyDown(int keycode) {
+                if(keycode == Input.Keys.RIGHT)
+                    graveyardList.nextPage();
+                if(keycode == Input.Keys.LEFT)
+                    graveyardList.previousPage();
                 return false;
             }
 
@@ -357,9 +363,11 @@ public class BattleScreen extends Screen {
                 Army target = cell.getInsideArmy();
                 if(game.getWhoIsHisTurn().isInRange(selectedCell, cell)) {
                     attackSound.play();
-                    animations.get(selectedArmy).attack();
+                    animations.get(selectedArmy).getAttackGif().setTime();
+                    animationEvents.add(animations.get(selectedArmy).getAttackGif());
                     if (game.getWhoIsHisTurn().isInRange(cell, selectedCell))
-                        animations.get(target).attack();
+                        animations.get(target).getAttackGif().setTime();
+                    animationEvents.add(animations.get(target).getAttackGif());
                 }
                 try {
                     game.getWhoIsHisTurn().attack(selectedCell, cell);
@@ -369,12 +377,14 @@ public class BattleScreen extends Screen {
                     setPopUp("Target Not In Range");
                 }
                 if(selectedCell.getInsideArmy().getHp() <= 0){
-                    animations.get(selectedArmy).death();
-                    game.setupCardDeaf(selectedCell);
+                    animations.get(selectedArmy).getDeathGif().setTime();
+                    animationEvents.add(animations.get(selectedArmy).getDeathGif());
+//                    game.setupCardDeaf(selectedCell);
                 }
                 if(cell.getInsideArmy().getHp() <= 0){
-                    animations.get(target).death();
-                    game.setupCardDeaf(cell);
+                    animations.get(target).getDeathGif().setTime();
+                    animationEvents.add(animations.get(target).getDeathGif());
+//                    game.setupCardDeaf(cell);
                 }
                 selectedCell = null;
                 selectedArmy = null;
@@ -428,11 +438,11 @@ public class BattleScreen extends Screen {
     public void setFastForward() {
         if(fastForward){
             fastForward = false;
-            fastForwardButton.setText("Normal Speed");
+            fastForwardButton.setText("Fast Speed");
             ArmyAnimation.setSPEED(1/20f);
         } else {
             fastForward = true;
-            fastForwardButton.setText("Fast Speed");
+            fastForwardButton.setText("Normal Speed");
             ArmyAnimation.setSPEED(1/40f);
         }
     }
@@ -535,6 +545,7 @@ public class BattleScreen extends Screen {
         batch.end();
 
         drawTable(batch);
+        drawEvents(batch);
         batch.begin();
 
         drawHand(batch);
@@ -625,7 +636,6 @@ public class BattleScreen extends Screen {
     public void drawGraveYard(SpriteBatch batch) {
         batch.draw(graveyardBg, graveyardCord.x, graveyardCord.y);
         ArrayList<Minion> minions = player1.getGraveYard().getAllMinions();
-        CardListTexture graveyardList = new CardListTexture(4, 3, graveyardCord.x, graveyardCord.y - 400);
         for(Minion minion : minions){
             CardTexture cardTexture = new CardTexture(minion.getName(), minion.getDescription(), minion.getPrice(), minion.getAp(), minion.getHp(), minion.getGifPath());
             graveyardList.addCardTexture(cardTexture);
@@ -767,6 +777,18 @@ public class BattleScreen extends Screen {
         batch.end();
     }
 
+    public void drawEvents(SpriteBatch batch){
+        if(animationEvents.size() == 0)
+            return;
+        animationEvents.get(0).draw(batch);
+//        System.out.println(animationEvents.get(0).getAnimation().getFrameDuration() + " "+ animationEvents.get(0).getAnimation().getKeyFrames().length);
+        if(animationEvents.get(0).isFinished()) {
+            if(animationEvents.get(0).getType() == GifType.DEATH)
+                game.setupCardsDeaf();
+            animationEvents.remove(0);
+        }
+    }
+
     public void drawItem(SpriteBatch batch, Cell cell) {
         if(cell.getInsideItem() != null){
             batch.end();
@@ -867,10 +889,12 @@ public class BattleScreen extends Screen {
     public boolean checkHeroSp(){
         return mousePos.x >= 120 && mousePos.x <= 120 + 120 && mousePos.y >= 550 && mousePos.y <= 550 + 120;
     }
-
     public void drawTimer(SpriteBatch batch){
-        batch.setColor((float)turnTimePassed/turnTimeLimit, 1 - (float)turnTimePassed/turnTimeLimit, 1, 1);
-        batch.draw(timer, 1330, 190, 250*(1 - (float)turnTimePassed/turnTimeLimit), 25);
+        if(turnTimePassed <= turnTimeLimit/2)
+            batch.setColor(2*(float)turnTimePassed/turnTimeLimit, 1, 0, 1);
+        else
+            batch.setColor(1, 1f - (float)(2*turnTimePassed - turnTimeLimit)/turnTimeLimit, 0, 1);
+        batch.draw(timer, 1326, 190, (255 - 2*26)*(1 - (float)turnTimePassed/turnTimeLimit), 7.5f);
         batch.setColor(com.badlogic.gdx.graphics.Color.WHITE);
     }
 
