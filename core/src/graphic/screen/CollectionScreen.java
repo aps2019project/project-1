@@ -343,7 +343,7 @@ public class CollectionScreen extends Screen {
         if (!deckCard.equals(""))
             deleteCardFromDeckButton.draw(batch);
         createDeckButton.draw(batch);
-        if (currentDeck != null && account.getMainDeck() == null || ( account.getMainDeck() != null && !currentDeck.getName().equals(account.getMainDeck().getName())))
+        if (currentDeck != null && (account.getMainDeck() == null || ( account.getMainDeck() != null && !currentDeck.getName().equals(account.getMainDeck().getName()))))
             selectAsMainDeckButton.draw(batch);
         importDeckButton.draw(batch);
         if (currentDeck != null)
