@@ -31,6 +31,10 @@ public class AssetHandler {
         assetManager.load("backGround/storyMenu.jpg", Texture.class);
         assetManager.load("backGround/customFirstMenu.png", Texture.class);
         assetManager.load("backGround/secondCustomMenu.jpg", Texture.class);
+        assetManager.load("backGround/global background.png", Texture.class);
+        assetManager.load("backGround/global forground.png", Texture.class);
+
+
         assetManager.load("button/decks/activeDeck.png", Texture.class);
 
         assetManager.load("animation/waterFall.png", Texture.class);
