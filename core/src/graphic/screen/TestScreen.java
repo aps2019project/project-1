@@ -63,6 +63,8 @@ public class TestScreen extends Screen {
         textSlot = AssetHandler.getData().get("slots/text field.png");
         frontPic = AssetHandler.getData().get("backGround/collection3.png");
 
+        allDecksButtons = new ArrayList<Button>();
+
         account = Account.getCurrentAccount();
         font = new BitmapFont(AssetHandler.getData().get("fonts/Arial 24.fnt", BitmapFont.class).getData(), AssetHandler.getData().get("fonts/Arial 24.fnt", BitmapFont.class).getRegions(), true);
         font.setColor(Main.toColor(new Color(0x001042)));
@@ -86,9 +88,12 @@ public class TestScreen extends Screen {
 
     private void createDeckButtons() {
         float buttonHeight = AssetHandler.getData().get("button/deckSlot.png", Texture.class).getHeight();
-        allDecksButtons = new ArrayList<Button>();
+        allDecksButtons.clear();
         for (int i = 0; i < account.getAllDecks().size(); ++i)
-            if (account.getAllDecks().get(i).getName().equals(account.getMainDeck().getName()))
+
+            if (account.getMainDeck() == null)
+                allDecksButtons.add(new Button("button/deckSlot.png", "button/deckSlotGlow.png", 0, Main.HEIGHT - 100 - (i + 1) * buttonHeight));
+            else if (account.getAllDecks().get(i).getName().equals(account.getMainDeck().getName()))
                 allDecksButtons.add(new Button("button/deckSlot.png", "button/deckSlotGlow.png", 0, Main.HEIGHT - 100 - (i + 1) * buttonHeight, "Main", "fonts/Arial 20.fnt"));
             else
                 allDecksButtons.add(new Button("button/deckSlot.png", "button/deckSlotGlow.png", 0, Main.HEIGHT - 100 - (i + 1) * buttonHeight));
@@ -106,7 +111,7 @@ public class TestScreen extends Screen {
                 addToDeckButton.setActive(addToDeckButton.contains(mousePos));
             if (currentDeck != null && !deckCard.equals(""))
                 deleteCardFromDeckButton.setActive(deleteCardFromDeckButton.contains(mousePos));
-            if (currentDeck != null && !currentDeck.getName().equals(account.getMainDeck().getName()))
+            if (currentDeck != null && (account.getMainDeck() == null || (account.getMainDeck() == null && !currentDeck.getName().equals(account.getMainDeck().getName()))))
                 selectAsMainDeckButton.setActive(selectAsMainDeckButton.contains(mousePos));
             if (currentDeck != null)
                 exportDeckButton.setActive(exportDeckButton.contains(mousePos));
@@ -339,7 +344,7 @@ public class TestScreen extends Screen {
         if (!deckCard.equals(""))
             deleteCardFromDeckButton.draw(batch);
         createDeckButton.draw(batch);
-        if (currentDeck != null && !currentDeck.getName().equals(account.getMainDeck().getName()))
+        if (currentDeck != null && account.getMainDeck() == null || ( account.getMainDeck() != null && !currentDeck.getName().equals(account.getMainDeck().getName())))
             selectAsMainDeckButton.draw(batch);
         importDeckButton.draw(batch);
         if (currentDeck != null)

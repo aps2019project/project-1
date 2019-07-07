@@ -9,11 +9,15 @@ import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.google.gson.reflect.TypeToken;
+import connection.Client;
+import graphic.Others.PopUp;
 import graphic.Others.SlotType;
 import graphic.main.AssetHandler;
 import graphic.main.Button;
 import graphic.main.Main;
 import model.other.Account;
+import model.other.SavingObject;
 
 import java.awt.*;
 
@@ -110,12 +114,24 @@ public class LoginScreen extends Screen {
                 }
 
                 if (keycode == Input.Keys.ENTER) {
-                    if (signUpButton.isActive() && Account.isUserNameAvailable(userName)) {
-                        if (password.equals("") || confirmPassword.equals(""))
+                    if (signUpButton.isActive()) {
+                        if (password.equals(""))
                             return false;
                         if (password.equals(confirmPassword)) {
-                            Account.setCurrentAccount(new Account(userName, password));
-                            ScreenManager.setScreen(new MenuScreen());
+                            Client.sendCommand("create account " + userName + " " + password);
+                            String result  = Client.getCommand();
+                            if (result.equals("Done")) {
+                                try {
+                                    Account.setCurrentAccount(Client.getData(SavingObject.class).getAccount());
+                                    ScreenManager.setScreen(new MenuScreen());
+                                } catch (NullPointerException e) {
+                                    PopUp.getInstance().setText("Problem getting information from Server");
+                                }
+                            } else
+                                PopUp.getInstance().setText(result);
+                            password = "";
+                            confirmPassword = "";
+                            userName = "";
                         }
                     }
                     if (loginButton.isActive() && Account.doesAccountExist(userName)) {

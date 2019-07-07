@@ -29,6 +29,8 @@ public class Deck {
 
     public void deleteCard(Card card) {
         cards.remove(card);
+        if (card == null)
+            return;
         if(card.isSameAs(hero)) hero = null;
         if(card.isSameAs(item)) item = null;
     }

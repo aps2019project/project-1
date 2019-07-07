@@ -33,7 +33,6 @@ public class Account {
     private ArrayList<MatchResult> matchHistory = new ArrayList<MatchResult>();
     private Deck mainDeck = new Deck();
     private int daric = 15000;
-    private StoryProgress storyProgress;
 
     public Account(String username, String password) {
         this.username = username;
@@ -82,20 +81,12 @@ public class Account {
         this.daric = daric;
     }
 
-    void setStoryProgress(StoryProgress storyProgress) {
-        this.storyProgress = storyProgress;
-    }
-
     public Deck getMainDeck() {
         return mainDeck;
     }
 
     public int getDaric() {
         return daric;
-    }
-
-    public StoryProgress getStoryProgress() {
-        return storyProgress;
     }
 
     public String getUsername() {
@@ -343,7 +334,6 @@ public class Account {
                 "username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", daric=" + daric +
-                ", storyProgress=" + storyProgress +
                 '}';
     }
 
@@ -358,8 +348,7 @@ public class Account {
                 getCollection().equals(account.collection) &&
                 getAllDecks().equals(account.allDecks) &&
                 getMatchHistory().equals(account.matchHistory) &&
-                getMainDeck().equals(account.mainDeck) &&
-                getStoryProgress() == account.getStoryProgress();
+                getMainDeck().equals(account.mainDeck);
     }
 
 }

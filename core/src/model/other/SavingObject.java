@@ -6,7 +6,6 @@ import model.game.Deck;
 import model.game.MatchResult;
 import model.other.exeptions.collection.DontHaveCardException;
 import model.variables.CardsArray;
-import org.omg.PortableInterceptor.ServerRequestInfo;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,7 +20,6 @@ public class SavingObject {
     private ArrayList<MatchResult> matchHistory = new ArrayList<MatchResult>();
     private String mainDeck = "";
     private int daric;
-    private StoryProgress storyProgress;
 
     public SavingObject(Account account) {
         this.username = account.getUsername();
@@ -35,7 +33,6 @@ public class SavingObject {
         if (account.getMainDeck()!= null)
             this.mainDeck = account.getMainDeck().getName();
         this.daric = account.getDaric();
-        this.storyProgress = account.getStoryProgress();
     }
 
     public Account getAccount() {
@@ -46,17 +43,20 @@ public class SavingObject {
         if (mainDeck != null)
             account.setMainDeck(account.findDeck(mainDeck));
         account.setDaric(daric);
-        account.setStoryProgress(storyProgress);
         return account;
     }
 
     private void addHistory(Account account) {
+        if (matchHistory == null)
+            return;
         for (MatchResult result: matchHistory) {
             account.addMatchResult(result);
         }
     }
 
     private void addAllDecks(Account account) {
+        if (allDecks == null)
+            return;
         for (Map.Entry<String, ArrayList<String>> tempDeck: allDecks.entrySet()) {
             String deckName = tempDeck.getKey();
             CardsArray cards = new CardsArray(tempDeck.getValue(), this.username);
@@ -69,6 +69,8 @@ public class SavingObject {
     }
 
     private void addCollection(Account account) {
+        if (collection == null)
+            return;
         for (String cardName: collection) {
             Card card = Card.getCards().findByName(cardName);
             card.setUserName(this.username);
