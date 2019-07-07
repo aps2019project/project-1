@@ -648,11 +648,7 @@ public class BattleScreen extends Screen {
 
     public void drawTable( SpriteBatch batch) {
         flipAnimations();
-//        game.getTable()[3][3].setEffect(CellEffect.FIERY);
-//        game.getTable()[3][4].setEffect(CellEffect.POISON);
-//        game.getTable()[3][5].setEffect(CellEffect.HOLY);
         batch.begin();
-//        try {
         for (int row = 0; row < 5; row++) {
             for (int col = 0; col < 9; col++) {
                 Cell cell = game.getTable()[row][col];
@@ -739,7 +735,7 @@ public class BattleScreen extends Screen {
                             batch.setColor(com.badlogic.gdx.graphics.Color.WHITE);
                             batch.end();
                             if (animations.get(army) != null)
-                                animations.get(army).draw(batch, x - 20, y);
+                                drawArmy(batch, army, x, y);
                             batch.begin();
                         } else {
                             batch.setColor(Main.toColor(new Color(0x83C80000, true)));
@@ -747,7 +743,7 @@ public class BattleScreen extends Screen {
                             batch.setColor(com.badlogic.gdx.graphics.Color.WHITE);
                             batch.end();
                             if (animations.get(army) != null)
-                                animations.get(army).draw(batch, x - 20, y);
+                                drawArmy(batch, army, x, y);
                             batch.begin();
                         }
                         if (animations.get(army) != null) {
@@ -773,15 +769,19 @@ public class BattleScreen extends Screen {
 
             }
         }
-//        } catch(NullPointerException n){ }
         batch.end();
+    }
+
+    public void drawArmy(SpriteBatch batch, Army army, float x, float y){
+        if(animationEvents.size() != 0 && animations.get(army).haveGif(animationEvents.get(0)))
+            return;
+        animations.get(army).draw(batch, x - 20, y);
     }
 
     public void drawEvents(SpriteBatch batch){
         if(animationEvents.size() == 0)
             return;
         animationEvents.get(0).draw(batch);
-//        System.out.println(animationEvents.get(0).getAnimation().getFrameDuration() + " "+ animationEvents.get(0).getAnimation().getKeyFrames().length);
         if(animationEvents.get(0).isFinished()) {
             if(animationEvents.get(0).getType() == GifType.DEATH)
                 game.setupCardsDeaf();

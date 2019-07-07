@@ -136,4 +136,10 @@ public class ArmyAnimation {
         attackGif.setY(y);
         return attackGif;
     }
+
+    public boolean haveGif(Gif gif){
+        if(attackGif == gif) return true;
+        if(deathGif == gif) return true;
+        return false;
+    }
 }
