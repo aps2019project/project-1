@@ -8,6 +8,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.ArrayList;
 
 class Listener implements Runnable {
 
@@ -35,8 +36,24 @@ class Listener implements Runnable {
                 loginUser(command.split(" ")[1], command.split(" ")[2]);
             } else if (command.matches("create account \\w+ \\w+")) {
                 createAccount(command.split(" ")[2], command.split(" ")[3]);
+            } else if (command.matches("update account")) {
+                Account.updateAccount(getData(Account.class));
+            } else if (command.matches("get online accounts")) {
+                sendOnlineUsers();
+            } else if (command.matches("get all accounts")) {
+                sendData(Account.getAccounts());
             }
         }
+    }
+
+    private void sendOnlineUsers() {
+        ArrayList<Account> onlineAccounts = new ArrayList<>();
+        for (Account account: Account.getAccounts()) {
+            if (Server.isAccountOnline(account.getUsername())) {
+                onlineAccounts.add(account);
+            }
+        }
+        sendData(onlineAccounts);
     }
 
     private String getCommand() {
@@ -54,9 +71,19 @@ class Listener implements Runnable {
         }
     }
 
+    private <T> T getData(Class<T> cls) {
+        try {
+            return gson.fromJson(inputStream.readUTF(), cls);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     private void createAccount(String userName, String password) {
         if (!Account.isUserNameAvailable(userName)) {
-            sendData("Error: userName is invalid");
+            sendData("Error: Username is invalid");
+            return;
         }
         Account account = new Account(userName, password);
         Server.addUser(account.getUsername(), socket);
@@ -77,5 +104,7 @@ class Listener implements Runnable {
         }
         Server.addUser(userName, socket);
         sendData("Done");
+        sendData(Account.findAccount(userName));
+        Account.saveAccountDetails();
     }
 }

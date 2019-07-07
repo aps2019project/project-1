@@ -1,11 +1,14 @@
 package ap.spring2019.project.server;
 
 
+import ap.spring2019.project.logic.Account;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -27,7 +30,10 @@ public class Server {
     }
 
     public static void main(String[] args) {
+        Account.readAccountDetails();
         ExecutorService serverSocketAdder = Executors.newSingleThreadExecutor();
+        ExecutorService offlineUserGrabber = Executors.newSingleThreadExecutor();
+
         serverSocketAdder.submit(() -> {
             while (Thread.currentThread().isAlive()) {
                 try {
@@ -37,6 +43,11 @@ public class Server {
                     e.printStackTrace();
                 }
             }
+        });
+
+        offlineUserGrabber.submit(() -> {
+           while (Thread.currentThread().isAlive())
+               deleteOfflineUsers();
         });
     }
 
@@ -94,6 +105,15 @@ public class Server {
             if (!onlineUsers.containsKey(userName))
                 return null;
             return onlineUsers.get(userName);
+        }
+    }
+
+    private static void deleteOfflineUsers() {
+        synchronized (onlineUsers) {
+            for (Map.Entry<String, Socket> user : onlineUsers.entrySet()) {
+                if (user.getValue().isClosed())
+                    onlineUsers.remove(user.getKey());
+            }
         }
     }
 

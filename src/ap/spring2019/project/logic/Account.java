@@ -19,7 +19,7 @@ public class Account {
 
     private String username;
     private String password;
-    private ArrayList<String> collection;
+    private ArrayList<String> collection = new ArrayList<>();
     private HashMap<String, ArrayList<String>> allDecks;
     private ArrayList<MatchResult> matchHistory = new ArrayList<>();
     private String mainDeck = "";
@@ -114,5 +114,18 @@ public class Account {
         if (account == null)
             return false;
         return account.getPassword().equals(password);
+    }
+
+    public static void updateAccount(Account account) {
+        if (account == null)
+            return;
+        synchronized (allAccounts) {
+            if (!doesAccountExist(account.getUsername()))
+                return;
+            allAccounts.remove(findAccount(account.getUsername()));
+            allAccounts.add(account);
+        }
+        saveAccountDetails();
+
     }
 }
