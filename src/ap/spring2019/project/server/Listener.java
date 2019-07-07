@@ -1,6 +1,6 @@
 package ap.spring2019.project.server;
 
-import ap.spring2019.project.logic.model.other.Account;
+import ap.spring2019.project.logic.Account;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -58,10 +58,12 @@ class Listener implements Runnable {
         if (!Account.isUserNameAvailable(userName)) {
             sendData("Error: userName is invalid");
         }
-        synchronized (Account.getAccounts()) {
-            Account account = new Account(userName, password);
-            Server.addUser(account.getUsername(), socket);
-        }
+        Account account = new Account(userName, password);
+        Server.addUser(account.getUsername(), socket);
+        sendData("Done");
+        sendData(account);
+
+        Account.saveAccountDetails();
     }
 
     private void loginUser(String userName, String password) {
@@ -74,5 +76,6 @@ class Listener implements Runnable {
             return;
         }
         Server.addUser(userName, socket);
+        sendData("Done");
     }
 }
