@@ -27,7 +27,7 @@ class AccountHandler extends Handler {
             }else if (command.matches("help")) {
                 AccountScreen.showHelpMenu();
             } else if (command.matches("exit")) {
-                Account.saveAccountDetails();
+                Account.updateAccount();
                 System.exit(0);
             } else {
                 AccountScreen.showWrongCommand();

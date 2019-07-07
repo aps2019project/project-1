@@ -134,13 +134,15 @@ public class LoginScreen extends Screen {
                             userName = "";
                         }
                     }
-                    if (loginButton.isActive() && Account.doesAccountExist(userName)) {
-                        if (Account.checkIfPasswordIsCorrect(userName,password)) {
-                            Account.setCurrentAccount(Account.findAccount(userName));
+                    if (loginButton.isActive()) {
+                        Client.sendCommand("login " + userName + " " + password);
+                        String result = Client.getCommand();
+                        if (result.equals("Done")) {
+                            Account.setCurrentAccount(Client.getData(SavingObject.class).getAccount());
                             ScreenManager.setScreen(new MenuScreen());
+                        } else {
+                            PopUp.getInstance().setText(result);
                         }
-                        else
-                            password = "";
                     }
                 }
 

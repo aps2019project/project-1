@@ -22,10 +22,9 @@ import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.io.FileNotFoundException;
-import java.nio.BufferUnderflowException;
 import java.util.ArrayList;
 
-public class TestScreen extends Screen {
+public class CollectionScreen extends Screen {
 
     private Account account;
     private Texture backGroundPic;
@@ -195,7 +194,7 @@ public class TestScreen extends Screen {
                 }
 
                 if (backButton.isActive()) {
-                    Account.saveAccountDetails();
+                    Account.updateAccount();
                     ScreenManager.setScreen(new MenuScreen());
                 }
 

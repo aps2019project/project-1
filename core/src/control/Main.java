@@ -8,7 +8,6 @@ public class Main extends Thread{
     @Override
     public void run(){
         Card.scanAllCards();
-        Account.readAccountDetails();
         HandlerType handler = new AccountHandler().handleCommands();
         while (handler != null) {
             switch (handler) {
@@ -16,7 +15,7 @@ public class Main extends Thread{
                     handler = new MenuHandler().handleCommands();
                     break;
                 case ACCOUNT:
-                    Account.saveAccountDetails();
+                    Account.updateAccount();
                     handler = new AccountHandler().handleCommands();
                     break;
                 case BATTLE:

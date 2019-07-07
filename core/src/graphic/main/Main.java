@@ -22,7 +22,6 @@ public class Main extends ApplicationAdapter {
 	public void create () {
 		createMouseIcon("mouse.png");
 		Card.scanAllCards();
-		Account.readAccountDetails();
 		AssetHandler.load();
 		ScreenManager.setScreen(new LoadingScreen());
 		batch = new SpriteBatch();
