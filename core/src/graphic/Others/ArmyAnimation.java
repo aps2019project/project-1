@@ -5,9 +5,12 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import graphic.main.Gif;
+import graphic.main.GifType;
 import graphic.screen.BattleScreen;
 
 import javax.xml.soap.Text;
+
+import static graphic.main.GifType.*;
 
 public class ArmyAnimation {
 
@@ -29,10 +32,13 @@ public class ArmyAnimation {
         Animation animation = new Animation<TextureRegion>(SPEED, new TextureAtlas(dataPath).findRegions("attack"), Animation.PlayMode.LOOP);
         animation.setPlayMode(Animation.PlayMode.LOOP);
         attackGif = new Gif(animation);
+        attackGif.setType(ATTACK);
         animation = new Animation<TextureRegion>(SPEED, new TextureAtlas(dataPath).findRegions("breathing"));
         normalGif = new Gif(animation);
+        normalGif.setType(NORMAL);
         animation = new Animation<TextureRegion>(SPEED, new TextureAtlas(dataPath).findRegions("death"));
         deathGif = new Gif(animation);
+        deathGif.setType(DEATH);
         animation = new Animation<TextureRegion>(SPEED, new TextureAtlas(dataPath).findRegions("run"), Animation.PlayMode.LOOP);
         runGif = new Gif(animation);
         currentGif = attackGif;
@@ -60,6 +66,8 @@ public class ArmyAnimation {
 
 
     public void draw(SpriteBatch batch, float x, float y) {
+        this.x = x;
+        this.y = y;
         draw(batch, x, y, 150, 150);
     }
 
@@ -115,5 +123,23 @@ public class ArmyAnimation {
         if(SPEED == 1/20f)
             return 5;
         return 10;
+    }
+
+    public Gif getDeathGif() {
+        deathGif.setX(x);
+        deathGif.setY(y);
+        return deathGif;
+    }
+
+    public Gif getAttackGif() {
+        attackGif.setX(x);
+        attackGif.setY(y);
+        return attackGif;
+    }
+
+    public boolean haveGif(Gif gif){
+        if(attackGif == gif) return true;
+        if(deathGif == gif) return true;
+        return false;
     }
 }
