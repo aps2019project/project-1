@@ -39,7 +39,7 @@ public class MenuScreen extends Screen {
 
     @Override
     public void create() {
-        Account.saveAccountDetails();
+        Account.updateAccount();
         setCameraAndViewport();
         createLanternsAnimation();
         shapeRenderer = new ShapeRenderer();
@@ -104,7 +104,7 @@ public class MenuScreen extends Screen {
                 if (shopButton.isActive())
                     ScreenManager.setScreen(new ShopScreen());
                 if (collectionButton.isActive())
-                    ScreenManager.setScreen(new TestScreen());
+                    ScreenManager.setScreen(new CollectionScreen());
                 if (profileButton.isActive())
                     PopUp.getInstance().setText("Tet pop up sdfsdfasdfsa");
                 if(customCardButton.isActive())

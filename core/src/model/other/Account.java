@@ -2,7 +2,7 @@ package model.other;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
+import connection.Client;
 import model.cards.*;
 import model.game.Deck;
 import model.game.MatchResult;
@@ -11,11 +11,8 @@ import model.other.exeptions.shop.*;
 import model.variables.CardsArray;
 import view.CollectionScreen;
 
-import java.io.File;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.io.Writer;
-import java.lang.reflect.Type;
 import java.util.*;
 
 import static model.cards.CardType.HERO;
@@ -195,50 +192,9 @@ public class Account {
         });
     }
 
-    public static void saveAccountDetails() {
-        Gson gson = new GsonBuilder().create();
-        ArrayList<SavingObject> savingObjects = new ArrayList<SavingObject>();
-        for (Account account: accounts) {
-            savingObjects.add(new SavingObject(account));
-        }
-        try {
-            Writer writer = new FileWriter("Files/Data/Accounts.json");
-            writer.write(gson.toJson(savingObjects));
-            writer.close();
-        }
-        catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
-    public static void readAccountDetails() {
-        Type type = new TypeToken<ArrayList<SavingObject>>() {}.getType();
-        Gson gson = new GsonBuilder().create();
-        Scanner reader;
-        String str = "";
-        ArrayList<SavingObject> data = new ArrayList<SavingObject>();
-        try {
-            reader = new Scanner(new File("Files/Data/Accounts.json"));
-        }
-        catch (IOException e) {
-            return;
-        }
-
-        while (reader.hasNext()){
-            str = reader.nextLine();
-        }
-        try {
-            data = gson.fromJson(str, type);
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-        reader.close();
-
-        accounts.clear();
-        for (SavingObject temp: data) {
-            temp.getAccount();
-        }
+    public static void updateAccount() {
+        Client.sendCommand("update account");
+        Client.sendData(new SavingObject(Account.getCurrentAccount()));
     }
 
     public void deleteCardFromAllDecks(String cardName){
@@ -249,14 +205,6 @@ public class Account {
                     card = deck.getCards().findByName(cardName);
             }
         }
-    }
-
-    public static boolean isUserNameAvailable(String username) {
-        if (doesAccountExist(username))
-            return false;
-        if (username.length() < 5)
-            return false;
-        return username.matches("[a-zA-Z].*");
     }
 
     public void buyCard(String name) throws ShopExeption{
