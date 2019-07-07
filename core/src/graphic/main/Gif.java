@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import graphic.Others.GifDecoder;
+import org.omg.CORBA.PRIVATE_MEMBER;
 
 import javax.xml.soap.Text;
 
@@ -14,6 +15,9 @@ public class Gif {
     private Animation animation;
     private float time = 0;
     private boolean flipped = false;
+    private float x, y;
+    private GifType type;
+
 
     public Gif(Animation animation) {
         this.animation = animation;
@@ -43,6 +47,10 @@ public class Gif {
         batch.end();
     }
 
+    public void draw(SpriteBatch batch){
+        this.draw(batch, x, y, 150, 150);
+    }
+
     public boolean isFinished() {
         return animation.isAnimationFinished(time);
     }
@@ -67,4 +75,39 @@ public class Gif {
         this.animation.setFrameDuration(speed);
     }
 
+    public float getX() {
+        return x;
+    }
+
+    public void setX(float x) {
+        this.x = x;
+    }
+
+    public float getY() {
+        return y;
+    }
+
+    public void setY(float y) {
+        this.y = y;
+    }
+
+    public float getTime() {
+        return time;
+    }
+
+    public Animation getAnimation() {
+        return animation;
+    }
+
+    public GifType getType() {
+        return type;
+    }
+
+    public void setType(GifType type) {
+        this.type = type;
+    }
+
+    public void setTime(float time){
+        this.time = time;
+    }
 }
