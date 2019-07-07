@@ -46,6 +46,7 @@ public class LoginScreen extends Screen {
 
     @Override
     public void create() {
+        Account.setCurrentAccount(null);
         setCameraAndViewport();
         createBackGroundMusic();
         loadAssets();

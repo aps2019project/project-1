@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
+import connection.Client;
 import graphic.Others.MoveAnimation;
 import graphic.Others.MoveType;
 import graphic.Others.PopUp;
@@ -106,11 +107,15 @@ public class MenuScreen extends Screen {
                 if (collectionButton.isActive())
                     ScreenManager.setScreen(new CollectionScreen());
                 if (profileButton.isActive())
-                    PopUp.getInstance().setText("Tet pop up sdfsdfasdfsa");
+                    ScreenManager.setScreen(new GlobalInformationScreen());
                 if(customCardButton.isActive())
                     ScreenManager.setScreen(new CustomCardScreen());
                 if(cheatButton.isActive())
                     setCheat();
+                if (exitButton.isActive()) {
+                    Client.sendCommand("logout");
+                    ScreenManager.setScreen(new LoginScreen());
+                }
                 return false;
             }
 
