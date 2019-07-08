@@ -49,10 +49,14 @@ public class AssetHandler {
         assetManager.load("button/signUp1.png", Texture.class);
         assetManager.load("button/signUp2.png", Texture.class);
         assetManager.load("button/button_close.png", Texture.class);
+
         assetManager.load("slots/confirm.png", Texture.class);
         assetManager.load("slots/empty.png", Texture.class);
         assetManager.load("slots/password.png", Texture.class);
         assetManager.load("slots/userName.png", Texture.class);
+        assetManager.load("slots/offline account.png", Texture.class);
+        assetManager.load("slots/online account.png", Texture.class);
+
         assetManager.load("battle/mana.png", Texture.class);
         assetManager.load("battle/icon general hp.png", Texture.class);
         assetManager.load("lantern_large_1.png", Texture.class);
