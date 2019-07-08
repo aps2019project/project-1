@@ -318,7 +318,7 @@ public class CustomCardScreen extends Screen {
                 Spell.createSpell(data.toArray(new String[data.size()]));
                 break;
         }
-        Client.sendCardString(CvsWriter.join(',', data));
+        Client.sendCommand(CvsWriter.join(',', data));
         state = "Card Created";
         text = "Your Card Created Successfully. Press Enter to Continue";
     }
