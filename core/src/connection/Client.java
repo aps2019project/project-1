@@ -2,20 +2,19 @@ package connection;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
 import control.CsvReader;
 import control.CvsWriter;
-import graphic.Others.CardTexture;
-import model.cards.CardType;
-import model.other.Account;
 
 import java.io.*;
 import java.lang.reflect.Type;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.Scanner;
 
 public class Client {
 
+    private static int PORT;
+    private static String HOST;
     private static DataOutputStream outputStream;
     private static DataInputStream inputStream;
     private static Gson gson;
@@ -25,8 +24,9 @@ public class Client {
     }
 
     public static void connect() {
+        getConfigData();
         try {
-            Socket socket = new Socket("213.233.188.78", 8000);
+            Socket socket = new Socket(HOST, PORT);
             inputStream = new DataInputStream(socket.getInputStream());
             outputStream = new DataOutputStream(socket.getOutputStream());
         } catch (UnknownHostException e) {
@@ -92,6 +92,18 @@ public class Client {
 
         sendCommand("Send Card File Items");
         CvsWriter.writeCardFiles("Items", getCommand());
+    }
+
+    private static void getConfigData() {
+        try {
+            Scanner scanner = new Scanner(new File("Files/Data/.config"));
+            HOST = scanner.nextLine();
+            PORT = scanner.nextInt();
+        } catch (FileNotFoundException e) {
+            HOST = "localhost";
+            PORT = 8765;
+            e.printStackTrace();
+        }
     }
 
 }
