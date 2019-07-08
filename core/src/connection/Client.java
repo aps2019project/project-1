@@ -4,13 +4,12 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import control.CsvReader;
+import control.CvsWriter;
 import graphic.Others.CardTexture;
 import model.cards.CardType;
 import model.other.Account;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.lang.reflect.Type;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -83,6 +82,20 @@ public class Client {
 
     public static void sendCardFile(String cardType){
         sendCommand(CsvReader.readFile(cardType));
+    }
+
+    public static void getCardFiles() {
+        sendCommand("Send Card File Heroes");
+        CvsWriter.writeCardFiles("Heroes", getCommand());
+
+        sendCommand("Send Card File Minions");
+        CvsWriter.writeCardFiles("Minions", getCommand());
+
+        sendCommand("Send Card File Spells");
+        CvsWriter.writeCardFiles("Spells", getCommand());
+
+        sendCommand("Send Card File Items");
+        CvsWriter.writeCardFiles("Items", getCommand());
     }
 
 }

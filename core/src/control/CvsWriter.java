@@ -1,5 +1,6 @@
 package control;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -27,5 +28,16 @@ public class CvsWriter {
         }
         stringBuilder.deleteCharAt(stringBuilder.length() - 1);
         return stringBuilder.toString();
+    }
+
+    public static void writeCardFiles(String cardType, String data){
+        try {
+            FileWriter fileWriter = new FileWriter(new File("Files/" + cardType +".csv"));
+            fileWriter.write(data);
+            fileWriter.flush();
+            fileWriter.close();
+        }catch (IOException i){
+            i.printStackTrace();
+        }
     }
 }
