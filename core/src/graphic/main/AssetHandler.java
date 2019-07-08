@@ -66,11 +66,13 @@ public class AssetHandler {
         assetManager.load("button/menuButtonActive.png", Texture.class);
         assetManager.load("button/profile.png", Texture.class);
         assetManager.load("button/exit.png", Texture.class);
+
         assetManager.load("fonts/Arial 12.fnt", BitmapFont.class);
         assetManager.load("fonts/Arial 16.fnt", BitmapFont.class);
         assetManager.load("fonts/Arial 20.fnt", BitmapFont.class);
         assetManager.load("fonts/Arial 24.fnt", BitmapFont.class);
         assetManager.load("fonts/Arial 36.fnt", BitmapFont.class);
+
         assetManager.load("Card/backGround/hero deActive.png", Texture.class);
         assetManager.load("Card/backGround/hero active.png", Texture.class);
         assetManager.load("Card/backGround/spell deActive.png", Texture.class);
@@ -147,6 +149,19 @@ public class AssetHandler {
         assetManager.load("button/card in deck1.png", Texture.class);
         assetManager.load("button/deckName.png", Texture.class);
 
+        assetManager.load("pattern/basketball.png", Texture.class);
+        assetManager.load("pattern/title.png", Texture.class);
+        assetManager.load("pattern/carbon.png", Texture.class);
+        assetManager.load("pattern/cube.png", Texture.class);
+        assetManager.load("pattern/diagmond.png", Texture.class);
+        assetManager.load("pattern/flowers.png", Texture.class);
+        assetManager.load("pattern/wall.png", Texture.class);
+        assetManager.load("pattern/wood.png", Texture.class);
+        assetManager.load("pattern/chatSlot.png", Texture.class);
+        assetManager.load("pattern/wild-flowers.png", Texture.class);
+        assetManager.load("pattern/message.png", Texture.class);
+
+        assetManager.load("chat/emoji.txt", TextureAtlas.class);
 
         for(int i = 1; i <= 11; i++)
             assetManager.load("Card/Hero/generals/" + i + ".png", Texture.class);
