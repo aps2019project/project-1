@@ -80,10 +80,6 @@ public class Client {
         }
     }
 
-    public static void sendCardFile(String cardType){
-        sendCommand(CsvReader.readFile(cardType));
-    }
-
     public static void getCardFiles() {
         sendCommand("Send Card File Heroes");
         CvsWriter.writeCardFiles("Heroes", getCommand());
