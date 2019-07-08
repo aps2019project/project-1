@@ -80,10 +80,6 @@ public class Client {
         }
     }
 
-    public static void sendCardString(String data){
-        sendCommand(data);
-    }
-
     public static void getCardFiles() {
         sendCommand("Send Card File Heroes");
         CvsWriter.writeCardFiles("Heroes", getCommand());
