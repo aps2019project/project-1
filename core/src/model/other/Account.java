@@ -134,7 +134,7 @@ public class Account {
     }
 
     public void addDeck(Deck deck) throws DontHaveCardException {
-        for (Card card: deck.getCards().getAllCards())
+        for (Card card : deck.getCards().getAllCards())
             if (this.collection.findByName(card.getName()) == null)
                 throw new DontHaveCardException();
         allDecks.add(deck);
@@ -149,10 +149,11 @@ public class Account {
     }
 
     public void addDeckToCollections(Deck deck) {
-        for(Card card : deck.getCards().getAllCards()) {
+        for (Card card : deck.getCards().getAllCards()) {
             this.addCardToCollection(card);
         }
     }
+
     public void addCardToCollection(Card card) {
         collection.add(card);
     }
@@ -197,17 +198,17 @@ public class Account {
         Client.sendData(new SavingObject(Account.getCurrentAccount()));
     }
 
-    public void deleteCardFromAllDecks(String cardName){
+    public void deleteCardFromAllDecks(String cardName) {
         for (Deck deck : allDecks) {
             Card card = deck.getCards().findByName(cardName);
             while (card != null) {
-                    deck.deleteCard(card);
-                    card = deck.getCards().findByName(cardName);
+                deck.deleteCard(card);
+                card = deck.getCards().findByName(cardName);
             }
         }
     }
 
-    public void buyCard(String name) throws ShopExeption{
+    public void buyCard(String name) throws ShopExeption {
         Card card = Card.getCards().findByName(name);
         if (card == null)
             throw new CardNotFoundException();
@@ -224,10 +225,16 @@ public class Account {
             else if (getCollection().getAllItems().size() >= 3)
                 throw new MoreThanTwoItemException();
         }
+        Client.sendCommand("Buy Card " + card.getType() + " " + name);
+        String command = Client.getCommand();
+        if (command.equals("Out of Stock")) {
+            throw new OutOfStockException();
+        }
         try {
             card = card.clone();
             card.setUserName(getUsername());
-        } catch (CloneNotSupportedException ignored) {}
+        } catch (CloneNotSupportedException ignored) {
+        }
         card.setUserName(getUsername());
         decreaseDaric(card.getPrice());
         addCardToCollection(card);
@@ -243,6 +250,7 @@ public class Account {
             if (item.getItemType().equals(ItemType.COLLECTIBLE))
                 throw new CantSellCardException();
         }
+        Client.sendCommand("Sell Card " + card.getType() + " "+ name);
         increaseDaric(card.getPrice());
         deleteCardFromAllDecks(card.getName());
         removeCardFromCollection(card);
@@ -291,7 +299,7 @@ public class Account {
         if (!(o instanceof Account)) return false;
         Account account = (Account) o;
         return getDaric() == account.getDaric() &&
-                getUsername().equals(account.username)&&
+                getUsername().equals(account.username) &&
                 getPassword().equals(account.password) &&
                 getCollection().equals(account.collection) &&
                 getAllDecks().equals(account.allDecks) &&

@@ -91,22 +91,22 @@ public class Minion extends Army {
     public static void createMinion(String[] line) {
         SPTime spTime = null;
 
-        if (!line[9].equals("-")) {
-            spTime = SPTime.valueOf(line[9].toUpperCase().replace(" ", "_"));
+        if (!line[10].equals("-")) {
+            spTime = SPTime.valueOf(line[10].toUpperCase().replace(" ", "_"));
         }
 
-        Minion minion = new Minion(Integer.parseInt(line[0])
-                ,line[1]
-                , Integer.parseInt(line[2])
-                , Integer.parseInt(line[4])
-                , Integer.parseInt(line[5])
-                , Integer.parseInt(line[7])
+        Minion minion = new Minion(Integer.parseInt(line[1])
+                ,line[2]
                 , Integer.parseInt(line[3])
-                , AttackType.valueOf(line[6].toUpperCase())
+                , Integer.parseInt(line[4])
+                , Integer.parseInt(line[6])
+                , Integer.parseInt(line[8])
+                , Integer.parseInt(line[4])
+                , AttackType.valueOf(line[7].toUpperCase())
                 , spTime
-                , line[8]);
+                , line[9]);
         if(minion.getNumber() > 40) {
-            int col = 10;
+            int col = 11;
             String powerBuffType = null;
             String buffType = line[col++];
             if(buffType.equals("power") || buffType.equals("weakness"))
