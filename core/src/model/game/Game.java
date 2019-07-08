@@ -343,7 +343,7 @@ public class Game {
         return items;
     }
 
-    public boolean isFirstPlayerTurn() {
-        return getWhoIsHisTurn().getAccount().getUsername().equals(firstPlayer.getAccount().getUsername());
+    public boolean isAccountTurn(Account account) {
+        return getWhoIsHisTurn().getAccount().getUsername().equals(account.getUsername());
     }
 }
