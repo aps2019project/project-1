@@ -63,14 +63,14 @@ public class Spell extends Card {
     }
 
     public static void createSpell(String[] line) {
-        Spell spell = new Spell(Integer.parseInt(line[0])
-                ,line[1]
-                , Integer.parseInt(line[2])
+        Spell spell = new Spell(Integer.parseInt(line[1])
+                ,line[2]
                 , Integer.parseInt(line[3])
-                , line[5]
-                , line[4]);
+                , Integer.parseInt(line[4])
+                , line[6]
+                , line[5]);
         if(spell.getNumber() > 20) {
-            int col = 6;
+            int col = 7;
             spell.spellTargetType = SpellTargetType.valueOf(line[4].toUpperCase().replace(" ", "_"));
             String powerBuffType = null;
             String buffType = line[col++];

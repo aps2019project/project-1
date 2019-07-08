@@ -72,18 +72,18 @@ public class Hero extends Army {
     }
 
     public static void createHero(String[] line) {
-        Hero hero = new Hero(Integer.parseInt(line[0])
-                ,line[1]
-                , Integer.parseInt(line[2])
+        Hero hero = new Hero(Integer.parseInt(line[1])
+                ,line[2]
                 , Integer.parseInt(line[3])
                 , Integer.parseInt(line[4])
-                , Integer.parseInt(line[6])
-                , Integer.parseInt(line[8])
+                , Integer.parseInt(line[5])
+                , Integer.parseInt(line[7])
                 , Integer.parseInt(line[9])
-                , AttackType.valueOf(line[5].toUpperCase())
-                , line[7]);
+                , Integer.parseInt(line[10])
+                , AttackType.valueOf(line[6].toUpperCase())
+                , line[8]);
         if(hero.getNumber() > 10) {
-            int col = 10;
+            int col = 11;
             String powerBuffType = null;
             String buffType = line[col++];
             if(buffType.equals("power") || buffType.equals("weakness"))

@@ -26,8 +26,7 @@ import model.cards.*;
 import model.cards.CardType.*;
 import view.CustomCardHandlerScreen;
 
-import java.nio.file.Files;
-import java.nio.file.Paths;
+
 import java.util.ArrayList;
 
 import static model.cards.CardType.HERO;
@@ -302,6 +301,7 @@ public class CustomCardScreen extends Screen {
     }
 
     private void writeCard(){
+        data.add(0, Integer.toString(10));
         if(state.contains("Card Created")) return;
         Client.sendCommand("Create Card "+ cardType);
         switch (cardType){

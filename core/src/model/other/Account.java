@@ -243,6 +243,7 @@ public class Account {
             if (item.getItemType().equals(ItemType.COLLECTIBLE))
                 throw new CantSellCardException();
         }
+        Client.sendCommand("Sell Card " + name);
         increaseDaric(card.getPrice());
         deleteCardFromAllDecks(card.getName());
         removeCardFromCollection(card);
