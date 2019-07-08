@@ -10,6 +10,8 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import connection.Client;
+import control.CsvReader;
 import control.CvsWriter;
 import graphic.Others.CardTexture;
 import graphic.main.AssetHandler;
@@ -24,6 +26,8 @@ import model.cards.*;
 import model.cards.CardType.*;
 import view.CustomCardHandlerScreen;
 
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
 import static model.cards.CardType.HERO;
@@ -299,17 +303,21 @@ public class CustomCardScreen extends Screen {
 
     private void writeCard(){
         if(state.contains("Card Created")) return;
+        Client.sendCommand("Create Card "+ cardType);
         switch (cardType){
             case HERO:
                 CvsWriter.write("Heroes", data);
+                Client.sendCardFile("Heroes");
                 Hero.createHero(data.toArray(new String[data.size()]));
                 break;
             case MINION:
                 CvsWriter.write("Minions", data);
+                Client.sendCardFile("Minions");
                 Minion.createMinion(data.toArray(new String[data.size()]));
                 break;
             case SPELL:
                 CvsWriter.write("Spells", data);
+                Client.sendCardFile("Spells");
                 Spell.createSpell(data.toArray(new String[data.size()]));
                 break;
         }
