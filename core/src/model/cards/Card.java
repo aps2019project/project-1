@@ -193,4 +193,12 @@ public class Card implements Cloneable {
     public String getGifPath() {
         return gifPath;
     }
+
+    public static void clearAllCards() {
+        cards.clear();
+        Minion.getMinions().clear();
+        Hero.getHeroes().clear();
+        Spell.getSpells().clear();
+        Item.getItems().clear();
+    }
 }

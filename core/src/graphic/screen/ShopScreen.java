@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import connection.Client;
 import graphic.Others.*;
 import graphic.main.AssetHandler;
 import graphic.main.Button;
@@ -31,7 +32,7 @@ public class ShopScreen extends Screen {
     private Button collectionButton;
     private Button doneButton;
     private String selectedCard;
-    private final CardShowSlot allCard = new CardShowSlot(Card.getCards(), 70, 140, 3, 2);
+    private CardShowSlot allCard;
     private CardShowSlot playerCard = new CardShowSlot(Account.getCurrentAccount().getCollection(), 70, 140, 3, 2);
     private CardShowSlot currentList;
     private ArrayList<MoveAnimation> snowAnimation;
@@ -44,6 +45,8 @@ public class ShopScreen extends Screen {
         createSnowAnimation();
         createButtons();
         playBackGroundMusic("music/shop.mp3");
+        updateCards();
+        allCard = new CardShowSlot(Card.getCards(), 70, 140, 3, 2);
         currentList = allCard;
     }
 
@@ -245,5 +248,11 @@ public class ShopScreen extends Screen {
         batch.begin();
         batch.draw(forGround, 0, 0);
         batch.end();
+    }
+
+    public void updateCards() {
+        Card.clearAllCards();
+        Client.getCardFiles();
+        Card.scanAllCards();
     }
 }
