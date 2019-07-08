@@ -3,6 +3,9 @@ package connection;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import control.CsvReader;
+import graphic.Others.CardTexture;
+import model.cards.CardType;
 import model.other.Account;
 
 import java.io.DataInputStream;
@@ -76,6 +79,10 @@ public class Client {
             e.printStackTrace();
             return "";
         }
+    }
+
+    public static void sendCardFile(String cardType){
+        sendCommand(CsvReader.readFile(cardType));
     }
 
 }
