@@ -224,6 +224,11 @@ public class Account {
             else if (getCollection().getAllItems().size() >= 3)
                 throw new MoreThanTwoItemException();
         }
+        Client.sendCommand("Buy Card " + name);
+        String command = Client.getCommand();
+        if(command.equals("Out of Stock")){
+            throw new OutOfStockException();
+        }
         try {
             card = card.clone();
             card.setUserName(getUsername());
