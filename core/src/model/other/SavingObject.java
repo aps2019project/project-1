@@ -85,4 +85,8 @@ public class SavingObject {
         }
         return result;
     }
+
+    public String getUsername() {
+        return username;
+    }
 }
