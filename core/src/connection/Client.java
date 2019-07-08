@@ -80,8 +80,8 @@ public class Client {
         }
     }
 
-    public static void sendCardFile(String cardType){
-        sendCommand(CsvReader.readFile(cardType));
+    public static void sendCardString(String data){
+        sendCommand(data);
     }
 
     public static void getCardFiles() {

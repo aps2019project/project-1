@@ -307,20 +307,18 @@ public class CustomCardScreen extends Screen {
         switch (cardType){
             case HERO:
                 CvsWriter.write("Heroes", data);
-                Client.sendCardFile("Heroes");
                 Hero.createHero(data.toArray(new String[data.size()]));
                 break;
             case MINION:
                 CvsWriter.write("Minions", data);
-                Client.sendCardFile("Minions");
                 Minion.createMinion(data.toArray(new String[data.size()]));
                 break;
             case SPELL:
                 CvsWriter.write("Spells", data);
-                Client.sendCardFile("Spells");
                 Spell.createSpell(data.toArray(new String[data.size()]));
                 break;
         }
+        Client.sendCardString(CvsWriter.join(',', data));
         state = "Card Created";
         text = "Your Card Created Successfully. Press Enter to Continue";
     }
