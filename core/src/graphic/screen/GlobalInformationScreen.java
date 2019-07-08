@@ -4,17 +4,18 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.GlyphLayout;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.*;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.google.gson.reflect.TypeToken;
 import connection.Client;
+import graphic.Others.PatternPNG;
 import graphic.main.AssetHandler;
 import graphic.main.Button;
 import graphic.main.Main;
 import model.other.SavingObject;
 
+import java.awt.*;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -32,9 +33,17 @@ public class GlobalInformationScreen extends Screen {
     private Texture offlineSlot;
     private Texture onlineSlot;
     private BitmapFont accountFont;
+    private BitmapFont chatTitleFont;
     private GlyphLayout glyphLayout;
-
-
+    private ShapeRenderer shapeRenderer;
+    private static final float X = 575;
+    private static final float Y = 150;
+    private String message;
+    private PatternPNG wildFlower;
+    private PatternPNG chatSlot;
+    private BitmapFont messageFont;
+    private ArrayList<Sprite> emojies;
+    private int emojiIndex;
 
 
     @Override
@@ -48,15 +57,28 @@ public class GlobalInformationScreen extends Screen {
         offlineSlot = AssetHandler.getData().get("slots/offline account.png");
 
         accountFont = new BitmapFont(AssetHandler.getData().get("fonts/Arial 24.fnt", BitmapFont.class).getData(), AssetHandler.getData().get("fonts/Arial 24.fnt", BitmapFont.class).getRegions(), true);
+        chatTitleFont = new BitmapFont(AssetHandler.getData().get("fonts/Arial 36.fnt", BitmapFont.class).getData(), AssetHandler.getData().get("fonts/Arial 36.fnt", BitmapFont.class).getRegions(), true);
+        messageFont = new BitmapFont(AssetHandler.getData().get("fonts/Arial 16.fnt", BitmapFont.class).getData(), AssetHandler.getData().get("fonts/Arial 16.fnt", BitmapFont.class).getRegions(), true);
+        messageFont.setColor(Main.toColor(new Color(0x041E52)));
 
         backButton = new Button("button/back.png", 0, Main.HEIGHT - 50, 50, 50);
-        chatButton = new Button("button/yellow.png", "button/green.png", 10, 450, 200, 70,"Chat", "fonts/Arial 24.fnt");
-        scoreBoardButton = new Button("button/yellow.png", "button/green.png", 10, 400, 200, 70, "Score Board", "fonts/Arial 24.fnt");
+        chatButton = new Button("button/yellow.png", "button/green.png", 10, 460, 200, 70,"Chat", "fonts/Arial 24.fnt");
+        scoreBoardButton = new Button("button/yellow.png", "button/green.png", 10, 370, 200, 70, "Score Board", "fonts/Arial 24.fnt");
         scoreBoardButton.setActive(true);
 
         glyphLayout = new GlyphLayout();
         allAccounts = new ArrayList<SavingObject>();
         onlineAccounts = new HashSet<String>();
+        shapeRenderer = new ShapeRenderer();
+        message = "";
+        wildFlower = new PatternPNG(AssetHandler.getData().get("pattern/wild-flowers.png", Texture.class));
+        chatSlot = new PatternPNG(AssetHandler.getData().get("pattern/chatSlot.png", Texture.class));
+
+        emojies = new ArrayList<Sprite>();
+        for (int i = 1; i < 35; ++i) {
+            emojies.add(AssetHandler.getData().get("chat/emoji.txt", TextureAtlas.class).createSprite(String.valueOf(i)));
+        }
+        emojiIndex = 0;
 
         playBackGroundMusic("music/login.mp3");
     }
@@ -86,6 +108,14 @@ public class GlobalInformationScreen extends Screen {
                     setMusicVolume(true);
                 if (keycode == Input.Keys.PAGE_DOWN)
                     setMusicVolume(false);
+                if (keycode == Input.Keys.LEFT) {
+                    if (emojiIndex < 1)
+                        emojiIndex = 33;
+                    else
+                        emojiIndex--;
+                }
+                if (keycode == Input.Keys.RIGHT)
+                    emojiIndex = (emojiIndex + 1) % 34;
                 return false;
             }
 
@@ -136,10 +166,15 @@ public class GlobalInformationScreen extends Screen {
 
     @Override
     public void render(SpriteBatch batch) {
+        batch.setProjectionMatrix(camera.combined);
+        shapeRenderer.setProjectionMatrix(camera.combined);
+
         drawBackGround(batch);
         drawButtons(batch);
         if (scoreBoardButton.isActive())
             drawAccounts(batch);
+        else if (chatButton.isActive())
+            drawChat(batch);
     }
 
     @Override
@@ -174,4 +209,53 @@ public class GlobalInformationScreen extends Screen {
         }
         batch.end();
     }
+
+    private void drawChat(SpriteBatch batch) {
+
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        shapeRenderer.setColor(Main.toColor(new Color(0xAA000000, true)));
+        shapeRenderer.rect(X, Y, 450, 600);
+        shapeRenderer.end();
+
+        drawTitleBar(batch);
+        drawMessageSlot(batch);
+
+
+
+
+    }
+
+    private void drawTitleBar(SpriteBatch batch) {
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        shapeRenderer.setColor(Main.toColor(new Color(0xA66600)));
+        shapeRenderer.rect(X, Y + 530, 450, 70);
+        shapeRenderer.end();
+        wildFlower.draw(batch, X, Y + 530, 450, 70, true);
+
+        batch.begin();
+        glyphLayout.setText(chatTitleFont, "Global Chat");
+        chatTitleFont.draw(batch, "Global Chat", X + (450 - glyphLayout.width) / 2, 600 + Y - (70 - glyphLayout.height) / 2);
+        batch.end();
+    }
+
+    private void drawMessageSlot(SpriteBatch batch) {
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        shapeRenderer.setColor(Main.toColor(new Color(0xFF000A63, true)));
+        shapeRenderer.rect(X, Y, 450, 58);
+        shapeRenderer.end();
+        chatSlot.draw(batch, X, Y, 450, 58, true);
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        shapeRenderer.setColor(Main.toColor(new Color(0xCED7CF)));
+        shapeRenderer.rect(10, 10, 350, 58 - 20);
+        shapeRenderer.end();
+
+        batch.begin();
+        String onBatch = "type message...";
+        if (!message.equals(""))
+            onBatch = message;
+        glyphLayout.setText(messageFont, onBatch);
+        messageFont.draw(batch, onBatch, X + 15, Y + 55 - (55 - glyphLayout.height) / 2);
+        batch.end();
+    }
+
 }
