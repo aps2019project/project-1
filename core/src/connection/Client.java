@@ -44,7 +44,7 @@ public class Client {
         }
     }
 
-    public static  <T> T getData(Type type) {
+    public static  <T> T getData(Type type, Class<T> tClass) {
         try {
             return gson.fromJson(inputStream.readUTF(), type);
         } catch (IOException e) {
