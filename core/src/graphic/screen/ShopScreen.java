@@ -157,6 +157,8 @@ public class ShopScreen extends Screen {
                     PopUp.getInstance().setText("You Don't Have Enough Money To Buy This Card.");
                 } catch (CantSellCardException e) {
                     PopUp.getInstance().setText("You Can't Sell/Buy This Card");
+                } catch (OutOfStockException e){
+                    PopUp.getInstance().setText("Card Is Out of Stock");
                 } catch (ShopExeption shopExeption) {
                     PopUp.getInstance().setText("Something Went Wrong. Try Contact With Creators.");
                 }

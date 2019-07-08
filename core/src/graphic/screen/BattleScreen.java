@@ -286,53 +286,60 @@ public class BattleScreen extends Screen {
         graveyardButton.setActive(graveyardButton.contains(mousePos));
         fastForwardButton.setActive(fastForwardButton.contains(mousePos));
 
-        Gdx.input.setInputProcessor(new InputProcessor() {
-            @Override
-            public boolean keyDown(int keycode) {
-                if (keycode == Input.Keys.RIGHT)
-                    graveyardList.nextPage();
-                if (keycode == Input.Keys.LEFT)
-                    graveyardList.previousPage();
-                return false;
-            }
+        if(game.isAccountTurn(Account.getCurrentAccount())){
+            Gdx.input.setInputProcessor(new InputProcessor() {
+                @Override
+                public boolean keyDown(int keycode) {
+                    if (keycode == Input.Keys.RIGHT)
+                        graveyardList.nextPage();
+                    if (keycode == Input.Keys.LEFT)
+                        graveyardList.previousPage();
+                    return false;
+                }
 
-            @Override
-            public boolean keyUp(int keycode) {
-                return false;
-            }
+                @Override
+                public boolean keyUp(int keycode) {
+                    return false;
+                }
 
-            @Override
-            public boolean keyTyped(char character) {
-                return false;
-            }
+                @Override
+                public boolean keyTyped(char character) {
+                    return false;
+                }
 
-            @Override
-            public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+                @Override
+                public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+                    mouseTouchDown();
+                    return false;
+                }
+
+                @Override
+                public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+                    mouseTouchUp();
+                    return false;
+                }
+
+                @Override
+                public boolean touchDragged(int screenX, int screenY, int pointer) {
+                    return false;
+                }
+
+                @Override
+                public boolean mouseMoved(int screenX, int screenY) {
+                    return false;
+                }
+
+                @Override
+                public boolean scrolled(int amount) {
+                    return false;
+                }
+            });
+        } else{
+//              if( Client mouse touchDown)
                 mouseTouchDown();
-                return false;
-            }
-
-            @Override
-            public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+//              if( Client mouse touchUp)
                 mouseTouchUp();
-                return false;
-            }
-
-            @Override
-            public boolean touchDragged(int screenX, int screenY, int pointer) {
-                return false;
-            }
-
-            @Override
-            public boolean mouseMoved(int screenX, int screenY) {
-                return false;
-            }
-
-            @Override
-            public boolean scrolled(int amount) {
-                return false;
-            }
-        });
+        }
     }
 
     public void mouseTouchDown() {

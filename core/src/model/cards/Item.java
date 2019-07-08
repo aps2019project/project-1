@@ -49,11 +49,11 @@ public class Item extends Card {
 
     public static void scanItems(ArrayList<String[]> data) {
         for (String[] line : data) {
-            new Item(Integer.parseInt(line[0])
-                    ,line[1]
-                    , Integer.parseInt(line[2])
-                    , ItemType.valueOf(line[3].toUpperCase())
-                    , line[4]);
+            new Item(Integer.parseInt(line[1])
+                    ,line[2]
+                    , Integer.parseInt(line[3])
+                    , ItemType.valueOf(line[4].toUpperCase())
+                    , line[5]);
         }
     }
 
