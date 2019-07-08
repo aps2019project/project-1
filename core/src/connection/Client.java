@@ -26,7 +26,7 @@ public class Client {
 
     public static void connect() {
         try {
-            Socket socket = new Socket("localhost", 8000);
+            Socket socket = new Socket("213.233.188.78", 8000);
             inputStream = new DataInputStream(socket.getInputStream());
             outputStream = new DataOutputStream(socket.getOutputStream());
         } catch (UnknownHostException e) {

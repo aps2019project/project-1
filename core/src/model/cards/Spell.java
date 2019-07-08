@@ -71,7 +71,7 @@ public class Spell extends Card {
                 , line[5]);
         if(spell.getNumber() > 20) {
             int col = 7;
-            spell.spellTargetType = SpellTargetType.valueOf(line[4].toUpperCase().replace(" ", "_"));
+            spell.spellTargetType = SpellTargetType.valueOf(line[5].toUpperCase().replace(" ", "_"));
             String powerBuffType = null;
             String buffType = line[col++];
             if(buffType.equals("power") || buffType.equals("weakness"))
