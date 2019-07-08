@@ -5,17 +5,14 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.google.gson.reflect.TypeToken;
 import connection.Client;
 import graphic.main.AssetHandler;
 import graphic.main.Button;
 import graphic.main.Main;
-import model.other.Account;
 import model.other.SavingObject;
 
 import java.lang.reflect.Type;
@@ -32,7 +29,10 @@ public class GlobalInformationScreen extends Screen {
     private ArrayList<SavingObject> allAccounts;
     private HashSet<String> onlineAccounts;
     private Vector2 mousePos;
-
+    private Texture offlineSlot;
+    private Texture onlineSlot;
+    private BitmapFont accountFont;
+    private GlyphLayout glyphLayout;
 
 
 
@@ -44,12 +44,17 @@ public class GlobalInformationScreen extends Screen {
 
         backGround = AssetHandler.getData().get("backGround/global background.png");
         forGround = AssetHandler.getData().get("backGround/global forground.png");
+        onlineSlot = AssetHandler.getData().get("slots/online account.png");
+        offlineSlot = AssetHandler.getData().get("slots/offline account.png");
 
-        backButton = new Button("button/back.png", 0, Main.HEIGHT -50, 50, 50);
-        chatButton = new Button("button/yellow.png", "button/green.png", 10, 450, "Chat", "fonts/Arial 24.fnt");
-        scoreBoardButton = new Button("button/yellow.png", "button/green.png", 10, 400, "Score Board", "fonts/Arial 24.fnt");
-        chatButton.setActive(true);
+        accountFont = new BitmapFont(AssetHandler.getData().get("fonts/Arial 24.fnt", BitmapFont.class).getData(), AssetHandler.getData().get("fonts/Arial 24.fnt", BitmapFont.class).getRegions(), true);
 
+        backButton = new Button("button/back.png", 0, Main.HEIGHT - 50, 50, 50);
+        chatButton = new Button("button/yellow.png", "button/green.png", 10, 450, 200, 70,"Chat", "fonts/Arial 24.fnt");
+        scoreBoardButton = new Button("button/yellow.png", "button/green.png", 10, 400, 200, 70, "Score Board", "fonts/Arial 24.fnt");
+        scoreBoardButton.setActive(true);
+
+        glyphLayout = new GlyphLayout();
         allAccounts = new ArrayList<SavingObject>();
         onlineAccounts = new HashSet<String>();
 
@@ -131,34 +136,42 @@ public class GlobalInformationScreen extends Screen {
 
     @Override
     public void render(SpriteBatch batch) {
-
-        batch.begin();
-        batch.draw(backGround, 0, 0);
-        batch.draw(forGround, Main.WIDTH - forGround.getWidth(), 0);
-        batch.end();
-
-        backButton.draw(batch);
-        chatButton.draw(batch);
-        scoreBoardButton.draw(batch);
-
-        batch.begin();
-        int y = 800;
-        BitmapFont font = new BitmapFont();
-        for (SavingObject account : allAccounts) {
-            if (account.getUsername().equals(Account.getCurrentAccount().getUsername())) continue;
-            y -= 100;
-            if (onlineAccounts.contains(account.getUsername()))
-                font.draw(batch, account.getUsername() + ".:online:.", 300, y);
-            else
-                font.draw(batch, account.getUsername() + ".:offline:.", 300, y);
-        }
-        batch.end();
-
-
+        drawBackGround(batch);
+        drawButtons(batch);
+        if (scoreBoardButton.isActive())
+            drawAccounts(batch);
     }
 
     @Override
     public void dispose() {
         music.dispose();
+    }
+
+    private void drawButtons(SpriteBatch batch) {
+        backButton.draw(batch);
+        chatButton.draw(batch);
+        scoreBoardButton.draw(batch);
+    }
+
+    private void drawBackGround(SpriteBatch batch) {
+        batch.begin();
+        batch.draw(backGround, 0, 0);
+        batch.draw(forGround, Main.WIDTH - forGround.getWidth(), 0);
+        batch.end();
+    }
+
+    private void drawAccounts(SpriteBatch batch) {
+        batch.begin();
+        float yStart = Main.HEIGHT - (Main.HEIGHT - allAccounts.size() * 80) / 2;
+        for (SavingObject account: allAccounts) {
+            if (onlineAccounts.contains(account.getUsername()))
+                batch.draw(onlineSlot, (Main.WIDTH - onlineSlot.getWidth()) / 2, yStart - 70);
+            else
+                batch.draw(offlineSlot, (Main.WIDTH - onlineSlot.getWidth()) / 2, yStart - 70);
+            glyphLayout.setText(accountFont, account.getUsername());
+            accountFont.draw(batch, account.getUsername(), (Main.WIDTH - glyphLayout.width) / 2 + 15, yStart - (71 - glyphLayout.height) / 2);
+            yStart -= 80;
+        }
+        batch.end();
     }
 }
