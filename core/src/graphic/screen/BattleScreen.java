@@ -186,7 +186,6 @@ public class BattleScreen extends Screen {
         setHandCells();
 
         graveyardCord = new Vector2(-graveyardBg.getWidth(), 180);
-        graveyardList = new CardListTexture(3, 1, graveyardCord.x, graveyardCord.y - 400);
 
         if (player1.getUsableItem() != null)
             usableItem = new Gif(new Animation<TextureRegion>(1 / 20f, new TextureAtlas(player1.getUsableItem().getGifPath()).findRegions("gif"), Animation.PlayMode.LOOP));
@@ -653,6 +652,7 @@ public class BattleScreen extends Screen {
     }
 
     public void drawGraveYard(SpriteBatch batch) {
+        graveyardList = new CardListTexture(3, 1, graveyardCord.x + 30, graveyardCord.y + 150);
         batch.draw(graveyardBg, graveyardCord.x, graveyardCord.y);
         ArrayList<Minion> minions = player1.getGraveYard().getAllMinions();
         for (Minion minion : minions) {
