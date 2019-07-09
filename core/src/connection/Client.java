@@ -23,7 +23,8 @@ public class Client {
     private static DataInputStream inputStream;
     private static Gson gson;
     private static Mousepos mousePos = new Mousepos(0,0);
-
+    private static float[] myArray;
+    private static float[] enemyArray;
     static {
         gson = new GsonBuilder().create();
     }
@@ -169,5 +170,18 @@ public class Client {
     }
     public static void cancelApplying() {
         sendCommand("cancel applying");
+    }
+    public static void setArrays() {
+        sendCommand("get arrays");
+        myArray = getData(float[].class);
+        enemyArray = getData(float[].class);
+    }
+
+    public static float[] getMyArray() {
+        return myArray;
+    }
+
+    public static float[] getEnemyArray() {
+        return enemyArray;
     }
 }

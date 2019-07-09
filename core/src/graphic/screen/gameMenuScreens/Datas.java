@@ -119,12 +119,14 @@ public class Datas {
     }
 
 
-    private void playGame(int numberOfFlags) {
+    private void playGame(int numberOfFlags, float[] myArray, float[]enemyArray) {
         if(secondAccount.getMainDeck() == null || !secondAccount.getMainDeck().checkIfValid()) {
             BattleScreen.showInvalidDeckInMultiPlayer();
             return;
         }
         Game game = new Game(account,secondAccount,type,numberOfFlags);
+        game.getFirstPlayer().getDeck().setArray(myArray);
+        game.getSecondPlayer().getDeck().setArray(enemyArray);
         game.startMatch();
         if(game.isExitFromGame()) {
             System.out.println("you leave the game");
@@ -250,38 +252,38 @@ public class Datas {
         account = secondAccount;
         secondAccount = tmp;
     }
-    public void makeKillHeroCustom(Account account,int number) {
+    public void makeKillHeroCustom(Account account,int number, float[] myArray, float[] enemyArray) {
         type = GameType.KILL_HERO;
         secondAccount = account;
         if(number == 2) swapAccounts();
         new Thread(new Runnable() {
             @Override
             public void run() {
-                playGame(0);
+                playGame(0, myArray, enemyArray);
             }
         }).start();
     }
 
-    public void makeCaptureTheFlagCustom(Account account, int number) {
+    public void makeCaptureTheFlagCustom(Account account, int number, float[] myArray, float[] enemyArray) {
         type = GameType.CAPTURE_THE_FLAG;
         secondAccount = account;
         if(number == 2) swapAccounts();
         new Thread(new Runnable() {
             @Override
             public void run() {
-                playGame(1);
+                playGame(1, myArray, enemyArray);
             }
         }).start();
     }
 
-    public void makeRollUpFlagCustom(Account account, final int numberOfFlags, int number) {
+    public void makeRollUpFlagCustom(Account account, final int numberOfFlags, int number, float[] myArray, float[] enemyArray) {
         type = GameType.ROLLUP_FLAGS;
         secondAccount = account;
         if(number == 2) swapAccounts();
         new Thread(new Runnable() {
             @Override
             public void run() {
-                playGame(numberOfFlags);
+                playGame(numberOfFlags, myArray, enemyArray);
             }
         }).start();
     }

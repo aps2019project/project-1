@@ -52,12 +52,22 @@ public class WaitingScreen extends Screen {
         this.condition = condition;
         if(this.condition.contains("accepted")) {
             int yourNumber = Client.getMyNumberInGame();
+            Client.setArrays();
+            float[] myArray;
+            float[] enemyArray;
+            if(yourNumber == 1) {
+                myArray = Client.getMyArray();
+                enemyArray = Client.getEnemyArray();
+            } else {
+                myArray = Client.getEnemyArray();
+                enemyArray = Client.getMyArray();
+            }
             if(gameType == GameType.KILL_HERO)
-                Datas.getDatas().makeKillHeroCustom(Client.getEnemyAccount(), yourNumber);
+                Datas.getDatas().makeKillHeroCustom(Client.getEnemyAccount(), yourNumber, myArray, enemyArray);
             else if(gameType == GameType.CAPTURE_THE_FLAG)
-                Datas.getDatas().makeCaptureTheFlagCustom(Client.getEnemyAccount(), yourNumber);
+                Datas.getDatas().makeCaptureTheFlagCustom(Client.getEnemyAccount(), yourNumber, myArray, enemyArray);
             else if(gameType == GameType.ROLLUP_FLAGS)
-                Datas.getDatas().makeRollUpFlagCustom(Client.getEnemyAccount(), numberOfFlags, yourNumber);
+                Datas.getDatas().makeRollUpFlagCustom(Client.getEnemyAccount(), numberOfFlags, yourNumber, myArray, enemyArray);
             ScreenManager.setScreen(new BattleScreen());
 
         }

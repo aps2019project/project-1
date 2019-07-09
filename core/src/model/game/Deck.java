@@ -9,7 +9,7 @@ public class Deck {
     private Hero hero;
     private Item item;
     private Card nextCard;
-
+    private float[] array;
     public Deck() {
     }
 
@@ -25,6 +25,10 @@ public class Deck {
         if(cards.getAllItems().size() > 0)
             this.item = cards.getAllItems().get(0);
 
+    }
+
+    public void setArray(float[] array) {
+        this.array = array;
     }
 
     public void deleteCard(Card card) {
