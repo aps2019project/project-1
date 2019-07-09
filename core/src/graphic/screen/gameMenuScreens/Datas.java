@@ -11,7 +11,6 @@ import view.BattleScreen;
 import java.util.ArrayList;
 
 
-
 public class Datas {
     private static Datas datas = new Datas();
     private Account account;
@@ -193,6 +192,7 @@ public class Datas {
         }
         return copyDeck;
     }
+
     public void makeKillHeroCustom(int deckNumber) {
         type = GameType.KILL_HERO;
         Account account;
@@ -245,4 +245,45 @@ public class Datas {
         }).start();
 
     }
+    public void swapAccounts() {
+        Account tmp = account;
+        account = secondAccount;
+        secondAccount = tmp;
+    }
+    public void makeKillHeroCustom(Account account,int number) {
+        type = GameType.KILL_HERO;
+        secondAccount = account;
+        if(number == 2) swapAccounts();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                playGame(0);
+            }
+        }).start();
+    }
+
+    public void makeCaptureTheFlagCustom(Account account, int number) {
+        type = GameType.CAPTURE_THE_FLAG;
+        secondAccount = account;
+        if(number == 2) swapAccounts();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                playGame(1);
+            }
+        }).start();
+    }
+
+    public void makeRollUpFlagCustom(Account account, final int numberOfFlags, int number) {
+        type = GameType.ROLLUP_FLAGS;
+        secondAccount = account;
+        if(number == 2) swapAccounts();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                playGame(numberOfFlags);
+            }
+        }).start();
+    }
+
 }

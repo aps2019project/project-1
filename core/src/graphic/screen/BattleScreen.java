@@ -9,6 +9,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
+import connection.Client;
+import connection.MouseState;
 import graphic.Others.ArmyAnimation;
 import graphic.Others.BattlePopUp;
 import graphic.Others.CardTexture;
@@ -111,10 +113,11 @@ public class BattleScreen extends Screen {
 
     private ArrayList<Gif> animationEvents = new ArrayList<Gif>();
 
+    private MouseState mouseState = MouseState.NOTHING;
 
     @Override
     public void create() {
-
+        mousePos = new Vector2();
         setCameraAndViewport();
         shapeRenderer = new ShapeRenderer();
 
@@ -276,10 +279,18 @@ public class BattleScreen extends Screen {
 
         if (game.isAccountTurn(Account.getCurrentAccount())) {
             mousePos.set(Gdx.input.getX(), Gdx.input.getY());
+            mousePos = viewport.unproject(mousePos);
+
         } else {
-            //get Mouse from server
+            Client.setMousePos();
+            if(Client.getMousePos() != null) {
+                mousePos.set(Client.getMousePos());
+                mouseState = Client.getMouseState();
+            } else {
+                mousePos = new Vector2();
+                mouseState = MouseState.NOTHING;
+            }
         }
-        mousePos = viewport.unproject(mousePos);
 
         endTurnButton.setActive(endTurnButton.contains(mousePos));
         endGameButton.setActive(endGameButton.contains(mousePos));
@@ -287,6 +298,7 @@ public class BattleScreen extends Screen {
         fastForwardButton.setActive(fastForwardButton.contains(mousePos));
 
         if(game.isAccountTurn(Account.getCurrentAccount())){
+            mouseState = MouseState.NOTHING;
             Gdx.input.setInputProcessor(new InputProcessor() {
                 @Override
                 public boolean keyDown(int keycode) {
@@ -309,12 +321,16 @@ public class BattleScreen extends Screen {
 
                 @Override
                 public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+                    mouseState = MouseState.TOUCH_DOWN;
+                    Client.sendMousePos(mousePos, mouseState);
                     mouseTouchDown();
                     return false;
                 }
 
                 @Override
                 public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+                    mouseState = MouseState.TOUCH_UP;
+                    Client.sendMousePos(mousePos, mouseState);
                     mouseTouchUp();
                     return false;
                 }
@@ -335,10 +351,10 @@ public class BattleScreen extends Screen {
                 }
             });
         } else{
-//              if( Client mouse touchDown)
-                mouseTouchDown();
-//              if( Client mouse touchUp)
-                mouseTouchUp();
+                if(mouseState == MouseState.TOUCH_DOWN)
+                    mouseTouchDown();
+                if(mouseState == MouseState.TOUCH_UP)
+                    mouseTouchUp();
         }
     }
 
@@ -455,9 +471,20 @@ public class BattleScreen extends Screen {
     }
 
     public void checkTurnTime() {
-        turnTimePassed = System.currentTimeMillis() - game.getTurnStartTime();
-        if (turnTimePassed >= turnTimeLimit)
-            endTurn();
+        return;
+        /*turnTimePassed = System.currentTimeMillis() - game.getTurnStartTime();
+        if (game.isAccountTurn(Account.getCurrentAccount())) {
+            if (turnTimePassed >= turnTimeLimit) {
+                endTurn();
+                mouseState = MouseState.END_TURN;
+                Client.sendMousePos(mousePos, mouseState);
+            }
+        } else {
+            if(mouseState == MouseState.END_TURN) {
+                endTurn();
+            }
+        }*/
+
     }
 
     public void setFastForward() {
@@ -883,7 +910,12 @@ public class BattleScreen extends Screen {
     }
 
     public void drawUsableItem(SpriteBatch batch) {
-        usableItem.draw(batch, 120, 120, 150, 150);
+        try {
+            usableItem.draw(batch, 120, 120, 150, 150);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("usableItem is null!!");
+        }
     }
 
     public void drawHeroesSP(SpriteBatch batch) {
