@@ -21,9 +21,14 @@ public class MessageSlot {
     private static BitmapFont messageFont;
     private static PatternPNG pattern;
     private static GlyphLayout glyphLayout;
+    private static ArrayList<Texture> emojies;
 
 
     static {
+        emojies = new ArrayList<Texture>();
+        for (int i = 1; i < 35; ++i) {
+            emojies.add(AssetHandler.getData().get("chat/" + i + ".png", Texture.class));
+        }
         usernameFont = new BitmapFont(AssetHandler.getData().get("fonts/Arial 16.fnt", BitmapFont.class).getData(), AssetHandler.getData().get("fonts/Arial 16.fnt", BitmapFont.class).getRegions(), true);
         usernameFont.setColor(Main.toColor(new Color(0xFF27EE)));
         messageFont = new BitmapFont(AssetHandler.getData().get("fonts/Arial 24.fnt", BitmapFont.class).getData(), AssetHandler.getData().get("fonts/Arial 24.fnt", BitmapFont.class).getRegions(), true);
@@ -60,9 +65,40 @@ public class MessageSlot {
                 shapeRenderer.setColor(Main.toColor(new Color(0x28FF00)));
             else
                 shapeRenderer.setColor(Main.toColor(new Color(0xFFF6F4)));
-            shapeRenderer.rect(slot.x, slot.y, slot.width, slot.height);
+            if (message.getMessage().matches("\\.:emoji:\\. \\d+")) {
+                if (message.getUserName().equals(Account.getCurrentAccount().getUsername()))
+                    shapeRenderer.rect(slot.x + 190, slot.y, 160, slot.height);
+                else
+                    shapeRenderer.rect(slot.x, slot.y, 160, slot.height);
+            }
+            else
+                shapeRenderer.rect(slot.x, slot.y, slot.width, slot.height);
             shapeRenderer.end();
-            pattern.draw(batch, slot.x, slot.y, slot.width, slot.height, true);
+
+            if (message.getMessage().matches("\\.:emoji:\\. \\d+")) {
+                if (message.getUserName().equals(Account.getCurrentAccount().getUsername()))
+                    pattern.draw(batch, slot.x + 190, slot.y, 160, slot.height, true);
+                else
+                    pattern.draw(batch, slot.x, slot.y, 160, slot.height, true);
+            }
+            else
+                pattern.draw(batch, slot.x, slot.y, slot.width, slot.height, true);
+            if (message.getMessage().matches("\\.:emoji:\\. \\d+")) {
+                int index = Integer.parseInt(message.getMessage().split(" ")[1]);
+                batch.begin();
+
+                if (message.getUserName().equals(Account.getCurrentAccount().getUsername()))
+                    usernameFont.draw(batch, message.getUserName(), slot.x + 190, slot.y + slot.height - 10);
+                else
+                    usernameFont.draw(batch, message.getUserName(), slot.x, slot.y + slot.height - 10);
+
+                if (message.getUserName().equals(Account.getCurrentAccount().getUsername()))
+                    batch.draw(emojies.get(index), slot.x + 190 + 80, slot.y + 2, 70, 70);
+                else
+                    batch.draw(emojies.get(index), slot.x + 80, slot.y + 2, 70, 70);
+                batch.end();
+                continue;
+            }
             batch.begin();
             usernameFont.draw(batch, message.getUserName(), slot.x + 10, slot.y + slot.height - 10);
             glyphLayout.setText(messageFont, message.getMessage());
