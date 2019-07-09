@@ -9,6 +9,8 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.google.gson.reflect.TypeToken;
 import connection.Client;
+import connection.Message;
+import graphic.Others.MessageSlot;
 import graphic.Others.PatternPNG;
 import graphic.main.AssetHandler;
 import graphic.main.Button;
@@ -38,12 +40,15 @@ public class GlobalInformationScreen extends Screen {
     private ShapeRenderer shapeRenderer;
     private static final float X = 575;
     private static final float Y = 150;
+    private float yStart = 210;
     private String message;
     private PatternPNG wildFlower;
     private PatternPNG chatSlot;
+    private PatternPNG chatBackground;
     private BitmapFont messageFont;
     private ArrayList<Sprite> emojies;
     private int emojiIndex;
+    private MessageSlot messageSlot;
 
 
     @Override
@@ -65,7 +70,7 @@ public class GlobalInformationScreen extends Screen {
         chatButton = new Button("button/yellow.png", "button/green.png", 10, 460, 200, 70,"Chat", "fonts/Arial 24.fnt");
         scoreBoardButton = new Button("button/yellow.png", "button/green.png", 10, 370, 200, 70, "Score Board", "fonts/Arial 24.fnt");
         scoreBoardButton.setActive(true);
-
+        messageSlot = new MessageSlot(new ArrayList<Message>(), yStart);
         glyphLayout = new GlyphLayout();
         allAccounts = new ArrayList<SavingObject>();
         onlineAccounts = new HashSet<String>();
@@ -73,6 +78,7 @@ public class GlobalInformationScreen extends Screen {
         message = "";
         wildFlower = new PatternPNG(AssetHandler.getData().get("pattern/wild-flowers.png", Texture.class));
         chatSlot = new PatternPNG(AssetHandler.getData().get("pattern/chatSlot.png", Texture.class));
+        chatBackground = new PatternPNG(AssetHandler.getData().get("pattern/diagmond.png", Texture.class));
 
         emojies = new ArrayList<Sprite>();
         for (int i = 1; i < 35; ++i) {
@@ -89,16 +95,26 @@ public class GlobalInformationScreen extends Screen {
         mousePos.set(Gdx.input.getX(), Gdx.input.getY());
         mousePos = viewport.unproject(mousePos);
 
-        allAccounts.clear();
-        Client.sendCommand("get accounts");
-        Type type = new TypeToken<ArrayList<SavingObject>>() {}.getType();
-        allAccounts.addAll(Client.getData(type, ArrayList.class));
+        if (scoreBoardButton.isActive()) {
+            allAccounts.clear();
+            Client.sendCommand("get accounts");
+            Type type = new TypeToken<ArrayList<SavingObject>>() {
+            }.getType();
+            allAccounts.addAll(Client.getData(type, ArrayList.class));
 
-        onlineAccounts.clear();
-        Client.sendCommand("get online users");
-        type = new TypeToken<HashSet<String>>() {} .getType();
-        onlineAccounts.addAll(Client.getData(type, HashSet.class));
-
+            onlineAccounts.clear();
+            Client.sendCommand("get online users");
+            type = new TypeToken<HashSet<String>>() {
+            }.getType();
+            onlineAccounts.addAll(Client.getData(type, HashSet.class));
+        }
+        if (chatButton.isActive()) {
+            Client.sendCommand("get chat");
+            Type type = new TypeToken<ArrayList<Message>>() {
+            }.getType();
+            ArrayList<Message> messages = Client.getData(type, ArrayList.class);
+            messageSlot = new MessageSlot(messages, yStart);
+        }
         backButton.setActive(backButton.contains(mousePos));
 
         Gdx.input.setInputProcessor(new InputProcessor() {
@@ -116,6 +132,22 @@ public class GlobalInformationScreen extends Screen {
                 }
                 if (keycode == Input.Keys.RIGHT)
                     emojiIndex = (emojiIndex + 1) % 34;
+                if (keycode <= Input.Keys.Z && keycode >= Input.Keys.A)
+                    message += (char)(keycode - Input.Keys.A + (int)'a');
+                if (keycode <= Input.Keys.NUM_9 && keycode >= Input.Keys.NUM_0)
+                    message += (char)(keycode - Input.Keys.NUM_0 + (int)'0');
+                if (keycode == Input.Keys.SPACE)
+                    message += " ";
+                if (keycode == Input.Keys.BACKSPACE && !message.equals(""))
+                    message = message.substring(0, message.length() - 2);
+                if (keycode == Input.Keys.PERIOD)
+                    message += '.';
+                if (keycode == Input.Keys.ENTER && !message.equals("")) {
+                    Client.sendCommand("new message");
+                    Client.sendData(new Message(message));
+                    message = "";
+                    yStart = 210;
+                }
                 return false;
             }
 
@@ -158,6 +190,7 @@ public class GlobalInformationScreen extends Screen {
 
             @Override
             public boolean scrolled(int amount) {
+                yStart += 10 * amount;
                 return false;
             }
         });
@@ -170,11 +203,11 @@ public class GlobalInformationScreen extends Screen {
         shapeRenderer.setProjectionMatrix(camera.combined);
 
         drawBackGround(batch);
-        drawButtons(batch);
         if (scoreBoardButton.isActive())
             drawAccounts(batch);
         else if (chatButton.isActive())
             drawChat(batch);
+        drawButtons(batch);
     }
 
     @Override
@@ -213,10 +246,13 @@ public class GlobalInformationScreen extends Screen {
     private void drawChat(SpriteBatch batch) {
 
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(Main.toColor(new Color(0xAA000000, true)));
+        shapeRenderer.setColor(Main.toColor(new Color(0xD8000000, true)));
         shapeRenderer.rect(X, Y, 450, 600);
         shapeRenderer.end();
+        chatBackground.draw(batch, 0, 0, Main.WIDTH, Main.HEIGHT, true);
 
+
+        messageSlot.draw(batch, shapeRenderer);
         drawTitleBar(batch);
         drawMessageSlot(batch);
 
@@ -246,8 +282,9 @@ public class GlobalInformationScreen extends Screen {
         chatSlot.draw(batch, X, Y, 450, 58, true);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(Main.toColor(new Color(0xCED7CF)));
-        shapeRenderer.rect(10, 10, 350, 58 - 20);
+        shapeRenderer.rect(X + 10, Y + 10, 350, 58 - 20);
         shapeRenderer.end();
+
 
         batch.begin();
         String onBatch = "type message...";
