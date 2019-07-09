@@ -153,7 +153,7 @@ public class MenuScreen extends Screen {
         customCardButton.draw(batch);
         profileButton.draw(batch);
         exitButton.draw(batch);
-        cheatButton.draw(batch);
+//        cheatButton.draw(batch);
     }
 
     private void showLanternAnimation(SpriteBatch batch) {
