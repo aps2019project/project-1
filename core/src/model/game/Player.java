@@ -53,7 +53,6 @@ public class Player {
         this.usableItem = this.deck.getItem();
         //this.collectibleItem.add(this.usableItem);
     }
-
     public void useManaPotion() {
         usedManaPotion = true;
     }
@@ -339,7 +338,7 @@ public class Player {
         increaseTurnNumber();
         setMana();
         deck.transferCardTo(hand);
-        while(!endTurn && !Game.getCurrentGame().isExitFromGame()) {
+        while(!endTurn && !Game.getCurrentGame().isExitFromGame() && !Game.getCurrentGame().isGameEnded()) {
             synchronized (Game.getCurrentGame()){
                 try{
                     Game.getCurrentGame().wait();

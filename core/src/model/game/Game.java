@@ -160,7 +160,7 @@ public class Game {
         turnNumber++;
         firstPlayer.nextTurnSetup();
         secondPlayer.nextTurnSetup();
-//        if(whoIsHisTurn.getAccount().getUsername().equals(Account.getCurrentAccount().getUsername()) || whoIsHisTurn instanceof IntelligentPlayer)
+//        if(whoIsHisTurn.getEnemyAccount().getUsername().equals(Account.getCurrentAccount().getUsername()) || whoIsHisTurn instanceof IntelligentPlayer)
             whoIsHisTurn.play();
 //        else
 //            whoIsHisTurn.getOpponentCommands();
@@ -241,7 +241,7 @@ public class Game {
     public Player getPlayer(Account account) {
         if(firstPlayer.getAccount() == account) return firstPlayer;
         else return secondPlayer;
-//        else if(secondPlayer.getAccount() == account) return secondPlayer;
+//        else if(secondPlayer.getEnemyAccount() == account) return secondPlayer;
 //        else   return null;
     }
     public Cell findInTable(String ID){

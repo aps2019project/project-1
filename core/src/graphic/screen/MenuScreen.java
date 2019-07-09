@@ -11,7 +11,6 @@ import com.badlogic.gdx.math.Vector2;
 import connection.Client;
 import graphic.Others.MoveAnimation;
 import graphic.Others.MoveType;
-import graphic.Others.PopUp;
 import graphic.main.AssetHandler;
 import graphic.main.Button;
 import graphic.main.Main;
@@ -154,7 +153,7 @@ public class MenuScreen extends Screen {
         customCardButton.draw(batch);
         profileButton.draw(batch);
         exitButton.draw(batch);
-        cheatButton.draw(batch);
+//        cheatButton.draw(batch);
     }
 
     private void showLanternAnimation(SpriteBatch batch) {

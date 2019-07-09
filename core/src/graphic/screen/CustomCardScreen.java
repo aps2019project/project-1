@@ -50,6 +50,11 @@ public class CustomCardScreen extends Screen {
     private Vector2 mousePos = new Vector2();
     private String selectedCard;
 
+    private Button heroButton;
+    private Button minionButton;
+    private Button spellButton;
+    private Button backButton;
+
     @Override
     public void create() {
         setCameraAndViewport();
@@ -59,6 +64,10 @@ public class CustomCardScreen extends Screen {
         glyphLayout = new GlyphLayout();
         playBackGroundMusic("music/login.mp3");
         doneButton = new Button("button/shop done.png", 1400, 450, "Done", "fonts/Arial 36.fnt");
+        heroButton = new Button("button/shop middle.png", "button/shop middle active.png", 250, 450, "Hero", "fonts/Arial 36.fnt");
+        minionButton = new Button("button/shop middle.png", "button/shop middle active.png", 500, 450, "Minion", "fonts/Arial 36.fnt");
+        spellButton = new Button("button/shop middle.png", "button/shop middle active.png", 750, 450, "Spell", "fonts/Arial 36.fnt");
+        backButton = new Button("button/back.png", "button/back.png", 0, 850, 50,50);
     }
 
     @Override
@@ -66,6 +75,13 @@ public class CustomCardScreen extends Screen {
         camera.update();
         mousePos.set(Gdx.input.getX(), Gdx.input.getY());
         mousePos = viewport.unproject(mousePos);
+        backButton.setActive(backButton.contains(mousePos));
+
+        if(text.contains("Card Type")){
+            heroButton.setActive(heroButton.contains(mousePos));
+            minionButton.setActive(minionButton.contains(mousePos));
+            spellButton.setActive(spellButton.contains(mousePos));
+        }
 
         if(text.matches("")){
             text = "Enter Card Type";
@@ -166,6 +182,22 @@ public class CustomCardScreen extends Screen {
                         addNumber();
                     }
                 }
+                if(backButton.isActive()){
+                    ScreenManager.setScreen(new MenuScreen());
+                }
+                if(heroButton.isActive()) {
+                    cardType = CardType.valueOf("HERO");
+                    nextStep = true;
+                }
+                if(minionButton.isActive()) {
+                    cardType = CardType.valueOf("MINION");
+                    nextStep = true;
+                }
+                if(spellButton.isActive()) {
+                    cardType = CardType.valueOf("SPELL");
+                    nextStep = true;
+                }
+
                 return false;
             }
 
@@ -199,7 +231,7 @@ public class CustomCardScreen extends Screen {
 
         glyphLayout.setText(font, text);
         font.draw(batch, text, (1600 - glyphLayout.width)/2, 730 );
-        if(!state.contains("Finished") && !state.contains("Card Texture")) {
+        if(!state.contains("Finished") && !state.contains("Card Texture") && !text.contains("Card Type")) {
             batch.draw(textField, (1600 - textField.getWidth() * 2) / 2, 480, textField.getWidth() * 2, textField.getHeight());
             font.setColor(Color.BLACK);
             font.draw(batch, input, (1600 - textField.getWidth() * 2) / 2 + 80, 550);
@@ -211,6 +243,12 @@ public class CustomCardScreen extends Screen {
             batch.begin();
         }
         batch.end();
+
+        if(text.contains("Card Type")){
+            heroButton.draw(batch);
+            minionButton.draw(batch);
+            spellButton.draw(batch);
+        }
     }
 
     @Override
