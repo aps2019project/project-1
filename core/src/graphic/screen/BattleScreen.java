@@ -286,6 +286,7 @@ public class BattleScreen extends Screen {
             if(Client.getMousePos() != null) {
                 mousePos.set(Client.getMousePos());
                 mouseState = Client.getMouseState();
+                checkTurnTime();
             } else {
                 mousePos = new Vector2();
                 mouseState = MouseState.NOTHING;
@@ -473,19 +474,19 @@ public class BattleScreen extends Screen {
     }
 
     public void checkTurnTime() {
-        return;
-        /*turnTimePassed = System.currentTimeMillis() - game.getTurnStartTime();
+        //return;
+        turnTimePassed = System.currentTimeMillis() - game.getTurnStartTime();
         if (game.isAccountTurn(Account.getCurrentAccount())) {
             if (turnTimePassed >= turnTimeLimit) {
-                endTurn();
                 mouseState = MouseState.END_TURN;
                 Client.sendMousePos(mousePos, mouseState);
+                endTurn();
             }
         } else {
             if(mouseState == MouseState.END_TURN) {
                 endTurn();
             }
-        }*/
+        }
 
     }
 
