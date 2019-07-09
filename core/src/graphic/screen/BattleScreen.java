@@ -473,14 +473,14 @@ public class BattleScreen extends Screen {
     }
 
     public void endGame() {
-        Iterator<Thread> iterator = Thread.getAllStackTraces().keySet().iterator();
-        while (iterator.hasNext()) {
-            Thread thread = iterator.next();
-            if (thread.getName().equals("Thread-2")) {
-                thread.interrupt();
-                return;
-            }
-        }
+//        Iterator<Thread> iterator = Thread.getAllStackTraces().keySet().iterator();
+//        while (iterator.hasNext()) {
+//            Thread thread = iterator.next();
+//            if (thread.getName().equals("Thread-2")) {
+//                thread.interrupt();
+//                return;
+//            }
+//        }
         if (game.isExitFromGame())
             ScreenManager.setScreen(new MenuScreen());
     }

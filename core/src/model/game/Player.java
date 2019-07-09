@@ -339,7 +339,7 @@ public class Player {
         increaseTurnNumber();
         setMana();
         deck.transferCardTo(hand);
-        while(!endTurn && !Game.getCurrentGame().isExitFromGame()) {
+        while(!endTurn && !Game.getCurrentGame().isExitFromGame() && !Game.getCurrentGame().isGameEnded()) {
             synchronized (Game.getCurrentGame()){
                 try{
                     Game.getCurrentGame().wait();
