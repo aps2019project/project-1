@@ -35,18 +35,18 @@ public class MessageSlot {
     private ArrayList<Rectangle> slots = new ArrayList<Rectangle>();
 
     public MessageSlot(ArrayList<Message> messages, float yStart) {
-        int index = 0;
+        int index = messages.size() - 1;
         while (yStart < 150) {
-            index++;
+            index--;
             yStart += 80;
         }
-        while (yStart < 670 && index < messages.size()) {
+        while (yStart < 670 && index > -1) {
             if (messages.get(index).getUserName().equals(Account.getCurrentAccount().getUsername()))
                 slots.add(new Rectangle(xStart + 90, yStart, 350, 70));
             else
                 slots.add(new Rectangle(xStart + 10, yStart, 350, 70));
             this.messages.add(messages.get(index));
-            index++;
+            index--;
             yStart += 80;
         }
     }
