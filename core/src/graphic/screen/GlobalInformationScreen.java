@@ -6,6 +6,8 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Circle;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.google.gson.reflect.TypeToken;
 import connection.Client;
@@ -46,9 +48,10 @@ public class GlobalInformationScreen extends Screen {
     private PatternPNG chatSlot;
     private PatternPNG chatBackground;
     private BitmapFont messageFont;
-    private ArrayList<Sprite> emojies;
+    private ArrayList<Texture> emojies;
     private int emojiIndex;
     private MessageSlot messageSlot;
+    private Circle emojiSend;
 
 
     @Override
@@ -80,11 +83,12 @@ public class GlobalInformationScreen extends Screen {
         chatSlot = new PatternPNG(AssetHandler.getData().get("pattern/chatSlot.png", Texture.class));
         chatBackground = new PatternPNG(AssetHandler.getData().get("pattern/diagmond.png", Texture.class));
 
-        emojies = new ArrayList<Sprite>();
+        emojies = new ArrayList<Texture>();
         for (int i = 1; i < 35; ++i) {
-            emojies.add(AssetHandler.getData().get("chat/emoji.txt", TextureAtlas.class).createSprite(String.valueOf(i)));
+            emojies.add(AssetHandler.getData().get("chat/" + i + ".png", Texture.class));
         }
         emojiIndex = 0;
+        emojiSend = new Circle(X + 400, Y + 29, 25);
 
         playBackGroundMusic("music/login.mp3");
     }
@@ -169,6 +173,10 @@ public class GlobalInformationScreen extends Screen {
                 else if (scoreBoardButton.contains(mousePos) || chatButton.contains(mousePos)) {
                     scoreBoardButton.setActive(scoreBoardButton.contains(mousePos));
                     chatButton.setActive(chatButton.contains(mousePos));
+                }
+                if (chatButton.isActive() && emojiSend.contains(mousePos)) {
+                    Client.sendCommand("new message");
+                    Client.sendData(new Message(".:emoji:. " + emojiIndex));
                 }
                 return false;
             }
@@ -285,6 +293,9 @@ public class GlobalInformationScreen extends Screen {
         shapeRenderer.rect(X + 10, Y + 10, 350, 58 - 20);
         shapeRenderer.end();
 
+        batch.begin();
+        batch.draw(emojies.get(emojiIndex), X + 400 - 25, Y + 4);
+        batch.end();
 
         batch.begin();
         String onBatch = "type message...";

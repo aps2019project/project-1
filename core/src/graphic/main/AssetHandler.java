@@ -161,7 +161,9 @@ public class AssetHandler {
         assetManager.load("pattern/wild-flowers.png", Texture.class);
         assetManager.load("pattern/message.png", Texture.class);
 
-        assetManager.load("chat/emoji.txt", TextureAtlas.class);
+        for (int i = 1; i < 35; ++i) {
+            assetManager.load("chat/" + i + ".png", Texture.class);
+        }
 
         for(int i = 1; i <= 11; i++)
             assetManager.load("Card/Hero/generals/" + i + ".png", Texture.class);
