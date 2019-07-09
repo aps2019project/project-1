@@ -53,7 +53,6 @@ public class Player {
         this.usableItem = this.deck.getItem();
         //this.collectibleItem.add(this.usableItem);
     }
-
     public void useManaPotion() {
         usedManaPotion = true;
     }
