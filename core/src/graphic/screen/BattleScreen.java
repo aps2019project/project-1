@@ -390,9 +390,11 @@ public class BattleScreen extends Screen {
                     attackSound.play();
                     animations.get(selectedArmy).getAttackGif().setTime();
                     animationEvents.add(animations.get(selectedArmy).getAttackGif());
-                    if (game.getWhoIsHisTurn().isInRange(cell, selectedCell))
+                    if (game.getWhoIsHisTurn().isInRange(cell, selectedCell)) {
+                        attackSound.play();
                         animations.get(target).getAttackGif().setTime();
-                    animationEvents.add(animations.get(target).getAttackGif());
+                        animationEvents.add(animations.get(target).getAttackGif());
+                    }
                 }
                 try {
                     game.getWhoIsHisTurn().attack(selectedCell, cell);
@@ -402,14 +404,14 @@ public class BattleScreen extends Screen {
                     setPopUp("Target Not In Range");
                 }
                 if (selectedCell.getInsideArmy().getHp() <= 0) {
+                    deathSound.play();
                     animations.get(selectedArmy).getDeathGif().setTime();
                     animationEvents.add(animations.get(selectedArmy).getDeathGif());
-//                    game.setupCardDeaf(selectedCell);
                 }
                 if (cell.getInsideArmy().getHp() <= 0) {
+                    deathSound.play();
                     animations.get(target).getDeathGif().setTime();
                     animationEvents.add(animations.get(target).getDeathGif());
-//                    game.setupCardDeaf(cell);
                 }
                 selectedCell = null;
                 selectedArmy = null;
