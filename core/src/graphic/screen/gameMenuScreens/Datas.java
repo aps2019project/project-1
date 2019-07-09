@@ -252,7 +252,7 @@ public class Datas {
         account = secondAccount;
         secondAccount = tmp;
     }
-    public void makeKillHeroCustom(Account account,int number, float[] myArray, float[] enemyArray) {
+    public void makeKillHeroCustom(Account account, int number, final float[] myArray, final float[] enemyArray) {
         type = GameType.KILL_HERO;
         secondAccount = account;
         if(number == 2) swapAccounts();
@@ -264,7 +264,7 @@ public class Datas {
         }).start();
     }
 
-    public void makeCaptureTheFlagCustom(Account account, int number, float[] myArray, float[] enemyArray) {
+    public void makeCaptureTheFlagCustom(Account account, int number, final float[] myArray, final float[] enemyArray) {
         type = GameType.CAPTURE_THE_FLAG;
         secondAccount = account;
         if(number == 2) swapAccounts();
@@ -276,7 +276,7 @@ public class Datas {
         }).start();
     }
 
-    public void makeRollUpFlagCustom(Account account, final int numberOfFlags, int number, float[] myArray, float[] enemyArray) {
+    public void makeRollUpFlagCustom(Account account, final int numberOfFlags, int number, final float[] myArray, final float[] enemyArray) {
         type = GameType.ROLLUP_FLAGS;
         secondAccount = account;
         if(number == 2) swapAccounts();
