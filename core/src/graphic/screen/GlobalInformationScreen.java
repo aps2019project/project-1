@@ -130,14 +130,8 @@ public class GlobalInformationScreen extends Screen {
                 }
                 if (keycode == Input.Keys.RIGHT)
                     emojiIndex = (emojiIndex + 1) % 34;
-                if (keycode <= Input.Keys.Z && keycode >= Input.Keys.A)
-                    message += (char)(keycode - Input.Keys.A + (int)'a');
-                if (keycode <= Input.Keys.NUM_9 && keycode >= Input.Keys.NUM_0)
-                    message += (char)(keycode - Input.Keys.NUM_0 + (int)'0');
-                if (keycode == Input.Keys.SPACE)
-                    message += " ";
                 if (keycode == Input.Keys.BACKSPACE && !message.equals(""))
-                    message = message.substring(0, message.length() - 2);
+                    message = message.substring(0, message.length() - 1);
                 if (keycode == Input.Keys.PERIOD)
                     message += '.';
                 if (keycode == Input.Keys.ENTER && !message.equals("")) {
@@ -156,6 +150,12 @@ public class GlobalInformationScreen extends Screen {
 
             @Override
             public boolean keyTyped(char character) {
+                if (Main.isCharacterOK(character)) {
+                    message += character;
+                } else if (character == '?' || character == '"' || character == ',' || character == '!' ||
+                character == '@' || character == '#' || character == '$' || character == '%' || character == '&' ||
+                        character == '*' || character == '(' || character == ')' || character == '+')
+                    message += character;
                 return false;
             }
 
