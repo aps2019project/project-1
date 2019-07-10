@@ -110,7 +110,7 @@ public class CollectionScreen extends Screen {
                 addToDeckButton.setActive(addToDeckButton.contains(mousePos));
             if (currentDeck != null && !deckCard.equals(""))
                 deleteCardFromDeckButton.setActive(deleteCardFromDeckButton.contains(mousePos));
-            if (currentDeck != null && (account.getMainDeck() == null || (account.getMainDeck() == null && !currentDeck.getName().equals(account.getMainDeck().getName()))))
+            if (currentDeck != null && (account.getMainDeck() == null || (account.getMainDeck() != null && !currentDeck.getName().equals(account.getMainDeck().getName()))))
                 selectAsMainDeckButton.setActive(selectAsMainDeckButton.contains(mousePos));
             if (currentDeck != null)
                 exportDeckButton.setActive(exportDeckButton.contains(mousePos));
