@@ -53,7 +53,6 @@ public class Player {
         this.usableItem = this.deck.getItem();
         //this.collectibleItem.add(this.usableItem);
     }
-
     public void useManaPotion() {
         usedManaPotion = true;
     }
@@ -188,6 +187,7 @@ public class Player {
         this.hero = hero;
         deck.deleteCard(hero);
         cell.put(hero, turnNumber);
+        hero.setUserName(this.getAccount().getUsername());
 //        this.inGameCards.add(hero);
     }
     public boolean isInRange(Cell attackersCell,Cell defenderCell) {

@@ -30,8 +30,6 @@ public class IntelligentPlayer extends Player {
         deck.transferCardTo(hand);
         CardsArray ourArmies = game.getAllAccountArmiesInCellArray(game.getAllCellsInTable(),account);
 
-//        try{Thread.sleep(4000);} catch (InterruptedException i){}
-
         if(ourArmies.getAllCards().size() != 0) {
             try {
                 Card card = ourArmies.getRandomCard();
