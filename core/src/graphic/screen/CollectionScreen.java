@@ -76,7 +76,7 @@ public class CollectionScreen extends Screen {
         createDeckButton = new Button("button/yellow.png", "button/yellow glow.png", 1300, 30, "Create Deck", "fonts/Arial 20.fnt");
         doneTypingButton = new Button("button/shop done.png", 711, 300, "Done");
         selectAsMainDeckButton = new Button("button/green.png", "button/green glow.png", 450, 760, "Select Main", "fonts/Arial 20.fnt");
-        importDeckButton = new Button("button/yellow.png", "button/yellow glow.png", 1100, 30, "Import Deck", "fonts/Arial 20.fnt");
+        importDeckButton = new Button("button/yellow.png", "button/yellow glow.png", 1000, 30, "Import Deck", "fonts/Arial 20.fnt");
         exportDeckButton = new Button("button/green.png", "button/green glow.png", 450, 820, "Export Deck", "fonts/Arial 20.fnt");
 
         createWaterFallAnimation();

@@ -10,7 +10,6 @@ public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		setConfiguration(config);
-		Client.connect();
 		new LwjglApplication(new Main(), config);
 	}
 

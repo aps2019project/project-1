@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import graphic.Others.PopUp;
+import graphic.screen.GetIpScreen;
 import graphic.screen.LoadingScreen;
 import graphic.screen.ScreenManager;
 import model.cards.Card;
@@ -20,10 +21,10 @@ public class Main extends ApplicationAdapter {
 
 	@Override
 	public void create () {
-		createMouseIcon("mouse.png");
+//		createMouseIcon("mouse.png");
 		Card.scanAllCards();
 		AssetHandler.load();
-		ScreenManager.setScreen(new LoadingScreen());
+		ScreenManager.setScreen(new GetIpScreen());
 		batch = new SpriteBatch();
 	}
 

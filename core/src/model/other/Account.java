@@ -307,4 +307,13 @@ public class Account {
                 getMainDeck().equals(account.mainDeck);
     }
 
+    public void checkMainDeckValidation() throws Exception{
+        Deck deck = Account.getCurrentAccount().mainDeck;
+        if (deck == null) {
+            throw new Exception("You don't have MAIN deck");
+        } else {
+            deck.checkValidation();
+        }
+    }
+
 }
