@@ -24,5 +24,7 @@ public class DesktopLauncher {
 		config.height = 901;
 		config.forceExit = true;
 		config.addIcon("icon.png", Files.FileType.Internal);
+		config.addIcon("icon16.png", Files.FileType.Internal);
+		config.addIcon("icon32.png", Files.FileType.Internal);
 	}
 }
