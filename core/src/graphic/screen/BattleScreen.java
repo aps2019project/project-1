@@ -377,7 +377,7 @@ public class BattleScreen extends Screen {
             if (game.getWhoIsHisTurn().canUseHeroSp())
                 heroSpSelected = true;
         } else if (getMouseCell() != null) {
-            if (getMouseCell().getInsideArmy() != null && game.getWhoIsHisTurn().isFriend(getMouseCell().getInsideArmy())) {
+            if (getMouseCell().getInsideArmy() != null && game.getWhoIsHisTurn().isFriend(getMouseCell().getInsideArmy()) && !heroSpSelected) {
                 selectedCell = getMouseCell();
                 selectedCellHand = null;
                 heroSpSelected = false;
