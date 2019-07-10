@@ -24,16 +24,13 @@ public class Spell extends Card {
     private SpellTargetType spellTargetType;
     private Buff specialBuff = null;
 
-    Spell(int number, String name, int price, int mana, String description, String target) {
+    Spell(int number, int gifNumber, String name, int price, int mana, String description, String target) {
         super(number, name, price, description, SPELL, mana);
         this.mana = mana;
-        gifPath = "Card/Spell/" +number+".atlas";
+        gifPath = "Card/Spell/" +gifNumber+".atlas";
         if(number > lastNumber)
             lastNumber = number;
         this.targetDescription = target;
-        if(number > 21) {
-            gifPath = "Card/Spell/21.atlas";
-        }
         if(number <=20) {
             spells.add(this);
             cards.add(this);
@@ -64,14 +61,15 @@ public class Spell extends Card {
 
     public static void createSpell(String[] line) {
         Spell spell = new Spell(Integer.parseInt(line[1])
-                ,line[2]
-                , Integer.parseInt(line[3])
+                , Integer.parseInt(line[2])
+                , line[3]
                 , Integer.parseInt(line[4])
-                , line[6]
-                , line[5]);
+                , Integer.parseInt(line[5])
+                , line[7]
+                , line[6]);
         if(spell.getNumber() > 20) {
-            int col = 7;
-            spell.spellTargetType = SpellTargetType.valueOf(line[5].toUpperCase().replace(" ", "_"));
+            int col = 8;
+            spell.spellTargetType = SpellTargetType.valueOf(line[6].toUpperCase().replace(" ", "_"));
             String powerBuffType = null;
             String buffType = line[col++];
             if(buffType.equals("power") || buffType.equals("weakness"))
