@@ -13,6 +13,8 @@ import java.lang.reflect.Type;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Scanner;
 
 public class Client {
@@ -42,7 +44,7 @@ public class Client {
         }
     }
 
-    public static  <T> void sendData(T data) {
+    public static <T> void sendData(T data) {
         try {
             outputStream.writeUTF(gson.toJson(data));
         } catch (IOException e) {
@@ -50,7 +52,7 @@ public class Client {
         }
     }
 
-    public static  <T> T getData(Type type, Class<T> tClass) {
+    public static <T> T getData(Type type) {
         try {
             return gson.fromJson(inputStream.readUTF(), type);
         } catch (IOException e) {
@@ -59,7 +61,7 @@ public class Client {
         }
     }
 
-    public static  <T> T getData(Class<T> tClass) {
+    public static <T> T getData(Class<T> tClass) {
         try {
             String data = inputStream.readUTF();
             return gson.fromJson(data, tClass);
@@ -68,6 +70,42 @@ public class Client {
             return null;
         }
     }
+
+    public static <T> ArrayList<T> getArrayList(Class<T> c) {
+        ArrayList<T> result = new ArrayList<T>();
+        String data;
+        try {
+            data = inputStream.readUTF();
+            while (!data.matches("\"end\"")) {
+                result.add(gson.fromJson(data, c));
+                data = inputStream.readUTF();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    public static <T> HashSet<T> getHashSet(Class<T> c) {
+        return new HashSet<T>(getArrayList(c));
+    }
+
+    public static <K, V> HashMap<K, V> getHashMap(Class<K> k, Class<V> v) {
+        HashMap<K, V> result = new HashMap<K, V>();
+        try {
+            String data = inputStream.readUTF();
+            while (!data.matches("\"end\"")) {
+                K key = gson.fromJson(data, k);
+                V value = getData(v);
+                result.put(key, value);
+                data = inputStream.readUTF();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
 
     public static void sendCommand(String str) {
         try {
@@ -79,7 +117,8 @@ public class Client {
 
     public static String getCommand() {
         try {
-            return gson.fromJson(inputStream.readUTF(), String.class);
+            String data = inputStream.readUTF();
+            return gson.fromJson(data, String.class);
         } catch (IOException e) {
             e.printStackTrace();
             return "";

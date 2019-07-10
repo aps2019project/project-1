@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.*;
 import graphic.main.AssetHandler;
 import graphic.main.Gif;
 import graphic.main.Main;
-import model.cards.CardType;
+import model.cards.*;
 
 import java.awt.*;
 
@@ -39,42 +39,34 @@ public class CardTexture {
     private CardType type;
     private int price;
 
+    public CardTexture(Card card) {
+        switch (card.getType()) {
+            case HERO:
+                Hero hero = (Hero) card;
+                setMinionAndHero(hero.getName(), hero.getDescription(), hero.getPrice(), hero.getAp(), hero.getHp(), hero.getGifPath());
+                break;
+            case MINION:
+                Minion minion = (Minion) card;
+                setMinionAndHero(minion.getName(), minion.getDescription(), minion.getPrice(), minion.getAp(), minion.getHp(), minion.getGifPath());
+                break;
+            case SPELL:
+                Spell spell = (Spell) card;
+                setSpellAndItemData(spell.getName(), spell.getDescription(), spell.getPrice(), spell.getGifPath());
+                break;
+            case ITEM:
+                Item item = (Item) card;
+                setSpellAndItemData(item.getName(), item.getDescription(), item.getPrice(), item.getGifPath());
+                break;
+        }
+
+    }
+
     public CardTexture(String name, String info, int price, int attackPoint, int healthPoint, String gifPath) {
-        this.name = name;
-        this.info = info;
-        this.price = price;
-        this.type = MINION;
-        this.pricePic = AssetHandler.getData().get("Card/backGround/price tag.png");
-        createHeroAndMinionCard(attackPoint, healthPoint, gifPath);
+        setMinionAndHero(name, info, price, attackPoint, healthPoint, gifPath);
     }
 
     public CardTexture(String name, String info, int price, String gifPath) {
-        this.name = name;
-        this.info = info;
-        this.price = price;
-        this.type = SPELL;
-        this.pricePic = AssetHandler.getData().get("Card/backGround/price tag.png");
-        createSpellAndItemCard(gifPath);
-    }
-
-    private void createSpellAndItemCard(String gifPath) {
-        Animation animation = new Animation<TextureRegion>(1 / 20f, AssetHandler.getData().get(gifPath, TextureAtlas.class).findRegions("gif"), Animation.PlayMode.LOOP);
-        gif = new Gif(animation);
-        animation = new Animation<TextureRegion>(1 / 20f,  AssetHandler.getData().get(gifPath, TextureAtlas.class).findRegions("gif"), Animation.PlayMode.LOOP);
-        activeGif = new Gif(animation);
-        activePic = AssetHandler.getData().get("Card/backGround/spell active.png");
-        deActivePic = AssetHandler.getData().get("Card/backGround/spell deActive.png");
-    }
-
-    private void createHeroAndMinionCard(int attackPoint, int healthPoint, String gifPath) {
-        Animation animation = new Animation<TextureRegion>(1 / 20f,AssetHandler.getData().get(gifPath, TextureAtlas.class).findRegions("breathing"), Animation.PlayMode.LOOP);
-        gif = new Gif(animation);
-        animation = new Animation<TextureRegion>(1 / 20f, AssetHandler.getData().get(gifPath, TextureAtlas.class).findRegions("attack"), Animation.PlayMode.LOOP);
-        activeGif = new Gif(animation);
-        activePic = AssetHandler.getData().get("Card/backGround/hero active.png");
-        deActivePic = AssetHandler.getData().get("Card/backGround/hero deActive.png");
-        this.attackPoint = attackPoint;
-        this.healthPoint = healthPoint;
+        setSpellAndItemData(name, info, price, gifPath);
     }
 
     public void draw(SpriteBatch batch, float x, float y) {
@@ -101,6 +93,44 @@ public class CardTexture {
         priceFont.draw(batch, String.valueOf(price), x + (250 - glyphLayout.width) / 2, y + 328 - (pricePic.getHeight() - glyphLayout.height) / 2);
         batch.end();
 
+    }
+
+    private void setMinionAndHero(String name, String info, int price, int attackPoint, int healthPoint, String gifPath) {
+        this.name = name;
+        this.info = info;
+        this.price = price;
+        this.type = MINION;
+        this.pricePic = AssetHandler.getData().get("Card/backGround/price tag.png");
+        createHeroAndMinionCard(attackPoint, healthPoint, gifPath);
+    }
+
+    private void setSpellAndItemData(String name, String info, int price, String gifPath) {
+        this.name = name;
+        this.info = info;
+        this.price = price;
+        this.type = SPELL;
+        this.pricePic = AssetHandler.getData().get("Card/backGround/price tag.png");
+        createSpellAndItemCard(gifPath);
+    }
+
+    private void createSpellAndItemCard(String gifPath) {
+        Animation animation = new Animation<TextureRegion>(1 / 20f, AssetHandler.getData().get(gifPath, TextureAtlas.class).findRegions("gif"), Animation.PlayMode.LOOP);
+        gif = new Gif(animation);
+        animation = new Animation<TextureRegion>(1 / 20f,  AssetHandler.getData().get(gifPath, TextureAtlas.class).findRegions("gif"), Animation.PlayMode.LOOP);
+        activeGif = new Gif(animation);
+        activePic = AssetHandler.getData().get("Card/backGround/spell active.png");
+        deActivePic = AssetHandler.getData().get("Card/backGround/spell deActive.png");
+    }
+
+    private void createHeroAndMinionCard(int attackPoint, int healthPoint, String gifPath) {
+        Animation animation = new Animation<TextureRegion>(1 / 20f,AssetHandler.getData().get(gifPath, TextureAtlas.class).findRegions("breathing"), Animation.PlayMode.LOOP);
+        gif = new Gif(animation);
+        animation = new Animation<TextureRegion>(1 / 20f, AssetHandler.getData().get(gifPath, TextureAtlas.class).findRegions("attack"), Animation.PlayMode.LOOP);
+        activeGif = new Gif(animation);
+        activePic = AssetHandler.getData().get("Card/backGround/hero active.png");
+        deActivePic = AssetHandler.getData().get("Card/backGround/hero deActive.png");
+        this.attackPoint = attackPoint;
+        this.healthPoint = healthPoint;
     }
 
     private void drawHpAndAp(SpriteBatch batch, float x, float y) {
