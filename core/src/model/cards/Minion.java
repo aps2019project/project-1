@@ -86,7 +86,7 @@ public class Minion extends Army {
         }
     }
 
-    public static void createMinion(String[] line) {
+    public static Minion createMinion(String[] line) {
         SPTime spTime = null;
 
         if (!line[11].equals("-")) {
@@ -122,9 +122,10 @@ public class Minion extends Army {
             cards.add(minion);
             if(Account.getCurrentAccount() != null) {
                 minion.setUserName(Account.getCurrentAccount().getUsername());
-                Account.getCurrentAccount().addCardToCollection(minion);
+//                Account.getCurrentAccount().addCardToCollection(minion);
             }
         }
+        return minion;
     }
 
     @Override
