@@ -451,10 +451,10 @@ public class CustomCardScreen extends Screen {
         }
         switch (cardType){
             case HERO:
-                data.add(0, Integer.toString(Hero.getLastNumber()) + 1);
+                data.add(0, Integer.toString(Hero.getLastNumber() + 1));
                 break;
             case MINION:
-                data.add(0, Integer.toString(Minion.getLastNumber()) + 1);
+                data.add(0, Integer.toString(Minion.getLastNumber() + 1));
                 break;
             default:
                 data.add(0, Integer.toString(Spell.getLastNumber()) + 1);
