@@ -692,7 +692,11 @@ public class BattleScreen extends Screen {
     public void drawGraveYard(SpriteBatch batch) {
         graveyardList = new CardListTexture(3, 1, graveyardCord.x + 30, graveyardCord.y + 150);
         batch.draw(graveyardBg, graveyardCord.x, graveyardCord.y);
-        ArrayList<Minion> minions = game.getPlayer(Account.getCurrentAccount()).getGraveYard().getAllMinions();
+        ArrayList<Minion> minions;
+        if(!game.isAccountInGame(Account.getCurrentAccount()))
+            minions = game.getWhoIsHisTurn().getGraveYard().getAllMinions();
+        else
+            minions = game.getPlayer(Account.getCurrentAccount()).getGraveYard().getAllMinions();
         for (Minion minion : minions) {
             CardTexture cardTexture = new CardTexture(minion.getName(), minion.getDescription(), minion.getPrice(), minion.getAp(), minion.getHp(), minion.getGifPath());
             graveyardList.addCardTexture(cardTexture);

@@ -350,4 +350,10 @@ public class Game {
     public boolean isIntelligentPlayerTurn() {
         return getWhoIsHisTurn() instanceof IntelligentPlayer;
     }
+
+    public boolean isAccountInGame(Account account) {
+        if(firstPlayer.getAccount().getUsername().equals(account.getUsername())) return true;
+        if(secondPlayer.getAccount().getUsername().equals(account.getUsername())) return true;
+        return false;
+    }
 }
