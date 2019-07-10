@@ -33,6 +33,7 @@ public class AssetHandler {
         assetManager.load("backGround/secondCustomMenu.jpg", Texture.class);
         assetManager.load("backGround/global background.png", Texture.class);
         assetManager.load("backGround/global forground.png", Texture.class);
+        assetManager.load("backGround/auction back.png", Texture.class);
 
 
         assetManager.load("button/decks/activeDeck.png", Texture.class);
@@ -66,6 +67,7 @@ public class AssetHandler {
         assetManager.load("button/menuButtonActive.png", Texture.class);
         assetManager.load("button/profile.png", Texture.class);
         assetManager.load("button/exit.png", Texture.class);
+        assetManager.load("button/auction card.png", Texture.class);
 
         assetManager.load("fonts/Arial 12.fnt", BitmapFont.class);
         assetManager.load("fonts/Arial 16.fnt", BitmapFont.class);

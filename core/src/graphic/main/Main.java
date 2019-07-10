@@ -57,4 +57,14 @@ public class Main extends ApplicationAdapter {
 		return new Color(r, g, b, a);
 	}
 
+	public static boolean isCharacterOK(char character) {
+		if (((int)character >= (int)'a' && (int)character <= (int)'z') ||
+				((int)character >= (int)'A' && (int)character <= (int)'Z') ||
+				((int)character >= (int)'0' && (int)character <= (int)'9'))
+			return true;
+		if (character == '_' || character == '*' || character == '-') return true;
+		if (character == '.' || character == '~' || character == ' ') return true;
+		return false;
+	}
+
 }

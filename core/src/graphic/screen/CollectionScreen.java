@@ -128,10 +128,6 @@ public class CollectionScreen extends Screen {
                     setMusicVolume(true);
                 if (!isTyping) return false;
 
-                if (keycode >= Input.Keys.A && keycode <= Input.Keys.Z)
-                    text = text + (char) (keycode - Input.Keys.A + 'a');
-                else if (keycode >= Input.Keys.NUM_0 && keycode <= Input.Keys.NUM_9)
-                    text = text + String.valueOf(keycode - Input.Keys.NUM_0).charAt(0);
                 else if (keycode == Input.Keys.BACKSPACE && text.length() > 0)
                     text = text.substring(0, text.length() - 1);
 
@@ -145,6 +141,8 @@ public class CollectionScreen extends Screen {
 
             @Override
             public boolean keyTyped(char character) {
+                if (Main.isCharacterOK(character))
+                text += character;
                 return false;
             }
 
