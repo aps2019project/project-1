@@ -53,7 +53,24 @@ public class CustomCardScreen extends Screen {
     private Button heroButton;
     private Button minionButton;
     private Button spellButton;
+
     private Button backButton;
+    private Button meleeButton;
+    private Button rangedButton;
+
+    private Button hybridButton;
+    private Button onAttackButton;
+    private Button passiveButton;
+    private Button comboButton;
+    private Button onDefendButton;
+    private Button onSpawnButton;
+    private Button onDeathButton;
+
+    private Button oneButton;
+    private Button square2Button;
+    private Button square3Button;
+    private Button allEnemies;
+    private Button allFriends;
 
     @Override
     public void create() {
@@ -64,9 +81,28 @@ public class CustomCardScreen extends Screen {
         glyphLayout = new GlyphLayout();
         playBackGroundMusic("music/login.mp3");
         doneButton = new Button("button/shop done.png", 1400, 450, "Done", "fonts/Arial 36.fnt");
-        heroButton = new Button("button/shop middle.png", "button/shop middle active.png", 250, 450, "Hero", "fonts/Arial 36.fnt");
-        minionButton = new Button("button/shop middle.png", "button/shop middle active.png", 500, 450, "Minion", "fonts/Arial 36.fnt");
-        spellButton = new Button("button/shop middle.png", "button/shop middle active.png", 750, 450, "Spell", "fonts/Arial 36.fnt");
+
+        heroButton = new Button("button/shop middle.png", "button/shop middle active.png", 300, 450, "Hero", "fonts/Arial 36.fnt");
+        minionButton = new Button("button/shop middle.png", "button/shop middle active.png", 550, 450, "Minion", "fonts/Arial 36.fnt");
+        spellButton = new Button("button/shop middle.png", "button/shop middle active.png", 800, 450, "Spell", "fonts/Arial 36.fnt");
+
+        meleeButton = new Button("button/shop middle.png", "button/shop middle active.png", 300, 450, "Melee", "fonts/Arial 36.fnt");
+        rangedButton = new Button("button/shop middle.png", "button/shop middle active.png", 550, 450, "Ranged", "fonts/Arial 36.fnt");
+        hybridButton = new Button("button/shop middle.png", "button/shop middle active.png", 800, 450, "Hybrid", "fonts/Arial 36.fnt");
+
+        onAttackButton = new Button("button/shop middle.png", "button/shop middle active.png", 300, 450, "On Attack", "fonts/Arial 36.fnt");
+        passiveButton = new Button("button/shop middle.png", "button/shop middle active.png", 550, 450, "Passive", "fonts/Arial 36.fnt");
+        comboButton = new Button("button/shop middle.png", "button/shop middle active.png", 800, 450, "Combo", "fonts/Arial 36.fnt");
+        onDefendButton = new Button("button/shop middle.png", "button/shop middle active.png", 300, 350, "On Defend", "fonts/Arial 36.fnt");
+        onSpawnButton = new Button("button/shop middle.png", "button/shop middle active.png", 550, 350, "On Spawn", "fonts/Arial 36.fnt");
+        onDeathButton = new Button("button/shop middle.png", "button/shop middle active.png", 800, 350, "On Death", "fonts/Arial 36.fnt");
+
+        oneButton = new Button("button/shop middle.png", "button/shop middle active.png", 800, 350, "One", "fonts/Arial 36.fnt");
+        square2Button = new Button("button/shop middle.png", "button/shop middle active.png", 800, 350, "Square 2*2", "fonts/Arial 36.fnt");
+        square3Button = new Button("button/shop middle.png", "button/shop middle active.png", 800, 350, "Square 3*3", "fonts/Arial 36.fnt");
+        allEnemies = new Button("button/shop middle.png", "button/shop middle active.png", 800, 350, "All Enemies", "fonts/Arial 36.fnt");
+        allFriends = new Button("button/shop middle.png", "button/shop middle active.png", 800, 350, "All Friends", "fonts/Arial 36.fnt");
+
         backButton = new Button("button/back.png", "button/back.png", 0, 850, 50,50);
     }
 
@@ -81,6 +117,23 @@ public class CustomCardScreen extends Screen {
             heroButton.setActive(heroButton.contains(mousePos));
             minionButton.setActive(minionButton.contains(mousePos));
             spellButton.setActive(spellButton.contains(mousePos));
+        } else if(text.contains("Attack Type")){
+            meleeButton.setActive(meleeButton.contains(mousePos));
+            rangedButton.setActive(rangedButton.contains(mousePos));
+            hybridButton.setActive(hybridButton.contains(mousePos));
+        } else if(text.contains("Special Power Activation")){
+            onAttackButton.setActive(onAttackButton.contains(mousePos));
+            passiveButton.setActive(passiveButton.contains(mousePos));
+            comboButton.setActive(comboButton.contains(mousePos));
+            onDefendButton.setActive(onDefendButton.contains(mousePos));
+            onSpawnButton.setActive(onSpawnButton.contains(mousePos));
+            onDeathButton.setActive(onDeathButton.contains(mousePos));
+        } else if(text.contains("Target")){
+            oneButton.setActive(oneButton.contains(mousePos));
+            square2Button.setActive(square2Button.contains(mousePos));
+            square3Button.setActive(square3Button.contains(mousePos));
+            allFriends.setActive(allFriends.contains(mousePos));
+            allEnemies.setActive(allEnemies.contains(mousePos));
         }
 
         if(text.matches("")){
@@ -144,7 +197,7 @@ public class CustomCardScreen extends Screen {
 
                 if (keycode == Input.Keys.ENTER) {
                     if(text.contains("Card Type")){
-                        cardType = CardType.valueOf(input.toUpperCase());
+//                        cardType = CardType.valueOf(input.toUpperCase());
 //                        addNumber();
                     } else if(text.contains("Buff Name")){
                         addBuffName();
@@ -181,6 +234,7 @@ public class CustomCardScreen extends Screen {
                     if(doneButton.isActive() && selectedCard != null){
                         addNumber();
                     }
+                    return false;
                 }
                 if(backButton.isActive()){
                     ScreenManager.setScreen(new MenuScreen());
@@ -197,6 +251,63 @@ public class CustomCardScreen extends Screen {
                     cardType = CardType.valueOf("SPELL");
                     nextStep = true;
                 }
+                if(meleeButton.isActive()){
+                    data.add("melee");
+                    nextStep = true;
+                }
+                if(rangedButton.isActive()){
+                    data.add("ranged");
+                    nextStep = true;
+                }
+                if(hybridButton.isActive()){
+                    data.add("hybrid");
+                    nextStep = true;
+                }
+                if(onAttackButton.isActive()){
+                    data.add("on attack");
+                    nextStep = true;
+                }
+                if(passiveButton.isActive()){
+                    data.add("passive");
+                    nextStep = true;
+                }
+                if(comboButton.isActive()){
+                    data.add("combo");
+                    nextStep = true;
+                }
+                if(onDefendButton.isActive()){
+                    data.add("on defend");
+                    nextStep = true;
+                }
+                if(onSpawnButton.isActive()){
+                    data.add("on spawn");
+                    nextStep = true;
+                }
+                if(onDeathButton.isActive()){
+                    data.add("on death");
+                    nextStep = true;
+                }
+                if(oneButton.isActive()){
+                    data.add("one");
+                    nextStep = true;
+                }
+                if(square2Button.isActive()){
+                    data.add("square 2");
+                    nextStep = true;
+                }
+                if(square3Button.isActive()){
+                    data.add("square 3");
+                    nextStep = true;
+                }
+                if(allEnemies.isActive()){
+                    data.add("all enemies");
+                    nextStep = true;
+                }
+                if(allFriends.isActive()){
+                    data.add("all friends");
+                    nextStep = true;
+                }
+
 
                 return false;
             }
@@ -231,7 +342,7 @@ public class CustomCardScreen extends Screen {
 
         glyphLayout.setText(font, text);
         font.draw(batch, text, (1600 - glyphLayout.width)/2, 730 );
-        if(!state.contains("Finished") && !state.contains("Card Texture") && !text.contains("Card Type")) {
+        if(!state.contains("Finished") && !state.contains("Card Texture") && !text.contains("Card Type") && !text.contains("Attack Type") && !text.contains("Activation") && !text.contains("Target")) {
             batch.draw(textField, (1600 - textField.getWidth() * 2) / 2, 480, textField.getWidth() * 2, textField.getHeight());
             font.setColor(Color.BLACK);
             font.draw(batch, input, (1600 - textField.getWidth() * 2) / 2 + 80, 550);
@@ -248,6 +359,23 @@ public class CustomCardScreen extends Screen {
             heroButton.draw(batch);
             minionButton.draw(batch);
             spellButton.draw(batch);
+        }  else if(text.contains("Attack Type")){
+            meleeButton.draw(batch);
+            rangedButton.draw(batch);
+            hybridButton.draw(batch);
+        } else if(text.contains("Special Power Activation")){
+            onAttackButton.draw(batch);
+            passiveButton.draw(batch);
+            comboButton.draw(batch);
+            onDefendButton.draw(batch);
+            onSpawnButton.draw(batch);
+            onDeathButton.draw(batch);
+        } else if(text.contains("Target")){
+            oneButton.draw(batch);
+            square2Button.draw(batch);
+            square3Button.draw(batch);
+            allFriends.draw(batch);
+            allEnemies.draw(batch);
         }
     }
 
@@ -270,7 +398,7 @@ public class CustomCardScreen extends Screen {
             text = "Enter Range";
         } else if(text.contains("Range")){
             if(cardType == MINION) {
-                text = "Enter Special power activation";
+                text = "Enter Special power Activation";
                 state = "Get Buff";
             }
             else
@@ -320,6 +448,17 @@ public class CustomCardScreen extends Screen {
         for(Card card : Card.getCards().getAllCards()){
             if(card.getName().equals(selectedCard))
                 data.add(0, Integer.toString(card.getNumber()));
+        }
+        switch (cardType){
+            case HERO:
+                data.add(0, Integer.toString(Hero.getLastNumber() + 1));
+                break;
+            case MINION:
+                data.add(0, Integer.toString(Minion.getLastNumber() + 1));
+                break;
+            default:
+                data.add(0, Integer.toString(Spell.getLastNumber()) + 1);
+                break;
         }
         state = "Finished";
     }

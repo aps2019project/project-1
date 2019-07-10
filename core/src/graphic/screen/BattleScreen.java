@@ -121,7 +121,8 @@ public class BattleScreen extends Screen {
         setCameraAndViewport();
         shapeRenderer = new ShapeRenderer();
 
-        while (!Game.isGameCreated()) ;
+        System.out.println("checking created game");
+        while (!Game.isGameCreated());
         game = Game.getCurrentGame();
         player1 = game.getFirstPlayer();
         player2 = game.getSecondPlayer();
@@ -277,7 +278,7 @@ public class BattleScreen extends Screen {
         updateGraveyard();
         updateHandCells(game.getWhoIsHisTurn());
 
-        if (game.isAccountTurn(Account.getCurrentAccount())) {
+        if (game.isAccountTurn(Account.getCurrentAccount()) || game.isIntelligentPlayerTurn()) {
             mousePos.set(Gdx.input.getX(), Gdx.input.getY());
             mousePos = viewport.unproject(mousePos);
 
@@ -376,7 +377,7 @@ public class BattleScreen extends Screen {
             if (game.getWhoIsHisTurn().canUseHeroSp())
                 heroSpSelected = true;
         } else if (getMouseCell() != null) {
-            if (getMouseCell().getInsideArmy() != null && game.getWhoIsHisTurn().isFriend(getMouseCell().getInsideArmy())) {
+            if (getMouseCell().getInsideArmy() != null && game.getWhoIsHisTurn().isFriend(getMouseCell().getInsideArmy()) && !heroSpSelected) {
                 selectedCell = getMouseCell();
                 selectedCellHand = null;
                 heroSpSelected = false;
@@ -691,7 +692,7 @@ public class BattleScreen extends Screen {
     public void drawGraveYard(SpriteBatch batch) {
         graveyardList = new CardListTexture(3, 1, graveyardCord.x + 30, graveyardCord.y + 150);
         batch.draw(graveyardBg, graveyardCord.x, graveyardCord.y);
-        ArrayList<Minion> minions = player1.getGraveYard().getAllMinions();
+        ArrayList<Minion> minions = game.getPlayer(Account.getCurrentAccount()).getGraveYard().getAllMinions();
         for (Minion minion : minions) {
             CardTexture cardTexture = new CardTexture(minion.getName(), minion.getDescription(), minion.getPrice(), minion.getAp(), minion.getHp(), minion.getGifPath());
             graveyardList.addCardTexture(cardTexture);

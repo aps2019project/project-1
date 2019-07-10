@@ -186,7 +186,7 @@ public class Card implements Cloneable {
         return null;
     }
 
-    public String getUserName() {
+    public String getUsername() {
         return userName;
     }
 

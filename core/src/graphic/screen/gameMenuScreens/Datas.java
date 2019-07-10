@@ -252,7 +252,8 @@ public class Datas {
         account = secondAccount;
         secondAccount = tmp;
     }
-    public void makeKillHeroCustom(Account account, int number, final float[] myArray, final float[] enemyArray) {
+
+    public void makeKillHeroCustom(Account account,int number, final float[] myArray, final float[] enemyArray) {
         type = GameType.KILL_HERO;
         secondAccount = account;
         if(number == 2) swapAccounts();

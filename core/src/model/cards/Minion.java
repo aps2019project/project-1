@@ -24,18 +24,16 @@ public class Minion extends Army {
     private boolean haveDeathCurse;
     private Buff specialBuff = null;
 
-    Minion(int number, String name, int price, int hp
+    Minion(int number,int gifNumber, String name, int price, int hp
             , int ap, int ar, int mana, AttackType attackType
             , SPTime spTime, String description) {
         super(number, name, price, description, hp, ap, ar, attackType, MINION, mana);
         this.mana = mana;
         this.spTime = spTime;
-        gifPath = "Card/Minion/" +number+".atlas";
+        gifPath = "Card/Minion/" +gifNumber+".atlas";
         if(number > lastNumber)
             lastNumber = number;
-        if(number > 41) {
-            gifPath = "Card/Minion/41.atlas";
-        }
+
         if(number <=40) {
             minions.add(this);
             cards.add(this);
@@ -91,22 +89,23 @@ public class Minion extends Army {
     public static void createMinion(String[] line) {
         SPTime spTime = null;
 
-        if (!line[10].equals("-")) {
-            spTime = SPTime.valueOf(line[10].toUpperCase().replace(" ", "_"));
+        if (!line[11].equals("-")) {
+            spTime = SPTime.valueOf(line[11].toUpperCase().replace(" ", "_"));
         }
 
         Minion minion = new Minion(Integer.parseInt(line[1])
-                ,line[2]
-                , Integer.parseInt(line[3])
+                , Integer.parseInt(line[2])
+                , line[3]
                 , Integer.parseInt(line[4])
                 , Integer.parseInt(line[6])
-                , Integer.parseInt(line[8])
-                , Integer.parseInt(line[4])
-                , AttackType.valueOf(line[7].toUpperCase())
+                , Integer.parseInt(line[7])
+                , Integer.parseInt(line[9])
+                , Integer.parseInt(line[5])
+                , AttackType.valueOf(line[8].toUpperCase())
                 , spTime
-                , line[9]);
+                , line[10]);
         if(minion.getNumber() > 40) {
-            int col = 11;
+            int col = 12;
             String powerBuffType = null;
             String buffType = line[col++];
             if(buffType.equals("power") || buffType.equals("weakness"))

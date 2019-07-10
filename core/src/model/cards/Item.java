@@ -20,11 +20,11 @@ public class Item extends Card {
     private ItemType itemType;
 
 
-    public Item(int number, String name, int price, ItemType itemType, String description) {
+    public Item(int number, int gifNumber,  String name, int price, ItemType itemType, String description) {
         super(number, name, price, description, ITEM, 0);
         this.itemType = itemType;
         lastNumebr = number;
-        gifPath = "Card/Item/" +number+".atlas";
+        gifPath = "Card/Item/" +gifNumber+".atlas";
         items.add(this);
         cards.add(this);
         if(itemType == ItemType.COLLECTIBLE) collectableItems.add(this);
@@ -50,10 +50,11 @@ public class Item extends Card {
     public static void scanItems(ArrayList<String[]> data) {
         for (String[] line : data) {
             new Item(Integer.parseInt(line[1])
-                    ,line[2]
-                    , Integer.parseInt(line[3])
-                    , ItemType.valueOf(line[4].toUpperCase())
-                    , line[5]);
+                    , Integer.parseInt(line[2])
+                    , line[3]
+                    , Integer.parseInt(line[4])
+                    , ItemType.valueOf(line[5].toUpperCase())
+                    , line[6]);
         }
     }
 
