@@ -346,4 +346,8 @@ public class Game {
     public boolean isAccountTurn(Account account) {
         return getWhoIsHisTurn().getAccount().getUsername().equals(account.getUsername());
     }
+
+    public boolean isIntelligentPlayerTurn() {
+        return getWhoIsHisTurn() instanceof IntelligentPlayer;
+    }
 }

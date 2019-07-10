@@ -121,7 +121,8 @@ public class BattleScreen extends Screen {
         setCameraAndViewport();
         shapeRenderer = new ShapeRenderer();
 
-        while (!Game.isGameCreated()) ;
+        System.out.println("checking created game");
+        while (!Game.isGameCreated());
         game = Game.getCurrentGame();
         player1 = game.getFirstPlayer();
         player2 = game.getSecondPlayer();
@@ -277,7 +278,7 @@ public class BattleScreen extends Screen {
         updateGraveyard();
         updateHandCells(game.getWhoIsHisTurn());
 
-        if (game.isAccountTurn(Account.getCurrentAccount())) {
+        if (game.isAccountTurn(Account.getCurrentAccount()) || game.isIntelligentPlayerTurn()) {
             mousePos.set(Gdx.input.getX(), Gdx.input.getY());
             mousePos = viewport.unproject(mousePos);
 
