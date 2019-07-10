@@ -24,20 +24,15 @@ public class Hero extends Army {
     private String iconId;
     private String spellPath;
 
-    Hero(int number, String name, int price, int hp, int ap, int ar, int mp, int coolDown, AttackType attackType, String description) {
+    Hero(int number,int gifNumber, String name, int price, int hp, int ap, int ar, int mp, int coolDown, AttackType attackType, String description) {
         super(number, name, price, description, hp, ap, ar, attackType, HERO, 0);
         this.mp = mp;
         this.coolDown = coolDown;
         if(number > lastNumber)
             lastNumber = number;
-        iconId = "Card/Hero/Icon/" + number +".png";
-        gifPath = "Card/Hero/" +number+".atlas";
-        spellPath = "Card/Hero/general spell/" +number+".atlas";
-        if(number > 11) {
-            iconId = "Card/Hero/Icon/11.png";
-            gifPath = "Card/Hero/11.atlas";
-            spellPath = "Card/Hero/general spell/11.atlas";
-        }
+        iconId = "Card/Hero/Icon/" + gifNumber +".png";
+        gifPath = "Card/Hero/" +gifNumber+".atlas";
+        spellPath = "Card/Hero/general spell/" +gifNumber+".atlas";
         if(name.equals("Rostam")) spellPath = null;
         if(number <=10) {
             heroes.add(this);
@@ -73,17 +68,18 @@ public class Hero extends Army {
 
     public static void createHero(String[] line) {
         Hero hero = new Hero(Integer.parseInt(line[1])
-                ,line[2]
-                , Integer.parseInt(line[3])
+                , Integer.parseInt(line[2])
+                , line[3]
                 , Integer.parseInt(line[4])
                 , Integer.parseInt(line[5])
-                , Integer.parseInt(line[7])
-                , Integer.parseInt(line[9])
+                , Integer.parseInt(line[6])
+                , Integer.parseInt(line[8])
                 , Integer.parseInt(line[10])
-                , AttackType.valueOf(line[6].toUpperCase())
-                , line[8]);
+                , Integer.parseInt(line[11])
+                , AttackType.valueOf(line[7].toUpperCase())
+                , line[9]);
         if(hero.getNumber() > 10) {
-            int col = 11;
+            int col = 12;
             String powerBuffType = null;
             String buffType = line[col++];
             if(buffType.equals("power") || buffType.equals("weakness"))
