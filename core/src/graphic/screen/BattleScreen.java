@@ -275,13 +275,12 @@ public class BattleScreen extends Screen {
 
         checkTurnTime();
         setAnimations();
-        updateGraveyard();
         updateHandCells(game.getWhoIsHisTurn());
 
         if (game.isAccountTurn(Account.getCurrentAccount()) || game.isIntelligentPlayerTurn()) {
             mousePos.set(Gdx.input.getX(), Gdx.input.getY());
             mousePos = viewport.unproject(mousePos);
-
+            updateGraveyard();
         } else {
             Client.setMousePos();
             if(Client.getMousePos() != null) {
@@ -408,7 +407,7 @@ public class BattleScreen extends Screen {
                     attackSound.play();
                     animations.get(selectedArmy).getAttackGif().setTime();
                     animationEvents.add(animations.get(selectedArmy).getAttackGif());
-                    if (game.getWhoIsHisTurn().isInRange(cell, selectedCell)) {
+                    if (game.getWhoIsNotHisTurn().isInRange(cell, selectedCell)) {
                         attackSound.play();
                         animations.get(target).getAttackGif().setTime();
                         animationEvents.add(animations.get(target).getAttackGif());
@@ -722,7 +721,7 @@ public class BattleScreen extends Screen {
                     batch.setColor(com.badlogic.gdx.graphics.Color.WHITE);
                 }
                 if (army == null) {
-                    if (selectedCellHand != null && player1.isAroundArmies(cell))
+                    if (selectedCellHand != null && game.getWhoIsHisTurn().isAroundArmies(cell))
                         batch.setColor(Main.toColor(new Color(0xBEBFF7F9, true)));
                     else if (selectedArmy != null && selectedArmy.canMoveTo(cell))
                         batch.setColor(Main.toColor(new Color(0xBEBFF7F9, true)));
