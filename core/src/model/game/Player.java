@@ -187,6 +187,7 @@ public class Player {
         this.hero = hero;
         deck.deleteCard(hero);
         cell.put(hero, turnNumber);
+        hero.setUserName(this.getAccount().getUsername());
 //        this.inGameCards.add(hero);
     }
     public boolean isInRange(Cell attackersCell,Cell defenderCell) {
@@ -538,7 +539,7 @@ public class Player {
     }
 
     public boolean isFriend(Army army) {
-        return army.getAccount().getUsername().equals(this.getAccount().getUsername());
+        return army.getUsername().equals(this.getAccount().getUsername());
 //        return inGameCards.find(army) != null;
     }
 
