@@ -5,6 +5,11 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import control.CsvReader;
 import control.CvsWriter;
+import graphic.Others.PopUp;
+import graphic.screen.GetIpScreen;
+import graphic.screen.LoadingScreen;
+import graphic.screen.Screen;
+import graphic.screen.ScreenManager;
 import model.other.Account;
 import model.other.SavingObject;
 
@@ -31,15 +36,19 @@ public class Client {
         gson = new GsonBuilder().create();
     }
 
-    public static void connect() {
-        getConfigData();
+    public static void connect(String host) {
         try {
-            Socket socket = new Socket(HOST, PORT);
+            Socket socket = new Socket(host, 8765);
             inputStream = new DataInputStream(socket.getInputStream());
             outputStream = new DataOutputStream(socket.getOutputStream());
+            ScreenManager.setScreen(new LoadingScreen());
         } catch (UnknownHostException e) {
+            PopUp.getInstance().setText("Can't Connect to Host IP...");
+            ScreenManager.setScreen(new GetIpScreen());
             e.printStackTrace();
         } catch (IOException e) {
+            PopUp.getInstance().setText("Cant get socket I/O streams...");
+            ScreenManager.setScreen(new GetIpScreen());
             e.printStackTrace();
         }
     }
@@ -144,7 +153,7 @@ public class Client {
             Scanner scanner = new Scanner(new File("Files/Data/.config"));
             HOST = scanner.nextLine();
             PORT = scanner.nextInt();
-        } catch (FileNotFoundException e) {
+        } catch (Exception e) {
             HOST = "localhost";
             PORT = 8765;
             e.printStackTrace();
