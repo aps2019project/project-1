@@ -9,7 +9,8 @@ public class Deck {
     private Hero hero;
     private Item item;
     private Card nextCard;
-
+    private float[] array = null;
+    private int cardNum = 0;
     public Deck() {
     }
 
@@ -25,6 +26,10 @@ public class Deck {
         if(cards.getAllItems().size() > 0)
             this.item = cards.getAllItems().get(0);
 
+    }
+
+    public void setArray(float[] array) {
+        this.array = array;
     }
 
     public void deleteCard(Card card) {
@@ -89,6 +94,10 @@ public class Deck {
     }
     public void setNextCard() {
         int number = (int)(Math.random()*cards.getAllCards().size());
+        if(array != null) {
+            number = (int)(array[cardNum]*cards.getAllCards().size());
+            cardNum++;
+        }
         if(cards.getAllCards().size() == 0) return;
         nextCard = cards.getAllCards().get(number);
         if(nextCard == this.item || nextCard == this.hero) setNextCard();
