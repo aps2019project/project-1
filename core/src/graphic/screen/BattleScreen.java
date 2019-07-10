@@ -609,10 +609,15 @@ public class BattleScreen extends Screen {
 
         batch.end();
 
+        if(!game.isAccountTurn(Account.getCurrentAccount()))
+            batch.setColor(Main.toColor(new Color(0xC785827A, true)));
         endTurnButton.draw(batch);
         endGameButton.draw(batch);
         graveyardButton.draw(batch);
         fastForwardButton.draw(batch);
+        batch.setColor(com.badlogic.gdx.graphics.Color.WHITE);
+
+
         drawUsableItem(batch);
         drawHeroesSP(batch);
         drawPlayerItems(batch);
