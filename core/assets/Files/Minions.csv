@@ -1,7 +1,7 @@
 Stock,Number,Gif Number,Name,Price,Mana,Health Point,Attack Power,Type of Attack,Attack Range,Special Power,SP time
-6,1,1,PersianArcher,300,2,6,4,ranged,7,None,-
-8,2,2,PersianSwordsman,400,2,6,4,melee,0,Stun Enemy for next round,On attack
-8,3,3,PersianSpearman,500,1,5,4,hybrid,4,None,-
+8,1,1,PersianArcher,300,2,6,4,ranged,7,None,-
+10,2,2,PersianSwordsman,400,2,6,4,melee,0,Stun Enemy for next round,On attack
+10,3,3,PersianSpearman,500,1,5,4,hybrid,4,None,-
 10,4,4,PersianKnight,200,4,10,6,melee,0,None,-
 10,5,5,PersianPahlevan,600,9,24,6,melee,0,Deal 5 more damage for every turn that has attacked one enemy,On attack
 10,6,6,PersianSepahsalar,800,7,12,4,melee,0,Deal 4 more damage for every Persian soldier that participate in attack (except itself),Combo
@@ -31,7 +31,7 @@ Stock,Number,Gif Number,Name,Price,Mana,Health Point,Attack Power,Type of Attack
 10,30,30,Giv,450,4,5,7,ranged,5,doesn't take negative affects from cards,On Defend
 10,31,31,Bahman,450,8,16,9,melee,0,Deals 16 damage to a random enemy minion,On Spawn
 10,32,32,Ashkbous,400,7,14,8,melee,0,Doesn't take damage from minions with less AP,On Defend
-9,33,33,Iraj,500,4,6,20,ranged,3,None,-
+10,33,33,Iraj,500,4,6,20,ranged,3,None,-
 10,34,34,HugeGiant,600,9,30,8,hybrid,2,None,-
 10,35,35,TwoHeadedGiant,550,4,10,4,melee,0,Disables every positive affects of attacked minion,On attack
 10,36,36,NaneSarma,500,3,3,4,ranged,5,Stun enemy minions in 8 adjacent spaces for one turn,On Spawn
