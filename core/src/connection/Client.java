@@ -10,6 +10,10 @@ import graphic.screen.GetIpScreen;
 import graphic.screen.LoadingScreen;
 import graphic.screen.Screen;
 import graphic.screen.ScreenManager;
+import model.cards.Hero;
+import model.cards.Item;
+import model.cards.Minion;
+import model.cards.Spell;
 import model.other.Account;
 import model.other.SavingObject;
 
@@ -136,16 +140,20 @@ public class Client {
 
     public static void getCardFiles() {
         sendCommand("Send Card File Heroes");
-        CvsWriter.writeCardFiles("Heroes", getCommand());
+//        CvsWriter.writeCardFiles("Heroes", getCommand());
+        Hero.scanHeroesArrayList(getArrayList(String.class));
 
         sendCommand("Send Card File Minions");
-        CvsWriter.writeCardFiles("Minions", getCommand());
+//        CvsWriter.writeCardFiles("Minions", getCommand());
+        Minion.scanMinionsArrayList(getArrayList(String.class));
 
         sendCommand("Send Card File Spells");
-        CvsWriter.writeCardFiles("Spells", getCommand());
+//        CvsWriter.writeCardFiles("Spells", getCommand());
+        Spell.scanSpellsArrayList(getArrayList(String.class));
 
         sendCommand("Send Card File Items");
-        CvsWriter.writeCardFiles("Items", getCommand());
+//        CvsWriter.writeCardFiles("Items", getCommand());
+        Item.scanItemsArrayList(getArrayList(String.class));
     }
 
     private static void getConfigData() {

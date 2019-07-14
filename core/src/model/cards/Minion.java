@@ -86,6 +86,14 @@ public class Minion extends Army {
         }
     }
 
+    public static void scanMinionsArrayList(ArrayList<String> data){
+        data.remove(0);
+        for(String string : data) {
+            String[] array = string.split(",");
+            createMinion(array);
+        }
+    }
+
     public static Minion createMinion(String[] line) {
         SPTime spTime = null;
 

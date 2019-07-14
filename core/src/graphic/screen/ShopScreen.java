@@ -254,6 +254,6 @@ public class ShopScreen extends Screen {
     public void updateCards() {
         Card.clearAllCards();
         Client.getCardFiles();
-        Card.scanAllCards();
+//        Card.scanAllCards();
     }
 }
