@@ -267,12 +267,12 @@ public class Player {
     }
 
     public boolean moveFromHandToCell(Card card,Cell cell) throws NotEnoughManaException, InvalidCellExceprion{
-        if( cell != null && cell.isEmpty() &&
+        if( cell != null &&
             Game.getCurrentGame().getAllCellsNearAccountArmies(account).indexOf(cell) != -1) {
             if(mana < card.getNeededManaToPut()){
                 throw new NotEnoughManaException();
             }
-            this.hand.remove(card);
+            mana -= card.getNeededManaToPut();
             if(card instanceof Spell) {
                 selectedCellToPutFromHand = cell;
                 try {
@@ -280,8 +280,7 @@ public class Player {
                 } catch (Exception e) {}
                 return true;
             }
-            else if(card instanceof Army && cell.put((Army) card,turnNumber)) {
-                mana -= cell.getInsideArmy().getNeededManaToPut();
+            else if(card instanceof Army && cell.isEmpty() && cell.put((Army) card,turnNumber)) {
                 movedCardsInThisTurn.add(card);
                 attackerCardsInThisTurn.add(card);
 //                this.inGameCards.add(card);
@@ -292,6 +291,7 @@ public class Player {
                 }
                 return true;
             }
+            this.hand.remove(card);
         }
         throw new InvalidCellExceprion();
     }
@@ -418,15 +418,19 @@ public class Player {
 
 
     public Army getOneEnemy(){
-        if(!selectedCellToPutFromHand.isEmpty() && !selectedCellToPutFromHand.getInsideArmy().getAccount().equals(account)) {
-            return selectedCardPlace.getInsideArmy();
+//        System.out.println(selectedCellToPutFromHand.isEmpty());
+//        System.out.println(selectedCellToPutFromHand.getInsideArmy().getName());
+//        System.out.println(isFriend(selectedCellToPutFromHand.getInsideArmy()));
+        if(!selectedCellToPutFromHand.isEmpty() && !isFriend(selectedCellToPutFromHand.getInsideArmy())) {
+            System.out.println(selectedCellToPutFromHand);
+            return selectedCellToPutFromHand.getInsideArmy();
         }
         return null;
     }
 
     public Army getOneFriend(){
-        if(!selectedCellToPutFromHand.isEmpty() && selectedCellToPutFromHand.getInsideArmy().getAccount().equals(account)) {
-            return selectedCardPlace.getInsideArmy();
+        if(!selectedCellToPutFromHand.isEmpty() && isFriend(selectedCellToPutFromHand.getInsideArmy())) {
+            return selectedCellToPutFromHand.getInsideArmy();
         }
         return null;
     }

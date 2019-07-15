@@ -26,6 +26,8 @@ import model.other.exeptions.battle.TargetCellIsEmptyException;
 import java.awt.*;
 import java.util.*;
 
+import static model.cards.CardType.*;
+
 public class BattleScreen extends Screen {
 
     private static String command;
@@ -175,7 +177,7 @@ public class BattleScreen extends Screen {
         animations.put(player1.getHero(), new ArmyAnimation(player1.getHero().getGifPath()));
         animations.put(player2.getHero(), new ArmyAnimation(player2.getHero().getGifPath()));
         for (Card card : game.getAllInGameCards()) {
-            if (card.getType() == CardType.ITEM || card.getType() == CardType.SPELL || card.getType() == CardType.HERO)
+            if (card.getType() == CardType.ITEM || card.getType() == SPELL || card.getType() == CardType.HERO)
                 continue;
             if (animations.containsKey((Army) card)) continue;
             ArmyAnimation animation = new ArmyAnimation(card.getGifPath());
@@ -377,10 +379,6 @@ public class BattleScreen extends Screen {
                 selectedCellHand = null;
                 heroSpSelected = false;
                 selectedArmy = selectedCell.getInsideArmy();
-//                        setCommand("select " + selectedArmy.getID().getValue());
-//                        synchronized (game){
-//                            game.notify();
-//                        }
             } else if (selectedArmy != null && getMouseCell().getInsideArmy() == null) {
                 Cell cell = getMouseCell();
                 if (!game.getWhoIsHisTurn().canMove(selectedCell, cell)) {
@@ -391,11 +389,6 @@ public class BattleScreen extends Screen {
                 game.getWhoIsHisTurn().moveArmy(selectedCell, cell);
                 selectedCell = null;
                 selectedArmy = null;
-            } else if (selectedCellHand != null && getMouseCell().getInsideArmy() == null) {
-//                        Cell cell = getMouseCell();
-//                        if(game.getWhoIsHisTurn().moveFromHandToCell(handCards.get(selectedCellHand), cell));
-//                            handCards.put(selectedCellHand, null);
-//                        selectedCellHand = null;
             } else if (selectedArmy != null && getMouseCell().getInsideArmy() != null) {
                 Cell cell = getMouseCell();
                 Army target = cell.getInsideArmy();
@@ -437,6 +430,9 @@ public class BattleScreen extends Screen {
             }
         } else if (getMouseHandCell() != null) {
             selectedCellHand = getMouseHandCell();
+            Card card = getHandCards(game.getWhoIsHisTurn()).get(selectedCellHand);
+            if(card.getType() == SPELL)
+                ((SpellAnimation)animations.get(card)).setAction();
             selectedCell = null;
             selectedArmy = null;
             heroSpSelected = false;
@@ -444,14 +440,23 @@ public class BattleScreen extends Screen {
     }
 
     public void mouseTouchUp() {
-        if (selectedCellHand != null && getMouseCell() != null && getMouseCell().getInsideArmy() == null) {
+        if (selectedCellHand != null && getMouseCell() != null) {
             Cell cell = getMouseCell();
+            Card card = getHandCards(game.getWhoIsHisTurn()).get(selectedCellHand);
             try {
-                if (game.getWhoIsHisTurn().moveFromHandToCell(getHandCards(game.getWhoIsHisTurn()).get(selectedCellHand), cell)) ;
+                game.getWhoIsHisTurn().moveFromHandToCell(card, cell);
             } catch (NotEnoughManaException e) {
                 setPopUp("Not Enough Mana");
+                return;
             } catch (InvalidCellExceprion e) {
                 setPopUp("Invalid Cell");
+                return;
+            }
+            if(card.getType() == SPELL){
+                SpellAnimation spellAnimation = (SpellAnimation) animations.get(card);
+                spellAnimation.updateLocation(cell.getScreenX() - 20, cell.getScreenY());
+                spellAnimation.getGif().setTime();
+                animationEvents.add(spellAnimation.getGif());
             }
             getHandCards(game.getWhoIsHisTurn()).put(selectedCellHand, null);
             selectedCellHand = null;
@@ -550,7 +555,7 @@ public class BattleScreen extends Screen {
 
     public void flipAnimations() {
         for (Card card : animations.keySet()) {
-            if(card.getType() == CardType.SPELL) continue;
+            if(card.getType() == SPELL) continue;
             Army army = (Army) card;
             if (player2.isFriend(army) && animations.get(army) != null)
                 ((ArmyAnimation)animations.get(army)).flip();
@@ -886,9 +891,9 @@ public class BattleScreen extends Screen {
             if (handCards.get(cell) == null) {
                 continue;
             }
-            if (handCards.get(cell).getType() == CardType.SPELL) {
-                continue;
-            }
+//            if (handCards.get(cell).getType() == CardType.SPELL) {
+//                continue;
+//            }
             batch.end();
 
             animations.get(handCards.get(cell)).draw(batch, cell.getX() - 15, cell.getY() + 10, 180, 180);

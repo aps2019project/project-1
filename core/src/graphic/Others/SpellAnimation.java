@@ -78,6 +78,8 @@ public class SpellAnimation extends CardAnimation{
     }
 
     public Gif getGif() {
+        gif.setX(x);
+        gif.setY(y);
         return gif;
     }
 }
