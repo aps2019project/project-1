@@ -20,7 +20,6 @@ public class SpellAnimation extends CardAnimation{
         TextureAtlas textureAtlas = AssetHandler.getData().get(gifPath, TextureAtlas.class);
         Animation animation = new Animation<TextureRegion>(SPEED, textureAtlas.findRegions("gif"));
         gif = new Gif(animation);
-        texture = textureAtlas.getTextures().first();
     }
 
     public SpellAnimation(String gifPath, String picPath) {
@@ -56,9 +55,15 @@ public class SpellAnimation extends CardAnimation{
             isGif = !gif.isFinished();
         }
         else {
-            batch.begin();
-            batch.draw(texture, x, y, width, height);
-            batch.end();
+            if (texture != null) {
+                batch.begin();
+                batch.draw(texture, x, y, width, height);
+                batch.end();
+            }
+            else {
+                gif.setTime();
+                gif.draw(batch);
+            }
         }
     }
 
