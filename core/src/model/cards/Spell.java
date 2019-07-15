@@ -59,7 +59,15 @@ public class Spell extends Card {
         }
     }
 
-    public static void createSpell(String[] line) {
+    public static void scanSpellsArrayList(ArrayList<String> data){
+        data.remove(0);
+        for(String string : data) {
+            String[] array = string.split(",");
+            createSpell(array);
+        }
+    }
+
+    public static Spell createSpell(String[] line) {
         Spell spell = new Spell(Integer.parseInt(line[1])
                 , Integer.parseInt(line[2])
                 , line[3]
@@ -86,9 +94,10 @@ public class Spell extends Card {
             cards.add(spell);
             if(Account.getCurrentAccount() != null) {
                 spell.setUserName(Account.getCurrentAccount().getUsername());
-                Account.getCurrentAccount().addCardToCollection(spell);
+//                Account.getCurrentAccount().addCardToCollection(spell);
             }
         }
+        return spell;
     }
 
     @Override

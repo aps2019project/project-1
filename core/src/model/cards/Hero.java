@@ -66,7 +66,15 @@ public class Hero extends Army {
         }
     }
 
-    public static void createHero(String[] line) {
+    public static void scanHeroesArrayList(ArrayList<String> data){
+        data.remove(0);
+        for(String string : data) {
+            String[] array = string.split(",");
+            createHero(array);
+        }
+    }
+
+    public static Hero createHero(String[] line) {
         Hero hero = new Hero(Integer.parseInt(line[1])
                 , Integer.parseInt(line[2])
                 , line[3]
@@ -96,9 +104,10 @@ public class Hero extends Army {
             cards.add(hero);
             if(Account.getCurrentAccount() != null) {
                 hero.setUserName(Account.getCurrentAccount().getUsername());
-                Account.getCurrentAccount().addCardToCollection(hero);
+//                Account.getCurrentAccount().addCardToCollection(hero);
             }
         }
+        return hero;
     }
 
     public Buff getSpecialBuff() {

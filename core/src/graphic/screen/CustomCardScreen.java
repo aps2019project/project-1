@@ -24,6 +24,7 @@ import model.Buff.Buff;
 import model.Buff.BuffType;
 import model.cards.*;
 import model.cards.CardType.*;
+import model.other.Account;
 import view.CustomCardHandlerScreen;
 
 
@@ -484,15 +485,15 @@ public class CustomCardScreen extends Screen {
         switch (cardType){
             case HERO:
                 CvsWriter.write("Heroes", data);
-                Hero.createHero(data.toArray(new String[data.size()]));
+                Account.getCurrentAccount().addCardToCollection(Hero.createHero(data.toArray(new String[data.size()])));
                 break;
             case MINION:
                 CvsWriter.write("Minions", data);
-                Minion.createMinion(data.toArray(new String[data.size()]));
+                Account.getCurrentAccount().addCardToCollection(Minion.createMinion(data.toArray(new String[data.size()])));
                 break;
             case SPELL:
                 CvsWriter.write("Spells", data);
-                Spell.createSpell(data.toArray(new String[data.size()]));
+                Account.getCurrentAccount().addCardToCollection(Spell.createSpell(data.toArray(new String[data.size()])));
                 break;
         }
         Client.sendCommand(CvsWriter.join(',', data));

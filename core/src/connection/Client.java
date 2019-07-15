@@ -5,14 +5,26 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import control.CsvReader;
 import control.CvsWriter;
+import graphic.Others.PopUp;
+import graphic.screen.GetIpScreen;
+import graphic.screen.LoadingScreen;
+import graphic.screen.Screen;
+import graphic.screen.ScreenManager;
+import model.cards.Hero;
+import model.cards.Item;
+import model.cards.Minion;
+import model.cards.Spell;
 import model.other.Account;
 import model.other.SavingObject;
 
 import java.io.*;
 import java.lang.reflect.Type;
+import java.net.ConnectException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Scanner;
 
 public class Client {
@@ -29,20 +41,24 @@ public class Client {
         gson = new GsonBuilder().create();
     }
 
-    public static void connect() {
-        getConfigData();
+    public static void connect(String host) {
         try {
-            Socket socket = new Socket(HOST, PORT);
+            Socket socket = new Socket(host, 8765);
             inputStream = new DataInputStream(socket.getInputStream());
             outputStream = new DataOutputStream(socket.getOutputStream());
+            ScreenManager.setScreen(new LoadingScreen());
         } catch (UnknownHostException e) {
+            PopUp.getInstance().setText("Can't Connect to Host IP...");
+            ScreenManager.setScreen(new GetIpScreen());
             e.printStackTrace();
         } catch (IOException e) {
+            PopUp.getInstance().setText("Cant get socket I/O streams...");
+            ScreenManager.setScreen(new GetIpScreen());
             e.printStackTrace();
         }
     }
 
-    public static  <T> void sendData(T data) {
+    public static <T> void sendData(T data) {
         try {
             outputStream.writeUTF(gson.toJson(data));
         } catch (IOException e) {
@@ -50,7 +66,7 @@ public class Client {
         }
     }
 
-    public static  <T> T getData(Type type, Class<T> tClass) {
+    public static <T> T getData(Type type) {
         try {
             return gson.fromJson(inputStream.readUTF(), type);
         } catch (IOException e) {
@@ -59,7 +75,7 @@ public class Client {
         }
     }
 
-    public static  <T> T getData(Class<T> tClass) {
+    public static <T> T getData(Class<T> tClass) {
         try {
             String data = inputStream.readUTF();
             return gson.fromJson(data, tClass);
@@ -68,6 +84,42 @@ public class Client {
             return null;
         }
     }
+
+    public static <T> ArrayList<T> getArrayList(Class<T> c) {
+        ArrayList<T> result = new ArrayList<T>();
+        String data;
+        try {
+            data = inputStream.readUTF();
+            while (!data.matches("\"end\"")) {
+                result.add(gson.fromJson(data, c));
+                data = inputStream.readUTF();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    public static <T> HashSet<T> getHashSet(Class<T> c) {
+        return new HashSet<T>(getArrayList(c));
+    }
+
+    public static <K, V> HashMap<K, V> getHashMap(Class<K> k, Class<V> v) {
+        HashMap<K, V> result = new HashMap<K, V>();
+        try {
+            String data = inputStream.readUTF();
+            while (!data.matches("\"end\"")) {
+                K key = gson.fromJson(data, k);
+                V value = getData(v);
+                result.put(key, value);
+                data = inputStream.readUTF();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
 
     public static void sendCommand(String str) {
         try {
@@ -79,7 +131,8 @@ public class Client {
 
     public static String getCommand() {
         try {
-            return gson.fromJson(inputStream.readUTF(), String.class);
+            String data = inputStream.readUTF();
+            return gson.fromJson(data, String.class);
         } catch (IOException e) {
             e.printStackTrace();
             return "";
@@ -88,16 +141,20 @@ public class Client {
 
     public static void getCardFiles() {
         sendCommand("Send Card File Heroes");
-        CvsWriter.writeCardFiles("Heroes", getCommand());
+//        CvsWriter.writeCardFiles("Heroes", getCommand());
+        Hero.scanHeroesArrayList(getArrayList(String.class));
 
         sendCommand("Send Card File Minions");
-        CvsWriter.writeCardFiles("Minions", getCommand());
+//        CvsWriter.writeCardFiles("Minions", getCommand());
+        Minion.scanMinionsArrayList(getArrayList(String.class));
 
         sendCommand("Send Card File Spells");
-        CvsWriter.writeCardFiles("Spells", getCommand());
+//        CvsWriter.writeCardFiles("Spells", getCommand());
+        Spell.scanSpellsArrayList(getArrayList(String.class));
 
         sendCommand("Send Card File Items");
-        CvsWriter.writeCardFiles("Items", getCommand());
+//        CvsWriter.writeCardFiles("Items", getCommand());
+        Item.scanItemsArrayList(getArrayList(String.class));
     }
 
     private static void getConfigData() {
@@ -105,7 +162,7 @@ public class Client {
             Scanner scanner = new Scanner(new File("Files/Data/.config"));
             HOST = scanner.nextLine();
             PORT = scanner.nextInt();
-        } catch (FileNotFoundException e) {
+        } catch (Exception e) {
             HOST = "localhost";
             PORT = 8765;
             e.printStackTrace();

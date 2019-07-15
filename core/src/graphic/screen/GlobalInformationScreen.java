@@ -102,21 +102,15 @@ public class GlobalInformationScreen extends Screen {
         if (scoreBoardButton.isActive()) {
             allAccounts.clear();
             Client.sendCommand("get accounts");
-            Type type = new TypeToken<ArrayList<SavingObject>>() {
-            }.getType();
-            allAccounts.addAll(Client.getData(type, ArrayList.class));
+            allAccounts.addAll(Client.getArrayList(SavingObject.class));
 
             onlineAccounts.clear();
             Client.sendCommand("get online users");
-            type = new TypeToken<HashSet<String>>() {
-            }.getType();
-            onlineAccounts.addAll(Client.getData(type, HashSet.class));
+            onlineAccounts.addAll(Client.getHashSet(String.class));
         }
         if (chatButton.isActive()) {
             Client.sendCommand("get chat");
-            Type type = new TypeToken<ArrayList<Message>>() {
-            }.getType();
-            ArrayList<Message> messages = Client.getData(type, ArrayList.class);
+            ArrayList<Message> messages = Client.getArrayList(Message.class);
             messageSlot = new MessageSlot(messages, yStart);
         }
         backButton.setActive(backButton.contains(mousePos));
@@ -136,14 +130,8 @@ public class GlobalInformationScreen extends Screen {
                 }
                 if (keycode == Input.Keys.RIGHT)
                     emojiIndex = (emojiIndex + 1) % 34;
-                if (keycode <= Input.Keys.Z && keycode >= Input.Keys.A)
-                    message += (char)(keycode - Input.Keys.A + (int)'a');
-                if (keycode <= Input.Keys.NUM_9 && keycode >= Input.Keys.NUM_0)
-                    message += (char)(keycode - Input.Keys.NUM_0 + (int)'0');
-                if (keycode == Input.Keys.SPACE)
-                    message += " ";
                 if (keycode == Input.Keys.BACKSPACE && !message.equals(""))
-                    message = message.substring(0, message.length() - 2);
+                    message = message.substring(0, message.length() - 1);
                 if (keycode == Input.Keys.PERIOD)
                     message += '.';
                 if (keycode == Input.Keys.ENTER && !message.equals("")) {
@@ -162,6 +150,12 @@ public class GlobalInformationScreen extends Screen {
 
             @Override
             public boolean keyTyped(char character) {
+                if (Main.isCharacterOK(character)) {
+                    message += character;
+                } else if (character == '?' || character == '"' || character == ',' || character == '!' ||
+                character == '@' || character == '#' || character == '$' || character == '%' || character == '&' ||
+                        character == '*' || character == '(' || character == ')' || character == '+')
+                    message += character;
                 return false;
             }
 

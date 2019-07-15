@@ -10,7 +10,6 @@ public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		setConfiguration(config);
-		Client.connect();
 		new LwjglApplication(new Main(), config);
 	}
 
@@ -24,5 +23,7 @@ public class DesktopLauncher {
 		config.height = 901;
 		config.forceExit = true;
 		config.addIcon("icon.png", Files.FileType.Internal);
+		config.addIcon("icon16.png", Files.FileType.Internal);
+		config.addIcon("icon32.png", Files.FileType.Internal);
 	}
 }

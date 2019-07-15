@@ -29,7 +29,6 @@ public class ShopScreen extends Screen {
     private Button buyButton;
     private Button backButton;
     private Button daricPicture;
-    private Button collectionButton;
     private Button doneButton;
     private String selectedCard;
     private CardShowSlot allCard;
@@ -255,6 +254,6 @@ public class ShopScreen extends Screen {
     public void updateCards() {
         Card.clearAllCards();
         Client.getCardFiles();
-        Card.scanAllCards();
+//        Card.scanAllCards();
     }
 }

@@ -11,6 +11,7 @@ import com.badlogic.gdx.math.Vector2;
 import connection.Client;
 import graphic.Others.MoveAnimation;
 import graphic.Others.MoveType;
+import graphic.Others.PopUp;
 import graphic.main.AssetHandler;
 import graphic.main.Button;
 import graphic.main.Main;
@@ -99,8 +100,14 @@ public class MenuScreen extends Screen {
             public boolean touchDown(int screenX, int screenY, int pointer, int button) {
                 if (button != Input.Buttons.LEFT)
                     return false;
-                if (gameMakerButton.isActive())
-                    ScreenManager.setScreen(new ChooseNumberOfPlayersMenuScreen());
+                if (gameMakerButton.isActive()) {
+                    try {
+                        Account.getCurrentAccount().checkMainDeckValidation();
+                        ScreenManager.setScreen(new ChooseNumberOfPlayersMenuScreen());
+                    } catch (Exception e) {
+                        PopUp.getInstance().setText(e.getMessage());
+                    }
+                }
                 if (shopButton.isActive())
                     ScreenManager.setScreen(new ShopScreen());
                 if (collectionButton.isActive())

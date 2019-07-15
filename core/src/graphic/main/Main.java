@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import graphic.Others.PopUp;
+import graphic.screen.GetIpScreen;
 import graphic.screen.LoadingScreen;
 import graphic.screen.ScreenManager;
 import model.cards.Card;
@@ -20,10 +21,10 @@ public class Main extends ApplicationAdapter {
 
 	@Override
 	public void create () {
-		createMouseIcon("mouse.png");
+//		createMouseIcon("mouse.png");
 		Card.scanAllCards();
 		AssetHandler.load();
-		ScreenManager.setScreen(new LoadingScreen());
+		ScreenManager.setScreen(new GetIpScreen());
 		batch = new SpriteBatch();
 	}
 
@@ -55,6 +56,16 @@ public class Main extends ApplicationAdapter {
 		float b = color.getBlue() / 256f;
 		float a = color.getAlpha() / 256f;
 		return new Color(r, g, b, a);
+	}
+
+	public static boolean isCharacterOK(char character) {
+		if (((int)character >= (int)'a' && (int)character <= (int)'z') ||
+				((int)character >= (int)'A' && (int)character <= (int)'Z') ||
+				((int)character >= (int)'0' && (int)character <= (int)'9'))
+			return true;
+		if (character == '_' || character == '*' || character == '-') return true;
+		if (character == '.' || character == '~' || character == ' ') return true;
+		return false;
 	}
 
 }

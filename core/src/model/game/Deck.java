@@ -75,6 +75,14 @@ public class Deck {
     public boolean checkIfValid() {
         return cards.getAllCards().size() == 20 && hero != null;
     }
+    public void checkValidation() throws Exception {
+        if (hero == null)
+            throw new Exception("Main deck doesn't have HERO");
+        if (item == null)
+            throw new Exception("Main deck doesn't have ITEM");
+        if (cards.getAllCards().size() < 20)
+            throw new Exception("Main deck is not COMPLETE");
+    }
     public void fillHand(Hand hand) {
         setNextCard();
         while(transferCardTo(hand));

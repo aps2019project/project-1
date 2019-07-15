@@ -133,6 +133,7 @@ public class Datas {
 //            ScreenManager.setScreen(new MenuScreen());
         } else {
             MatchResult result = game.getResults();
+            Account.getCurrentAccount().addMatchResult(result);
 //            System.out.println(account.getDaric());
 //            System.out.println(secondAccount.getDaric());
             game.getWinner().increaseDaric(1000);
@@ -252,6 +253,7 @@ public class Datas {
         account = secondAccount;
         secondAccount = tmp;
     }
+
     public void makeKillHeroCustom(Account account,int number, final float[] myArray, final float[] enemyArray) {
         type = GameType.KILL_HERO;
         secondAccount = account;

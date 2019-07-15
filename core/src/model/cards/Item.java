@@ -49,13 +49,25 @@ public class Item extends Card {
 
     public static void scanItems(ArrayList<String[]> data) {
         for (String[] line : data) {
-            new Item(Integer.parseInt(line[1])
-                    , Integer.parseInt(line[2])
-                    , line[3]
-                    , Integer.parseInt(line[4])
-                    , ItemType.valueOf(line[5].toUpperCase())
-                    , line[6]);
+            createItem(line);
         }
+    }
+
+    public static void scanItemsArrayList(ArrayList<String> data){
+        data.remove(0);
+        for(String string : data) {
+            String[] array = string.split(",");
+            createItem(array);
+        }
+    }
+
+    public static void createItem(String[] line) {
+        new Item(Integer.parseInt(line[1])
+                , Integer.parseInt(line[2])
+                , line[3]
+                , Integer.parseInt(line[4])
+                , ItemType.valueOf(line[5].toUpperCase())
+                , line[6]);
     }
 
     @Override

@@ -76,7 +76,7 @@ public class CollectionScreen extends Screen {
         createDeckButton = new Button("button/yellow.png", "button/yellow glow.png", 1300, 30, "Create Deck", "fonts/Arial 20.fnt");
         doneTypingButton = new Button("button/shop done.png", 711, 300, "Done");
         selectAsMainDeckButton = new Button("button/green.png", "button/green glow.png", 450, 760, "Select Main", "fonts/Arial 20.fnt");
-        importDeckButton = new Button("button/yellow.png", "button/yellow glow.png", 1100, 30, "Import Deck", "fonts/Arial 20.fnt");
+        importDeckButton = new Button("button/yellow.png", "button/yellow glow.png", 1000, 30, "Import Deck", "fonts/Arial 20.fnt");
         exportDeckButton = new Button("button/green.png", "button/green glow.png", 450, 820, "Export Deck", "fonts/Arial 20.fnt");
 
         createWaterFallAnimation();
@@ -110,7 +110,7 @@ public class CollectionScreen extends Screen {
                 addToDeckButton.setActive(addToDeckButton.contains(mousePos));
             if (currentDeck != null && !deckCard.equals(""))
                 deleteCardFromDeckButton.setActive(deleteCardFromDeckButton.contains(mousePos));
-            if (currentDeck != null && (account.getMainDeck() == null || (account.getMainDeck() == null && !currentDeck.getName().equals(account.getMainDeck().getName()))))
+            if (currentDeck != null && (account.getMainDeck() == null || (account.getMainDeck() != null && !currentDeck.getName().equals(account.getMainDeck().getName()))))
                 selectAsMainDeckButton.setActive(selectAsMainDeckButton.contains(mousePos));
             if (currentDeck != null)
                 exportDeckButton.setActive(exportDeckButton.contains(mousePos));
@@ -128,10 +128,6 @@ public class CollectionScreen extends Screen {
                     setMusicVolume(true);
                 if (!isTyping) return false;
 
-                if (keycode >= Input.Keys.A && keycode <= Input.Keys.Z)
-                    text = text + (char) (keycode - Input.Keys.A + 'a');
-                else if (keycode >= Input.Keys.NUM_0 && keycode <= Input.Keys.NUM_9)
-                    text = text + String.valueOf(keycode - Input.Keys.NUM_0).charAt(0);
                 else if (keycode == Input.Keys.BACKSPACE && text.length() > 0)
                     text = text.substring(0, text.length() - 1);
 
@@ -145,6 +141,8 @@ public class CollectionScreen extends Screen {
 
             @Override
             public boolean keyTyped(char character) {
+                if (Main.isCharacterOK(character))
+                text += character;
                 return false;
             }
 
