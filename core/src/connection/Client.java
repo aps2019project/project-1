@@ -19,6 +19,7 @@ import model.other.SavingObject;
 
 import java.io.*;
 import java.lang.reflect.Type;
+import java.net.ConnectException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;

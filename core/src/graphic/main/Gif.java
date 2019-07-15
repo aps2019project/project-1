@@ -1,14 +1,10 @@
 package graphic.main;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import graphic.Others.GifDecoder;
-import org.omg.CORBA.PRIVATE_MEMBER;
-
-import javax.xml.soap.Text;
 
 public class Gif {
 

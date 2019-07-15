@@ -8,8 +8,6 @@ import graphic.main.Gif;
 import graphic.main.GifType;
 import graphic.screen.BattleScreen;
 
-import javax.xml.soap.Text;
-
 import static graphic.main.GifType.*;
 
 public class ArmyAnimation {
@@ -22,11 +20,7 @@ public class ArmyAnimation {
     private Gif attackGif;
     private Gif deathGif;
     private Gif runGif;
-    private Sound attackSound;
-    private Sound deathSound;
-    private Sound runSound;
     private MoveAnimation runAnimation;
-    private boolean flipped = false;
 
     public ArmyAnimation(String dataPath) {
         Animation animation = new Animation<TextureRegion>(SPEED, new TextureAtlas(dataPath).findRegions("attack"), Animation.PlayMode.LOOP);
@@ -102,7 +96,6 @@ public class ArmyAnimation {
     }
 
     public void flip(){
-        flipped = true;
         normalGif.flip();
         runGif.flip();
         deathGif.flip();
@@ -119,7 +112,7 @@ public class ArmyAnimation {
         }
     }
 
-    public static int getMovingSpeed() {
+    private static int getMovingSpeed() {
         if(SPEED == 1/20f)
             return 5;
         return 10;
@@ -139,7 +132,6 @@ public class ArmyAnimation {
 
     public boolean haveGif(Gif gif){
         if(attackGif == gif) return true;
-        if(deathGif == gif) return true;
-        return false;
+        return deathGif == gif;
     }
 }
