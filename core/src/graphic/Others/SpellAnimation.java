@@ -10,10 +10,8 @@ import graphic.main.AssetHandler;
 import graphic.main.Gif;
 
 
-public class SpellAnimation {
-    private static float SPEED = 1/20f;
+public class SpellAnimation extends CardAnimation{
 
-    private float x = 0, y = 0;
     private Gif gif;
     private Texture texture;
     private boolean isGif = false;
@@ -79,4 +77,9 @@ public class SpellAnimation {
         this.gif.setTime();
     }
 
+    public Gif getGif() {
+        gif.setX(x);
+        gif.setY(y);
+        return gif;
+    }
 }

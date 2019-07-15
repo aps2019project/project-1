@@ -11,10 +11,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import connection.Client;
 import connection.MouseState;
-import graphic.Others.ArmyAnimation;
-import graphic.Others.BattlePopUp;
-import graphic.Others.CardTexture;
-import graphic.Others.PopUp;
+import graphic.Others.*;
 import graphic.main.*;
 import graphic.main.Button;
 import model.cards.*;
@@ -28,6 +25,8 @@ import model.other.exeptions.battle.TargetCellIsEmptyException;
 
 import java.awt.*;
 import java.util.*;
+
+import static model.cards.CardType.*;
 
 public class BattleScreen extends Screen {
 
@@ -69,8 +68,7 @@ public class BattleScreen extends Screen {
     private Cell selectedCell;
     private Army selectedArmy;
 
-    private static HashMap<Army, ArmyAnimation> animations = new HashMap<Army, ArmyAnimation>();
-    ;
+    private static HashMap<Card, CardAnimation> animations = new HashMap<Card, CardAnimation>();
 
     private Vector2 handStartCord;
 
@@ -179,7 +177,7 @@ public class BattleScreen extends Screen {
         animations.put(player1.getHero(), new ArmyAnimation(player1.getHero().getGifPath()));
         animations.put(player2.getHero(), new ArmyAnimation(player2.getHero().getGifPath()));
         for (Card card : game.getAllInGameCards()) {
-            if (card.getType() == CardType.ITEM || card.getType() == CardType.SPELL || card.getType() == CardType.HERO)
+            if (card.getType() == CardType.ITEM || card.getType() == SPELL || card.getType() == CardType.HERO)
                 continue;
             if (animations.containsKey((Army) card)) continue;
             ArmyAnimation animation = new ArmyAnimation(card.getGifPath());
@@ -381,10 +379,6 @@ public class BattleScreen extends Screen {
                 selectedCellHand = null;
                 heroSpSelected = false;
                 selectedArmy = selectedCell.getInsideArmy();
-//                        setCommand("select " + selectedArmy.getID().getValue());
-//                        synchronized (game){
-//                            game.notify();
-//                        }
             } else if (selectedArmy != null && getMouseCell().getInsideArmy() == null) {
                 Cell cell = getMouseCell();
                 if (!game.getWhoIsHisTurn().canMove(selectedCell, cell)) {
@@ -395,22 +389,17 @@ public class BattleScreen extends Screen {
                 game.getWhoIsHisTurn().moveArmy(selectedCell, cell);
                 selectedCell = null;
                 selectedArmy = null;
-            } else if (selectedCellHand != null && getMouseCell().getInsideArmy() == null) {
-//                        Cell cell = getMouseCell();
-//                        if(game.getWhoIsHisTurn().moveFromHandToCell(handCards.get(selectedCellHand), cell));
-//                            handCards.put(selectedCellHand, null);
-//                        selectedCellHand = null;
             } else if (selectedArmy != null && getMouseCell().getInsideArmy() != null) {
                 Cell cell = getMouseCell();
                 Army target = cell.getInsideArmy();
                 if (game.getWhoIsHisTurn().isInRange(selectedCell, cell)) {
                     attackSound.play();
-                    animations.get(selectedArmy).getAttackGif().setTime();
-                    animationEvents.add(animations.get(selectedArmy).getAttackGif());
+                    ((ArmyAnimation)animations.get(selectedArmy)).getAttackGif().setTime();
+                    animationEvents.add(((ArmyAnimation)animations.get(selectedArmy)).getAttackGif());
                     if (game.getWhoIsNotHisTurn().isInRange(cell, selectedCell)) {
                         attackSound.play();
-                        animations.get(target).getAttackGif().setTime();
-                        animationEvents.add(animations.get(target).getAttackGif());
+                        ((ArmyAnimation)animations.get(target)).getAttackGif().setTime();
+                        animationEvents.add(((ArmyAnimation)animations.get(target)).getAttackGif());
                     }
                 }
                 try {
@@ -422,13 +411,13 @@ public class BattleScreen extends Screen {
                 }
                 if (selectedCell.getInsideArmy().getHp() <= 0) {
                     deathSound.play();
-                    animations.get(selectedArmy).getDeathGif().setTime();
-                    animationEvents.add(animations.get(selectedArmy).getDeathGif());
+                    ((ArmyAnimation)animations.get(selectedArmy)).getDeathGif().setTime();
+                    animationEvents.add(((ArmyAnimation)animations.get(selectedArmy)).getDeathGif());
                 }
                 if (cell.getInsideArmy().getHp() <= 0) {
                     deathSound.play();
-                    animations.get(target).getDeathGif().setTime();
-                    animationEvents.add(animations.get(target).getDeathGif());
+                    ((ArmyAnimation)animations.get(target)).getDeathGif().setTime();
+                    animationEvents.add(((ArmyAnimation)animations.get(target)).getDeathGif());
                 }
                 selectedCell = null;
                 selectedArmy = null;
@@ -441,6 +430,9 @@ public class BattleScreen extends Screen {
             }
         } else if (getMouseHandCell() != null) {
             selectedCellHand = getMouseHandCell();
+            Card card = getHandCards(game.getWhoIsHisTurn()).get(selectedCellHand);
+            if(card.getType() == SPELL)
+                ((SpellAnimation)animations.get(card)).setAction();
             selectedCell = null;
             selectedArmy = null;
             heroSpSelected = false;
@@ -448,14 +440,23 @@ public class BattleScreen extends Screen {
     }
 
     public void mouseTouchUp() {
-        if (selectedCellHand != null && getMouseCell() != null && getMouseCell().getInsideArmy() == null) {
+        if (selectedCellHand != null && getMouseCell() != null) {
             Cell cell = getMouseCell();
+            Card card = getHandCards(game.getWhoIsHisTurn()).get(selectedCellHand);
             try {
-                if (game.getWhoIsHisTurn().moveFromHandToCell(getHandCards(game.getWhoIsHisTurn()).get(selectedCellHand), cell)) ;
+                game.getWhoIsHisTurn().moveFromHandToCell(card, cell);
             } catch (NotEnoughManaException e) {
                 setPopUp("Not Enough Mana");
+                return;
             } catch (InvalidCellExceprion e) {
                 setPopUp("Invalid Cell");
+                return;
+            }
+            if(card.getType() == SPELL){
+                SpellAnimation spellAnimation = (SpellAnimation) animations.get(card);
+                spellAnimation.updateLocation(cell.getScreenX() - 20, cell.getScreenY());
+                spellAnimation.getGif().setTime();
+                animationEvents.add(spellAnimation.getGif());
             }
             getHandCards(game.getWhoIsHisTurn()).put(selectedCellHand, null);
             selectedCellHand = null;
@@ -553,9 +554,11 @@ public class BattleScreen extends Screen {
     }
 
     public void flipAnimations() {
-        for (Army army : animations.keySet()) {
+        for (Card card : animations.keySet()) {
+            if(card.getType() == SPELL) continue;
+            Army army = (Army) card;
             if (player2.isFriend(army) && animations.get(army) != null)
-                animations.get(army).flip();
+                ((ArmyAnimation)animations.get(army)).flip();
         }
     }
 
@@ -696,7 +699,11 @@ public class BattleScreen extends Screen {
     public void drawGraveYard(SpriteBatch batch) {
         graveyardList = new CardListTexture(3, 1, graveyardCord.x + 30, graveyardCord.y + 150);
         batch.draw(graveyardBg, graveyardCord.x, graveyardCord.y);
-        ArrayList<Minion> minions = game.getPlayer(Account.getCurrentAccount()).getGraveYard().getAllMinions();
+        ArrayList<Minion> minions;
+        if(!game.isAccountInGame(Account.getCurrentAccount()))
+            minions = game.getWhoIsHisTurn().getGraveYard().getAllMinions();
+        else
+            minions = game.getPlayer(Account.getCurrentAccount()).getGraveYard().getAllMinions();
         for (Minion minion : minions) {
             CardTexture cardTexture = new CardTexture(minion.getName(), minion.getDescription(), minion.getPrice(), minion.getAp(), minion.getHp(), minion.getGifPath());
             graveyardList.addCardTexture(cardTexture);
@@ -835,7 +842,7 @@ public class BattleScreen extends Screen {
     }
 
     public void drawArmy(SpriteBatch batch, Army army, float x, float y) {
-        if (animationEvents.size() != 0 && animations.get(army).haveGif(animationEvents.get(0)))
+        if (animationEvents.size() != 0 && ((ArmyAnimation)animations.get(army)).haveGif(animationEvents.get(0)))
             return;
         animations.get(army).draw(batch, x - 20, y);
     }
@@ -884,9 +891,9 @@ public class BattleScreen extends Screen {
             if (handCards.get(cell) == null) {
                 continue;
             }
-            if (handCards.get(cell).getType() == CardType.SPELL) {
-                continue;
-            }
+//            if (handCards.get(cell).getType() == CardType.SPELL) {
+//                continue;
+//            }
             batch.end();
 
             animations.get(handCards.get(cell)).draw(batch, cell.getX() - 15, cell.getY() + 10, 180, 180);
@@ -994,7 +1001,7 @@ public class BattleScreen extends Screen {
 
     }
 
-    public static HashMap<Army, ArmyAnimation> getAnimations() {
+    public static HashMap<Card, CardAnimation> getAnimations() {
         return animations;
     }
 

@@ -10,11 +10,8 @@ import graphic.screen.BattleScreen;
 
 import static graphic.main.GifType.*;
 
-public class ArmyAnimation {
+public class ArmyAnimation extends CardAnimation{
 
-    private static float SPEED = 1 / 20f;
-
-    private float x, y;
     private Gif currentGif;
     private Gif normalGif;
     private Gif attackGif;
@@ -65,6 +62,10 @@ public class ArmyAnimation {
         draw(batch, x, y, 150, 150);
     }
 
+    public void draw(SpriteBatch batch){
+        draw(batch, x, y);
+    }
+
     public void run( float xEnd, float yEnd) {
         runAnimation = new MoveAnimation(runGif, x, y, xEnd, yEnd, MoveType.SIMPLE, false);
         this.x = xEnd;
@@ -102,16 +103,6 @@ public class ArmyAnimation {
         attackGif.flip();
     }
 
-    public static void setSPEED(float speed) {
-        SPEED = speed;
-        for(ArmyAnimation armyAnimation : BattleScreen.getAnimations().values()){
-            armyAnimation.normalGif.setSpeed(speed);
-            armyAnimation.runGif.setSpeed(speed);
-            armyAnimation.attackGif.setSpeed(speed);
-            armyAnimation.deathGif.setSpeed(speed);
-        }
-    }
-
     private static int getMovingSpeed() {
         if(SPEED == 1/20f)
             return 5;
@@ -128,6 +119,18 @@ public class ArmyAnimation {
         attackGif.setX(x);
         attackGif.setY(y);
         return attackGif;
+    }
+
+    public Gif getNormalGif() {
+        normalGif.setX(x);
+        normalGif.setY(y);
+        return normalGif;
+    }
+
+    public Gif getRunGif() {
+        runGif.setX(x);
+        runGif.setY(y);
+        return runGif;
     }
 
     public boolean haveGif(Gif gif){

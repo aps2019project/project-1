@@ -1,6 +1,8 @@
 package model.game;
 
 import graphic.Others.ArmyAnimation;
+import graphic.Others.CardAnimation;
+import graphic.Others.SpellAnimation;
 import graphic.screen.BattleScreen;
 import model.cards.*;
 import model.other.Account;
@@ -169,7 +171,7 @@ public class Player {
         Army army = presentCell.pick();
         movedCardsInThisTurn.add(army);
         if(BattleScreen.getAnimations().get(army) != null) {
-            BattleScreen.getAnimations().get(army).run(destinationCell.getScreenX(), destinationCell.getScreenY());
+            ((ArmyAnimation)BattleScreen.getAnimations().get(army)).run(destinationCell.getScreenX(), destinationCell.getScreenY());
         }
         return destinationCell.put(army, turnNumber);
     }
@@ -265,12 +267,12 @@ public class Player {
     }
 
     public boolean moveFromHandToCell(Card card,Cell cell) throws NotEnoughManaException, InvalidCellExceprion{
-        if( cell != null && cell.isEmpty() &&
+        if( cell != null &&
             Game.getCurrentGame().getAllCellsNearAccountArmies(account).indexOf(cell) != -1) {
             if(mana < card.getNeededManaToPut()){
                 throw new NotEnoughManaException();
             }
-            this.hand.remove(card);
+            mana -= card.getNeededManaToPut();
             if(card instanceof Spell) {
                 selectedCellToPutFromHand = cell;
                 try {
@@ -278,8 +280,7 @@ public class Player {
                 } catch (Exception e) {}
                 return true;
             }
-            else if(card instanceof Army && cell.put((Army) card,turnNumber)) {
-                mana -= cell.getInsideArmy().getNeededManaToPut();
+            else if(card instanceof Army && cell.isEmpty() && cell.put((Army) card,turnNumber)) {
                 movedCardsInThisTurn.add(card);
                 attackerCardsInThisTurn.add(card);
 //                this.inGameCards.add(card);
@@ -290,6 +291,7 @@ public class Player {
                 }
                 return true;
             }
+            this.hand.remove(card);
         }
         throw new InvalidCellExceprion();
     }
@@ -416,15 +418,19 @@ public class Player {
 
 
     public Army getOneEnemy(){
-        if(!selectedCellToPutFromHand.isEmpty() && !selectedCellToPutFromHand.getInsideArmy().getAccount().equals(account)) {
-            return selectedCardPlace.getInsideArmy();
+//        System.out.println(selectedCellToPutFromHand.isEmpty());
+//        System.out.println(selectedCellToPutFromHand.getInsideArmy().getName());
+//        System.out.println(isFriend(selectedCellToPutFromHand.getInsideArmy()));
+        if(!selectedCellToPutFromHand.isEmpty() && !isFriend(selectedCellToPutFromHand.getInsideArmy())) {
+            System.out.println(selectedCellToPutFromHand);
+            return selectedCellToPutFromHand.getInsideArmy();
         }
         return null;
     }
 
     public Army getOneFriend(){
-        if(!selectedCellToPutFromHand.isEmpty() && selectedCellToPutFromHand.getInsideArmy().getAccount().equals(account)) {
-            return selectedCardPlace.getInsideArmy();
+        if(!selectedCellToPutFromHand.isEmpty() && isFriend(selectedCellToPutFromHand.getInsideArmy())) {
+            return selectedCellToPutFromHand.getInsideArmy();
         }
         return null;
     }
@@ -543,12 +549,16 @@ public class Player {
 //        return inGameCards.find(army) != null;
     }
 
-    public void setHandAnimations(HashMap<Army, ArmyAnimation> animations) {
+    public void setHandAnimations(HashMap<Card, CardAnimation> animations) {
         for(Card card : hand.getAllCards()){
-            if(card.getType() == CardType.ITEM || card.getType() == CardType.SPELL) continue;
-            if(animations.containsKey((Army)card)) continue;
-            ArmyAnimation animation = new ArmyAnimation(card.getGifPath());
-            animations.put((Army) card, animation);
+            if(card.getType() == CardType.ITEM) continue;
+            if(animations.containsKey(card)) continue;
+            CardAnimation animation;
+            if(card.getType() == CardType.MINION)
+                animation = new ArmyAnimation(card.getGifPath());
+            else
+                animation = new SpellAnimation(card.getGifPath());
+            animations.put(card, animation);
         }
     }
 
