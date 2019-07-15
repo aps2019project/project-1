@@ -11,10 +11,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import connection.Client;
 import connection.MouseState;
-import graphic.Others.ArmyAnimation;
-import graphic.Others.BattlePopUp;
-import graphic.Others.CardTexture;
-import graphic.Others.PopUp;
+import graphic.Others.*;
 import graphic.main.*;
 import graphic.main.Button;
 import model.cards.*;
@@ -69,8 +66,7 @@ public class BattleScreen extends Screen {
     private Cell selectedCell;
     private Army selectedArmy;
 
-    private static HashMap<Army, ArmyAnimation> animations = new HashMap<Army, ArmyAnimation>();
-    ;
+    private static HashMap<Card, CardAnimation> animations = new HashMap<Card, CardAnimation>();
 
     private Vector2 handStartCord;
 
@@ -405,12 +401,12 @@ public class BattleScreen extends Screen {
                 Army target = cell.getInsideArmy();
                 if (game.getWhoIsHisTurn().isInRange(selectedCell, cell)) {
                     attackSound.play();
-                    animations.get(selectedArmy).getAttackGif().setTime();
-                    animationEvents.add(animations.get(selectedArmy).getAttackGif());
+                    ((ArmyAnimation)animations.get(selectedArmy)).getAttackGif().setTime();
+                    animationEvents.add(((ArmyAnimation)animations.get(selectedArmy)).getAttackGif());
                     if (game.getWhoIsNotHisTurn().isInRange(cell, selectedCell)) {
                         attackSound.play();
-                        animations.get(target).getAttackGif().setTime();
-                        animationEvents.add(animations.get(target).getAttackGif());
+                        ((ArmyAnimation)animations.get(target)).getAttackGif().setTime();
+                        animationEvents.add(((ArmyAnimation)animations.get(target)).getAttackGif());
                     }
                 }
                 try {
@@ -422,13 +418,13 @@ public class BattleScreen extends Screen {
                 }
                 if (selectedCell.getInsideArmy().getHp() <= 0) {
                     deathSound.play();
-                    animations.get(selectedArmy).getDeathGif().setTime();
-                    animationEvents.add(animations.get(selectedArmy).getDeathGif());
+                    ((ArmyAnimation)animations.get(selectedArmy)).getDeathGif().setTime();
+                    animationEvents.add(((ArmyAnimation)animations.get(selectedArmy)).getDeathGif());
                 }
                 if (cell.getInsideArmy().getHp() <= 0) {
                     deathSound.play();
-                    animations.get(target).getDeathGif().setTime();
-                    animationEvents.add(animations.get(target).getDeathGif());
+                    ((ArmyAnimation)animations.get(target)).getDeathGif().setTime();
+                    animationEvents.add(((ArmyAnimation)animations.get(target)).getDeathGif());
                 }
                 selectedCell = null;
                 selectedArmy = null;
@@ -553,9 +549,11 @@ public class BattleScreen extends Screen {
     }
 
     public void flipAnimations() {
-        for (Army army : animations.keySet()) {
+        for (Card card : animations.keySet()) {
+            if(card.getType() == CardType.SPELL) continue;
+            Army army = (Army) card;
             if (player2.isFriend(army) && animations.get(army) != null)
-                animations.get(army).flip();
+                ((ArmyAnimation)animations.get(army)).flip();
         }
     }
 
@@ -839,7 +837,7 @@ public class BattleScreen extends Screen {
     }
 
     public void drawArmy(SpriteBatch batch, Army army, float x, float y) {
-        if (animationEvents.size() != 0 && animations.get(army).haveGif(animationEvents.get(0)))
+        if (animationEvents.size() != 0 && ((ArmyAnimation)animations.get(army)).haveGif(animationEvents.get(0)))
             return;
         animations.get(army).draw(batch, x - 20, y);
     }
@@ -998,7 +996,7 @@ public class BattleScreen extends Screen {
 
     }
 
-    public static HashMap<Army, ArmyAnimation> getAnimations() {
+    public static HashMap<Card, CardAnimation> getAnimations() {
         return animations;
     }
 
