@@ -173,15 +173,19 @@ public class AssetHandler {
             assetManager.load("chat/" + i + ".png", Texture.class);
         }
 
-        for(int i = 1; i <= 11; i++)
+        for(int i = 1; i <= 10; i++)
             assetManager.load("Card/Hero/generals/" + i + ".png", Texture.class);
-        for (int i = 1; i <= 11; ++i)
+        for(int i = 1; i <= 10; i++) {
+            assetManager.load("Card/Hero/general spell/" + i + ".png", Texture.class);
+            assetManager.load("Card/Hero/general spell/" + i + ".atlas", TextureAtlas.class);
+        }
+        for (int i = 1; i <= 10; ++i)
             assetManager.load("Card/Hero/" + i + ".atlas", TextureAtlas.class);
         for (int i = 1; i <= 20; ++i)
             assetManager.load("Card/Item/" + i + ".atlas", TextureAtlas.class);
-        for (int i = 1; i <= 21; ++i)
+        for (int i = 1; i <= 20; ++i)
             assetManager.load("Card/Spell/" + i + ".atlas", TextureAtlas.class);
-        for (int i = 1; i <= 41; ++i)
+        for (int i = 1; i <= 40; ++i)
             assetManager.load("Card/Minion/" + i + ".atlas", TextureAtlas.class);
     }
 

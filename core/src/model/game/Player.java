@@ -278,6 +278,7 @@ public class Player {
                 try {
                     Spell.useSpell(this, card.getName());
                 } catch (Exception e) {}
+                BattleScreen.addAnimationFromHand(card);
                 return true;
             }
             else if(card instanceof Army && cell.isEmpty() && cell.put((Army) card,turnNumber)) {
@@ -289,6 +290,7 @@ public class Player {
                     minion.checkOnSpawn(this, cell);
                     minion.checkPassive(this, cell);
                 }
+                BattleScreen.addAnimationFromHand(card);
                 return true;
             }
             this.hand.remove(card);
