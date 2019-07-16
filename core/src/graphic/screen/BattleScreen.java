@@ -69,6 +69,7 @@ public class BattleScreen extends Screen {
     private Army selectedArmy;
 
     private static HashMap<Card, CardAnimation> animations = new HashMap<Card, CardAnimation>();
+    private static HashMap<Card, CardAnimation> handAnimations = new HashMap<Card, CardAnimation>();
 
     private Vector2 handStartCord;
 
@@ -110,6 +111,7 @@ public class BattleScreen extends Screen {
     private CardListTexture graveyardList;
 
     private ArrayList<Gif> animationEvents = new ArrayList<Gif>();
+    private ArrayList<Sound> soundEvents = new ArrayList<Sound>();
 
     private MouseState mouseState = MouseState.NOTHING;
 
@@ -219,8 +221,8 @@ public class BattleScreen extends Screen {
     }
 
     public void setAnimations() {
-        game.getFirstPlayer().setHandAnimations(animations);
-        game.getSecondPlayer().setHandAnimations(animations);
+        game.getFirstPlayer().setHandAnimations(handAnimations);
+        game.getSecondPlayer().setHandAnimations(handAnimations);
     }
 
     public void setCellCords() {
@@ -246,13 +248,21 @@ public class BattleScreen extends Screen {
     public void updateHandCells(Player player) {
         ArrayList<Cell> handCells;
         if (player == player1) {
-            handCells = new ArrayList<Cell>(handCardsPlayer1.keySet());
+            handCells = new ArrayList<Cell>(getHandCards(game.getWhoIsHisTurn()).keySet());
             for (int i = 0; i < player.getHand().getAllCards().size(); i++) {
+                if(i >= handCells.size()) {
+                    handCardsPlayer1.put(new Cell((int) handStartCord.x + i * 160, (int) handStartCord.y), player.getHand().getAllCards().get(i));
+                    return;
+                }
                 handCardsPlayer1.put(handCells.get(i), player.getHand().getAllCards().get(i));
             }
         } else {
-            handCells = new ArrayList<Cell>(handCardsPlayer2.keySet());
+            handCells = new ArrayList<Cell>(getHandCards(game.getWhoIsHisTurn()).keySet());
             for (int i = 0; i < player.getHand().getAllCards().size(); i++) {
+                if(i > handCells.size() - 1) {
+                    handCardsPlayer2.put(new Cell((int) handStartCord.x + i * 160, (int) handStartCord.y), player.getHand().getAllCards().get(i));
+                    return;
+                }
                 handCardsPlayer2.put(handCells.get(i), player.getHand().getAllCards().get(i));
             }
         }
@@ -393,13 +403,14 @@ public class BattleScreen extends Screen {
                 Cell cell = getMouseCell();
                 Army target = cell.getInsideArmy();
                 if (game.getWhoIsHisTurn().isInRange(selectedCell, cell)) {
-                    attackSound.play();
                     ((ArmyAnimation)animations.get(selectedArmy)).getAttackGif().setTime();
                     animationEvents.add(((ArmyAnimation)animations.get(selectedArmy)).getAttackGif());
+                    soundEvents.add(attackSound);
+                    attackSound.play();
                     if (game.getWhoIsNotHisTurn().isInRange(cell, selectedCell)) {
-                        attackSound.play();
                         ((ArmyAnimation)animations.get(target)).getAttackGif().setTime();
                         animationEvents.add(((ArmyAnimation)animations.get(target)).getAttackGif());
+                        soundEvents.add(attackSound);
                     }
                 }
                 try {
@@ -410,12 +421,10 @@ public class BattleScreen extends Screen {
                     setPopUp("Target Not In Range");
                 }
                 if (selectedCell.getInsideArmy().getHp() <= 0) {
-                    deathSound.play();
                     ((ArmyAnimation)animations.get(selectedArmy)).getDeathGif().setTime();
                     animationEvents.add(((ArmyAnimation)animations.get(selectedArmy)).getDeathGif());
                 }
                 if (cell.getInsideArmy().getHp() <= 0) {
-                    deathSound.play();
                     ((ArmyAnimation)animations.get(target)).getDeathGif().setTime();
                     animationEvents.add(((ArmyAnimation)animations.get(target)).getDeathGif());
                 }
@@ -458,7 +467,8 @@ public class BattleScreen extends Screen {
                 spellAnimation.getGif().setTime();
                 animationEvents.add(spellAnimation.getGif());
             }
-            getHandCards(game.getWhoIsHisTurn()).put(selectedCellHand, null);
+            animations.put(card, handAnimations.get(card));
+            handAnimations.remove(card);
             selectedCellHand = null;
         }
     }
@@ -604,6 +614,7 @@ public class BattleScreen extends Screen {
 
         drawTable(batch);
         drawEvents(batch);
+        soundEvents();
         batch.begin();
 
         drawHand(batch);
@@ -852,10 +863,18 @@ public class BattleScreen extends Screen {
             return;
         animationEvents.get(0).draw(batch);
         if (animationEvents.get(0).isFinished()) {
-            if (animationEvents.get(0).getType() == GifType.DEATH)
+            if (animationEvents.get(0).getType() == GifType.DEATH) {
+                deathSound.play();
                 game.setupCardsDeaf();
+            }
             animationEvents.remove(0);
         }
+    }
+
+    public void soundEvents() {
+//        if (soundEvents.size() == 0)
+//            return;
+//        soundEvents.get(0).play();
     }
 
     public void drawItem(SpriteBatch batch, Cell cell) {
@@ -896,7 +915,7 @@ public class BattleScreen extends Screen {
 //            }
             batch.end();
 
-            animations.get(handCards.get(cell)).draw(batch, cell.getX() - 15, cell.getY() + 10, 180, 180);
+            handAnimations.get(handCards.get(cell)).draw(batch, cell.getX() - 15, cell.getY() + 10, 180, 180);
             batch.begin();
 
             batch.draw(mana, cell.getX() + 70, cell.getY());

@@ -33,6 +33,11 @@ public abstract class CardAnimation {
         }
     }
 
+    public void updateLocation(float x, float y) {
+        this.x = x;
+        this.y = y;
+    }
+
     public abstract void draw(SpriteBatch batch);
 
     public abstract void draw(SpriteBatch batch, float x, float y);
