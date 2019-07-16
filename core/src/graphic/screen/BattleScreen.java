@@ -15,10 +15,7 @@ import graphic.Others.*;
 import graphic.main.*;
 import graphic.main.Button;
 import model.cards.*;
-import model.game.Cell;
-import model.game.CellEffect;
-import model.game.Game;
-import model.game.Player;
+import model.game.*;
 import model.other.Account;
 import model.other.exeptions.battle.*;
 import model.other.exeptions.battle.TargetCellIsEmptyException;
@@ -192,11 +189,11 @@ public class BattleScreen extends Screen {
         graveyardCord = new Vector2(-graveyardBg.getWidth(), 180);
 
         if (player1.getUsableItem() != null)
-            usableItem = new Gif(new Animation<TextureRegion>(1 / 20f, new TextureAtlas(player1.getUsableItem().getGifPath()).findRegions("gif"), Animation.PlayMode.LOOP));
+            usableItem =  new Gif(new Animation<TextureRegion>(1 / 20f, new TextureAtlas(player1.getUsableItem().getGifPath()).findRegions("gif"), Animation.PlayMode.LOOP));
         if (player1.getHero().getSpellPath() != null)
-            hero1Sp = new Gif(new Animation<TextureRegion>(1 / 20f, new TextureAtlas(player1.getHero().getSpellPath()).findRegions("gif"), Animation.PlayMode.LOOP));
+            hero1Sp =  new Gif(new Animation<TextureRegion>(1 / 20f, new TextureAtlas(player1.getHero().getSpellPath()).findRegions("gif"), Animation.PlayMode.LOOP));
         if (player2.getHero().getSpellPath() != null)
-            hero2Sp = new Gif(new Animation<TextureRegion>(1 / 20f, new TextureAtlas(player2.getHero().getSpellPath()).findRegions("gif"), Animation.PlayMode.LOOP));
+            hero2Sp =  new Gif(new Animation<TextureRegion>(1 / 20f, new TextureAtlas(player2.getHero().getSpellPath()).findRegions("gif"), Animation.PlayMode.LOOP));
 
         setItemGifs();
         setItemGifsInPlayer(game.getFirstPlayer());
@@ -441,7 +438,7 @@ public class BattleScreen extends Screen {
             selectedCellHand = getMouseHandCell();
             Card card = getHandCards(game.getWhoIsHisTurn()).get(selectedCellHand);
             if(card.getType() == SPELL)
-                ((SpellAnimation)animations.get(card)).setAction();
+                ((SpellAnimation)handAnimations.get(card)).setAction();
             selectedCell = null;
             selectedArmy = null;
             heroSpSelected = false;
@@ -467,8 +464,6 @@ public class BattleScreen extends Screen {
                 spellAnimation.getGif().setTime();
                 animationEvents.add(spellAnimation.getGif());
             }
-            animations.put(card, handAnimations.get(card));
-            handAnimations.remove(card);
             selectedCellHand = null;
         }
     }
@@ -899,6 +894,7 @@ public class BattleScreen extends Screen {
 
     public void drawHand(SpriteBatch batch) {
         HashMap<Cell, Card> handCards = getHandCards(game.getWhoIsHisTurn());
+        if(game.getWhoIsHisTurn() instanceof IntelligentPlayer) return;
         for (Cell cell : handCards.keySet()) {
             if (selectedCellHand == cell) {
                 batch.setColor(Main.toColor(new Color(0xFFDCDCDC, true)));
@@ -958,7 +954,7 @@ public class BattleScreen extends Screen {
         if (hero1Sp != null) {
             if (!player1.canUseHeroSp())
                 batch.setColor(Main.toColor(new Color(0xA4B4B2B1, true)));
-            hero1Sp.draw(batch, 120, 560, 120, 120);
+            hero1Sp.draw(batch, 120, 570, 120, 120);
             batch.begin();
             batch.draw(mana, 163, 560);
             font.draw(batch, Integer.toString(player1.getHero().getMp()), 178, 585);
@@ -968,10 +964,10 @@ public class BattleScreen extends Screen {
         if (hero2Sp != null) {
             if (!player2.canUseHeroSp())
                 batch.setColor(Main.toColor(new Color(0xA4B4B2B1, true)));
-            hero2Sp.draw(batch, 1380, 560, 120, 120);
+            hero2Sp.draw(batch, 1380, 570, 120, 120);
             batch.begin();
-            batch.draw(mana, 1420, 550);
-            font.draw(batch, Integer.toString(player1.getHero().getMp()), 1435, 580);
+            batch.draw(mana, 1424, 560);
+            font.draw(batch, Integer.toString(player1.getHero().getMp()), 1440, 585);
             batch.end();
             batch.setColor(com.badlogic.gdx.graphics.Color.WHITE);
 
@@ -1032,5 +1028,10 @@ public class BattleScreen extends Screen {
 
     public static void setPopUp(String text) {
         PopUp.getInstance().setText(text);
+    }
+
+    public static void addAnimationFromHand(Card card) {
+        animations.put(card, handAnimations.get(card));
+        handAnimations.remove(card);
     }
 }
